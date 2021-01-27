@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-/build             export-ignore linguist-vendored=false
-/build/**          export-ignore linguist-vendored=false
-/python/doc/**     export-ignore linguist-vendored=false
-/site              export-ignore linguist-vendored=false
-/site/**           export-ignore linguist-vendored=false
-/notebooks/**      export-ignore linguist-vendored=false
+/build             export-ignore linguist-vendored
+/build/**          export-ignore linguist-vendored
+/python/doc/**     export-ignore linguist-vendored
+/site              export-ignore linguist-vendored
+/site/**           export-ignore linguist-vendored
+/notebooks/**      export-ignore linguist-vendored
