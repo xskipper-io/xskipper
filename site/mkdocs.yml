@@ -5,8 +5,10 @@
 
 # Project information
 site_name: Xskipper
+site_url: https://xskipper-io.github.io/xskipper/
 site_description: Extensible Data Skipping Framework for Apache Spark
 site_author: Xskipper team
+base_url: xskipper
 
 # Publish information
 remote_name: xskipper
