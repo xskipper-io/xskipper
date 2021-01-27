@@ -8,11 +8,6 @@ on:
       - master
     paths:
       - site/**
-  workflow_dispatch:
-    inputs:
-      target:
-        description: 'Target branch to run'
-        required: true
 jobs:
   deploy:
     runs-on: ubuntu-latest
