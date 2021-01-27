@@ -5,7 +5,7 @@
 
 ![Xskipper](site/docs/img/logo_readme.png)
 
-![Build Status](https://github.com/xskipper-io/xskipper-world/workflows/build/badge.svg)
+![Build Status](https://github.com/xskipper-io/xskipper/workflows/build/badge.svg)
 
 Xskipper is an Extensible Data Skipping Framework for [Apache Spark](https://spark.apache.org/).
 
