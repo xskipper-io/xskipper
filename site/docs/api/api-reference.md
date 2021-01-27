@@ -7,5 +7,5 @@
 
 Use the following links for the full programmatic API:
 
-- [Scala API docs](scaladoc/index.html)
-- [Python API docs](pythondoc/index.html)
+- [Scala API docs](../scaladoc/index.html)
+- [Python API docs](../pythondoc/index.html)

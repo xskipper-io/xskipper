@@ -44,6 +44,7 @@ object MetadataVersionStatus extends Enumeration {
 }
 ```
 and so the metadata store must be able to perform the following operation regarding versioning:
+
 1. Report the Metadata Version Status:
       ```scala
       def getMdVersionStatus(): MetadataVersionStatus

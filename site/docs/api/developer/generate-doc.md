@@ -44,7 +44,7 @@ For example:
 cp -r _build/html ../../site/docs/api/pythondoc/1.2.0
 ```
 
-Then update the [index](/site/docs/api/pythondoc/index.html) file to point to the new API documentation.
+Then update the [index](https://github.com/xskipper-io/xskipper/blob/master/site/docs/api/pythondoc/index.html) file to point to the new API documentation.
 
 ## Xskipper Scala Docs
 
@@ -68,4 +68,4 @@ For example:
 cp -r ../../../../target/scala-2.12/api/ ../scaladoc/1.2.0/
 ```
 
-Then update the [index](/site/docs/api/scaladoc/index.html) file to point to the new API documentation.
+Then update the [index](https://github.com/xskipper-io/xskipper/blob/master/site/docs/api/scaladoc/index.html) file to point to the new API documentation.
