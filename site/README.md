@@ -11,7 +11,7 @@ This directory contains the source for the Xskipper site.
 * Pages are maintained in markdown in the `docs/` folder
 * Links use bare page names: `[link text](target-page)`
 
-### Installation
+### Installation 
 
 The site is built using mkdocs using [Material theme](https://squidfunk.github.io/mkdocs-material/getting-started/).\
 To install mkdocs and the theme, run:
