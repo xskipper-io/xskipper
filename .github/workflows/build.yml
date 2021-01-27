@@ -1,7 +1,7 @@
 # Copyright 2021 IBM Corp.
 # SPDX-License-Identifier: Apache-2.0
 
-name: build
+name: "build"
 
 on:
   push:
@@ -34,12 +34,12 @@ jobs:
       - name: Checkout Xskipper repository
         uses: actions/checkout@v2
       - name: Cache Coursier local repository
-          uses: actions/cache@v2
-          with:
-            path: ~/.cache/coursier
-            key: coursier-${{ hashFiles('**/pom.xml', '**/plugins.sbt') }}
-            restore-keys: |
-              coursier-
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/coursier
+          key: coursier-${{ hashFiles('**/pom.xml', '**/plugins.sbt') }}
+          restore-keys: |
+            coursier-
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
@@ -52,7 +52,11 @@ jobs:
       - name: Install Python packages (Python 3.7)
         run: |
           python3.7 -m pip install pyspark>=3.0.0
+      - name: Run sbt clean
+        run: sbt ++2.12.8 clean
+      - name: Run sbt compile
+        run: sbt ++2.12.8 compile
       - name: Run Scala tests
-        run: ./build/sbt "+ test"
+        run: sbt ++2.12.8 test
       - name: Run Python tests
-        run: python3.8 run-tests.py
+        run: python3.7 run-tests.py
