@@ -18,14 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Xskipper repository
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
       - name: Install Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.x
           architecture: x64
       - name: Install Material for MkDocs
-      - run: |
+        run: |
           pip install mkdocs-material
           pip install mkdocs-redirects
       - name: Deploying Site
