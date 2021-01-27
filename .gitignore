@@ -42,7 +42,5 @@ lib/
 target/
 *~
 
-# TODO: remove
-src/test/resources/*.md
-src/test/resources/hiveMetastoreDatasets/metadata/
-src/test/resources/tpch_metadata/
+# Site docs
+!site/docs/api/scaladoc/*/lib/
