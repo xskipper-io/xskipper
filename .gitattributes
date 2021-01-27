@@ -1,0 +1,11 @@
+#
+# Copyright 2021 IBM Corp.
+# SPDX-License-Identifier: Apache-2.0
+#
+
+/build             export-ignore
+/build/**          export-ignore
+/python/doc/**     export-ignore
+/site              export-ignore
+/site/**           export-ignore
+/notebooks/**      export-ignore
