@@ -1,0 +1,101 @@
+#
+# Copyright 2021 IBM Corp.
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# Project information
+site_name: Xskipper
+site_description: Extensible Data Skipping Framework for Apache Spark
+site_author: Xskipper team
+
+# Publish information
+remote_name: xskipper
+remote_branch: xskipper-site
+use_directory_urls: true
+
+# Repository
+repo_name: xskipper-io/xskipper
+repo_url: https://github.com/xskipper-io/xskipper
+edit_uri: "" # disable edit
+
+# Copyright
+copyright: "@ 2020 Xskipper."
+
+# Configuration
+theme:
+  name: material
+  custom_dir: overrides
+  include_search_page: false
+  search_index_only: true
+  language: en
+  features:
+    - navigation.tabs
+    - toc.integrate
+  palette:
+    primary: deep purple
+  favicon: img/logo_black.png # this icon appears in the browser's tab
+  logo: img/logo_white.png # this icon appears in the top left corner on each page
+
+# extra styling
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search
+  - redirects
+
+# Customization
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/xskipper-io
+
+# Extensions
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - admonition
+  - footnotes
+  - def_list
+  - attr_list
+  - pymdownx.highlight
+  - pymdownx.tabbed
+  - pymdownx.superfences
+
+# extra java script for math
+extra_javascript:
+  - javascripts/config.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Page tree
+nav:
+  - About: index.md
+  - Getting Started:
+      - Quick Start Guide: getting-started/quick-start-guide.md
+      - Demo Notebooks: getting-started/sample-notebooks.md
+  - Concepts:
+      - Data Skipping: concepts/data-skipping.md
+      - Extensible Data Skipping: concepts/extensible.md
+      - Indexing Flow: concepts/indexing-flow.md
+      - Query Evaluation Flow: concepts/query-evaluation-flow.md
+  - API:
+      - Indexing: api/indexing.md
+      - Using The Extensible API: api/creating-new-plugin.md
+      - Configuration:
+        - Xskipper Configuration: api/configuration/configuration.md
+        - Parquet Metadatastore Configuration: api/configuration/parquet-mdstore-configuration.md
+      - API Reference: api/api-reference.md
+      - Developer Guide:
+          - Build: api/developer/build.md
+          - Parquet metadatastore spec: api/developer/parquet-metadatastore-spec.md
+          - Metadata versioning: api/developer/metadata-versioning.md
+          - API Doc Generation: api/developer/generate-doc.md
+          - Contributing: https://github.com/xskipper-io/xskipper/blob/master/CONTRIBUTING.md
+
+  - Releases: https://github.com/xskipper-io/xskipper/releases

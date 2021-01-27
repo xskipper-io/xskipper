@@ -1,0 +1,453 @@
+{
+  "params": {
+    "destPathPrefix": "/tmp/xskipper_version_tests/",
+    "mdLocationPrefix": "parquet_version_tests/end_to_end/",
+    "targetMdLocationPrefix": "/tmp/xskipper_version_tests/end_to_end/metadata/",
+    "minVersion": 1
+  },
+  "versionTests": [
+    {
+      "testDescription": {
+        "name": "Value list with inequality condition - IN Clause",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/vallist1/initial/csv",
+        "testId": 1,
+        "indexTypes": [
+          "valuelist address"
+        ],
+        "expectedSkippedFiles": [
+          "date=2018-05-21/20-25-BJ.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE address not IN ('Jerusalem', 'Batyam')"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing minmax index with inequality condition",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1/initial/csv",
+        "testId": 2,
+        "indexTypes": [
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "0-3-JTH.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE temp <> 0.1 and temp <> 1.1 and temp <> 2.2"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing valuelist index on timestamp",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/dates/initial/csv",
+        "testId": 3,
+        "indexTypes": [
+          "valuelist timestamp"
+        ],
+        "expectedSkippedFiles": [
+          "c000.csv"
+        ],
+        "query": "SELECT timestamp FROM sample WHERE timestamp IN (to_timestamp('2018-02-17T11:49:46.000Z'))"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing minmax index on timestamp",
+        "inputFormat": "csv",
+        "testId": 5,
+        "dataSetPath": "input_datasets/dates/initial/csv",
+        "indexTypes": [
+          "minmax timestamp"
+        ],
+        "expectedSkippedFiles": [
+          "c001.csv"
+        ],
+        "query": "SELECT timestamp FROM sample WHERE timestamp > to_timestamp('2018-02-18T10:10:10.000Z')"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing minmax index on string",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/dates/initial/csv",
+        "testId": 7,
+        "indexTypes": [
+          "minmax account_name"
+        ],
+        "expectedSkippedFiles": [
+          "c000.csv"
+        ],
+        "query": "SELECT account_name FROM sample WHERE account_name > 'qqq'"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing valuelist index on empty file",
+        "inputFormat": "csv",
+        "testId": 8,
+        "dataSetPath": "input_datasets/empty/initial/csv",
+        "indexTypes": [
+          "valuelist account_name"
+        ],
+        "expectedSkippedFiles": [
+        ],
+        "expectedSkippedFilesAfterUpdate": [
+        ],
+        "query": "SELECT account_name FROM sample WHERE account_name IN ('f6d')"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing minmax index on empty file",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/empty/initial/csv",
+        "testId": 9,
+        "indexTypes": [
+          "minmax salary"
+        ],
+        "expectedSkippedFiles": [
+        ],
+        "expectedSkippedFilesAfterUpdate": [
+        ],
+        "query": "SELECT salary FROM sample WHERE salary > 9000"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing all Na values in minmax index",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1Na2/initial/csv",
+        "testId": 10,
+        "indexTypes": [
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "0-3-JTH.csv"
+        ],
+        "query": "SELECT address FROM sample WHERE temp > 10"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing all Na values in minmax index - negative value",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1Na2/initial/csv",
+        "testId": 11,
+        "indexTypes": [
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "0-3-JTH.csv"
+        ],
+        "query": "SELECT address FROM sample WHERE temp > -5"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing all Na values in ValueListindex",
+        "inputFormat": "csv",
+        "testId": 12,
+        "dataSetPath": "input_datasets/sample1Na2/initial/csv",
+        "indexTypes": [
+          "valuelist address"
+        ],
+        "expectedSkippedFiles": [
+          "0-3-JTH.csv",
+          "10-23-JT.csv"
+        ],
+        "query": "SELECT address FROM sample WHERE address IN ('H')"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing all Na values in BloomFilter index",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1Na2/initial/csv",
+        "testId": 13,
+        "indexTypes": [
+          "bloomfilter address"
+        ],
+        "expectedSkippedFiles": [
+          "0-3-JTH.csv",
+          "10-23-JT.csv"
+        ],
+        "query": "SELECT address FROM sample WHERE address IN ('H')"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing all Na values in ValueList and minmax index",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1Na2/initial/csv",
+        "testId": 14,
+        "indexTypes": [
+          "minmax temp",
+          "valuelist address"
+        ],
+        "expectedSkippedFiles": [
+          "0-3-JTH.csv",
+          "10-23-JT.csv"
+        ],
+        "query": "SELECT address FROM sample WHERE address IN ('H') and temp > 10"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing all Na values in bloomfilter and minmax index",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1Na2/initial/csv",
+        "testId": 15,
+        "indexTypes": [
+          "bloomfilter address",
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "0-3-JTH.csv",
+          "10-23-JT.csv"
+        ],
+        "query": "SELECT address FROM sample WHERE address IN ('H') and temp > 10"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing Na values in ValueList index",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1Na/initial/csv",
+        "testId": 16,
+        "indexTypes": [
+          "valuelist address"
+        ],
+        "expectedSkippedFiles": [
+          "0-3-JTH.csv",
+          "10-23-JT.csv"
+        ],
+        "query": "SELECT address FROM sample WHERE address IN ('H')"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing ValueList index of numbers",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1/initial/csv",
+        "testId": 17,
+        "indexTypes": [
+          "valuelist temp"
+        ],
+        "expectedSkippedFiles": [
+          "0-3-JTH.csv",
+          "10-23-JT.csv"
+        ],
+        "query": "SELECT temp FROM sample WHERE temp IN (21.1)"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing bloomfilter index of numeric(integer)",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1Na2/initial/csv",
+        "testId": 18,
+        "indexTypes": [
+          "bloomfilter num"
+        ],
+        "expectedSkippedFiles": [
+          "0-3-JTH.csv",
+          "10-23-JT.csv"
+        ],
+        "query": "SELECT num FROM sample WHERE num IN (21)"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "Value list with many conditions (for InSet check) ",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/vallist1/initial/csv",
+        "testId": 19,
+        "indexTypes": [
+          "valuelist address"
+        ],
+        "expectedSkippedFiles": [
+          "date=2018-05-21/20-25-BJ.csv",
+          "date=2018-05-21/20-33-JH.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE address IN ('Telaviv', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm' , 'n', 'o', 'p')"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "Bloomfilter with many conditions (for InSet check) ",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/vallist1/initial/csv",
+        "testId": 20,
+        "indexTypes": [
+          "bloomfilter address"
+        ],
+        "expectedSkippedFiles": [
+          "date=2018-05-21/20-25-BJ.csv",
+          "date=2018-05-21/20-33-JH.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE address IN ('Telaviv', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm' , 'n', 'o', 'p')"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing Na values in MinMax index",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1Na/initial/csv",
+        "testId": 21,
+        "indexTypes": [
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "10-23-JT.csv",
+          "20-33-HT.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE temp BETWEEN 0 AND 10"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing skipped files",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1/initial/csv",
+        "testId": 23,
+        "indexTypes": [
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "20-33-HT.csv",
+          "10-23-JT.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE temp BETWEEN 0 AND 10"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing skipped files, datasetpath ending with /",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1/initial/csv",
+        "testId": 24,
+        "indexTypes": [
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "20-33-HT.csv",
+          "10-23-JT.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE temp BETWEEN 0 AND 10"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "minmax and valuelist in or clause",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1/initial/csv",
+        "testId": 25,
+        "indexTypes": [
+          "valuelist address",
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "20-33-HT.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE address IN ('H') or temp < 11.1"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing minmax with lt (no border case)",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1/initial/csv",
+        "testId": 26,
+        "indexTypes": [
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "10-23-JT.csv",
+          "20-33-HT.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE temp < 10.1"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing minmax index with equality condition",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1/initial/csv",
+        "testId": 27,
+        "indexTypes": [
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "10-23-JT.csv",
+          "20-33-HT.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE temp = 0.1"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "testing minmax with lte (border case)",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1/initial/csv",
+        "testId": 28,
+        "indexTypes": [
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "20-33-HT.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE temp <= 10.1"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "Indexing long ( > 256) value list ",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/vallist1/initial/csv",
+        "testId": 33,
+        "indexTypes": [
+          "valuelist address"
+        ],
+        "expectedSkippedFiles": [
+          "date=2018-05-21/10-23-HT.csv",
+          "date=2018-05-21/20-25-BJ.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE address IN ('Jerusalemmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmzzzz')"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "minmax & valuelist indexing with various constraints  ",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/vallist1/initial/csv",
+        "testId": 34,
+        "indexTypes": [
+          "valuelist address",
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "date=2018-05-21/10-23-HT.csv",
+          "date=2018-05-21/20-25-BJ.csv",
+          "date=2018-05-21/20-33-JH.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE address IN ('Jerusalem') AND temp BETWEEN 0 AND 15"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "index case sensitivity - sensitivity in query (to check filtering)",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/sample1/initial/csv",
+        "testId": 36,
+        "indexTypes": [
+          "minmax temp"
+        ],
+        "expectedSkippedFiles": [
+          "20-33-HT.csv"
+        ],
+        "query": "SELECT address, temp FROM sample WHERE tEmP <= 10.1"
+      }
+    }
+  ]
+}

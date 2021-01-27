@@ -1,0 +1,20 @@
+# Copyright 2021 IBM Corp.
+# SPDX-License-Identifier: Apache-2.0
+# Pull Request Labeler Github Action Configuration: https://github.com/marketplace/actions/labeler
+
+INFRA:
+  - .gitattributes
+  - .gitignore
+  - .github/**/*
+BUILD:
+  - "build/**/*"
+  - "project/**/*"
+DOCS:
+  - "site/**/*"
+  - "**/README.md"
+  - "**/CONTRIBUTING.md"
+EXAMPLES:
+  - notebooks/**/*
+PYTHON:
+  - python/**/*
+

@@ -1,0 +1,89 @@
+{
+  "type": "struct",
+  "fields": [
+    {
+      "name": "obj_name",
+      "type": "string",
+      "nullable": false,
+      "metadata": {
+        "encryption": {
+          "encryption.column.keys": "k1:temp_minmax.min,temp_minmax.max,city_bloomfilter,obj_name",
+          "encryption.plaintext.footer": "true",
+          "encryption.footer.key": "k1"
+        },
+        "tableIdentifier": "foo/bar",
+        "version": 1
+      }
+    },
+    {
+      "name": "temp_minmax",
+      "type": {
+        "type": "struct",
+        "fields": [
+          {
+            "name": "min",
+            "type": "integer",
+            "nullable": true,
+            "metadata": {}
+          },
+          {
+            "name": "max",
+            "type": "integer",
+            "nullable": true,
+            "metadata": {}
+          }
+        ]
+      },
+      "nullable": true,
+      "metadata": {
+        "index": {
+          "cols": [
+            "temp"
+          ],
+          "name": "minmax",
+          "key_metadata": "k1"
+        }
+      }
+    },
+    {
+      "name": "city_bloomfilter",
+      "type": {
+        "type": "udt",
+        "class": "com.ibm.metaindex.metadata.metadatastore.parquet.ParquetBaseClauseTranslator$BloomFilterMetaDataTypeUDT",
+        "pyClass": null,
+        "sqlType": "binary"
+      },
+      "nullable": true,
+      "metadata": {
+        "index": {
+          "cols": [
+            "city"
+          ],
+          "name": "bloomfilter",
+          "key_metadata": "k1",
+          "params": [
+            "spark.ibm.metaindex.index.bloom.fpp:0.01",
+            "spark.ibm.metaindex.index.bloom.ndv:100000"
+          ]
+        }
+      }
+    },
+    {
+      "name": "city_valuelist",
+      "type": {
+        "type": "array",
+        "elementType": "string",
+        "containsNull": true
+      },
+      "nullable": true,
+      "metadata": {
+        "index": {
+          "cols": [
+            "city"
+          ],
+          "name": "valuelist"
+        }
+      }
+    }
+  ]
+}

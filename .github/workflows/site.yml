@@ -1,0 +1,33 @@
+# Copyright 2021 IBM Corp.
+# SPDX-License-Identifier: Apache-2.0
+
+name: site
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - site/**
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Target branch to run'
+        required: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Xskipper repository
+      - uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+          architecture: x64
+      - name: Install Material for MkDocs
+      - run: |
+          pip install mkdocs-material
+          pip install mkdocs-redirects
+      - name: Deploying Site
+        working-directory: ./site
+        run: mkdocs gh-deploy --force -r origin

@@ -1,0 +1,718 @@
+{
+  "defaults": {
+    "inputFormats": [
+      "csv",
+      "json",
+      "parquet",
+      "orc"
+    ]
+  },
+  "tests": [
+    {
+      "name": "minmax - IN Clause",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/vallist1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "date=2018-05-21/20-25-BJ",
+            "date=2018-05-21/20-33-JH"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp IN (10, 12, 11)"
+    },
+    {
+      "name": "minmax - IN Clause - check skipping in between values",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "10-23-JT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp IN (1.1, 32.2)"
+    },
+    {
+      "name": "minmax with many IN conditions (for InSet check) ",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/vallist1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "date=2018-05-21/20-25-BJ",
+            "date=2018-05-21/20-33-JH"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp IN (10, 10.1, 10.2, 10.3, 10.4, 10.15, 10.25, 10.22, 10.5, 11, 12, 10.9)"
+    },
+    {
+      "name": "minmax with many IN conditions (for inFilterThreshold check) ",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/vallist1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "date=2018-05-21/20-25-BJ",
+            "date=2018-05-21/20-33-JH",
+            "date=2018-05-21/10-23-HT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp IN (100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200, 201)"
+    },
+    {
+      "name": "Value list with inequality condition - IN Clause",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/vallist1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "valuelist address"
+          ],
+          "expectedSkippedFiles": [
+            "date=2018-05-21/20-25-BJ"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE address not IN ('Jerusalem', 'Batyam')"
+    },
+    {
+      "name": "testing minmax index with inequality condition",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "0-3-JTH"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp <> 0.1 and temp <> 1.1 and temp <> 2.2"
+    },
+    {
+      "name": "testing minmax index on string",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/dates/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax account_name"
+          ],
+          "expectedSkippedFiles": [
+            "c000"
+          ]
+        }
+      ],
+      "query": "SELECT account_name FROM data WHERE account_name > 'qqq'"
+    },
+    {
+      "name": "testing valuelist index on empty file",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/empty/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "valuelist account_name"
+          ],
+          "expectedSkippedFiles": [
+          ]
+        }
+      ],
+      "inputFormats": [
+        "csv"
+      ],
+      "query": "SELECT account_name FROM data WHERE account_name IN ('f6d')"
+    },
+    {
+      "name": "testing minmax index on empty file",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/empty/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax salary"
+          ],
+          "expectedSkippedFiles": [
+          ]
+        }
+      ],
+      "inputFormats": [
+        "csv"
+      ],
+      "query": "SELECT salary FROM data WHERE salary > 9000"
+    },
+    {
+      "name": "testing all Na values in minmax index",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1Na2/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "0-3-JTH"
+          ]
+        }
+      ],
+      "query": "SELECT address FROM data WHERE temp > 10"
+    },
+    {
+      "name": "testing all Na values in minmax index - negative value",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1Na2/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "0-3-JTH"
+          ]
+        }
+      ],
+      "query": "SELECT address FROM data WHERE temp > -5"
+    },
+    {
+      "name": "testing all Na values in ValueListindex",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1Na2/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "valuelist address"
+          ],
+          "expectedSkippedFiles": [
+            "0-3-JTH",
+            "10-23-JT"
+          ]
+        }
+      ],
+      "query": "SELECT address FROM data WHERE address IN ('H')"
+    },
+    {
+      "name": "testing all Na values in BloomFilter index",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1Na2/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "bloomfilter address"
+          ],
+          "expectedSkippedFiles": [
+            "0-3-JTH",
+            "10-23-JT"
+          ]
+        }
+      ],
+      "query": "SELECT address FROM data WHERE address IN ('H')"
+    },
+    {
+      "name": "testing all Na values in ValueList and minmax index",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1Na2/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp",
+            "valuelist address"
+          ],
+          "expectedSkippedFiles": [
+            "0-3-JTH",
+            "10-23-JT"
+          ]
+        }
+      ],
+      "query": "SELECT address FROM data WHERE address IN ('H') and temp > 10"
+    },
+    {
+      "name": "testing all Na values in bloomfilter and minmax index",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1Na2/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "bloomfilter address",
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "0-3-JTH",
+            "10-23-JT"
+          ]
+        }
+      ],
+      "query": "SELECT address FROM data WHERE address IN ('H') and temp > 10"
+    },
+    {
+      "name": "testing Na values in ValueList index",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1Na/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "valuelist address"
+          ],
+          "expectedSkippedFiles": [
+            "0-3-JTH",
+            "10-23-JT"
+          ]
+        }
+      ],
+      "query": "SELECT address FROM data WHERE address IN ('H')"
+    },
+    {
+      "name": "testing ValueList index of numbers",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "valuelist temp"
+          ],
+          "expectedSkippedFiles": [
+            "0-3-JTH",
+            "10-23-JT"
+          ]
+        }
+      ],
+      "query": "SELECT temp FROM data WHERE temp IN (21.1)"
+    },
+    {
+      "name": "testing bloomfilter index of numeric(integer)",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1Na2/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "bloomfilter num"
+          ],
+          "expectedSkippedFiles": [
+            "0-3-JTH",
+            "10-23-JT"
+          ]
+        }
+      ],
+      "query": "SELECT num FROM data WHERE num IN (21)"
+    },
+    {
+      "name": "Value list with many conditions (for InSet check) ",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/vallist1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "valuelist address"
+          ],
+          "expectedSkippedFiles": [
+            "date=2018-05-21/20-25-BJ",
+            "date=2018-05-21/20-33-JH"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE address IN ('Telaviv', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm' , 'n', 'o', 'p')"
+    },
+    {
+      "name": "Bloomfilter with many conditions (for InSet check) ",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/vallist1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "bloomfilter address"
+          ],
+          "expectedSkippedFiles": [
+            "date=2018-05-21/20-25-BJ",
+            "date=2018-05-21/20-33-JH"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE address IN ('Telaviv', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm' , 'n', 'o', 'p')"
+    },
+    {
+      "name": "testing Na values in MinMax index",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1Na/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "10-23-JT",
+            "20-33-HT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp BETWEEN 0 AND 10"
+    },
+    {
+      "name": "testing index update by making one of the skipped files relevant",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "updatedInputLocation": "input_datasets/sample1/updated",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "10-23-JT",
+            "20-33-HT"
+          ],
+          "expectedSkippedFilesAfterUpdate": [
+            "10-23-JT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp BETWEEN 0 AND 10"
+    },
+    {
+      "name": "testing index update by making one of the skipped files relevant - with NA at indexed column",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "updatedInputLocation": "input_datasets/sample1Na/updated",
+          "expectedSkippedFiles": [
+            "10-23-JT",
+            "20-33-HT"
+          ],
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFilesAfterUpdate": [
+            "20-33-HT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp BETWEEN 0 AND 10"
+    },
+    {
+      "name": "testing skipped files",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "20-33-HT",
+            "10-23-JT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp BETWEEN 0 AND 10"
+    },
+    {
+      "name": "testing skipped files, dataset path ending with /",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "20-33-HT",
+            "10-23-JT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp BETWEEN 0 AND 10"
+    },
+    {
+      "name": "minmax and valuelist in or clause",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "valuelist address",
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "20-33-HT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE address IN ('H') or temp < 11.1"
+    },
+    {
+      "name": "testing minmax with lt (no border case)",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "10-23-JT",
+            "20-33-HT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp < 10.1"
+    },
+    {
+      "name": "testing minmax index with equality condition",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "10-23-JT",
+            "20-33-HT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp = 0.1"
+    },
+    {
+      "name": "testing minmax with lte (border case)",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "20-33-HT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE temp <= 10.1"
+    },
+    {
+      "name": "Indexing long ( > 256) value list ",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/vallist1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "valuelist address"
+          ],
+          "expectedSkippedFiles": [
+            "date=2018-05-21/20-25-BJ",
+            "date=2018-05-21/10-23-HT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE address IN ('Jerusalemmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmzzzz')"
+    },
+    {
+      "name": "minmax & valuelist indexing with various constraints",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/vallist1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "valuelist address",
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "date=2018-05-21/20-33-JH",
+            "date=2018-05-21/20-25-BJ",
+            "date=2018-05-21/10-23-HT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE address IN ('Jerusalem') AND temp BETWEEN 0 AND 15"
+    },
+    {
+      "name": "index case sensitivity - sensitivity in query (to check filtering)",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "viewName": "data",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "20-33-HT"
+          ]
+        }
+      ],
+      "query": "SELECT address, temp FROM data WHERE tEmP <= 10.1"
+    },
+    {
+      "name": "union test",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "20-33-HT",
+            "10-23-JT"
+          ],
+          "viewName": "a"
+        },
+        {
+          "inputLocation": "input_datasets/sample1Multiple/initial",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "20-33-HT",
+            "10-23-JT"
+          ],
+          "viewName": "b"
+        }
+      ],
+      "query": "SELECT * FROM a  where temp < 10 UNION ALL SELECT * FROM b where temp < 5"
+    },
+    {
+      "name": "join test",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "20-33-HT",
+            "10-23-JT"
+          ],
+          "viewName": "a"
+        },
+        {
+          "inputLocation": "input_datasets/sample1Multiple/initial",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+            "20-33-HT",
+            "10-23-JT"
+          ],
+          "viewName": "b"
+        }
+      ],
+      "query": "SELECT a.*, b.* FROM a JOIN b ON a.temp=b.temp WHERE a.temp < 10 AND b.temp < 9.5"
+    },
+    {
+      "name": "simple or query - both sides can be filtered",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "indexTypes": [
+            "minmax temp",
+            "valuelist address"
+          ],
+          "expectedSkippedFiles": [
+            "20-33-HT"
+          ],
+          "viewName": "a"
+        }
+      ],
+      "query": "SELECT * FROM a WHERE address = 'J' or temp < 2"
+    },
+    {
+      "name": "simple or query - only one side can be filtered",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "indexTypes": [
+            "minmax temp"
+          ],
+          "expectedSkippedFiles": [
+          ],
+          "viewName": "a"
+        }
+      ],
+      "query": "SELECT address, temp FROM a WHERE address = 'J' or temp < 2"
+    },
+    {
+      "name": "nested or query",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "indexTypes": [
+            "minmax temp",
+            "valuelist address"
+          ],
+          "expectedSkippedFiles": [
+          ],
+          "viewName": "a"
+        }
+      ],
+      "query": "SELECT address, temp FROM a WHERE ((address = 'J' or temp < 2) or temp > 20)"
+    },
+    {
+      "name": "nested and query",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "indexTypes": [
+            "minmax temp",
+            "valuelist address"
+          ],
+          "expectedSkippedFiles": [
+            "10-23-JT"
+          ],
+          "viewName": "a"
+        }
+      ],
+      "query": "SELECT address, temp FROM a WHERE ((comments = 'J' and temp < 2) or temp > 30)"
+    },
+    {
+      "name": "not query",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "indexTypes": [
+            "minmax temp",
+            "valuelist address"
+          ],
+          "expectedSkippedFiles": [
+          ],
+          "viewName": "a"
+        }
+      ],
+      "query": "SELECT address, temp FROM a WHERE (not (comments = 'J' and temp < 2) or temp > 30)"
+    },
+    {
+      "name": "not on or query",
+      "inputLocations": [
+        {
+          "inputLocation": "input_datasets/sample1/initial",
+          "indexTypes": [
+            "minmax temp",
+            "valuelist address"
+          ],
+          "expectedSkippedFiles": [
+            "0-3-JTH",
+            "10-23-JT"
+          ],
+          "viewName": "a"
+        }
+      ],
+      "query": "SELECT address, temp FROM a WHERE not ((comments = 'J' and temp < 2) or temp <= 30)"
+    }
+  ]
+}

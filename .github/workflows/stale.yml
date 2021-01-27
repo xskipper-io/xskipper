@@ -1,0 +1,23 @@
+# Copyright 2021 IBM Corp.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Close stale PRs and mark stale issues
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          stale-pr-message: >
+            We're closing this PR because it has been open for 100 days with no activity.
+            If you'd like to revive this PR, please reopen it and ask a
+            committer to remove the Stale tag!
+          stale-pr-label: 'stale'
+          days-before-stale: 100
+          days-before-close: 1
+          days-before-issue-close: -1 # never close stale issues
