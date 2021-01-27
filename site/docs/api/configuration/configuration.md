@@ -8,7 +8,7 @@
 Xskipper enables to configure the instances using JVM wide configtation which applies for all created Xskipper instances.  
 In addition one can set specific configuration for a given instance as described below.
 
-For the configuration related to the parquet metadatastore see [here](/api/parquet-mdstore-configuration).
+For the configuration related to the parquet metadatastore see [here](../parquet-mdstore-configuration).
 
 ## Setting JVM wide configuration
 
@@ -89,7 +89,7 @@ Currently Xskipper supports two implementation of the Identifer class:
     * The Identifier is the uri after removing a trailing `/` if exists.
     * The Path and Display name are the given paths
 
-- [IBM COS Identifier](https://github.ibm.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/utils/identifier/IBMCOSIdentifier.scala) - differs from the default identifier by
+- [IBM COS Identifier](https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/utils/identifier/IBMCOSIdentifier.scala) - differs from the default identifier by
     * The identifier for IBM COS paths when using [Stocator](https://github.com/CODAIT/stocator) is removing the `service` part and keeps the bucket name.  
     So, for example the identifier for `cos://mybucket.service/path/to/dataset/` is `cos://mybucket/path/to/dataset` 
 

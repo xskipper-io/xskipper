@@ -13,8 +13,8 @@ The following indexes are supported out of the box:
 
 | Index type  | Description  | Applicable to predicates in WHERE clauses  | Column types |
 |------------|--------------|--------------|--------------|
-| MinMax |Stores minimum and maximum values for a column | <,<=,=,>=,> | All types except for complex types. See [Supported Spark SQL data types](https://spark.apache.org/docs/2.4.4/sql-reference.html#data-types). |
-| ValueList | Stores the list of unique values for the column | =,IN,LIKE | All types except for complex types. See [Supported Spark SQL data types](https://spark.apache.org/docs/2.4.4/sql-reference.html#data-types).|
+| MinMax |Stores minimum and maximum values for a column | <,<=,=,>=,> | All types except for complex types. See [Supported Spark SQL data types](https://spark.apache.org/docs/latest/sql-ref-datatypes.html). |
+| ValueList | Stores the list of unique values for the column | =,IN,LIKE | All types except for complex types. See [Supported Spark SQL data types](https://spark.apache.org/docs/latest/sql-ref-datatypes.html).|
 | BloomFilter | Uses a bloom filter to test for set membership | =,IN | Byte, String, Long, Integer, Short |
 
 In order to add an index using the `IndexBuilder` to specify the required indexes, for example:
@@ -58,12 +58,12 @@ In order to add an index using the `IndexBuilder` to specify the required indexe
 
 By default, the indexes are stored as parquet files stored in storage  Each parquet file with row per each object in the dataset.  
 
-For more information about the parquet metadatastore see [here](/api/developer/parquet-metadatastore-spec/).
+For more information about the parquet metadatastore see [here](../../api/developer/parquet-metadatastore-spec/).
 
 ## Plugins
 
-Xskipper supports adding new indexes using a [pluggable system](/concepts/extensible/).  
-For instructions on how to create a new plugin see [here](/api/creating-new-plugin/).
+Xskipper supports adding new indexes using a [pluggable system](../../concepts/extensible/).  
+For instructions on how to create a new plugin see [here](../creating-new-plugin/).
 
 ### Supported plugins
 
@@ -145,4 +145,4 @@ For example for the [Regex Plugin](https://github.com/xskipper-io/xskipper-regex
 
 ### Creating you own plugin
 
-In order to create your own plugin see [here](/api/creating-new-plugin/).
+In order to create your own plugin see [here](api/creating-new-plugin/).

@@ -6,14 +6,14 @@
 # Parquet Metadatastore properties
 
 Xskipper uses Parquet as the metadatastore.  
-The Parquet metadatastore store the metadata for the objects as rows in parquet file. See [here](/api/developer/parquet-metadatastore-spec/) for more details.
+The Parquet metadatastore store the metadata for the objects as rows in parquet file. See [here](api/developer/parquet-metadatastore-spec/) for more details.
 
 The following are parameters relevant for the Parquet metadatastore.  
 
 These parameters can be set as:
 
-- JVM wide configuration as described [here](/api/configuration/#setting-jvm-wide-configuration).
-- Specific Xskipper instance as described [here](/api/configuration/#setting-configuration-for-a-specific-xskipper-instance).
+- JVM wide configuration as described [here](../configuration/#setting-jvm-wide-configuration).
+- Specific Xskipper instance as described [here](../configuration/#setting-configuration-for-a-specific-xskipper-instance).
 
 | Property   | Default  | Description |
 |------------|--------------|--------------|
