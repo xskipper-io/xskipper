@@ -9,8 +9,8 @@
 
 !!! note
     This page explains the Extensible Data Skipping framework API.   
-    See the [Concepts](../../concepts/data-skipping/) page for an explanation about the underlying concepts.   
-    See [here](../indexing/#supported-plugins) for the list of currently available plugins.
+    See the [Concepts](../concepts/data-skipping.md) page for an explanation about the underlying concepts.   
+    See [here](indexing.md#supported-plugins) for the list of currently available plugins.
     
 Xskipper supports adding your index types and specifying your own data skipping logic
 in order to enjoy data skipping over UDFs and a variety of data types.
@@ -63,7 +63,7 @@ For example:
     Registration.addMetaDataTranslator(RegexValueListMetaDataTranslator)
     ```
 
-For the full list of plugins see [here](../indexing/#plugins).
+For the full list of plugins see [here](indexing.md#supported-plugins).
 
 <br/>
 
@@ -182,7 +182,7 @@ First, you need to define the abstract clause that will be created by the Filter
 The Clause specifices an abstract condition which was deduced from the query and should operate on the metadata in order to determine the relevant objects.
 Each Clause is then translated to an explicit implementation according to the metadatastore type.   
 
-For example, for the MinMax index we define a [MinMaxClause](https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/search/clause/MinMaxClause.scala) which follows the logic that was presented [here](concepts/query-evaluation-flow/#clause).
+For example, for the MinMax index we define a [MinMaxClause](https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/search/clause/MinMaxClause.scala) which follows the logic that was presented [here](../concepts/query-evaluation-flow.md#clause).
 
 For the Regex Plugin we use a Clause which holds the required matching patterns from the query (see [here](https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/clause/RegexValueListClause.scala)).
 
@@ -193,7 +193,7 @@ For the Regex Plugin we use a Clause which holds the required matching patterns 
 The filter processes the query tree and labels it with clauses. In most cases we would like to map expressions to clauses.
 Therefore, xskipper provides a basic implementation of a filter called [BaseMetadataFilter](https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/search/filters/MetadataFilter.scala)
 which processes the query tree automatically for AND and OR operators, leaving the user to handle only the remaining expressions. Implementations which extend the [BaseMetadataFilter](https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/search/filters/MetadataFilter.scala) need only specify how expressions are mapped to clauses.   
-For example,  [RegexValueListFilter](https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/filter/RegexValueListFilter.scala) and [MinMaxFilter](https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/search/filters/MinMaxFilter.scala) map the query expressions according to the logic presented [here](concepts/query-evaluation-flow/#filter).
+For example,  [RegexValueListFilter](https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/filter/RegexValueListFilter.scala) and [MinMaxFilter](https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/search/filters/MinMaxFilter.scala) map the query expressions according to the logic presented [here](../concepts/query-evaluation-flow.md#filter).
 
 A more advanced filter can process the entire tree by implementing the `MetaDataFilter` class without using the `BaseMetadataFilter`.
 
@@ -206,7 +206,7 @@ For example, see the [RegexIndexFactory](https://github.com/xskipper-io/xskipper
 
 !!! info
     Xskipper uses Parquet as the metadatastore by default.    
-    The Parquet metadatastore stores the metadata for the objects as rows in parquet files (for more details see [here](../developer/parquet-metadatastore-spec/)).    
+    The Parquet metadatastore stores the metadata for the objects as rows in parquet files (for more details see [here](developer/parquet-metadatastore-spec.md)).    
     Spark is used as the engine to run the abstract clauses on the metadata.     
     The API enables defining your own metadatastore. Here we focus on the metadata in the Parquet metadatastore. Therefore, the translations are relevant to the Parquet metadatastore.
     

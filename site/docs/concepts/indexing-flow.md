@@ -30,4 +30,4 @@ Index creation runs in 2 phases:
 2. Translating the abstract metadata types to a metadatastore representation and storing it.
 
 Xskipper currently supports a parquet metadata store which stores the metadata in parquet files.
-For more information about the parquet metadata store see [here](../../api/developer/parquet-metadatastore-spec).
+For more information about the parquet metadata store see [here](../api/developer/parquet-metadatastore-spec.md).

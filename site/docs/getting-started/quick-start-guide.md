@@ -8,8 +8,8 @@
 This guide helps you quickly get started using Xskipper with Apache Spark.
 
 !!! note
-    For advanced details see the [API](../../api/indexing/) section and the full [API Reference](../../api/api-reference/). 
-    See [here](../sample-notebooks) for sample notebooks.
+    For advanced details see the [API](../api/indexing.md) section and the full [API Reference](../api/api-reference.md). 
+    See [here](sample-notebooks.md) for sample notebooks.
 
 ## Setup Apache Spark with Xskipper
 
@@ -87,7 +87,7 @@ In this example, we configure a JVM wide parameter to a base path which stores a
 The indexes can be stored on the same storage system as the data, but not under the same path.
 During query time indexes will be consulted at this location.
 
-For more configuration options, see [configuration options](../../api/configuration/configuration).
+For more configuration options, see [configuration options](../api/configuration/configuration.md).
 
 === "Python"
 
@@ -204,7 +204,7 @@ MinMax results in small index size and is a good usually choice when the dataset
 choose value list if the number of distinct values in an object is typically much smaller than the total number of values in that object.
 On the other hand Bloom filters are recommended for columns with high cardinality (otherwise the index can get as big as that column of the data set).
 
-Note that Xskipper also enables to create your own data skipping indexes and specify how to use them during query time. For more details see [here](../../api/creating-new-plugin/)
+Note that Xskipper also enables to create your own data skipping indexes and specify how to use them during query time. For more details see [here](../api/creating-new-plugin.md).
 
 === "Python"
 
@@ -375,7 +375,7 @@ If you want to inspect the stats for a specific dataset you can call the API bel
     xskipper.getLatestQueryStats().show(false)
     ```
 
-For more examples see the [sample notebooks](../sample-notebooks)
+For more examples see the [sample notebooks](sample-notebooks.md)
 
 ## Index Life Cycle
 
@@ -474,7 +474,7 @@ The API for working with hive tables is similar to the API presented above with 
 
 2. The API calls do not require a DataFrameReader.
 
-For more information regarding the API see [here](../../api/indexing/).
+For more information regarding the API see [here](../api/indexing.md).
 
 The index location for a hive table is resolved according to the following:
 
@@ -482,7 +482,7 @@ The index location for a hive table is resolved according to the following:
 - Otherwise, xskipper will look up the parameter `io.xskipper.parquet.mdlocation` in the table's database and will use it as the base index location for all tables.
 
 Note: During indexing, the index location parameter can be automatically added to the table properties if the xskipper instance is configured accordingly.  
-For more info regarding the index location configuration see [here](api/configuration).
+For more info regarding the index location configuration see [here](../api/configuration/parquet-mdstore-configuration.md#types-of-metadata-location).
 
 ### Setting the base index location in the database
 

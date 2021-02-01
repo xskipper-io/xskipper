@@ -58,12 +58,12 @@ In order to add an index using the `IndexBuilder` to specify the required indexe
 
 By default, the indexes are stored as parquet files stored in storage  Each parquet file with row per each object in the dataset.  
 
-For more information about the parquet metadatastore see [here](../../api/developer/parquet-metadatastore-spec/).
+For more information about the parquet metadatastore see [here](../api/developer/parquet-metadatastore-spec.md).
 
 ## Plugins
 
-Xskipper supports adding new indexes using a [pluggable system](../../concepts/extensible/).  
-For instructions on how to create a new plugin see [here](../creating-new-plugin/).
+Xskipper supports adding new indexes using a [pluggable system](../concepts/extensible.md).  
+For instructions on how to create a new plugin see [here](creating-new-plugin.md).
 
 ### Supported plugins
 
@@ -145,4 +145,4 @@ For example for the [Regex Plugin](https://github.com/xskipper-io/xskipper-regex
 
 ### Creating you own plugin
 
-In order to create your own plugin see [here](api/creating-new-plugin/).
+In order to create your own plugin see [here](creating-new-plugin.md).

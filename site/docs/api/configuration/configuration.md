@@ -8,7 +8,7 @@
 Xskipper enables to configure the instances using JVM wide configtation which applies for all created Xskipper instances.  
 In addition one can set specific configuration for a given instance as described below.
 
-For the configuration related to the parquet metadatastore see [here](../parquet-mdstore-configuration).
+For the configuration related to the parquet metadatastore see [here](parquet-mdstore-configuration.md).
 
 ## Setting JVM wide configuration
 
