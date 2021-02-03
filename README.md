@@ -9,9 +9,9 @@
 
 Xskipper is an Extensible Data Skipping Framework for [Apache Spark](https://spark.apache.org/).
 
-To get started, see the [Quick Start Guide](https://xskipper-io.github.io/xskipper/getting-started/quick-start-guide/) .
+To get started, see the [Quick Start Guide](https://xskipper.io/getting-started/quick-start-guide/) .
 
-See Xskipper [site](https://xskipper-io.github.io/xskipper/) for more info. 
+See Xskipper [site](https://xskipper.io) for more info. 
 
 # Run as a project
 
