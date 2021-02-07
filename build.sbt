@@ -109,7 +109,7 @@ publishTo := {
     Some("releases"  at nexus + "service/local/staging/deploy/maven2")
   }
 }
-credentials += Credentials("Sonatype Nexus Repository Manager", "https://oss.sonatype.org/",
+credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org",
   System.getenv("NEXUS_USER"), System.getenv("NEXUS_PW"))
 credentials += Credentials(
   "GnuPG Key ID",
