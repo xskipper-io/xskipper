@@ -35,8 +35,8 @@ jobs:
           java-version: 1.8
       - name: Publish snapshot
         env:
-          ASF_USERNAME: ${{ secrets.NEXUS_USER }}
-          ASF_PASSWORD: ${{ secrets.NEXUS_PW }}
+          NEXUS_USER: ${{ secrets.NEXUS_USER }}
+          NEXUS_PW: ${{ secrets.NEXUS_PW }}
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
           GIT_REF: ${{ matrix.branch }}
