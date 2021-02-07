@@ -111,12 +111,6 @@ publishTo := {
 }
 credentials += Credentials("Sonatype Nexus Repository Manager", "https://oss.sonatype.org/",
   System.getenv("NEXUS_USER"), System.getenv("NEXUS_PW"))
-credentials += Credentials(
-  "GnuPG Key ID",
-  "gpg",
-  System.getenv("PGP_SECRET"), // key identifier
-  "ignored" // this field is ignored;
-)
 
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
