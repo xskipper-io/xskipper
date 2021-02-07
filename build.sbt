@@ -102,14 +102,14 @@ description := "Xskipper: An Indexing Subsystem for Apache Spark"
 licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
 publishTo := {
-  val nexus = "https://oss.sonatype.org/"
+  val nexus = "oss.sonatype.org"
   if (isSnapshot.value) {
     Some("snapshots" at nexus + "content/repositories/snapshots")
   } else {
     Some("releases"  at nexus + "service/local/staging/deploy/maven2")
   }
 }
-credentials += Credentials("Sonatype Nexus Repository Manager", "https://oss.sonatype.org/",
+credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org",
   System.getenv("NEXUS_USER"), System.getenv("NEXUS_PW"))
 credentials += Credentials(
   "GnuPG Key ID",
