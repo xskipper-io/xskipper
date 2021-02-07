@@ -109,8 +109,8 @@ publishTo := {
     Some("releases"  at nexus + "service/local/staging/deploy/maven2")
   }
 }
-credentials += Credentials("nexus", "https://oss.sonatype.org/",
-  System.getenv("NEXUS_USERNAME"), System.getenv("NEXUS_PASSWORD"))
+credentials += Credentials("Sonatype Nexus Repository Manager", "https://oss.sonatype.org/",
+  System.getenv("NEXUS_USER"), System.getenv("NEXUS_PW"))
 
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
