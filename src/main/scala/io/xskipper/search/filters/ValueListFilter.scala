@@ -51,7 +51,7 @@ case class ValueListFilter(col : String) extends BaseMetadataFilter {
     conditionVals match {
       case Some((vals, dataType)) =>
         if (vals.nonEmpty) {
-          val valueList = Literal.create(vals, ArrayType(dataType))
+          val valueList = vals.map(v => Literal.create(v, dataType))
           Some(ValueListClause(col, valueList, negate))
         } else {
           Some(FalseClause(col))

@@ -5,7 +5,7 @@
 
 ![Xskipper](site/docs/img/logo_readme.png)
 
-![Build Status](https://github.com/xskipper-io/xskipper/workflows/build/badge.svg?branch=branch-spark-2.4)
+![Build Status](https://github.com/xskipper-io/xskipper/workflows/build/badge.svg?branch=branch-spark-2.3)
 
 Xskipper is an Extensible Data Skipping Framework for [Apache Spark](https://spark.apache.org/).
 
@@ -13,28 +13,20 @@ To get started, see the [Quick Start Guide](https://xskipper.io/getting-started/
 
 See Xskipper [site](https://xskipper.io) for more info. 
 
-### NOTE: This is a backport for spark 2.4.x, for the current version please see the master branch
+### NOTE: This is a backport for spark 2.3.x, for the current version please see the master branch
 # Run as a project
 
 To build a project using the Xskipper binaries from the Maven Central Repository, use the following Maven coordinates:
 
 ## Maven
 
-Include Xskipper in a Maven project by adding it as a dependency in the project's POM file. Xskipper should be compiled with Scala 2.12 and Scala 2.11.
+Include Xskipper in a Maven project by adding it as a dependency in the project's POM file. Xskipper should be compiled with Scala 2.11.
 
 ```XML
 <dependency>
   <groupId>io.xskipper</groupId>
-  <artifactId>xskipper-core_2.12</artifactId>
-  <version>1.1.0</version>
-</dependency>
-```
-or:
-```XML
-<dependency>
-  <groupId>io.xskipper</groupId>
   <artifactId>xskipper-core_2.11</artifactId>
-  <version>1.1.0</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
@@ -44,7 +36,7 @@ or:
 Include Xskipper in an SBT project by adding the following line to its build.sbt file:
 
 ```Scala
-libraryDependencies += "io.xskipper" %% "xskipper-core" % "1.1.0"
+libraryDependencies += "io.xskipper" %% "xskipper-core" % "1.0.0"
 ```
 
 # Building
@@ -71,7 +63,7 @@ Xskipper tracks issues in GitHub and prefers to receive contributions as pull re
 
 # Compatibility
 
-Xskipper currently requires Apache Spark 2.4.7 
+Xskipper currently requires Apache Spark 2.3.2 
 
 # See Also
 

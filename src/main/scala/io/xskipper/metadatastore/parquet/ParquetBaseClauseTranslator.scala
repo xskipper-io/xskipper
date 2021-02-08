@@ -14,7 +14,7 @@ import org.apache.spark.sql.catalyst.expressions.Literal
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.MetadataTypeUDT
-
+import scala.collection.mutable
 object ParquetBaseClauseTranslator extends ClauseTranslator {
   /**
     * Translates a clause to the representation of Parquet [[MetaDataStoreType]]
@@ -73,13 +73,14 @@ object ParquetBaseClauseTranslator extends ClauseTranslator {
           // (used for equality checks)
           case ValueListClause(column, values, false) =>
             val mdColName = ParquetUtils.getColumnNameForCols(Seq(column), "valuelist")
-            Some(arrays_overlap(col(mdColName), lit(values)))
+            Some(values.map(v =>
+              array_contains(col(mdColName), v)).reduce((a, b) => a or b))
           // checks if the value list metadata contain values which
           // are different than the given list of values
           // (used for inequality checks)
           case ValueListClause(column, values, true) =>
             val mdColName = ParquetUtils.getColumnNameForCols(Seq(column), "valuelist")
-            Some(size(array_except(col(mdColName), lit(values))) > 0)
+            Some(negativeValueListUDF(values)(col(mdColName)))
           case BloomFilterClause(column, values) =>
             val mdColName = ParquetUtils.getColumnNameForCols(Seq(column), "bloomfilter")
             Some(bloomFilterUDF(values)(col(mdColName)))
@@ -105,6 +106,20 @@ object ParquetBaseClauseTranslator extends ClauseTranslator {
       col == null ||
         (col.bloomFilter != null &&
           scalaValues.exists(v => col.bloomFilter.mightContain(v)))
+    })
+  }
+
+  /**
+    * checks if the value list metadata contains values which are different than the given list of
+    * values (used for inequality checks)
+    *
+    * @param values the list of values to check against
+    * @return true if the value list metadata contain values are different than the given list of
+    *         values, false otherwise
+    */
+  def negativeValueListUDF(values: Array[Literal]) : UserDefinedFunction = {
+    udf((col: mutable.WrappedArray[_]) => {
+      col.array.exists(value => !values.contains(Literal.create(value)))
     })
   }
 }
