@@ -50,6 +50,7 @@ jobs:
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"
           sbt 'release release-version ${{ github.event.inputs.release-version }} next-version ${{ github.event.inputs.next-version }}'
+          git push
       - if: |
           github.event.inputs.release-version == '' &&
           github.event.inputs.next-version == ''
@@ -66,6 +67,7 @@ jobs:
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"
           sbt 'release with-defaults'
+          git push
       - name: Draft Release
         uses: release-drafter/release-drafter@v5
         env:
