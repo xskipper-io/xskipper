@@ -42,8 +42,8 @@ on:
         - name: Run Python tests
           run: python3.7 run-tests.py
         - if: |
-          github.event.inputs.release-version != '' &&
-          github.event.inputs.next-version != '' &&
+            github.event.inputs.release-version != '' &&
+            github.event.inputs.next-version != ''
           name: Release
           env:
             NEXUS_USER: ${{ secrets.NEXUS_USER }}
@@ -55,8 +55,8 @@ on:
             echo $PGP_SECRET | base64 --decode | gpg --batch --import
             sbt release release-version ${{ github.event.inputs.release-version }} next-version ${{ github.event.inputs.next-version }}
         - if: |
-          github.event.inputs.release-version == '' &&
-          github.event.inputs.next-version == '' &&
+            github.event.inputs.release-version == '' &&
+            github.event.inputs.next-version == ''
           name: Release
           env:
             NEXUS_USER: ${{ secrets.NEXUS_USER }}
