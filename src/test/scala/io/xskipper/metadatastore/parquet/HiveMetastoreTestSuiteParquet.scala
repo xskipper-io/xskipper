@@ -448,5 +448,3 @@ abstract class HiveMetastoreTestSuiteParquet(override val datasourceV2: Boolean 
 }
 
 class HiveMetastoreTestSuiteParquetV1 extends HiveMetastoreTestSuiteParquet(false)
-
-class HiveMetastoreTestSuiteParquetV2 extends HiveMetastoreTestSuiteParquet(true)

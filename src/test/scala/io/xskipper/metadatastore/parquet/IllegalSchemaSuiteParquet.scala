@@ -12,5 +12,3 @@ abstract class IllegalSchemaSuiteParquet(override val datasourceV2: Boolean = fa
 }
 
 class IllegalSchemaSuiteParquetV1 extends IllegalSchemaSuiteParquet(false)
-
-class IllegalSchemaSuiteParquetV2 extends IllegalSchemaSuiteParquet(true)

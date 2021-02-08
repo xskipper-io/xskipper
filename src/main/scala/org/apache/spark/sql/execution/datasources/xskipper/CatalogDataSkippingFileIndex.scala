@@ -30,24 +30,26 @@ package org.apache.spark.sql.execution.datasources.xskipper
 import io.xskipper.metadatastore.{ClauseTranslator, MetadataStoreManagerType}
 import io.xskipper.search.DataSkippingFileFilter
 import io.xskipper.search.filters.MetadataFilterFactory
+import org.apache.hadoop.fs.Path
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.catalyst.catalog.CatalogTable
 import org.apache.spark.sql.catalyst.expressions._
-import org.apache.spark.sql.execution.datasources.{CatalogFileIndex, InMemoryFileIndex}
+import org.apache.spark.sql.execution.datasources.{CatalogFileIndex, InMemoryFileIndex, PrunedInMemoryFileIndex}
 
 /**
   * Used to preserve the capabilities of [[CatalogFileIndex]]
   */
 class CatalogDataSkippingFileIndex(
-          sparkSession: SparkSession,
-          table: CatalogTable,
-          tableIdentifier: String,
-          fileFilter: DataSkippingFileFilter,
-          sizeInBytes: Long,
-          metadataFilterFactories: Seq[MetadataFilterFactory],
-          clauseTranslators: Seq[ClauseTranslator], backend: MetadataStoreManagerType)
-      extends CatalogFileIndex(sparkSession, table, sizeInBytes) with Logging {
+                                    sparkSession: SparkSession,
+                                    table: CatalogTable,
+                                    tableIdentifier: String,
+                                    fileFilter: DataSkippingFileFilter,
+                                    sizeInBytes: Long,
+                                    metadataFilterFactories: Seq[MetadataFilterFactory],
+                                    clauseTranslators: Seq[ClauseTranslator],
+                                    backend: MetadataStoreManagerType)
+  extends CatalogFileIndex(sparkSession, table, sizeInBytes) with Logging {
 
   // filter the partitions using the original function behaviour
   // and wrap the result with data skipping capable index
@@ -56,17 +58,29 @@ class CatalogDataSkippingFileIndex(
     val fileIndex = super.filterPartitions(filters)
     // reconstructing FileStatusCache to avoid re listing
     val fileStatusCache = DataSkippingUtils.recreateFileStatusCache(sparkSession, fileIndex)
-    if (table.partitionColumnNames.nonEmpty) {
-      new InMemoryDataSkippingIndex(sparkSession, fileIndex.rootPaths, Map.empty,
-        userSpecifiedSchema = Some(fileIndex.partitionSpec().partitionColumns),
-        fileStatusCache, Some(fileIndex.partitionSpec()), fileIndex.metadataOpsTimeNs,
-          Seq(tableIdentifier), Seq(fileFilter), metadataFilterFactories,
-          clauseTranslators, backend)
-    } else {
-      new InMemoryDataSkippingIndex(sparkSession, rootPaths, parameters = table.storage.properties,
-        userSpecifiedSchema = None, fileStatusCache = fileStatusCache,
-        Some(fileIndex.partitionSpec()), fileIndex.metadataOpsTimeNs, Seq(tableIdentifier),
-        Seq(fileFilter), metadataFilterFactories, clauseTranslators, backend)
+    val dataSkippingFileIndex = fileIndex match {
+      case prunedInMemoryFileIndex: PrunedInMemoryFileIndex =>
+        new PrunedInMemoryDataSkippingIndex(sparkSession,
+          new Path(table.storage.locationUri.get),
+          fileStatusCache, fileIndex.partitionSpec(),
+          prunedInMemoryFileIndex.metadataOpsTimeNs,
+          Seq(tableIdentifier),
+          Seq(fileFilter),
+          metadataFilterFactories,
+          clauseTranslators,
+          backend)
+      case inMemoryFileIndex: InMemoryFileIndex =>
+        new InMemoryDataSkippingIndex(sparkSession,
+          rootPaths,
+          table.storage.properties,
+          userSpecifiedSchema = Some(inMemoryFileIndex.partitionSchema),
+          fileStatusCache,
+          Seq(tableIdentifier),
+          Seq(fileFilter),
+          metadataFilterFactories,
+          clauseTranslators,
+          backend)
     }
+    dataSkippingFileIndex
   }
 }

@@ -2,8 +2,7 @@
  * Copyright 2021 IBM Corp.
  * SPDX-License-Identifier: Apache-2.0
  */
-
-package io.xskipper.index.execution.parquet
+package org.apache.spark.sql.xskipper.index.execution.parquet
 
 import io.xskipper.configuration.XskipperConf
 import io.xskipper.index.Index

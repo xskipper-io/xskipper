@@ -12,5 +12,3 @@ abstract class MinMaxIndexTypeSupportParquet(override val datasourceV2: Boolean 
 }
 
 class MinMaxIndexTypeSupportParquetV1 extends MinMaxIndexTypeSupportParquet(false)
-
-class MinMaxIndexTypeSupportParquetV2 extends MinMaxIndexTypeSupportParquet(true)

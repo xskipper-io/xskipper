@@ -93,6 +93,7 @@
         "expectedSkippedFiles": [
         ],
         "expectedSkippedFilesAfterUpdate": [
+          "c001.csv"
         ],
         "query": "SELECT account_name FROM sample WHERE account_name IN ('f6d')"
       }
@@ -109,6 +110,7 @@
         "expectedSkippedFiles": [
         ],
         "expectedSkippedFilesAfterUpdate": [
+          "c001.csv"
         ],
         "query": "SELECT salary FROM sample WHERE salary > 9000"
       }

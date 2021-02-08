@@ -13,5 +13,3 @@ class ValueListIndexTypeSupportParquet(override val datasourceV2: Boolean = fals
 }
 
 class ValueListIndexTypeSupportParquetV1 extends ValueListIndexTypeSupportParquet(false)
-
-class ValueListIndexTypeSupportParquetV2 extends ValueListIndexTypeSupportParquet(true)

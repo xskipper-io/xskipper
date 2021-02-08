@@ -11,5 +11,3 @@ abstract class EmptyFilesSuiteParquet(override val datasourceV2: Boolean = false
   extends EmptyFilesSuiteBase with ParquetXskipperProvider {}
 
 class EmptyFilesSuiteParquetV1 extends EmptyFilesSuiteParquet(false)
-
-class EmptyFilesSuiteParquetV2 extends EmptyFilesSuiteParquet(true)

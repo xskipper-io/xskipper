@@ -79,7 +79,7 @@ object MetadataGenerator {
     val crcFiles = FileUtils.listFiles(
       new File(testDescriptor.getMetadataBasePath(version)),
       new WildcardFileFilter("*.crc"),
-      TrueFileFilter.INSTANCE)
-    crcFiles.forEach(f => f.delete())
+      TrueFileFilter.INSTANCE).toArray()
+    crcFiles.foreach { case f: File => f.delete() }
   }
 }

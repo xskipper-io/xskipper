@@ -2,8 +2,7 @@
  * Copyright 2021 IBM Corp.
  * SPDX-License-Identifier: Apache-2.0
  */
-
-package io.xskipper.index.execution.parquet
+package org.apache.spark.sql.xskipper.index.execution.parquet
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
@@ -11,7 +10,7 @@ import org.apache.parquet.hadoop.ParquetFileReader
 import org.apache.parquet.schema.MessageType
 import org.apache.spark.internal.Logging
 
-import scala.collection.JavaConverters._
+import scala.collection.JavaConversions._
 
 /**
   * Helper object to extract minimum and maximum statistics for a given column
@@ -20,35 +19,24 @@ import scala.collection.JavaConverters._
 object MinmaxParquetRecordReader extends Logging {
 
   private def getSchemaPathIndex(fileSchema: MessageType, filterPath: Array[String]): Int = {
-    import scala.collection.JavaConversions._
-    var pathIndex: Int = 0
-    var bfound: Boolean = false
-    for(path: Array[String] <- fileSchema.getPaths if !bfound) {
-      if (path.sameElements(filterPath)) {
-        bfound = true
-      }
-      else {
-        pathIndex += 1
-      }
-    }
-    pathIndex
+    fileSchema.getPaths.indexWhere(_.sameElements(filterPath))
   }
 
   /**
     * Reading stats for a sequence of columns in parquet file
     *
-    * @param path the path of the parquet file
-    * @param columns the columns to read the stats for
+    * @param path                the path of the parquet file
+    * @param columns             the columns to read the stats for
     * @param hadoopConfiguration the hadoop configuration to be used when reading the file
     * @return The sequence of stats (min, max for each column) or None if the the column
     *         is not defined or no stats.
     *         for empty files null is returned for both min and max values
     */
   private def readStatFromParquet(
-       path: String,
-       columns: Seq[String],
-       hadoopConfiguration: Configuration):
-            Seq[Option[(_, _)]] = {
+                                   path: String,
+                                   columns: Seq[String],
+                                   hadoopConfiguration: Configuration):
+  Seq[Option[(_, _)]] = {
     val file = new Path(path)
     val footer = ParquetFileReader.readFooter(hadoopConfiguration, file)
     val reader = new ParquetFileReader(hadoopConfiguration, file, footer)
@@ -76,7 +64,7 @@ object MinmaxParquetRecordReader extends Logging {
         if (rowGroups.size() > 0) {
           val stat = reader.getRowGroups.get(0).getColumns.get(pathIndex).getStatistics
 
-          reader.getRowGroups.asScala.foreach(block => {
+          reader.getRowGroups.foreach(block => {
             stat.mergeStatistics(block.getColumns.get(pathIndex).getStatistics)
           })
           logDebug("stat collected for col: " + columns + " " + stat)
@@ -84,7 +72,8 @@ object MinmaxParquetRecordReader extends Logging {
         } else {
           None
         }
-      }})
+      }
+    })
 
     stats.map(s => s match {
       // we can collect min/max only if the object contains non null values
@@ -107,13 +96,13 @@ object MinmaxParquetRecordReader extends Logging {
     * in the parquet format file
     * by using parquet specific format - reading the statistics in the metadata blocks
     *
-    * @param path of parquet format file
+    * @param path    of parquet format file
     * @param columns the sequence of columns to return min and max values of
     * @return numeric min max values for each column
     *         (if the column doesn't exist or no min max values None is returned)
     */
   def getMinMaxStat(path: String, columns: Seq[String],
-                    hadoopConfiguration: Configuration) : Seq[Option[(_, _)]] = {
+                    hadoopConfiguration: Configuration): Seq[Option[(_, _)]] = {
     readStatFromParquet(path, columns, hadoopConfiguration)
   }
 }

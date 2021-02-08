@@ -134,6 +134,7 @@
             "valuelist account_name"
           ],
           "expectedSkippedFiles": [
+            "c001"
           ]
         }
       ],
@@ -152,6 +153,7 @@
             "minmax salary"
           ],
           "expectedSkippedFiles": [
+            "c001"
           ]
         }
       ],

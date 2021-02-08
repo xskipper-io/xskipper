@@ -37,24 +37,22 @@ import org.apache.spark.sql.execution.datasources._
 import org.apache.spark.sql.types.StructType
 
 class InMemoryDataSkippingIndex(
-         sparkSession: SparkSession,
-         rootPathsSpecified: Seq[Path],
-         parameters: Map[String, String],
-         userSpecifiedSchema: Option[StructType],
-         fileStatusCache: FileStatusCache = NoopCache,
-         userSpecifiedPartitionSpec: Option[PartitionSpec] = None,
-         metadataOpsTimeNs: Option[Long] = None,
-         tableIdentifiers: Seq[String],
-         fileFilters: Seq[DataSkippingFileFilter],
-         metadataFilterFactories: Seq[MetadataFilterFactory],
-         clauseTranslators: Seq[ClauseTranslator],
-         backend: MetadataStoreManagerType) extends InMemoryFileIndex(sparkSession,
-                                                               rootPathsSpecified,
-                                                               parameters,
-                                                               userSpecifiedSchema,
-                                                               fileStatusCache,
-                                                               userSpecifiedPartitionSpec,
-                                                               metadataOpsTimeNs) {
+                                 sparkSession: SparkSession,
+                                 rootPaths: Seq[Path],
+                                 parameters: Map[String, String],
+                                 userSpecifiedSchema: Option[StructType],
+                                 fileStatusCache: FileStatusCache = NoopCache,
+                                 tableIdentifiers: Seq[String],
+                                 fileFilters: Seq[DataSkippingFileFilter],
+                                 metadataFilterFactories: Seq[MetadataFilterFactory],
+                                 clauseTranslators: Seq[ClauseTranslator],
+                                 backend: MetadataStoreManagerType)
+  extends InMemoryFileIndex(
+    sparkSession,
+    rootPaths,
+    parameters,
+    userSpecifiedSchema,
+    fileStatusCache) {
 
   // this is the method that will be executed by spark to check which files
   // are relevant to the query during processing time

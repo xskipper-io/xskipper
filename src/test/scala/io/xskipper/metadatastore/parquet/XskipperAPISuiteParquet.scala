@@ -13,5 +13,3 @@ abstract class XskipperAPISuiteParquet(override val datasourceV2: Boolean = fals
 }
 
 class XskipperAPISuiteParquetV1 extends XskipperAPISuiteParquet(false)
-
-class XskipperAPISuiteParquetV2 extends XskipperAPISuiteParquet(true)

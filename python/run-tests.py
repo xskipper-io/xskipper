@@ -73,7 +73,7 @@ def prepare(root_dir):
     version = '0.0.0'
     with open(os.path.join(root_dir, "version.sbt")) as fd:
         version = fd.readline().split('"')[1]
-    package = "io.xskipper:xskipper-core_2.12:" + version
+    package = "io.xskipper:xskipper-core_2.11:" + version
     return package
 
 

@@ -11,5 +11,3 @@ abstract class NestedFieldsSuiteParquet(override val datasourceV2: Boolean = fal
   extends NestedFieldsSuiteBase(datasourceV2) with ParquetXskipperProvider {}
 
 class NestedFieldsSuiteParquetV1 extends NestedFieldsSuiteParquet(false)
-
-class NestedFieldsSuiteParquetV2 extends NestedFieldsSuiteParquet(true)

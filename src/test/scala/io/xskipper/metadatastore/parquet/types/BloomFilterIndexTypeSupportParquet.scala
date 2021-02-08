@@ -14,5 +14,3 @@ class BloomFilterIndexTypeSupportParquet(override val datasourceV2: Boolean = fa
 }
 
 class BloomFilterIndexTypeSupportParquetV1 extends BloomFilterIndexTypeSupportParquet(false)
-
-class BloomFilterIndexTypeSupportParquetV2 extends BloomFilterIndexTypeSupportParquet(true)

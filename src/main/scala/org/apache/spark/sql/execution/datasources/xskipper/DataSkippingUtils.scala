@@ -5,72 +5,15 @@
 
 package org.apache.spark.sql.execution.datasources.xskipper
 
-import io.xskipper.Registration
-import io.xskipper.configuration.XskipperConf
 import io.xskipper.metadatastore.MetadataStoreManager
 import io.xskipper.search.{DataSkippingFileFilter, DataSkippingFileFilterEvaluator}
-import io.xskipper.utils.Utils
-import org.apache.hadoop.fs.Path
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan
 import org.apache.spark.sql.catalyst.rules.Rule
 import org.apache.spark.sql.execution.datasources._
-import org.apache.spark.sql.execution.streaming.{FileStreamSink, MetadataLogFileIndex}
-import org.apache.spark.sql.types.StructType
-import org.apache.spark.sql.util.CaseInsensitiveStringMap
-
-import scala.collection.JavaConverters._
 
 object DataSkippingUtils extends Logging {
-
-  /**
-    * This function contains the same logic for creating the FileIndex as appears in
-    * PartitioningAwareFileIndex class and replaces the InMemoryFileIndex with
-    * InMemoryDataSkippingIndex.
-    * The reason for keeping the same logic is that the original variable is lazy
-    * so we can rely on not having the FileIndex created until this function is called.
-    */
-  def getFileIndex(sparkSession: SparkSession,
-                   options: CaseInsensitiveStringMap,
-                   paths: Seq[String],
-                   userSpecifiedSchema: Option[StructType]): PartitioningAwareFileIndex = {
-    val caseSensitiveMap = options.asCaseSensitiveMap.asScala.toMap
-    // Hadoop Configurations are case sensitive.
-    val hadoopConf = sparkSession.sessionState.newHadoopConfWithOptions(caseSensitiveMap)
-    if (FileStreamSink.hasMetadata(paths, hadoopConf, sparkSession.sessionState.conf)) {
-      // We are reading from the results of a streaming query. We will load files from
-      // the metadata log instead of listing them using HDFS APIs.
-      new MetadataLogFileIndex(sparkSession, new Path(paths.head),
-        options.asScala.toMap, userSpecifiedSchema)
-    } else {
-      // This is a non-streaming file based datasource.
-      val rootPathsSpecified = DataSource.checkAndGlobPathIfNecessary(paths, hadoopConf,
-        checkEmptyGlobPath = true, checkFilesExist = true)
-      val fileStatusCache = FileStatusCache.getOrCreate(sparkSession)
-      val fileIndex = new InMemoryFileIndex(
-        sparkSession, rootPathsSpecified, caseSensitiveMap, userSpecifiedSchema, fileStatusCache)
-
-      val metadataStoreManager = Registration.getActiveMetadataStoreManager()
-      val tableIdentifiers = paths.map(p => Utils.getTableIdentifier(p)).distinct
-      val ff = tableIdentifiers.map(tid => getFileFilter(fileIndex,
-        tid, metadataStoreManager, sparkSession,
-        XskipperConf.getConf(XskipperConf.XSKIPPER_EVALUATION_ENABLED)))
-      new InMemoryDataSkippingIndex(
-        sparkSession,
-        rootPathsSpecified,
-        caseSensitiveMap,
-        Option(fileIndex.partitionSchema),
-        fileStatusCache,
-        None,
-        None,
-        tableIdentifiers,
-        ff,
-        Registration.getCurrentMetadataFilterFactories(),
-        Registration.getCurrentClauseTranslators(),
-        Registration.getActiveMetadataStoreManagerType())
-    }
-  }
 
   /**
     * Gets an inMemoryFileIndex and reconstructs the FileStatusCache
@@ -84,7 +27,7 @@ object DataSkippingUtils extends Logging {
     * because it is handed over to it in the constructor and is not defined there as var/val
     * so we can't access it once we have an instance of inMemoryFileIndex
     *
-    * @param spark a spark session - used to get a new cache
+    * @param spark             a spark session - used to get a new cache
     * @param inMemoryFileIndex the inMemoryFileIndex to construct the cache from
     * @return a FileStatusCache populated with the root paths from the given inMemoryFileIndex
     */
@@ -101,19 +44,19 @@ object DataSkippingUtils extends Logging {
   /**
     * Gets the DataSkippingFileFilter relevant for this tid, FileIndex and backend
     *
-    * @param fileIndex the fileIndex for which we create a DataSkippingFileFilter
-    * @param tid the table identifier
+    * @param fileIndex            the fileIndex for which we create a DataSkippingFileFilter
+    * @param tid                  the table identifier
     * @param metadataStoreManager the backend to be used to create the DataSkippingFileFilter
-    * @param sparkSession the spark session
-    * @param evaluate whether we create an evaluate DataSkippingFileFilter which only
-    *                 report skipping stats
+    * @param sparkSession         the spark session
+    * @param evaluate             whether we create an evaluate DataSkippingFileFilter which only
+    *                             report skipping stats
     * @return
     */
   def getFileFilter(fileIndex: FileIndex,
                     tid: String,
                     metadataStoreManager: MetadataStoreManager,
                     sparkSession: SparkSession,
-                    evaluate: Boolean = false) : DataSkippingFileFilter = {
+                    evaluate: Boolean = false): DataSkippingFileFilter = {
     if (evaluate) {
       new DataSkippingFileFilterEvaluator(
         tid,
@@ -132,8 +75,8 @@ object DataSkippingUtils extends Logging {
     * Inject a rule as part extendedOperatorOptimizationRule
     */
   def injectRuleExtendedOperatorOptimizationRule(
-                      sparkSession: SparkSession,
-                      rule: Rule[LogicalPlan]) : Unit = {
+                                                  sparkSession: SparkSession,
+                                                  rule: Rule[LogicalPlan]): Unit = {
     // insert the rule as extendedOperatorOptimizationRule
     // Note: if this is called multiple time the rule will be injected multiple times, though it
     // won't have effect on the correctness.
