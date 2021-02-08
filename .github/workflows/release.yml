@@ -32,12 +32,6 @@ jobs:
       - name: Install Python packages (Python 3.7)
         run: |
           python3.7 -m pip install pyspark>=3.0.0
-      - name: Run sbt clean
-        run: sbt ++2.12.8 clean
-      - name: Run sbt compile
-        run: sbt ++2.12.8 compile
-      - name: Run Scala tests
-        run: sbt ++2.12.8 test
       - name: Run Python tests
         run: python3.7 run-tests.py
       - if: |
