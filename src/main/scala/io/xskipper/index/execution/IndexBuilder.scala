@@ -14,7 +14,6 @@ import io.xskipper.utils.Utils
 import io.xskipper.{Xskipper, XskipperException}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.internal.Logging
-import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileTable}
 import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation}
 import org.apache.spark.sql.types.StructField
 import org.apache.spark.sql.{DataFrame, DataFrameReader, SparkSession}
@@ -25,9 +24,9 @@ import scala.collection.mutable.ArrayBuffer
 /**
   * Helper class for building indexes
   *
-  * @param spark [[org.apache.spark.sql.SparkSession]] object
-  * @param uri the URI of the dataset / the identifier of the
-  *            table on which the index is defined
+  * @param spark    [[org.apache.spark.sql.SparkSession]] object
+  * @param uri      the URI of the dataset / the identifier of the
+  *                 table on which the index is defined
   * @param xskipper xskipper the [[Xskipper]] instance associated with this [[IndexBuilder]]
   */
 class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
@@ -53,7 +52,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   /**
     * Adds a MinMax index for the given column
     *
-    * @param col the column to add the index on
+    * @param col         the column to add the index on
     * @param keyMetadata the key metadata to be used
     */
   def addMinMaxIndex(col: String, keyMetadata: String): IndexBuilder = {
@@ -74,7 +73,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   /**
     * Adds a ValueList index for the given column
     *
-    * @param col the column to add the index on
+    * @param col         the column to add the index on
     * @param keyMetadata the key metadata to be used
     */
   def addValueListIndex(col: String, keyMetadata: String): IndexBuilder = {
@@ -96,7 +95,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   /**
     * Adds a BloomFilter index for the given column
     *
-    * @param col the column to add the index on
+    * @param col         the column to add the index on
     * @param keyMetadata the key metadata to be used
     */
   def addBloomFilterIndex(col: String, keyMetadata: String): IndexBuilder = {
@@ -111,8 +110,8 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     * @param ndv the expected number of distinct values in the bloom filter
     */
   def addBloomFilterIndex(col: String,
-                 fpp: Double = XskipperConf.BLOOM_FILTER_FPP.defaultValue,
-                 ndv: Long = XskipperConf.BLOOM_FILTER_NDV.defaultValue) : IndexBuilder = {
+                          fpp: Double = XskipperConf.BLOOM_FILTER_FPP.defaultValue,
+                          ndv: Long = XskipperConf.BLOOM_FILTER_NDV.defaultValue): IndexBuilder = {
     indexes.append(BloomFilterIndex(col, fpp, ndv))
     this
   }
@@ -120,13 +119,13 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   /**
     * Adds a BloomFilter index for the given column
     *
-    * @param col the column to add the index on
-    * @param fpp the false positive rate to use
+    * @param col         the column to add the index on
+    * @param fpp         the false positive rate to use
     * @param keyMetadata the key metadata to be used
     */
   def addBloomFilterIndex(col: String,
                           fpp: Double,
-                          keyMetadata: String) : IndexBuilder = {
+                          keyMetadata: String): IndexBuilder = {
     indexes.append(BloomFilterIndex(col, fpp, keyMetadata = Some(keyMetadata)))
     this
   }
@@ -145,14 +144,14 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     * Adds a custom index
     * (Overload for python)
     *
-    * @param index the index name
-    * @param cols the sequence of columns
-    * @param params the index instance to add
+    * @param index       the index name
+    * @param cols        the sequence of columns
+    * @param params      the index instance to add
     * @param keyMetadata the key metadata to be used
     */
   def addCustomIndex(index: String,
                      cols: Array[String],
-                     params : java.util.Map[String, String],
+                     params: java.util.Map[String, String],
                      keyMetadata: String): IndexBuilder = {
     indexes.append(Utils.createCustomIndex(index, cols, Some(keyMetadata), params.asScala.toMap))
     this
@@ -162,13 +161,13 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     * Adds a custom index
     * (Overload for python)
     *
-    * @param index the index name
-    * @param cols the sequence of columns
+    * @param index  the index name
+    * @param cols   the sequence of columns
     * @param params the index instance to add
     */
   def addCustomIndex(index: String,
                      cols: Array[String],
-                     params : java.util.Map[String, String]): IndexBuilder = {
+                     params: java.util.Map[String, String]): IndexBuilder = {
     indexes.append(Utils.createCustomIndex(index, cols, None, params.asScala.toMap))
     this
   }
@@ -198,7 +197,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     *
     * @return a [[DataFrame]] indicating if the operation succeeded or not
     */
-  def build() : DataFrame = {
+  def build(): DataFrame = {
     // get the dataframe of the table
     val df = Utils.getTable(spark, uri)
     // Indexing of hive tables is available only for partitioned hive tables
@@ -242,8 +241,8 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   /**
     * Validate indexes
     *
-    * @param df the [[DataFrame]] to be indexed
-    * @param indexes a sequence of [[Index]]'s to validate on the given [[DataFrame]]
+    * @param df        the [[DataFrame]] to be indexed
+    * @param indexes   a sequence of [[Index]]'s to validate on the given [[DataFrame]]
     * @param schemaMap the [[DataFrame]] schema map
     * @throws XskipperException in case the requested build is invalid
     */
@@ -256,7 +255,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     }
 
     // verify no index duplication exists
-    if (indexes.groupBy(idx => (idx.getName, idx.getCols)).size < indexes.size){
+    if (indexes.groupBy(idx => (idx.getName, idx.getCols)).size < indexes.size) {
       throw new XskipperException(Status.DUPLICATE_INDEX)
     }
 
@@ -278,7 +277,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
         if (!schemaMap.contains(col)) {
           throw new XskipperException(Status.nonExistentColumnError(col))
         }
-        if (schemaPartitions.contains(col)){
+        if (schemaPartitions.contains(col)) {
           throw new XskipperException(Status.partitionColumnError(col))
         }
       })
@@ -289,7 +288,8 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
 
   /**
     * Set indexes with optimizations values according to the format and options
-    * @param df a [[DataFrame]] to index created by reader format load
+    *
+    * @param df      a [[DataFrame]] to index created by reader format load
     * @param indexes a sequence of indexes to be applied on the [[DataFrame]]
     */
   private def updateIndexOptimizations(df: DataFrame, indexes: Seq[Index]) = {
@@ -302,23 +302,21 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     * This method first collects the objects that are already indexed and then indexes
     * only the non indexed objects
     *
-    * @param df the [[DataFrame]] to be indexed - can be either a dataset created by
-    *           [[SparkSession.read]] on some hadoop file system path or a hive
-    *           table on top of some hadoop file system
-    * @param indexes a sequence of [[Index]] that will be applied on the [[DataFrame]]
+    * @param df        the [[DataFrame]] to be indexed - can be either a dataset created by
+    *                  [[SparkSession.read]] on some hadoop file system path or a hive
+    *                  table on top of some hadoop file system
+    * @param indexes   a sequence of [[Index]] that will be applied on the [[DataFrame]]
     * @param isRefresh whehther or not this is a refresh operation.
     *                  this is only required because in case of refresh we ignore index stats
     *                  (instead of initializing them)
     * @return a [[DataFrame]] of the format status, #indexedFiles, #removedFiles
     */
   def createOrRefreshExistingIndex(df: DataFrame,
-                                   indexes: Seq[Index], isRefresh: Boolean) : DataFrame = {
+                                   indexes: Seq[Index], isRefresh: Boolean): DataFrame = {
     // extract the format and options to enable reading of each object individually
     val (format, options) = df.queryExecution.optimizedPlan.collect {
       case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
         (hfs.fileFormat.toString, hfs.options)
-      case _@DataSourceV2ScanRelation(table: FileTable, _, _) =>
-        (table.formatName, table.properties().asScala.toMap)
     }(0)
 
 
@@ -326,7 +324,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     // the extraction includes the column name in lower case (for comparison with user input)
     // the column name as it appears in the schema and the datatype
     val schemaMap = Map(df.schema.flatMap(field =>
-      Utils.getSchemaFields(field)) : _*)
+      Utils.getSchemaFields(field)): _*)
 
     // generate indexes cols map
     indexes.foreach(_.generateColsMap(schemaMap))

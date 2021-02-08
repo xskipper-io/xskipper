@@ -11,16 +11,7 @@ import io.xskipper.utils.Utils
 import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan
 import org.apache.spark.sql.catalyst.rules.Rule
 import org.apache.spark.sql.execution.datasources.text.TextFileFormat
-import org.apache.spark.sql.execution.datasources.v2._
-import org.apache.spark.sql.execution.datasources.v2.csv.CSVTable
-import org.apache.spark.sql.execution.datasources.v2.json.JsonTable
-import org.apache.spark.sql.execution.datasources.v2.orc.OrcTable
-import org.apache.spark.sql.execution.datasources.v2.parquet.ParquetTable
-import org.apache.spark.sql.execution.datasources.v2.xskipper.{CSVDataSkippingTable, JsonDataSkippingTable, OrcDataSkippingTable, ParquetDataSkippingTable}
 import org.apache.spark.sql.execution.datasources.{CatalogFileIndex, HadoopFsRelation, InMemoryFileIndex, LogicalRelation}
-import org.apache.spark.sql.util.CaseInsensitiveStringMap
-
-import scala.collection.JavaConverters._
 
 /**
   *
@@ -43,16 +34,9 @@ import scala.collection.JavaConverters._
   */
 class DataSkippingFileIndexRule extends Rule[LogicalPlan] {
   // rule activation toggle
-  private var ruleEnabled : Boolean = false
+  private var ruleEnabled: Boolean = false
 
   def apply(plan: LogicalPlan): LogicalPlan = plan transform {
-    // catch V2 relations with invalid schema - we don't want to touch them
-    case r@DataSourceV2Relation(table: FileTable, _, _, _, _) if ruleEnabled
-      && !Utils.isSchemaValid(r.schema) =>
-      logWarning(s"Schema is invalid for " +
-        s"${table.fileIndex.rootPaths.applyOrElse(0, "PATH_UNKNOWN")}," +
-        s" no skipping will be attempted")
-      r
     // catch V1 relations with invalid schema - we don't want to touch them
     case r@LogicalRelation(hfs: HadoopFsRelation, _, _, _) if ruleEnabled
       && !Utils.isSchemaValid(r.schema) =>
@@ -60,60 +44,7 @@ class DataSkippingFileIndexRule extends Rule[LogicalPlan] {
         s"${hfs.location.rootPaths.applyOrElse(0, "PATH_UNKNOWN")}," +
         s" no skipping will be attempted")
       r
-    /**
-      * DataSource V2 support
-      * Avoiding activation of the rule if:
-      * 1. Current Table implementation is already a DataSkippingTable
-      * (this is needed since both operator optimization batch is running till fixed point and this
-      * rule has no need to run more than one time)
-      * 2. The table schema is invalid
-      */
-    case r@DataSourceV2Relation(table: FileTable, _, _, _, _) if
-          ruleEnabled &&
-            !table.isInstanceOf[ParquetDataSkippingTable] &&
-            !table.isInstanceOf[CSVDataSkippingTable] &&
-            !table.isInstanceOf[OrcDataSkippingTable] &&
-            !table.isInstanceOf[JsonDataSkippingTable] => {
-      // In case of error the query will continue regularly without skipping
-      try {
-        // replacing the table's file index
-        val newTable: Option[FileTable] = table match {
-          case ParquetTable(name, sparkSession, options, paths,
-          userSpecifiedSchema, fallbackFileFormat) =>
-            Some(new ParquetDataSkippingTable(name, sparkSession, options, paths,
-              userSpecifiedSchema, fallbackFileFormat))
-          case CSVTable(name, sparkSession, options, paths,
-          userSpecifiedSchema, fallbackFileFormat) =>
-            Some(new CSVDataSkippingTable(name, sparkSession, options,
-              paths, userSpecifiedSchema, fallbackFileFormat))
-          case JsonTable(name, sparkSession, options, paths,
-          userSpecifiedSchema, fallbackFileFormat) =>
-            Some(new JsonDataSkippingTable(name, sparkSession, options,
-              paths, userSpecifiedSchema, fallbackFileFormat))
-          case OrcTable(name, sparkSession, options, paths,
-          userSpecifiedSchema, fallbackFileFormat) =>
-            Some(new OrcDataSkippingTable(name, sparkSession, options,
-              paths, userSpecifiedSchema, fallbackFileFormat))
-          case _ =>
-            logInfo(s"Unknown file table ${table.getClass.toString} => No Skipping")
-            None
-        }
 
-        // Replace table if needed
-        newTable match {
-          case Some(tbl) =>
-            logInfo(s"Replacing ${r.table.getClass().toString} with ${tbl.getClass.toString}")
-            r.copy(table = tbl,
-              options = new CaseInsensitiveStringMap((r.options.asScala
-                + ("DummyOption" -> "Dummy")).asJava))
-          case _ => r
-        }
-      } catch {
-        case e: Throwable =>
-          logWarning(s"Data skipping rule failed, leaving relation unchanged", e)
-          r
-      }
-    }
     /**
       * DataSource V1 support
       * Avoiding activation of the rule if:
@@ -133,16 +64,17 @@ class DataSkippingFileIndexRule extends Rule[LogicalPlan] {
       * 4. The schema is invalid
       */
     case l@LogicalRelation(hfs: HadoopFsRelation, _, _, isStreaming) if
-            ruleEnabled && isStreaming == false &&
-            !hfs.fileFormat.isInstanceOf[TextFileFormat] &&
-            !hfs.location.isInstanceOf[InMemoryDataSkippingIndex] &&
-            !hfs.location.isInstanceOf[CatalogDataSkippingFileIndex] =>
+    ruleEnabled && isStreaming == false &&
+      !hfs.fileFormat.isInstanceOf[TextFileFormat] &&
+      !hfs.location.isInstanceOf[InMemoryDataSkippingIndex] &&
+      !hfs.location.isInstanceOf[CatalogDataSkippingFileIndex] &&
+      !hfs.location.isInstanceOf[PrunedInMemoryDataSkippingIndex] =>
       // In case of error the query will continue regularly without skipping
       try {
         val spark = hfs.sparkSession
         val newOptions = hfs.options + ("DummyOption" -> "Dummy")
         hfs.location match {
-          case inMemoryFileIndex : InMemoryFileIndex =>
+          case inMemoryFileIndex: InMemoryFileIndex =>
             logInfo(s"Replacing logical relation ${hfs.toString} with file index" +
               s" ${hfs.location.toString} with File Skipping File Index..")
             // reconstructing FileStatusCache to avoid re listing
@@ -166,8 +98,6 @@ class DataSkippingFileIndexRule extends Rule[LogicalPlan] {
               hfs.options,
               Option(inMemoryFileIndex.partitionSchema),
               fileStatusCache,
-              Some(inMemoryFileIndex.partitionSpec()),
-              inMemoryFileIndex.metadataOpsTimeNs,
               tableIdentifiers,
               ff,
               Registration.getCurrentMetadataFilterFactories(),

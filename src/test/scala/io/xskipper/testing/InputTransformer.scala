@@ -8,11 +8,10 @@ package io.xskipper.testing
 import java.io.{File, IOException}
 import java.nio.file.Files
 
-import io.xskipper.testing.util.Utils.{CSV_DEFAULT_READER_OPTIONS, CSV_DEFAULT_SUFFIX, CSV_DEFAULT_WRITER_OPTIONS, JSON_DEFAULT_READER_OPTIONS, JSON_DEFAULT_SUFFIX, JSON_DEFAULT_WRITER_OPTIONS, ORC_DEFAULT_READER_OPTIONS, ORC_DEFAULT_SUFFIX, ORC_DEFAULT_WRITER_OPTIONS, PARQUET_DEFAULT_READER_OPTIONS, PARQUET_DEFAULT_SUFFIX, PARQUET_DEFAULT_WRITER_OPTIONS, concatPaths}
+import io.xskipper.testing.util.Utils._
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.Path
 import org.apache.spark.internal.Logging
-import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2Relation, FileTable}
 import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation, PartitioningAwareFileIndex}
 import org.apache.spark.sql.{SaveMode, SparkSession}
 
@@ -159,8 +158,6 @@ object InputTransformer extends Logging {
       case LogicalRelation(hfs: HadoopFsRelation, _, _, _)
         if hfs.location.isInstanceOf[PartitioningAwareFileIndex] =>
         hfs.location.asInstanceOf[PartitioningAwareFileIndex]
-      case DataSourceV2Relation(table: FileTable, _, _, _, _) =>
-        table.fileIndex
     }
 
     if (fileIndex.partitionSpec().partitions.nonEmpty) {

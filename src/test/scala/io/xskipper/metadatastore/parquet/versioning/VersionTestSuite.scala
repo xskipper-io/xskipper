@@ -152,5 +152,3 @@ class VersionTestSuite(override val datasourceV2: Boolean) extends FunSuite
 }
 
 class VersionTestSuiteV1 extends VersionTestSuite(false)
-
-class VersionTestSuiteV2 extends VersionTestSuite(true)

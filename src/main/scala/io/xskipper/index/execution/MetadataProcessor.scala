@@ -7,16 +7,15 @@ package io.xskipper.index.execution
 
 import io.xskipper.XskipperException
 import io.xskipper.configuration.XskipperConf
-import io.xskipper.index.execution.parquet.ParquetMinMaxIndexing
 import io.xskipper.index.metadata.MetadataType
 import io.xskipper.index.{Index, IndexField, MinMaxIndex}
 import io.xskipper.metadatastore._
 import io.xskipper.utils.Utils
 import org.apache.hadoop.fs.FileStatus
 import org.apache.spark.internal.Logging
-import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileTable}
 import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation}
 import org.apache.spark.sql.types._
+import org.apache.spark.sql.xskipper.index.execution.parquet.ParquetMinMaxIndexing
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.apache.spark.util.SizeEstimator
 
@@ -38,12 +37,6 @@ object MetadataProcessor {
     df.queryExecution.optimizedPlan.collect {
       case l@LogicalRelation(hfs: HadoopFsRelation, output, catalogTable, isStreaming) =>
         hfs.location.listFiles(Seq.empty, Seq.empty).flatMap { part =>
-          part.files
-        }
-      case DataSourceV2ScanRelation(table: FileTable, _, _) =>
-        // not using allFiles since it returns also empty files which are not used
-        // since Spark only calls list files during query processing
-        table.fileIndex.listFiles(Seq.empty, Seq.empty).flatMap { part =>
           part.files
         }
     }.flatten

@@ -6,7 +6,7 @@ name: "build"
 on:
   push:
     branches:
-      - master
+      - branch-spark-2.4
     paths-ignore:
       - '**/README.md'
       - '**/CONTRIBUTING.md'
@@ -14,7 +14,7 @@ on:
       - 'notebooks/**'
   pull_request:
     branches:
-      - master
+      - branch-spark-2.4
     paths-ignore:
       - '**/README.md'
       - '**/CONTRIBUTING.md'
@@ -51,12 +51,13 @@ jobs:
           architecture: x64
       - name: Install Python packages (Python 3.7)
         run: |
-          python3.7 -m pip install pyspark>=3.0.0
-      - name: Run sbt clean
-        run: sbt ++2.12.8 clean
-      - name: Run sbt compile
-        run: sbt ++2.12.8 compile
-      - name: Run Scala tests
-        run: sbt ++2.12.8 test
+          python3.7 -m pip install pypandoc
+          python3.7 -m pip install "pyspark==2.4.7"
+      - name: Run sbt clean, Scala 2.11.8
+        run: sbt ++2.11.8 clean
+      - name: Run sbt compile, Scala 2.11.8
+        run: sbt ++2.11.8 compile
+      - name: Run Scala tests, Scala 2.11.8
+        run: sbt ++2.11.8 test
       - name: Run Python tests
         run: python3.7 run-tests.py

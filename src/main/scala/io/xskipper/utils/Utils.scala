@@ -19,7 +19,6 @@ import org.apache.spark.sql.catalyst.catalog.CatalogTableType
 import org.apache.spark.sql.catalyst.expressions.{Expression, GetStructField, _}
 import org.apache.spark.sql.catalyst.parser.ParseException
 import org.apache.spark.sql.catalyst.{util => CatalystUtils}
-import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileScan}
 import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation}
 import org.apache.spark.sql.types.{StructField, StructType}
 import org.apache.spark.sql.{AnalysisException, DataFrame, SparkSession}
@@ -74,7 +73,7 @@ object Utils extends Logging {
     * @param path the path to convert
     * @return [[org.apache.hadoop.fs.Path]] if conversion succeeded or exception else
     */
-  def stringToPath(path: String) : Path = {
+  def stringToPath(path: String): Path = {
     try {
       new Path(path)
     } catch {
@@ -97,7 +96,7 @@ object Utils extends Logging {
       Some(obj)
     }
     catch {
-      case e : Throwable =>
+      case e: Throwable =>
         logWarning(s"Failed loading ${clsName} dynamically, got ${e}")
         None
     }
@@ -120,7 +119,7 @@ object Utils extends Logging {
       Some(obj)
     }
     catch {
-      case _ : Throwable =>
+      case _: Throwable =>
         logWarning(s"Failed loading ${clsName} dynamically")
         None
     }
@@ -140,7 +139,7 @@ object Utils extends Logging {
       res
     }
     catch {
-      case e : Throwable =>
+      case e: Throwable =>
         throw new XskipperException(s"Failed loading ${idxClsName} dynamically, got ${e}")
     }
   }
@@ -168,7 +167,6 @@ object Utils extends Logging {
   def getPartitionColumns(df: DataFrame): Set[String] = {
     val partitionSchema: StructType = df.queryExecution.optimizedPlan match {
       case LogicalRelation(hfs: HadoopFsRelation, _, _, _) => hfs.partitionSchema
-      case DataSourceV2ScanRelation(_, scan: FileScan, _) => scan.readPartitionSchema
       case _ => StructType(Seq())
     }
     partitionSchema.map(field => field.name.toLowerCase(Locale.ROOT)).toSet
@@ -177,11 +175,11 @@ object Utils extends Logging {
   /**
     * Returns the [[DataFrame]] associated with the given table identifier
     *
-    * @param spark [[SparkSession]] instance
+    * @param spark           [[SparkSession]] instance
     * @param tableIdentifier the table identifier requested
     * @return the [[DataFrame]] associated with the given table identifier
     */
-  def getTable(spark: SparkSession, tableIdentifier: String) : DataFrame = {
+  def getTable(spark: SparkSession, tableIdentifier: String): DataFrame = {
     try {
       // verify the table is not a view - indexing on views is not available
       val tbl = spark.catalog.getTable(tableIdentifier)
@@ -263,6 +261,7 @@ object Utils extends Logging {
     * a valid single-column selection is an expression that selects
     * a single column that is either flat (Attribute) or a nested column
     * that is not a part of an array.
+    *
     * @param expr
     * @return
     */
