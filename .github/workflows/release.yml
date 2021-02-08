@@ -46,6 +46,7 @@ jobs:
           GIT_REF: ${{ matrix.branch }}
         run: |
           echo $PGP_SECRET | base64 --decode | gpg --batch --import
+          git clean -f
           sbt release release-version ${{ github.event.inputs.release-version }} next-version ${{ github.event.inputs.next-version }}
       - if: |
           github.event.inputs.release-version == '' &&
@@ -59,6 +60,7 @@ jobs:
           GIT_REF: ${{ matrix.branch }}
         run: |
           echo $PGP_SECRET | base64 --decode | gpg --batch --import
+          git clean -f
           sbt release with-defaults
       - name: Draft Release
         uses: release-drafter/release-drafter@v5
