@@ -8,6 +8,8 @@ package org.apache.spark.sql.types
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, ObjectInputStream, ObjectOutputStream}
 
 import io.xskipper.index.metadata.BloomFilterMetaData
+import com.ibm.metaindex.metadata.index.types.{BloomFilterMetaData => OldBloomFilterMetaData}
+import io.xskipper.index.metadata.BloomFilterMetaData
 import io.xskipper.metadatastore.parquet.ParquetBaseClauseTranslator.BloomFilterMetaDataTypeUDT
 
 import scala.collection.mutable
@@ -17,9 +19,17 @@ import scala.reflect.ClassTag
   * This class expose the UDT registration which is private in spark.
   * The UDT is serialized and saved using java serialization
   */
-object ParquetMetadataStoreUDTRegistration {
+object ParquetMetadataStoreUDTRegistrator {
+  // scalastyle:off line.size.limit
   private lazy val defaultParquetUDTs: mutable.Map[String, String] = mutable.Map(
-    (classOf[BloomFilterMetaData].getName, classOf[BloomFilterMetaDataTypeUDT].getName))
+    (classOf[BloomFilterMetaData].getName, classOf[BloomFilterMetaDataTypeUDT].getName),
+    // Note: the legacy bloom filter UDT class itself does not exist in xskipper so we
+    // can not reference it directly
+    // anyone who wishes to read an old metadata should include the MetaIndexManager
+    // jar in the class path
+    (classOf[OldBloomFilterMetaData].getName,
+      "com.ibm.metaindex.metadata.metadatastore.parquet.ParquetBaseClauseTranslator$BloomFilterMetaDataTypeUDT"))
+  // scalastyle:on line.size.limit
 
   private val udtMap: mutable.Map[String, String] = defaultParquetUDTs
   /**
