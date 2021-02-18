@@ -5,8 +5,6 @@
 
 package io.xskipper.api
 
-import java.nio.file.Files
-
 import io.xskipper.api.util.APITestUtils
 import io.xskipper.implicits._
 import io.xskipper.index.execution.IndexBuilder
@@ -18,6 +16,8 @@ import org.apache.commons.io.FileUtils
 import org.apache.log4j.{Level, LogManager}
 import org.apache.spark.internal.Logging
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
+
+import java.nio.file.Files
 
 
 abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
@@ -96,12 +96,12 @@ abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
         df.createOrReplaceTempView(descriptor.viewName)
       }
       val withSkippingRes = spark.sql(query).rdd.collect()
-      // verify we get the same result running w/ and w/o skipping
-      assertResult(vanillaRes)(withSkippingRes)
       tracker.stopCollecting()
 
       // verify correct files were skipped
       assertResult(filesToSkip)(tracker.getResultSet())
+      // verify we get the same result running w/ and w/o skipping
+      assertResult(vanillaRes)(withSkippingRes)
       val factoredFilesToSkip = factoredExpectedNumSkippedFiles(filesToSkip.size,
         false, datasourceV2)
       // verify the stats report the correct number of skipped files
@@ -110,6 +110,7 @@ abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
     }
 
     // copy input & build metadata for each dataset
+    logInfo("Copying input datasets and collecting md")
     datasetLocators.zip(tempDirs).foreach {
       case (descriptor: DatasetDescriptor, dir: String) =>
         val origInputLoc = Utils.concatPaths(descriptor.inputLocation, format)
@@ -133,6 +134,7 @@ abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
     // and refresh the metadata
     if (datasetLocators.exists(_.updatedInputLocation.isDefined)) {
       // refresh metadata for each dataset that has an auxiliary input location
+      logInfo("Copying updated inputs and refreshing metadata")
       datasetLocators.zip(tempDirs)
         .filter(_._1.updatedInputLocation.isDefined)
         .foreach {
