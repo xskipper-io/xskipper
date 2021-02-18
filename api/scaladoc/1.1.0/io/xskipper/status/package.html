@@ -1,0 +1,195 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>status - io.xskipper.status</title>
+          <meta name="description" content="status - io.xskipper.status" />
+          <meta name="keywords" content="status io.xskipper.status" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'io.xskipper.status.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../../../lib/package_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="io">io</a>.<a href="../package.html" class="extype" name="io.xskipper">xskipper</a></p>
+        <h1>status</h1><span class="permalink">
+      <a href="../../../index.html#io.xskipper.status.package" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">status</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="io.xskipper.status.IndexStatusResult" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="IndexStatusResultextendsProductwithSerializable"></a>
+      <a id="IndexStatusResult:IndexStatusResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="IndexStatusResult.html"><span class="name">IndexStatusResult</span></a><span class="params">(<span name="indexes">indexes: <span class="extype" name="scala.Seq">Seq</span>[<a href="../index/Index.html" class="extype" name="io.xskipper.index.Index">Index</a>]</span>, <span name="numberOfIndexedObjects">numberOfIndexedObjects: <span class="extype" name="scala.Long">Long</span></span>, <span name="metadataStoreSpecificProperties">metadataStoreSpecificProperties: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="metadataVersionStatus">metadataVersionStatus: <a href="../metadatastore/MetadataVersionStatus$.html#MetadataVersionStatus=io.xskipper.metadatastore.MetadataVersionStatus.Value" class="extmbr" name="io.xskipper.metadatastore.MetadataVersionStatus.MetadataVersionStatus">MetadataVersionStatus</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.status.package@IndexStatusResultextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Case class to represent the index status
+</p><div class="fullcomment"><div class="comment cmt"><p>Case class to represent the index status
+</p></div><dl class="paramcmts block"><dt class="param">indexes</dt><dd class="cmt"><p>the set of indexes defined on the dataset</p></dd><dt class="param">numberOfIndexedObjects</dt><dd class="cmt"><p>the number of indexed objects in the dataset</p></dd><dt class="param">metadataStoreSpecificProperties</dt><dd class="cmt"><p>a Map of metadatastore specific parameters</p></dd><dt class="param">metadataVersionStatus</dt><dd class="cmt"><p>the version status of the metadata</p></dd></dl></div>
+    </li><li name="io.xskipper.status.QueryIndexStatsResult" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="QueryIndexStatsResultextendsProductwithSerializable"></a>
+      <a id="QueryIndexStatsResult:QueryIndexStatsResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="QueryIndexStatsResult.html"><span class="name">QueryIndexStatsResult</span></a><span class="params">(<span name="status">status: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="isSkippable">isSkippable: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="skipped_Bytes">skipped_Bytes: <span class="extype" name="scala.Long">Long</span></span>, <span name="skipped_Objs">skipped_Objs: <span class="extype" name="scala.Long">Long</span></span>, <span name="total_Bytes">total_Bytes: <span class="extype" name="scala.Long">Long</span></span>, <span name="total_Objs">total_Objs: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.status.package@QueryIndexStatsResultextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Case class to represent query data skipping stats
+</p><div class="fullcomment"><div class="comment cmt"><p>Case class to represent query data skipping stats
+</p></div><dl class="paramcmts block"><dt class="param">status</dt><dd class="cmt"><p>a generic status</p></dd><dt class="param">isSkippable</dt><dd class="cmt"><p>true if the query is skippable.
+                   a query is considered skippable if it has indexed files
+                   and a metadata query can be generated.</p></dd><dt class="param">skipped_Bytes</dt><dd class="cmt"><p>the total number of bytes skipped</p></dd><dt class="param">skipped_Objs</dt><dd class="cmt"><p>the total number of skipped objects</p></dd><dt class="param">total_Bytes</dt><dd class="cmt"><p>the total number of bytes in order to process the query</p></dd><dt class="param">total_Objs</dt><dd class="cmt"><p>the total number of objects in order to process the query</p></dd></dl></div>
+    </li><li name="io.xskipper.status.RefreshResult" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RefreshResultextendsProductwithSerializable"></a>
+      <a id="RefreshResult:RefreshResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="RefreshResult.html"><span class="name">RefreshResult</span></a><span class="params">(<span name="status">status: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="new_entries_added">new_entries_added: <span class="extype" name="scala.Int">Int</span></span>, <span name="old_entries_removed">old_entries_removed: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.status.package@RefreshResultextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.status.StatusResult" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="StatusResultextendsProductwithSerializable"></a>
+      <a id="StatusResult:StatusResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="StatusResult.html"><span class="name">StatusResult</span></a><span class="params">(<span name="status">status: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="reason">reason: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.status.package@StatusResultextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="io.xskipper.status.Status" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Status"></a>
+      <a id="Status:Status"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Status$.html"><span class="name">Status</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.status.package@Status" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

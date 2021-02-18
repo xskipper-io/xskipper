@@ -1,0 +1,956 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>MetadataHandle - io.xskipper.metadatastore.MetadataHandle</title>
+          <meta name="description" content="MetadataHandle - io.xskipper.metadatastore.MetadataHandle" />
+          <meta name="keywords" content="MetadataHandle io.xskipper.metadatastore.MetadataHandle" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'io.xskipper.metadatastore.MetadataHandle';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img alt="Trait" src="../../../lib/trait_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="io">io</a>.<a href="../package.html" class="extype" name="io.xskipper">xskipper</a>.<a href="package.html" class="extype" name="io.xskipper.metadatastore">metadatastore</a></p>
+        <h1>MetadataHandle</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="io.xskipper.metadatastore">package metadatastore</a>
+          </div></span></h3><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MetadataHandle</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>a trait each <a href="" class="extype" name="io.xskipper.metadatastore.MetadataHandle">MetadataHandle</a> should implement
+note that the tableIdentifier is not in the signature since it is likely that it will
+be passed in the constructor.
+</p></div><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">Known Subclasses</span>
+            <div class="subClasses hiddenContent"><a href="parquet/ParquetMetadataHandle.html" class="extype" name="io.xskipper.metadatastore.parquet.ParquetMetadataHandle">ParquetMetadataHandle</a></div>
+          </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By Inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="io.xskipper.metadatastore.MetadataHandle"><span>MetadataHandle</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show All</span></li>
+            </ol>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Abstract Value Members</h3>
+              <ol><li name="io.xskipper.metadatastore.MetadataHandle#dropAllMetadata" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="dropAllMetadata():Unit"></a>
+      <a id="dropAllMetadata():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dropAllMetadata</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@dropAllMetadata():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Drops all of the metadata associated with the given index
+</p>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#finalizeMetadataUpload" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="finalizeMetadataUpload():Unit"></a>
+      <a id="finalizeMetadataUpload():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalizeMetadataUpload</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@finalizeMetadataUpload():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Finalize metadata creation in the metadatastore
+(implementation specific)
+</p>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#getAllIndexedFiles" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="getAllIndexedFiles():scala.concurrent.Future[Set[String]]"></a>
+      <a id="getAllIndexedFiles():Future[Set[String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getAllIndexedFiles</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.concurrent.Future">Future</span>[<span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@getAllIndexedFiles():scala.concurrent.Future[Set[String]]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns a set of all indexed files (async)
+</p>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#getDeletionChunkSize" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getDeletionChunkSize():Int"></a>
+      <a id="getDeletionChunkSize():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDeletionChunkSize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@getDeletionChunkSize():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>Maximum number of objects to delete in one chunk</p></dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#getIndexStatus" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="getIndexStatus():io.xskipper.status.IndexStatusResult"></a>
+      <a id="getIndexStatus():IndexStatusResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getIndexStatus</span><span class="params">()</span><span class="result">: <a href="../status/IndexStatusResult.html" class="extype" name="io.xskipper.status.IndexStatusResult">IndexStatusResult</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@getIndexStatus():io.xskipper.status.IndexStatusResult" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns index statistics
+</p>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#getIndexes" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="getIndexes():Seq[io.xskipper.index.Index]"></a>
+      <a id="getIndexes():Seq[Index]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getIndexes</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../index/Index.html" class="extype" name="io.xskipper.index.Index">Index</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@getIndexes():Seq[io.xskipper.index.Index]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">returns the sequence of indexes that exist in the metadatastore for the tableIdentifier
+</p>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#getMdVersionStatus" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getMdVersionStatus():io.xskipper.metadatastore.MetadataVersionStatus.MetadataVersionStatus"></a>
+      <a id="getMdVersionStatus():MetadataVersionStatus"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMdVersionStatus</span><span class="params">()</span><span class="result">: <a href="MetadataVersionStatus$.html#MetadataVersionStatus=io.xskipper.metadatastore.MetadataVersionStatus.Value" class="extmbr" name="io.xskipper.metadatastore.MetadataVersionStatus.MetadataVersionStatus">MetadataVersionStatus</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@getMdVersionStatus():io.xskipper.metadatastore.MetadataVersionStatus.MetadataVersionStatus" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">returns the version status of the metadata.</p><div class="fullcomment"><div class="comment cmt"><p>returns the version status of the metadata.
+we do not have a strict requirement for the metadatastore to use metadata
+from a version different than its current version for filtering / refresh
+but we do expect it to be able to tell the version status,
+and whether or not it can be upgraded to comply with the current version.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the version of the metadata</p></dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#getRequiredObjects" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getRequiredObjects(query:Any):scala.concurrent.Future[Set[String]]"></a>
+      <a id="getRequiredObjects(Any):Future[Set[String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRequiredObjects</span><span class="params">(<span name="query">query: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.concurrent.Future">Future</span>[<span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@getRequiredObjects(query:Any):scala.concurrent.Future[Set[String]]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns the required file ids for the given query (async)
+</p><div class="fullcomment"><div class="comment cmt"><p>Returns the required file ids for the given query (async)
+</p></div><dl class="paramcmts block"><dt class="param">query</dt><dd class="cmt"><p>the query to be used in order to get the relevant files
+             (this query is of type Any and it is the responsibility of the metadatastore
+             implementation to cast it to as instance which matches the translation for
+             this MetaDataStore)</p></dd><dt>returns</dt><dd class="cmt"><p>the set of fileids required for this query</p></dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#getUploadChunkSize" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getUploadChunkSize():Int"></a>
+      <a id="getUploadChunkSize():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getUploadChunkSize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@getUploadChunkSize():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>Maximum number of objects to index in one chunk</p></dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#indexExists" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="indexExists():Boolean"></a>
+      <a id="indexExists():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">indexExists</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@indexExists():Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns true if an index exists for the tableIdentifier
+</p><div class="fullcomment"><div class="comment cmt"><p>Returns true if an index exists for the tableIdentifier
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>true if the an index exists for the tableIdentifier</p></dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#isMetadataUpgradePossible" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="isMetadataUpgradePossible():Boolean"></a>
+      <a id="isMetadataUpgradePossible():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isMetadataUpgradePossible</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@isMetadataUpgradePossible():Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">returns whether or not the metadata can be upgraded to
+comply with the current version
+</p><div class="fullcomment"><div class="comment cmt"><p>returns whether or not the metadata can be upgraded to
+comply with the current version
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>true if the metadata can be upgraded, false otherwise</p></dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#refresh" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="refresh():Unit"></a>
+      <a id="refresh():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">refresh</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@refresh():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Refreshes the <a href="" class="extype" name="io.xskipper.metadatastore.MetadataHandle">MetadataHandle</a> by re-syncing with the metadatastore
+(implementation specific)
+</p>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#removeMetaDataForFiles" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="removeMetaDataForFiles(files:Seq[String]):Unit"></a>
+      <a id="removeMetaDataForFiles(Seq[String]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeMetaDataForFiles</span><span class="params">(<span name="files">files: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@removeMetaDataForFiles(files:Seq[String]):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Removes the metadata for a sequence of files.</p><div class="fullcomment"><div class="comment cmt"><p>Removes the metadata for a sequence of files.
+This method may assume that the Metadta version status
+is <a href="MetadataVersionStatus$.html#CURRENT:io.xskipper.metadatastore.MetadataVersionStatus.Value" class="extmbr" name="io.xskipper.metadatastore.MetadataVersionStatus#CURRENT">MetadataVersionStatus.CURRENT</a>
+</p></div><dl class="paramcmts block"><dt class="param">files</dt><dd class="cmt"><p>a sequence of files for which the metadata will be removed</p></dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#setParams" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="setParams(params:Map[String,String]):Unit"></a>
+      <a id="setParams(Map[String,String]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setParams</span><span class="params">(<span name="params">params: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@setParams(params:Map[String,String]):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set metadataStore specific parameters such as user, password, host
+Note: the implementation should not count on the Map not changing during the run
+therefore, it needs to save its parameters locally
+</p><div class="fullcomment"><div class="comment cmt"><p>Set metadataStore specific parameters such as user, password, host
+Note: the implementation should not count on the Map not changing during the run
+therefore, it needs to save its parameters locally
+</p></div><dl class="paramcmts block"><dt class="param">params</dt><dd class="cmt"><p>a map of parameters (each metadata store expects certain input)</p></dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#upgradeMetadata" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="upgradeMetadata(indexes:Seq[io.xskipper.index.Index]):Unit"></a>
+      <a id="upgradeMetadata(Seq[Index]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">upgradeMetadata</span><span class="params">(<span name="indexes">indexes: <span class="extype" name="scala.Seq">Seq</span>[<a href="../index/Index.html" class="extype" name="io.xskipper.index.Index">Index</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@upgradeMetadata(indexes:Seq[io.xskipper.index.Index]):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Upgrades the metadata to comply with the current version
+</p><div class="fullcomment"><div class="comment cmt"><p>Upgrades the metadata to comply with the current version
+</p></div><dl class="paramcmts block"><dt class="param">indexes</dt><dd class="cmt"><p>- the indexes stored in the metadataStore.</p></dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#uploadMetadata" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="uploadMetadata(metaData:org.apache.spark.rdd.RDD[org.apache.spark.sql.Row],indexes:Seq[io.xskipper.index.Index],isRefresh:Boolean):Unit"></a>
+      <a id="uploadMetadata(RDD[Row],Seq[Index],Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">uploadMetadata</span><span class="params">(<span name="metaData">metaData: <span class="extype" name="org.apache.spark.rdd.RDD">RDD</span>[<span class="extype" name="org.apache.spark.sql.Row">Row</span>]</span>, <span name="indexes">indexes: <span class="extype" name="scala.Seq">Seq</span>[<a href="../index/Index.html" class="extype" name="io.xskipper.index.Index">Index</a>]</span>, <span name="isRefresh">isRefresh: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@uploadMetadata(metaData:org.apache.spark.rdd.RDD[org.apache.spark.sql.Row],indexes:Seq[io.xskipper.index.Index],isRefresh:Boolean):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Uploads the metadata to the metadatastore
+This method may assume that the metadata version status
+is <a href="MetadataVersionStatus$.html#CURRENT:io.xskipper.metadatastore.MetadataVersionStatus.Value" class="extmbr" name="io.xskipper.metadatastore.MetadataVersionStatus#CURRENT">MetadataVersionStatus.CURRENT</a>
+</p><div class="fullcomment"><div class="comment cmt"><p>Uploads the metadata to the metadatastore
+This method may assume that the metadata version status
+is <a href="MetadataVersionStatus$.html#CURRENT:io.xskipper.metadatastore.MetadataVersionStatus.Value" class="extmbr" name="io.xskipper.metadatastore.MetadataVersionStatus#CURRENT">MetadataVersionStatus.CURRENT</a>
+</p></div><dl class="paramcmts block"><dt class="param">metaData</dt><dd class="cmt"><p>RDD that contains for each file a list of abstract metaData types
+                 to be uploaded</p></dd><dt class="param">indexes</dt><dd class="cmt"><p>a sequence of indexes that created the metadata</p></dd><dt class="param">isRefresh</dt><dd class="cmt"><p>indicates whether the operation is a refresh operation</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div id="values" class="values members">
+              <h3>Concrete Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@##():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#clean" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="clean():Unit"></a>
+      <a id="clean():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clean</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@clean():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Cleans the <a href="" class="extype" name="io.xskipper.metadatastore.MetadataHandle">MetadataHandle</a> instance
+(implementation specific)
+</p>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#clearStats" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="clearStats():Unit"></a>
+      <a id="clearStats():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clearStats</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@clearStats():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Clears the latest stats
+</p>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@clone():Object" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#getStats" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getStats():Option[io.xskipper.status.QueryIndexStatsResult]"></a>
+      <a id="getStats():Option[QueryIndexStatsResult]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStats</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../status/QueryIndexStatsResult.html" class="extype" name="io.xskipper.status.QueryIndexStatsResult">QueryIndexStatsResult</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@getStats():Option[io.xskipper.status.QueryIndexStatsResult]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#initMetadataUpload" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="initMetadataUpload(indexes:Seq[io.xskipper.index.Index]):Unit"></a>
+      <a id="initMetadataUpload(Seq[Index]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">initMetadataUpload</span><span class="params">(<span name="indexes">indexes: <span class="extype" name="scala.Seq">Seq</span>[<a href="../index/Index.html" class="extype" name="io.xskipper.index.Index">Index</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@initMetadataUpload(indexes:Seq[io.xskipper.index.Index]):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Initialize metadata for a dataset in the metadatastore
+(implementation specific)
+</p><div class="fullcomment"><div class="comment cmt"><p>Initialize metadata for a dataset in the metadatastore
+(implementation specific)
+</p></div><dl class="paramcmts block"><dt class="param">indexes</dt><dd class="cmt"><p>a sequence of metadata indexes</p></dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#isEncryptionSupported" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isEncryptionSupported():Boolean"></a>
+      <a id="isEncryptionSupported():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isEncryptionSupported</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@isEncryptionSupported():Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns whether or not this <a href="" class="extype" name="io.xskipper.metadatastore.MetadataHandle">MetadataHandle</a> supports encryption
+</p><div class="fullcomment"><div class="comment cmt"><p>Returns whether or not this <a href="" class="extype" name="io.xskipper.metadatastore.MetadataHandle">MetadataHandle</a> supports encryption
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>true if the <a href="" class="extype" name="io.xskipper.metadatastore.MetadataHandle">MetadataHandle</a> supports encryption</p></dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#setParams" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setParams(params:java.util.Map[String,String]):Unit"></a>
+      <a id="setParams(Map[String,String]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setParams</span><span class="params">(<span name="params">params: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@setParams(params:java.util.Map[String,String]):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#stats" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="stats:Option[io.xskipper.status.QueryIndexStatsResult]"></a>
+      <a id="stats:Option[QueryIndexStatsResult]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stats</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../status/QueryIndexStatsResult.html" class="extype" name="io.xskipper.status.QueryIndexStatsResult">QueryIndexStatsResult</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@stats:Option[io.xskipper.status.QueryIndexStatsResult]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@toString():String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="io.xskipper.metadatastore.MetadataHandle#updateQueryStats" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="updateQueryStats(currentFilterStatistics:io.xskipper.status.QueryIndexStatsResult):Unit"></a>
+      <a id="updateQueryStats(QueryIndexStatsResult):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">updateQueryStats</span><span class="params">(<span name="currentFilterStatistics">currentFilterStatistics: <a href="../status/QueryIndexStatsResult.html" class="extype" name="io.xskipper.status.QueryIndexStatsResult">QueryIndexStatsResult</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@updateQueryStats(currentFilterStatistics:io.xskipper.status.QueryIndexStatsResult):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Updates the <a href="" class="extype" name="io.xskipper.metadatastore.MetadataHandle">MetadataHandle</a> stats with the given query stats
+called from the dataSkippingFileIndex rule in the catalyst to update the stats during
+the query tun time
+</p><div class="fullcomment"><div class="comment cmt"><p>Updates the <a href="" class="extype" name="io.xskipper.metadatastore.MetadataHandle">MetadataHandle</a> stats with the given query stats
+called from the dataSkippingFileIndex rule in the catalyst to update the stats during
+the query tun time
+</p></div><dl class="paramcmts block"><dt class="param">currentFilterStatistics</dt><dd class="cmt"><p>the updated stats</p></dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.metadatastore.MetadataHandle@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

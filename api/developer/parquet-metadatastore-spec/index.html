@@ -1,0 +1,1067 @@
+<!--
+ -- Copyright 2021 IBM Corp.
+ -- SPDX-License-Identifier: Apache-2.0
+ -->
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Extensible Data Skipping Framework for Apache Spark">
+      
+      
+      
+        <meta name="author" content="Xskipper team">
+      
+      
+        <link rel="canonical" href="https://xskipper.io/api/developer/parquet-metadatastore-spec/">
+      
+      <link rel="shortcut icon" href="../../../img/logo_black.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
+    
+    
+      
+        <title>Parquet metadatastore spec - Xskipper</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="deep-purple" data-md-color-accent="">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#parquet-metadatastore-spec" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://xskipper.io" title="Xskipper" class="md-header-nav__button md-logo" aria-label="Xskipper">
+      
+  <img src="../../../img/logo_white.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            Xskipper
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Parquet metadatastore spec
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/xskipper-io/xskipper" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xskipper-io/xskipper
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      About
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../getting-started/quick-start-guide/" class="md-tabs__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../concepts/data-skipping/" class="md-tabs__link">
+        Concepts
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../indexing/" class="md-tabs__link md-tabs__link--active">
+        API
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="https://github.com/xskipper-io/xskipper/releases" class="md-tabs__link">
+      Releases
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://xskipper.io" title="Xskipper" class="md-nav__button md-logo" aria-label="Xskipper">
+      
+  <img src="../../../img/logo_white.png" alt="logo">
+
+    </a>
+    Xskipper
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/xskipper-io/xskipper" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xskipper-io/xskipper
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+      
+      <label class="md-nav__link" for="nav-2">
+        Getting Started
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="nav-2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/quick-start-guide/" class="md-nav__link">
+        Quick Start Guide
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/sample-notebooks/" class="md-nav__link">
+        Demo Notebooks
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
+      
+      <label class="md-nav__link" for="nav-3">
+        Concepts
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Concepts" data-md-level="1">
+        <label class="md-nav__title" for="nav-3">
+          <span class="md-nav__icon md-icon"></span>
+          Concepts
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/data-skipping/" class="md-nav__link">
+        Data Skipping
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/extensible/" class="md-nav__link">
+        Extensible Data Skipping
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/indexing-flow/" class="md-nav__link">
+        Indexing Flow
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/query-evaluation-flow/" class="md-nav__link">
+        Query Evaluation Flow
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+      
+      <label class="md-nav__link" for="nav-4">
+        API
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="nav-4">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../indexing/" class="md-nav__link">
+        Indexing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../creating-new-plugin/" class="md-nav__link">
+        Using The Extensible API
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3" >
+      
+      <label class="md-nav__link" for="nav-4-3">
+        Configuration
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Configuration" data-md-level="2">
+        <label class="md-nav__title" for="nav-4-3">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/configuration/" class="md-nav__link">
+        Xskipper Configuration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/parquet-mdstore-configuration/" class="md-nav__link">
+        Parquet Metadatastore Configuration
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/" class="md-nav__link">
+        API Reference
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5" checked>
+      
+      <label class="md-nav__link" for="nav-4-5">
+        Developer Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer Guide" data-md-level="2">
+        <label class="md-nav__title" for="nav-4-5">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/" class="md-nav__link">
+        Build
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Parquet metadatastore spec
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Parquet metadatastore spec
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-maintain-the-version-numbers" class="md-nav__link">
+    How to maintain the version numbers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#format-specifications" class="md-nav__link">
+    Format Specifications
+  </a>
+  
+    <nav class="md-nav" aria-label="Format Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#version-3" class="md-nav__link">
+    Version 3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-2" class="md-nav__link">
+    Version 2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-1" class="md-nav__link">
+    Version 1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-0" class="md-nav__link">
+    Version 0
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unversioned-files" class="md-nav__link">
+    Unversioned Files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metadata-versioning/" class="md-nav__link">
+        Metadata versioning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generate-doc/" class="md-nav__link">
+        API Doc Generation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/xskipper-io/xskipper/blob/master/CONTRIBUTING.md" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/xskipper-io/xskipper/releases" class="md-nav__link">
+        Releases
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <!--
+ -- Copyright 2021 IBM Corp.
+ -- SPDX-License-Identifier: Apache-2.0
+ -->
+
+<h1 id="parquet-metadatastore-spec">Parquet Metadatastore Spec<a class="headerlink" href="#parquet-metadatastore-spec" title="Permanent link">&para;</a></h1>
+<p>This is a specification for how metadata is represented in the Parquet Metadata store. We support multiple versions and document them here. 
+Note that the version number is stored in metadata files in a specific column of their Spark schema.
+Behind the scenes it is saved in the KV Metadata of the resulting Parquet files.
+This means that the version
+number can never imply metadata file locations, prefixes, directory layouts etc.,
+since if one knows the version number, it means the metadata files have
+already been located.</p>
+<h2 id="how-to-maintain-the-version-numbers">How to maintain the version numbers<a class="headerlink" href="#how-to-maintain-the-version-numbers" title="Permanent link">&para;</a></h2>
+<p>The version numbers are natural numbers.
+Each release can change the version number by at most one.
+In particular, if 2 (or more) changes were made to the specification but no release happened between them, they will be considered as belonging to the same version.</p>
+<p>Note: </p>
+<ol>
+<li>Terminology - The terms "KV Store", "KV Metadata", "Spark Schema Metadata", despite having
+different meaning usually, will be used interchangeably to mean the structure
+Spark Schema Metadata, which in itself is assigned per-column.
+we will use them in the context of describing 
+what metadata for which column is laid out in what way.</li>
+<li>We will describe the structure of the spark schema, Spark's per-column 
+    metadata, and use Spark types. this will allow us to be detached 
+    from how spark actually represents these structures in the Parquet schema.</li>
+</ol>
+<h2 id="format-specifications">Format Specifications<a class="headerlink" href="#format-specifications" title="Permanent link">&para;</a></h2>
+<h3 id="version-3">Version 3<a class="headerlink" href="#version-3" title="Permanent link">&para;</a></h3>
+<p>This version differs from Version 2 by:</p>
+<ol>
+<li>Configuration parameters prefix changed from <code>com.ibm.metaindex</code> to <code>io.xskipper</code></li>
+<li>The index parameters are now stored as a map</li>
+</ol>
+<h3 id="version-2">Version 2<a class="headerlink" href="#version-2" title="Permanent link">&para;</a></h3>
+<p>This version differs from Version 1 by:</p>
+<ol>
+<li>
+<p>Column name generation:<br />
+For each index <span class="arithmatex">\(I\)</span> (assume <span class="arithmatex">\(I\)</span> is the name), defined on columns <span class="arithmatex">\(c_1,...,c_n\)</span> (in this order),<br />
+for each <span class="arithmatex">\(c_i\)</span>, let <span class="arithmatex">\(c'_i\)</span> denote <span class="arithmatex">\(c_i\)</span> with the following changes, in this order:</p>
+<ul>
+<li>
+<p>Replace all <code>#</code> with <code>##</code></p>
+</li>
+<li>
+<p>Replace all <code>.</code> with <code>$#$</code>
+The column name will be:  <span class="arithmatex">\(c'_1c'_2...c'_n\_I\)</span>len(c'_1)-len(c'_2)-...-len(c'_n)</p>
+</li>
+</ul>
+<blockquote>
+<p>That is, the transformed column names concatenated, followed by the index name,
+  followed by the lengths of the transformed column names concatenated with <code>-</code> as the delimiter
+ Example of such transformation:
+ <code>SomeIndex on "lat#_.$_new" and  "$_lng.#"</code> will get <code>lat##_$#$$_new_$_lng$#$##_someindex_14-10</code>
+ since <code>"lat#_.$_new"</code> will be mapped to <code>"lat##_$#$$_new"</code> with length 14, and <code>"$_lng.#"</code> will be mapped to <code>"$_lng$#$##"</code> with length 10</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="version-1">Version 1<a class="headerlink" href="#version-1" title="Permanent link">&para;</a></h3>
+<p>This version differs from version 0 by:</p>
+<ul>
+<li>the addition of PME Support.</li>
+<li>changes to the way column names are constructed from indexes</li>
+<li>moving <code>tableIdentifier</code> metadata field to be under the <code>obj_name</code> column</li>
+<li>Min/Max index is saved as nested field with native parquet types</li>
+<li>Value List is saved as parquet array type</li>
+</ul>
+<p>Notes:</p>
+<ol>
+<li>
+<p>all additions were made in order for our library to be able to regenerate the encryption config (e.g., for refresh or during compaction).<br />
+ these configs are not used by PME itself (PME uses other fields in the parquet file itself, these are not available to us via spark).<br />
+ Theoretically it is possible to create a parquet file in which our metadata indicates an encryption config completely different than the one with which it's actually encrypted. we should avoid that.</p>
+</li>
+<li>
+<p><em>IMPORTANT</em> no actual key material is ever written to the KV store, it's ALWAYS labels (e.g. <code>encryption.column.keys</code>)</p>
+</li>
+<li>
+<p>As of version 0 (and 1), the set of column names in spark schema for all indexes
+ is prefix free. this must remain the case, as the spark column names are used by our lib to
+ derive the set of columns in the parquet schema for a specific index (e.g., a <code>UDT</code> translated to a column
+ with a different name in the parquet schema).</p>
+</li>
+</ol>
+<p>Changes:</p>
+<ol>
+<li>
+<p>Additions to <code>obj_name</code> metadata:
+    If the metadata is not encrypted, then no additions are made.
+    If at least 1 index is encrypted, encryption metadata will be added the following way:</p>
+<ul>
+<li>key <code>encryption</code> of type <code>spark.sql.types.Metadata</code>, pointing to a metadata with
+with the following structure:</li>
+<li>key <code>encryption.column.keys</code> pointing to a String, containing the key list string for PME.
+   the format of this string matches the format for the config with the same name used in PME. see <a href="https://cloud.ibm.com/docs/AnalyticsEngine?topic=AnalyticsEngine-parquet-encryption&amp;locale=en">this</a></li>
+<li><em>optional</em> key "encryption.plaintext.footer" of type String, containing one of <code>{true, false}</code>, indicating whether or not plaintext footer is used
+   if this key is not defined, then plaintext footer is implicitly disabled.</li>
+<li>key <code>encryption.footer.key</code> of type String, containing the footer key label (footer master Key ID in PME Terminology).
+   this key is also used to encrypt the footer (the footer is always encrypted if encryption is on)
+   this field is mandatory as a footer key is necessary if we use PME, even if plaintext
+   footer mode is in use (the footer key is used only for signing in this case, and of course for <code>obj_name</code>).</li>
+</ul>
+</li>
+<li>
+<p>Additions to each index metadata:
+    Indexes which are not encrypted remain unchanged.
+    For encrypted indexes, the following is added:</p>
+<ul>
+<li>key <code>key_metadata</code> of type String, pointing to the label of the key used to encrypt
+the set of columns for this index. 
+The set of columns for a specific is obtained by acquiring the Parquet schema tree,
+and taking all the paths to leaves which start with the Spark column name for this index
+(this is why the set of spark column names must be prefix free).
+for example, for a <code>MinMax</code> on <code>temp</code>,
+the set of columns we need to encrypt is <code>{temp_minmax.metadata}</code></li>
+</ul>
+<p>Note that this key label must be consistent with the one with which the columns for this index are encrypted,<br />
+as configured in the column key list string in the <code>obj_name</code> metadata. if they are inconsistent, then this is a bug in the lib.
+the column key list string is kept in the <code>obj_name</code> metadata to save unnecessary scans
+to re-create that config when refreshing/compacting. the <code>key_metadata</code> in each index is used
+e.g. when listing existing indexes (to be able to retrieve the <code>keyMetadata</code> field in the <code>Index</code> case class).</p>
+</li>
+<li>
+<p>Column names for indexes are generated the same as in version 0, but the delimiter is now <code>_</code> 
+   and not <code>:</code>, so for example, a <code>SomeIndex</code> over <code>a,b</code> would have gotten the column name <code>a:b_someindex</code> in version 0, now gets the column name <code>a_b_someindex</code></p>
+</li>
+<li>
+<p><code>tableIdentifier</code> metadata field is now saved only under the <code>obj_name</code> column (removed from index columns).</p>
+</li>
+<li>
+<p>Min/Max index is saved by having a nested field with <code>min</code> and <code>max</code> subfields each containing the value in native parquet type.</p>
+</li>
+<li>
+<p>Value List index is saved by saving an array data type</p>
+</li>
+</ol>
+<h3 id="version-0">Version 0<a class="headerlink" href="#version-0" title="Permanent link">&para;</a></h3>
+<p>The metadata is represented by one row for each object, with the object 
+name in its own column, and the metadata for each index in its own column as well,
+with the actual content of the metadata being the serialization of the UDT
+for this specific Metadata type.</p>
+<ol>
+<li><code>obj_name</code> column:
+    stores the object name.<ul>
+<li>For Unversioned files, defined as
+    <div class="highlight"><pre><span></span><code> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;obj_name&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+     &gt; That is, a non-nullable column named "obj_name"
+             of type String, without metadata.</li>
+<li>For Versioned files (that is, version 0), defined as:
+    <div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">objNameMeta</span> <span class="o">=</span>  <span class="k">new</span> <span class="n">sql</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="nc">MetadataBuilder</span><span class="o">()</span>
+               <span class="o">.</span><span class="n">putLong</span><span class="o">(</span><span class="s">&quot;version&quot;</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+               <span class="o">.</span><span class="n">build</span><span class="o">()</span>
+    <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;obj_name&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="n">objNameMeta</span><span class="o">)</span>
+</code></pre></div>
+    &gt; That is, a non-nullable column named "obj_name"
+     of type String, with Metadata containing a single key, "version", 
+     that points to a Long</li>
+</ul>
+</li>
+<li>
+<p>Per-Index Columns:</p>
+<p>For each index <span class="arithmatex">\(I\)</span> (assume <span class="arithmatex">\(I\)</span> is the name), defined on columns <span class="arithmatex">\(c_1,...,c_n\)</span> (in this order),<br />
+with UDT type T and params given as</p>
+<div class="highlight"><pre><span></span><code><span class="n">params</span> <span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">String</span><span class="p">,</span> <span class="kt">String</span><span class="o">]</span> 
+</code></pre></div>
+</li>
+</ol>
+<p>A column with the following properties is defined:</p>
+<ul>
+<li><code>name</code>: <span class="arithmatex">\(c_1,...,c_n\)</span>_<span class="arithmatex">\(I\)</span><blockquote>
+<p>that is, the column names concatenated with a ":" delimiter, followed by 
+   the index name concatenated with <code>_</code></p>
+</blockquote>
+</li>
+<li><code>dataType</code>: <code>T</code><blockquote>
+<p>That is, the UDT associated with this index.</p>
+</blockquote>
+</li>
+<li><code>nullable</code> - <code>true</code></li>
+<li><code>metadata</code>, a single key named <code>index</code>, pointing to another <code>spark.sql.types.Metadata</code><br />
+   with the following structure:<div class="highlight"><pre><span></span><code>* key `cols`, pointing to a `java.lang.String[]` containing the index columns.
+* key `name`, pointing to the String `I`
+* key `tableIdentifier`, pointing to String generated from the URI in the following manner:
+    - if the URI&#39;s Scheme is `COS`, then `&lt;bucket_name&gt;/&lt;object_name&gt;`
+    - else, if the path for this URI (obtained by `new URI(uri).getPath()`)
+     starts with a &quot;/&quot;, the the preceding / is trimmed from this path, else it&#39;s unchanged.
+* Optional if `params` is not empty, then a key `params` points to `params`.
+</code></pre></div>
+</li>
+</ul>
+<h3 id="unversioned-files">Unversioned Files<a class="headerlink" href="#unversioned-files" title="Permanent link">&para;</a></h3>
+<p>The Layout of the KV Store had several incarnations before it was versioned, so if looking at a metadata file (or group of files) without a version number, 
+we will implicitly treat them as version 0, which will act as  the "as-built drawing" for the KV Store layout, as of the time the version number was introduced.<br />
+It's not defined what will happen should we encounter a file without a version, with KV Layout other than version 0.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../build/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Build
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../metadata-versioning/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Metadata versioning
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            @ 2020 Xskipper.
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/xskipper-io" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../../..",
+          features: ['navigation.tabs', 'toc.integrate'],
+          search: Object.assign({
+            worker: "../../../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="../../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
