@@ -79,7 +79,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
     StructField(
       getColumnName(idx),
       ParquetUtils.getIndexSchema(idx, schemaTranslators).getOrElse(
-        ParquetMetadataStoreUDTRegistration.getUDTFor(idx.getMetaDataTypeClassName())),
+        ParquetMetadataStoreUDTRegistrator.getUDTFor(idx.getMetaDataTypeClassName())),
       true,
       genIdxMD(idx))
   }
