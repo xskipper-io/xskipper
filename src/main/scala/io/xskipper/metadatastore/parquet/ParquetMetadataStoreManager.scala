@@ -15,7 +15,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.execution.datasources.{CatalogFileIndex, FileIndex}
-import org.apache.spark.sql.types.ParquetMetadataStoreUDTRegistration
+import org.apache.spark.sql.types.ParquetMetadataStoreUDTRegistrator
 
 // define the [[MetadataStoreManagerType]]
 case object Parquet extends MetadataStoreManagerType
@@ -85,12 +85,7 @@ object ParquetMetadataStoreManager extends MetadataStoreManager with Logging {
     */
   override def init(): Unit = {
     // Register all needed UDTs
-    ParquetMetadataStoreUDTRegistration.registerAllUDTs()
-    // Legacy bloom filter support
-    ParquetMetadataStoreUDTRegistration.registerUDT(classOf[BloomFilterMetaData].getName,
-      // scalastyle:off line.size.limit
-      "com.ibm.metaindex.metadata.metadatastore.parquet.ParquetBaseClauseTranslator$BloomFilterMetaDataTypeUDT")
-      // scalastyle:on line.size.limit
+    ParquetMetadataStoreUDTRegistrator.registerAllUDTs()
   }
 
   /**

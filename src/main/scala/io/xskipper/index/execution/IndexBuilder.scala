@@ -351,6 +351,30 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     if (fileIDsForRemove.nonEmpty) {
       removedCount = metadataProcessor.removeMetadataForFiles(fileIDsForRemove)
     }
+
+//     for local file system, due to JDK-8177809, in some cases millis get truncated from
+//     the file's last modification time. some Identifier impls rely on the last
+//     modification time to generate the file id. this can cause a race condition in rare
+//     cases (but it still happened in tests..) where a file is indexed and updated but
+//     the file id does not change due to the millis being truncated - this can cause a file
+//     to be erroneously skipped.
+//     the condition that might happen is this: object A is created at time X and subsequently
+//     updated at time Y, where X < Y but if we strip the millis, X==Y.
+//     if we indexed the first version of A, we might wrongfully use the metadata
+//     later, when the second version of A is the one that's available.
+//     note that this is a rather exotic case, and it requires the indexing
+//     to complete super fast (the first version has to be indexed for this to reproduce,
+//     and the first version lives for a very short time), but it can still happen
+//     in tests if the line below is removed.
+//     if we assume the underlying storage system guarantees that at time T, all objects
+//     who's last modification time < T are available (both by listing and for read)
+//     then by sleeping 1001 millis between the listing and the actual indexing,
+//     we ensure that the version we'll index is always the latest from all the versions
+//     of that object that are equal to it when stripping the millis -
+//     note that from all said versions, it's also the only that we might be asked about
+//     in query time.
+    Thread.sleep(1001)
+
     // upload new/updated files metadata
     if (newOrModifiedFilesIDs.length > 0) {
       // upload metadata

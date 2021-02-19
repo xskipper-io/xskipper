@@ -329,7 +329,7 @@ object ParquetUtils extends Logging {
     val idxFields = indexes.map(idx => StructField(
       getColumnName(idx),
       ParquetUtils.getIndexSchema(idx, schemaTranslators).getOrElse(
-        ParquetMetadataStoreUDTRegistration.getUDTFor(idx.getMetaDataTypeClassName())),
+        ParquetMetadataStoreUDTRegistrator.getUDTFor(idx.getMetaDataTypeClassName())),
       true,
       createIndexMetadata(idx)))
 
