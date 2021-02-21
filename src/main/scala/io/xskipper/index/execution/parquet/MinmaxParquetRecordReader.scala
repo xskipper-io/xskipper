@@ -20,18 +20,7 @@ import scala.collection.JavaConverters._
 object MinmaxParquetRecordReader extends Logging {
 
   private def getSchemaPathIndex(fileSchema: MessageType, filterPath: Array[String]): Int = {
-    import scala.collection.JavaConversions._
-    var pathIndex: Int = 0
-    var bfound: Boolean = false
-    for(path: Array[String] <- fileSchema.getPaths if !bfound) {
-      if (path.sameElements(filterPath)) {
-        bfound = true
-      }
-      else {
-        pathIndex += 1
-      }
-    }
-    pathIndex
+    fileSchema.getPaths.asScala.indexWhere(_.sameElements(filterPath))
   }
 
   /**
