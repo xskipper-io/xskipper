@@ -97,9 +97,10 @@ scalacOptions in (Compile, doc) ++= Seq(
   */
 organization := "io.xskipper"
 organizationName := "xskipper"
-organizationHomepage := Some(url("https://github.com/xskipper-io/xskipper"))
+organizationHomepage := Some(url("https://github.com/xskipper-io"))
 description := "Xskipper: An Indexing Subsystem for Apache Spark"
 licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
+homepage := Some(url("https://github.com/xskipper-io/xskipper"))
 
 publishTo := {
   val nexus = "https://oss.sonatype.org/"
