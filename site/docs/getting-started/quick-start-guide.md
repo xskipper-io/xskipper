@@ -28,7 +28,7 @@ Follow the instructions [here](https://spark.apache.org/downloads.html) to insta
 Start a Spark Scala shell as follows:
 
 ```bash
-./bin/spark-shell --packages io.xskipper:xskipper-core_2.12:1.2.0
+./bin/spark-shell --packages io.xskipper:xskipper-core_2.12:1.2.1
 ```
 
 #### PySpark
@@ -42,7 +42,7 @@ pip install --upgrade pyspark
 Then, run PySpark with the Xskipper package:
 
 ```bash
-pyspark --packages io.xskipper:xskipper-core_2.12:1.2.0
+pyspark --packages io.xskipper:xskipper-core_2.12:1.2.1
 ```
 
 ### Run as a project
@@ -57,7 +57,7 @@ Include Xskipper in a Maven project by adding it as a dependency in the project'
 <dependency>
   <groupId>io.xskipper</groupId>
   <artifactId>xskipper-core_2.12</artifactId>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
 </dependency>
 ```
 
@@ -65,7 +65,7 @@ Include Xskipper in a Maven project by adding it as a dependency in the project'
 Include Xskipper in an SBT project by adding the following line to its build.sbt file:
 
 ```Scala
-libraryDependencies += "io.xskipper" %% "xskipper-core" % "1.2.0"
+libraryDependencies += "io.xskipper" %% "xskipper-core" % "1.2.1"
 ```
 
 #### Python
@@ -74,7 +74,7 @@ To set up a Python project, first start the Spark session using the Xskipper pac
 
 ```Python
 spark = pyspark.sql.SparkSession.builder.appName("Xskipper") \
-    .config("spark.jars.packages", "io.xskipper:xskipper-core_2.12:1.2.0") \
+    .config("spark.jars.packages", "io.xskipper:xskipper-core_2.12:1.2.1") \
     .getOrCreate()
 
 from xskipper import Xskipper
