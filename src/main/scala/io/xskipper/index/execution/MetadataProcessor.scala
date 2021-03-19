@@ -15,9 +15,11 @@ import io.xskipper.utils.Utils
 import org.apache.hadoop.fs.FileStatus
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.functions._
-import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileScan, FileTable}
+import org.apache.spark.sql.catalyst.util.DateTimeUtils
+import org.apache.spark.sql.catalyst.util.DateTimeUtils.SQLDate
+import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileTable}
 import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation, PartitionDirectory}
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.apache.spark.util.SizeEstimator
@@ -383,6 +385,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
     files.size
   }
 
+  // cast to java representation
   def toSeq(row: InternalRow, schema: StructType): Seq[Any] = {
     val len = row.numFields
     val fieldTypes = schema.map(_.dataType)
@@ -391,7 +394,12 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
     val values = new Array[Any](len)
     var i = 0
     while (i < len) {
-      values(i) = row.get(i, fieldTypes(i))
+      fieldTypes(i) match {
+        case dt: DateType =>
+          values(i) = DateTimeUtils.toJavaDate(row.get(i, dt).asInstanceOf[SQLDate])
+        case _ => values(i) = row.get(i, fieldTypes(i))
+      }
+
       i += 1
     }
     values
