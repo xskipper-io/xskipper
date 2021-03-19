@@ -7,8 +7,11 @@ package io.xskipper.index.execution.parquet
 
 import io.xskipper.configuration.XskipperConf
 import io.xskipper.index.Index
+import io.xskipper.index.execution.PartitionSpec
 import io.xskipper.index.metadata.MinMaxMetaData
 import io.xskipper.metadatastore.MetadataHandle
+import io.xskipper.utils.Utils
+import org.apache.hadoop.fs.FileStatus
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.types.{ByteType, DataType, ShortType}
 import org.apache.spark.sql.{Row, SparkSession}
@@ -21,8 +24,10 @@ import org.apache.spark.util.SerializableConfiguration
 object ParquetMinMaxIndexing extends Logging{
   def parquetMinMaxParallelIndexing(
                                      metadataStore: MetadataHandle,
+                                     partitionSpec: Option[PartitionSpec],
                                      options: Map[String, String],
-                                     indexes: Seq[Index], fileIds: Seq[(String, String)],
+                                     indexes: Seq[Index],
+                                     fileIds: Seq[FileStatus],
                                      isRefresh: Boolean,
                                      spark: SparkSession): Unit = {
     val cols = indexes.flatMap(_.getIndexCols)
@@ -36,8 +41,9 @@ object ParquetMinMaxIndexing extends Logging{
     // create the metadata in parallel
     val metadataRDD = spark.sparkContext.parallelize(fileIds, numParallelism)
       .flatMap {
-        case (fileName, fileID) =>
-          val parquetMetadata = getMinMaxStat(fileName, colsNames, serializableConfiguration)
+        case (fs) =>
+          val parquetMetadata = getMinMaxStat(fs.getPath.toString,
+            colsNames, serializableConfiguration)
           // store metadata only if it's defined for all of the columns collected
           // if it's not defined it means the parquet object didn't contain the metadata
           // and therefore we can't index this object using the optimized method
@@ -52,15 +58,24 @@ object ParquetMinMaxIndexing extends Logging{
                     case _ => null
                   }
               }
-            Some(Row.fromSeq(Seq(fileID) ++ metadata))
+            partitionSpec match {
+              case Some(spec) => Some(Row.fromSeq(Seq(Utils.getFileId(fs),
+                spec.values.toSeq(spec.schema)) ++ metadata))
+              case _ => Some(Row.fromSeq(Seq(Utils.getFileId(fs)) ++ metadata))
+            }
           } else {
-            logWarning(s"Unable to index ${fileID} using" +
+            logWarning(s"Unable to index ${Utils.getFileId(fs)} using" +
               s" optimized min/max index collection for parquet")
             None
           }
       }
 
-    metadataStore.uploadMetadata(metadataRDD, indexes, isRefresh)
+    partitionSpec match {
+      case Some(spec) =>
+        metadataStore.uploadMetadata(metadataRDD, Some(spec.schema), indexes, isRefresh)
+      case _ =>
+        metadataStore.uploadMetadata(metadataRDD, None, indexes, isRefresh)
+    }
   }
 
   /**

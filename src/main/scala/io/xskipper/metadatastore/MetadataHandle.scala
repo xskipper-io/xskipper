@@ -6,9 +6,11 @@
 package io.xskipper.metadatastore
 
 import io.xskipper.index.Index
+import io.xskipper.index.execution.PartitionSpec
 import io.xskipper.status.{IndexStatusResult, QueryIndexStatsResult}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.Row
+import org.apache.spark.sql.types.StructType
 
 import scala.collection.JavaConverters._
 import scala.concurrent.Future
@@ -82,6 +84,7 @@ trait MetadataHandle {
     * @param isRefresh indicates whether the operation is a refresh operation
     */
   def uploadMetadata(metaData: RDD[Row],
+                     partitionSchema: Option[StructType],
                      indexes: Seq[Index],
                      isRefresh: Boolean): Unit
 
@@ -107,7 +110,7 @@ trait MetadataHandle {
   /**
     * Returns a set of all indexed files (async)
     */
-  def getAllIndexedFiles(): Future[Set[String]]
+  def getAllIndexedFiles(filter: Option[Any] = None): Future[Set[String]]
 
   /**
     * Returns the required file ids for the given query (async)
@@ -118,7 +121,7 @@ trait MetadataHandle {
     *              this MetaDataStore)
     * @return the set of fileids required for this query
     */
-  def getRequiredObjects(query: Any): Future[Set[String]]
+  def getRequiredObjects(query: Any, filter: Option[Any] = None): Future[Set[String]]
 
   /**
     * Removes the metadata for a sequence of files.

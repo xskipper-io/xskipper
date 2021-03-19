@@ -62,7 +62,7 @@ object ParquetUtils extends Logging {
         throw new ParquetMetaDataStoreException(s"Version $x is greater than current version" +
           s" ${ParquetMetadataStoreConf.PARQUET_MD_STORAGE_VERSION}")
       case x if x < 0 =>
-        throw new ParquetMetaDataStoreException(s"Negative Version number ($x)")
+        throw ParquetMetaDataStoreException(s"Negative Version number ($x)")
     }
   }
 
@@ -130,9 +130,11 @@ object ParquetUtils extends Logging {
 
     val newSchema = ParquetUtils.extractEncryptionDescriptor(schema) match {
       case Some(EncryptionDescriptor(_, footerLabel, plaintextFooterEnabled)) =>
-        createDFSchema(indexes, true,
+        // TODO: fix partitioning
+        createDFSchema(indexes, None, true,
           tableIdentifier, Some(footerLabel), plaintextFooterEnabled)
-      case None => createDFSchema(indexes, true, tableIdentifier, None, false)
+      case None => createDFSchema(indexes, None,
+        true, tableIdentifier, None, false)
     }
     newSchema
   }
@@ -280,7 +282,7 @@ object ParquetUtils extends Logging {
     // this only works since we need the schema tree (names and types) and not metadata, so
     // we can live with the incorrect md returned in the schema
     val parquetSchema = converter.convert(
-      createDFSchema(indexes, includeExtraColumns = false, "", None))
+      createDFSchema(indexes, None, includeExtraColumns = false, "", None))
 
     val colPaths = parquetSchema.getPaths().asScala.map(_.mkString("."))
     val map = indexes
@@ -319,6 +321,7 @@ object ParquetUtils extends Logging {
 
 
   private[parquet] def createDFSchema(indexes: Seq[Index],
+                                      partitionSchema: Option[StructType],
                                       includeExtraColumns: Boolean = true,
                                       tableIdentifier: String,
                                       footerKey: Option[String],
@@ -337,7 +340,7 @@ object ParquetUtils extends Logging {
       case true => Seq(StructField("obj_name",
         StringType, false,
         createMasterMetadata(indexes, tableIdentifier, footerKey, plainTextFooterEnabled)
-      )) ++ idxFields
+      )) ++ partitionSchema.getOrElse(Seq.empty) ++ idxFields
       case false => idxFields
     }
 

@@ -13,7 +13,7 @@ import io.xskipper.utils.Utils
 import org.apache.hadoop.fs.FileStatus
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.catalyst.expressions.Expression
+import org.apache.spark.sql.catalyst.expressions.{And, AttributeReference, Expression}
 
 import scala.collection.mutable
 import scala.concurrent.Await
@@ -53,8 +53,8 @@ class DataSkippingFileFilter(tid: String,
   // i.e - it has indexed files and a metadata query can be generated
   private var isSkippable = false
 
-  private var required: Set[String] = _
-  private var indexed: Set[String] = _
+  private var required: Set[String] = Set.empty
+  private var indexed: Set[String] = Set.empty
 
   /**
     * Filters the partition directory by removing unnecessary objects from each partition directory
@@ -77,6 +77,17 @@ class DataSkippingFileFilter(tid: String,
     // get the indexes
     val indexDescriptor = metadataHandler.getIndexes().distinct
 
+    // strip the qualifier from the attribute reference as we have the same
+    // attribute in the metadata
+    val partitionExp = partitionFilters.isEmpty match {
+      case false =>
+        val res = partitionFilters.reduce(And).transform {
+          case attr: AttributeReference => attr.withQualifier(Seq.empty)
+        }
+        Some(res)
+      case true => None
+    }
+
     if (!indexDescriptor.isEmpty) {
       // get the abstract query
       val filters = metadataFilterFactories.map(_.getFilters(indexDescriptor)).flatten.distinct
@@ -93,8 +104,9 @@ class DataSkippingFileFilter(tid: String,
               logInfo(s"Filtering partitions using " +
                 s"${metadataStoreManager.getType.toString} backend")
               logInfo("Getting all indexed files and required files")
-              val indexedFut = metadataHandler.getAllIndexedFiles()
-              val requiredFut = metadataHandler.getRequiredObjects(queryInstance)
+              val indexedFut = metadataHandler.getAllIndexedFiles(partitionExp)
+              val requiredFut = metadataHandler.getRequiredObjects(queryInstance,
+                partitionExp)
               indexed = Await.result(indexedFut, TIMEOUT minutes)
               required = Await.result(requiredFut, TIMEOUT minutes)
               if (log.isTraceEnabled()) {
@@ -207,5 +219,15 @@ class DataSkippingFileFilter(tid: String,
 
     // clear current filter statistics so next run will start with empty stats
     clearCurrentFilterStatistics()
+    // reset the file filter state
+    resetState()
+  }
+
+  private def resetState(): Unit = {
+    // clear collected data
+    indexed = Set.empty
+    required = Set.empty
+    // set isSkippable to false
+    isSkippable = false
   }
 }

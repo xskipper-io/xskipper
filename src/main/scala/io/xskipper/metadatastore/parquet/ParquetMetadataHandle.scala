@@ -19,7 +19,7 @@ import io.xskipper.utils.Utils
 import org.apache.spark.internal.Logging
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql._
-import org.apache.spark.sql.catalyst.TableIdentifier
+import org.apache.spark.sql.catalyst.expressions.{AttributeReference, Expression}
 import org.apache.spark.sql.execution.datasources.parquet.SparkToParquetSchemaConverter
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.internal.SQLConf
@@ -166,7 +166,8 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
               val a = s.splitAt(s.indexOf(":"))
               params += (a._1 -> a._2.substring(1))
             })
-          case x if x == 3L =>
+          // TODO: fix
+          case x if x >= 3L =>
             val paramsMetadata = indexMeta.getMetadata("params")
             MetadataUtils.getKeys(paramsMetadata).foreach(key => {
               params += (key -> paramsMetadata.getString(key))
@@ -175,7 +176,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
             // if this code is reached then a semantic case is missing!
             // it means we don't have a path that handles this specific version.
             // this can happen when bumping the version and not changing this function
-            throw new ParquetMetaDataStoreException(s"no index recreation path exists for $version")
+            throw ParquetMetaDataStoreException(s"no index recreation path exists for $version")
         }
       }
 
@@ -287,8 +288,8 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     * @param indexes   a sequence of indexes that created the metadata
     * @param isRefresh indicates whether the operation is a refresh operation
     */
-  override def uploadMetadata(
-                               metaData: RDD[Row],
+  override def uploadMetadata(metaData: RDD[Row],
+                              partitionSchema: Option[StructType],
                                indexes: Seq[Index],
                                isRefresh: Boolean): Unit = {
 
@@ -297,11 +298,17 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
       case t: ParquetMetaDataTranslator => t
     }
 
+    val numPartitionColumns = partitionSchema match {
+      case Some(spec) => spec.length
+      case _ => 0
+    }
     val translatedRDD = metaData.map(row => {
-      val translatedMetaData: Seq[Any] = (1 to indexes.size).map(i =>
+      val translatedMetaData: Seq[Any] = (1 + numPartitionColumns to
+        indexes.size + numPartitionColumns ).map(i =>
         TranslationUtils.getMetaDataTypeTranslation(Parquet, row.getAs[MetadataType](i),
-          indexes(i - 1), translators).getOrElse(row.getAs[Any](i)))
-      Row((Seq(row.getString(0)) ++ translatedMetaData): _*)
+          indexes(i - 1 - numPartitionColumns), translators).getOrElse(row.getAs[Any](i)))
+      val res = Row((0 until numPartitionColumns + 1).map(row.get(_)) ++ translatedMetaData: _*)
+      res
     })
 
     // if this is a refresh and at least 1 index is encrypted then we are dealing with encrypted md
@@ -322,8 +329,9 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
         }
         mdDf.schema
       // we are creating new md
-      case false => createDFSchema(indexes,
-        true, tableIdentifier, FOOTER_KEY, PLAINTEXT_FOOTER_ENABLED)
+      case false =>
+        createDFSchema(indexes, partitionSchema, true,
+          tableIdentifier, FOOTER_KEY, PLAINTEXT_FOOTER_ENABLED)
     }
 
     logInfo("Uploading metadata...")
@@ -342,9 +350,16 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
   /**
     * Returns a set of all indexed files (async)
     */
-  override def getAllIndexedFiles(): Future[Set[String]] = Future {
+  override def getAllIndexedFiles(filter: Option[Any]): Future[Set[String]] = Future {
+    var df = getRectifiedMetadataDf().select("obj_name")
+    filter match {
+      // TODO check if it should stay SQL
+      case Some(f) =>
+        df = df.where(f.asInstanceOf[Expression].sql)
+      case _ =>
+    }
     // Load metadata and return all name column values
-    getRectifiedMetadataDf().select("obj_name").collect().map(_.getString(0)).toSet
+    df.collect().map(_.getString(0)).toSet
   }
 
   /**
@@ -445,12 +460,18 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     *              this MetaDataStore)
     * @return the set of fileids required for this query
     */
-  override def getRequiredObjects(query: Any): Future[Set[String]] = Future {
+  override def getRequiredObjects(query: Any, filter: Option[Any]): Future[Set[String]] = Future {
     val q = query.asInstanceOf[Column]
     // using log debug to not expose query to log
     logDebug(s"In search ${q} ...")
     // use repartition to utilize the cluster for filtering
-    getRectifiedMetadataDf().select("obj_name").where(q).collect().map(_.getString(0)).toSet
+    var df = getRectifiedMetadataDf().select("obj_name").where(q)
+    filter match {
+      case Some(f) =>
+        df = df.where(f.asInstanceOf[Expression].sql)
+      case _ =>
+    }
+    df.collect().map(_.getString(0)).toSet
   }
 
 

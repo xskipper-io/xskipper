@@ -384,6 +384,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
         format,
         options,
         indexes,
+        Utils.getPartitionColumns(df),
         newOrModifiedFilesIDs,
         Some(df.schema),
         isRefresh)

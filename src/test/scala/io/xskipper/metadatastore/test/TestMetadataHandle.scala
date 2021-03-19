@@ -6,11 +6,13 @@
 package io.xskipper.metadatastore.test
 
 import io.xskipper.index.Index
+import io.xskipper.index.execution.PartitionSpec
 import io.xskipper.metadatastore.MetadataVersionStatus.MetadataVersionStatus
-import io.xskipper.metadatastore.{MetadataStoreManagerType, MetadataHandle, MetadataVersionStatus}
+import io.xskipper.metadatastore.{MetadataHandle, MetadataStoreManagerType, MetadataVersionStatus}
 import io.xskipper.status.IndexStatusResult
 import org.apache.spark.internal.Logging
 import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{Row, SparkSession}
 
 import scala.collection.mutable
@@ -27,7 +29,9 @@ class TestMetadataHandle(val session: SparkSession, tableIdentifier: String)
   /** Maximum number of objects to delete in one chunk */
   override def getDeletionChunkSize(): Int = ???
 
-  override def uploadMetadata(metaData: RDD[Row], indexes: Seq[Index],
+  override def uploadMetadata(metaData: RDD[Row],
+                              partitionSpec: Option[StructType],
+                              indexes: Seq[Index],
                               isRefresh: Boolean): Unit = {}
 
   /**
@@ -50,7 +54,7 @@ class TestMetadataHandle(val session: SparkSession, tableIdentifier: String)
   /**
     * Returns a set of all index files (async)
     */
-  override def getAllIndexedFiles(): Future[Set[String]] = ???
+  def getAllIndexedFiles(filter: Option[Any] = None): Future[Set[String]] = ???
 
   /**
     * Removes the metadata for a sequence of files
@@ -82,7 +86,7 @@ class TestMetadataHandle(val session: SparkSession, tableIdentifier: String)
     *              this MetaDataStore.
     * @return the set of fileids required for this query
     */
-  override def getRequiredObjects(query: Any): Future[Set[String]] = ???
+  override def getRequiredObjects(query: Any, filter: Option[Any] = None): Future[Set[String]] = ???
 
   override def getMdVersionStatus(): MetadataVersionStatus = {
     MetadataVersionStatus.CURRENT

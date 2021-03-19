@@ -165,13 +165,21 @@ object Utils extends Logging {
     *           columns are to be extracted
     * @return
     */
-  def getPartitionColumns(df: DataFrame): Set[String] = {
-    val partitionSchema: StructType = df.queryExecution.optimizedPlan match {
-      case LogicalRelation(hfs: HadoopFsRelation, _, _, _) => hfs.partitionSchema
-      case DataSourceV2ScanRelation(_, scan: FileScan, _) => scan.readPartitionSchema
-      case _ => StructType(Seq())
+  def getPartitionColumns(df: DataFrame): Option[StructType] = {
+    /**
+      * HACK ALERT (sort of...)
+      * at the moment, the order of the virtual columns in hfs.location.partitionSchema or
+      * scan.readPartitionSchema
+      * is the same as their order in the object name (i.e., the closer it is to the root,
+      * the lower its index in partitionSchema will be).
+      */
+    df.queryExecution.logical match {
+      case LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
+        hfs.partitionSchemaOption
+      case DataSourceV2ScanRelation(_, scan: FileScan, _) =>
+        Some(scan.fileIndex.partitionSchema)
+      case _ => None
     }
-    partitionSchema.map(field => field.name.toLowerCase(Locale.ROOT)).toSet
   }
 
   /**
