@@ -370,7 +370,7 @@ object ParquetUtils extends Logging {
     if (indexes.exists(_.isEncrypted())) {
       // this means that at least 1 index is encrypted. verify we have a footer key.
       if (footerKey.isEmpty) {
-        throw new ParquetMetaDataStoreException(
+        throw ParquetMetaDataStoreException(
           "At least 1 index is marked encrypted but no footer key provided")
       }
       val keysToColumnsString = getColumnKeyListString(indexes, footerKey.get)

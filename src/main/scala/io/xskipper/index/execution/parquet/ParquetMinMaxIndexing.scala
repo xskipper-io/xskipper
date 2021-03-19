@@ -38,11 +38,14 @@ object ParquetMinMaxIndexing extends Logging{
     val serializableConfiguration =
       new SerializableConfiguration(spark.sparkContext.hadoopConfiguration)
 
+    // filestatus is not serializable so extract fileID and path
+    val serializedPaths = fileIds.map(fs => (fs.getPath.toString, Utils.getFileId(fs)))
+
     // create the metadata in parallel
-    val metadataRDD = spark.sparkContext.parallelize(fileIds, numParallelism)
+    val metadataRDD = spark.sparkContext.parallelize(serializedPaths, numParallelism)
       .flatMap {
-        case (fs) =>
-          val parquetMetadata = getMinMaxStat(fs.getPath.toString,
+        case (path: String, fid: String) =>
+          val parquetMetadata = getMinMaxStat(path,
             colsNames, serializableConfiguration)
           // store metadata only if it's defined for all of the columns collected
           // if it's not defined it means the parquet object didn't contain the metadata
@@ -59,12 +62,12 @@ object ParquetMinMaxIndexing extends Logging{
                   }
               }
             partitionSpec match {
-              case Some(spec) => Some(Row.fromSeq(Seq(Utils.getFileId(fs),
-                spec.values.toSeq(spec.schema)) ++ metadata))
-              case _ => Some(Row.fromSeq(Seq(Utils.getFileId(fs)) ++ metadata))
+              case Some(spec) => Some(Row.fromSeq(Seq(fid)
+                ++ Utils.toSeq(spec.values, spec.schema) ++ metadata))
+              case _ => Some(Row.fromSeq(Seq(fid) ++ metadata))
             }
           } else {
-            logWarning(s"Unable to index ${Utils.getFileId(fs)} using" +
+            logWarning(s"Unable to index ${fid} using" +
               s" optimized min/max index collection for parquet")
             None
           }

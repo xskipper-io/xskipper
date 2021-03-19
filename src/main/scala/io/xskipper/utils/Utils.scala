@@ -18,10 +18,12 @@ import org.apache.spark.sql.catalyst.analysis.UnresolvedAttribute
 import org.apache.spark.sql.catalyst.catalog.CatalogTableType
 import org.apache.spark.sql.catalyst.expressions.{Expression, GetStructField, _}
 import org.apache.spark.sql.catalyst.parser.ParseException
-import org.apache.spark.sql.catalyst.{util => CatalystUtils}
+import org.apache.spark.sql.catalyst.util.DateTimeUtils
+import org.apache.spark.sql.catalyst.util.DateTimeUtils.SQLDate
+import org.apache.spark.sql.catalyst.{InternalRow, util => CatalystUtils}
 import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileScan}
 import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation}
-import org.apache.spark.sql.types.{StructField, StructType}
+import org.apache.spark.sql.types.{DateType, StructField, StructType}
 import org.apache.spark.sql.{AnalysisException, DataFrame, SparkSession}
 
 import scala.reflect.runtime.universe._
@@ -163,7 +165,7 @@ object Utils extends Logging {
     *
     * @param df the [[DataFrame]] for which the partition
     *           columns are to be extracted
-    * @return
+    * @return StructType representing the column schema
     */
   def getPartitionColumns(df: DataFrame): Option[StructType] = {
     /**
@@ -289,5 +291,30 @@ object Utils extends Logging {
     // Convert to bytes, rather than directly to MB, because when no units are specified the unit
     // is assumed to be bytes
     (JavaUtils.byteStringAsBytes(str) / 1024 / 1024).toInt
+  }
+
+  /**
+    * Casts an InternalRow with a given schema to a Sequence of java/scala values
+    * @param row the row to cast
+    * @param schema the schema corresponding to the row
+    * @return a sequence of java values corresponding to the row
+    */
+  def toSeq(row: InternalRow, schema: StructType): Seq[Any] = {
+    val len = row.numFields
+    val fieldTypes = schema.map(_.dataType)
+    assert(len == fieldTypes.length)
+
+    val values = new Array[Any](len)
+    var i = 0
+    while (i < len) {
+      fieldTypes(i) match {
+        case dt: DateType =>
+          values(i) = DateTimeUtils.toJavaDate(row.get(i, dt).asInstanceOf[SQLDate])
+        case _ => values(i) = row.get(i, fieldTypes(i))
+      }
+
+      i += 1
+    }
+    values
   }
 }

@@ -77,8 +77,8 @@ class DataSkippingFileFilter(tid: String,
     // get the indexes
     val indexDescriptor = metadataHandler.getIndexes().distinct
 
-    // strip the qualifier from the attribute reference as we have the same
-    // attribute in the metadata
+    // remove the qualifier from the attribute reference as we have the same
+    // attribute in the metadata (but no identifier)
     val partitionExp = partitionFilters.isEmpty match {
       case false =>
         val res = partitionFilters.reduce(And).transform {
@@ -219,10 +219,14 @@ class DataSkippingFileFilter(tid: String,
 
     // clear current filter statistics so next run will start with empty stats
     clearCurrentFilterStatistics()
-    // reset the file filter state
+    // reset the file filter state to force cleanup of memory
     resetState()
   }
 
+  /**
+    * Clears the state of the filter by emptying the indexed and required state
+    * and resetting isSkippable
+    */
   private def resetState(): Unit = {
     // clear collected data
     indexed = Set.empty

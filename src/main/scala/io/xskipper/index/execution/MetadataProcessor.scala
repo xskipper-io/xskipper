@@ -283,7 +283,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
     // create the row
     partitionSpec match {
       case Some(spec) =>
-        Row.fromSeq(Seq(fid) ++ toSeq(spec.values, spec.schema) ++ metaData)
+        Row.fromSeq(Seq(fid) ++ Utils.toSeq(spec.values, spec.schema) ++ metaData)
       case None =>
         Row.fromSeq(Seq(fid) ++ metaData)
     }
@@ -383,26 +383,6 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
     files.grouped(metadataHandle.getDeletionChunkSize())
       .foreach(group => metadataHandle.removeMetaDataForFiles(group))
     files.size
-  }
-
-  // cast to java representation
-  def toSeq(row: InternalRow, schema: StructType): Seq[Any] = {
-    val len = row.numFields
-    val fieldTypes = schema.map(_.dataType)
-    assert(len == fieldTypes.length)
-
-    val values = new Array[Any](len)
-    var i = 0
-    while (i < len) {
-      fieldTypes(i) match {
-        case dt: DateType =>
-          values(i) = DateTimeUtils.toJavaDate(row.get(i, dt).asInstanceOf[SQLDate])
-        case _ => values(i) = row.get(i, fieldTypes(i))
-      }
-
-      i += 1
-    }
-    values
   }
 }
 

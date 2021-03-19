@@ -19,7 +19,7 @@ import io.xskipper.utils.Utils
 import org.apache.spark.internal.Logging
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql._
-import org.apache.spark.sql.catalyst.expressions.{AttributeReference, Expression}
+import org.apache.spark.sql.catalyst.expressions.Expression
 import org.apache.spark.sql.execution.datasources.parquet.SparkToParquetSchemaConverter
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.internal.SQLConf
@@ -166,8 +166,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
               val a = s.splitAt(s.indexOf(":"))
               params += (a._1 -> a._2.substring(1))
             })
-          // TODO: fix
-          case x if x >= 3L =>
+          case x if x == 3L || x == 4L =>
             val paramsMetadata = indexMeta.getMetadata("params")
             MetadataUtils.getKeys(paramsMetadata).foreach(key => {
               params += (key -> paramsMetadata.getString(key))
@@ -353,7 +352,6 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
   override def getAllIndexedFiles(filter: Option[Any]): Future[Set[String]] = Future {
     var df = getRectifiedMetadataDf().select("obj_name")
     filter match {
-      // TODO check if it should stay SQL
       case Some(f) =>
         df = df.where(f.asInstanceOf[Expression].sql)
       case _ =>
