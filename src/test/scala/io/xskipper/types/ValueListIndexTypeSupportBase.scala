@@ -104,7 +104,7 @@ abstract class ValueListIndexTypeSupportBase(override val datasourceV2: Boolean)
       expectedSkippedFiles)
 
     // check date type
-    logInfo(s"Checking skipping on timestampType")
+    logInfo(s"Checking skipping on dateType")
     TypeSupportUtils.checkQuery(spark.sql(
       "select * from table where dateType = to_date('2018-02-27')"),
       expectedSkippedFiles)

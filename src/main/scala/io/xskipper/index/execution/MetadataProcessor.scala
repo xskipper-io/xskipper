@@ -15,8 +15,6 @@ import io.xskipper.utils.Utils
 import org.apache.hadoop.fs.FileStatus
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.catalyst.util.DateTimeUtils
-import org.apache.spark.sql.catalyst.util.DateTimeUtils.SQLDate
 import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileTable}
 import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation, PartitionDirectory}
 import org.apache.spark.sql.functions._
@@ -81,8 +79,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
     * @param options the options to be used when reading each object
     *                Note: all objects are assumed to have the same options and format.
     * @param indexes a sequence of indexes that will be applied on the indexed dataset
-    * @param partitionDirectories a sequence of (String, String) where the first string is the file name
-    *                and the second is the fileID
+    * @param partitionDirectories the list of partition directories to index
     * @param schema (optional) the expected schema (since we are reading object by object the
     *               schema can be provided according to the full dataframe)
     * @param isRefresh indicates whether the operation is a refresh

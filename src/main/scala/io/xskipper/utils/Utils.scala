@@ -175,7 +175,8 @@ object Utils extends Logging {
       * is the same as their order in the object name (i.e., the closer it is to the root,
       * the lower its index in partitionSchema will be).
       */
-    df.queryExecution.logical match {
+    // Note using optimized plan to force resolving
+    df.queryExecution.optimizedPlan match {
       case LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
         hfs.partitionSchemaOption
       case DataSourceV2ScanRelation(_, scan: FileScan, _) =>
