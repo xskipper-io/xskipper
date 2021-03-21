@@ -271,6 +271,11 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     // Extract partition columns
     val partitionSchemaOption = Utils.getPartitionColumns(df)
 
+    val partitionFields = partitionSchemaOption match {
+      case Some(partitionSchema) => partitionSchema.fieldNames.toSeq
+      case _ => Seq.empty[String]
+    }
+
     // make sure all requested indexing parameters are valid
     indexes.foreach(index => {
       // check if columns exist - the index returns its columns in lower case
@@ -278,12 +283,8 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
         if (!schemaMap.contains(col)) {
           throw new XskipperException(Status.nonExistentColumnError(col))
         }
-        partitionSchemaOption match {
-          case Some(partitionSchema) =>
-            if (partitionSchema.fieldNames.contains(col)) {
-              throw new XskipperException(Status.partitionColumnError(col))
-            }
-          case _ =>
+        if (partitionFields.contains(col)) {
+          throw new XskipperException(Status.partitionColumnError(col))
         }
       })
       // perform index specific validations
