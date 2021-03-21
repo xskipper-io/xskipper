@@ -33,7 +33,7 @@ jobs:
           architecture: x64
       - name: Install Python packages (Python 3.7)
         run: |
-          python3.7 -m pip install pyspark>=3.0.0
+          python3.7 -m pip install pyspark==3.0.1
       - name: Run Python tests
         run: python3.7 run-tests.py
       - if: |
