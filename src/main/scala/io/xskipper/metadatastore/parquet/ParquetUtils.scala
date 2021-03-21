@@ -130,7 +130,7 @@ object ParquetUtils extends Logging {
 
     val newSchema = ParquetUtils.extractEncryptionDescriptor(schema) match {
       case Some(EncryptionDescriptor(_, footerLabel, plaintextFooterEnabled)) =>
-        // TODO: fix partitioning
+        // TODO: fix partitioning when using encryption
         createDFSchema(indexes, None, true,
           tableIdentifier, Some(footerLabel), plaintextFooterEnabled)
       case None => createDFSchema(indexes, None,

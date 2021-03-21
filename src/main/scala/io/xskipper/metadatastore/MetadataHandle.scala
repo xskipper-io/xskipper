@@ -109,6 +109,9 @@ trait MetadataHandle {
 
   /**
     * Returns a set of all indexed files (async)
+    * @param filter optional filter to apply
+    *        (can be used to get all indexed file for a given partition)
+    * @return a set of all indexed files ids
     */
   def getAllIndexedFiles(filter: Option[Any] = None): Future[Set[String]]
 
@@ -119,6 +122,8 @@ trait MetadataHandle {
     *              (this query is of type Any and it is the responsibility of the metadatastore
     *              implementation to cast it to as instance which matches the translation for
     *              this MetaDataStore)
+    * @param filter an optional filter to apply
+    *        (can be used to get all indexed file for a given partition)
     * @return the set of fileids required for this query
     */
   def getRequiredObjects(query: Any, filter: Option[Any] = None): Future[Set[String]]

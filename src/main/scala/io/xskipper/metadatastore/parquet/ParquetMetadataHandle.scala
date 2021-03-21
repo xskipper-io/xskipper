@@ -348,6 +348,9 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
 
   /**
     * Returns a set of all indexed files (async)
+    * @param filter optional filter to apply
+    *        (can be used to get all indexed file for a given partition)
+    * @return a set of all indexed files ids
     */
   override def getAllIndexedFiles(filter: Option[Any]): Future[Set[String]] = Future {
     var df = getRectifiedMetadataDf().select("obj_name")
@@ -456,6 +459,8 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     *              (this query is of type Any and it is the responsibility of the metadatastore
     *              implementation to cast it to as instance which matches the translation for
     *              this MetaDataStore)
+    * @param filter an optional filter to apply
+    *        (can be used to get all indexed file for a given partition)
     * @return the set of fileids required for this query
     */
   override def getRequiredObjects(query: Any, filter: Option[Any]): Future[Set[String]] = Future {

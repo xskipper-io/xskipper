@@ -36,6 +36,7 @@ object SchemaGenerator {
     }
 
     val schema = createDFSchema(indexes,
+      // TODO: fix
       None,
       true,
       tableIdentifier,

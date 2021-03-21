@@ -22,8 +22,7 @@ import org.apache.spark.util.SerializableConfiguration
   * from Parquet file footer
   */
 object ParquetMinMaxIndexing extends Logging{
-  def parquetMinMaxParallelIndexing(
-                                     metadataStore: MetadataHandle,
+  def parquetMinMaxParallelIndexing(metadataStore: MetadataHandle,
                                      partitionSpec: Option[PartitionSpec],
                                      options: Map[String, String],
                                      indexes: Seq[Index],

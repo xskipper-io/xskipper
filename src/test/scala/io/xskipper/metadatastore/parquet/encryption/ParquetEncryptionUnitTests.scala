@@ -168,6 +168,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
     )
 
     val actualResult = createDFSchema(indexes,
+      // TODO: fix
       None,
       true,
       tableIdentifier,
@@ -187,6 +188,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
     )
 
     val actualResult = createDFSchema(indexes,
+      // TODO: fix
       None,
       true,
       tableIdentifier,

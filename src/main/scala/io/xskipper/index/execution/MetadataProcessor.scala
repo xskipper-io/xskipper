@@ -35,10 +35,14 @@ object MetadataProcessor {
   def apply(spark: SparkSession, uri: String, metadataHandler: MetadataHandle): MetadataProcessor =
     new MetadataProcessor(spark, uri, metadataHandler)
 
-  // allows us to collect info like last_modified from a dataframe
+  /**
+    * Returns a sequence of partitionDirectory of the given dataframe
+    * @param df the dataframe to process
+    * @return a sequence of partitionDirectory of the given dataframe
+    */
   def listFilesFromDf(df: DataFrame): Seq[PartitionDirectory] = {
     df.queryExecution.optimizedPlan.collect {
-      case l@LogicalRelation(hfs: HadoopFsRelation, output, catalogTable, isStreaming) =>
+      case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
         hfs.location.listFiles(Seq.empty, Seq.empty)
       case DataSourceV2ScanRelation(table: FileTable, _, _) =>
         // not using allFiles since it returns also empty files which are not used
@@ -79,6 +83,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
     * @param options the options to be used when reading each object
     *                Note: all objects are assumed to have the same options and format.
     * @param indexes a sequence of indexes that will be applied on the indexed dataset
+    * @param partitionColumns the partition columns of the given dataframe to index
     * @param partitionDirectories the list of partition directories to index
     * @param schema (optional) the expected schema (since we are reading object by object the
     *               schema can be provided according to the full dataframe)
@@ -220,8 +225,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
   /**
     * Collects the metadata for a given file
     *
-    * @param fid the filename (full URI location) to be read
-    * @param fname the file name
+    * @param fs the file status of the file to collect metadata on
     * @param optIndexes the list of indexes with optimization to be collected
     * @param nonOptIndexes the list of indexes with no optimization to be collected
     * @param format the format to be used when reading each object
