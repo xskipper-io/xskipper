@@ -332,6 +332,8 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
       allIndexedFiles = Await.result(asyncAllFilesRequest, TIMEOUT minutes)
     }
 
+    var filesToRemove = allIndexedFiles
+
     // choose only records from files that are not indexed in the metadata store
     // filtering will leave only new objects or objects that have been updated since
     // the last indexing (and therefore the current fileID will be different than the one
@@ -342,7 +344,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
         !allIndexedFiles.contains(fid) match {
           case true => Some(fs)
           case _ =>
-            allIndexedFiles -= fid
+            filesToRemove -= fid
             None
         }
       })
@@ -352,7 +354,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
       }
     })
 
-    (newOrModifiedPartitionDirectories, allIndexedFiles.toSeq)
+    (newOrModifiedPartitionDirectories, filesToRemove.toSeq)
   }
 
   /**
