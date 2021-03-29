@@ -146,7 +146,10 @@ abstract class Configuration {
     * @param params a map of parameters to be set
     */
   def setConf(params: Map[String, String]): Unit = {
-    confEntries.putAll(params.asJava)
+    params.foreach {
+      case (key: String, value: String) => set(key, value)
+      case _ =>
+    }
   }
 
   // overload - getting a java map (for python module)

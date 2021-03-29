@@ -6,6 +6,8 @@
 package io.xskipper.configuration
 
 import io.xskipper.Xskipper
+import io.xskipper.utils.Utils
+import io.xskipper.utils.identifier.IBMCOSIdentifier
 import org.scalatest.FunSuite
 
 import scala.collection.mutable
@@ -82,5 +84,17 @@ class XskipperConfSuite extends FunSuite {
     assertDefault(XskipperConf.XSKIPPER_TIMEOUT)
     assertDefault(XskipperConf.XSKIPPER_INDEX_DRIVER_MEMORY_FRACTION)
     assertDefault(XskipperConf.XSKIPPER_MINMAX_IN_FILTER_THRESHOLD)
+  }
+
+  test("setting custom identifier class using set") {
+    Xskipper.set("io.xskipper.identifierclass",
+      "io.xskipper.utils.identifier.IBMCOSIdentifier")
+    assert(Utils.identifier.isInstanceOf[IBMCOSIdentifier])
+  }
+
+  test("setting custom identifier class using set conf") {
+    Xskipper.setConf(Map("io.xskipper.identifierclass"->
+      "io.xskipper.utils.identifier.IBMCOSIdentifier"))
+    assert(Utils.identifier.isInstanceOf[IBMCOSIdentifier])
   }
 }
