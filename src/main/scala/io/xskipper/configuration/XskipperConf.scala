@@ -16,17 +16,15 @@ import org.apache.spark.internal.Logging
 object XskipperConf extends Configuration with Logging {
   // override to enable custom action after setting for example:
   // the set function to reload identifier class
-  override def setConf(params: Map[String, String]): Unit = {
-    super.setConf(params)
+  override def set(key: String, value: String): Unit = {
+    super.set(key, value)
     // reload identifier class if needed
-    params.get(XSKIPPER_IDENTIFIER_CLASS_KEY) match {
-      case Some(identifierClass) =>
-        // try loading the class dynamically
-        Utils.getClassInstance[Identifier](identifierClass) match {
-          case Some(identifier) => Utils.identifier = identifier
-          case _ =>
-        }
-      case _ =>
+    if (key == XSKIPPER_IDENTIFIER_CLASS_KEY) {
+      // try loading the class dynamically
+      Utils.getClassInstance[Identifier](value) match {
+        case Some(identifier) => Utils.identifier = identifier
+        case _ =>
+      }
     }
   }
 
