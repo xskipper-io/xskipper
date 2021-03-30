@@ -1,0 +1,1074 @@
+<!--
+ -- Copyright 2021 IBM Corp.
+ -- SPDX-License-Identifier: Apache-2.0
+ -->
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Extensible Data Skipping Framework for Apache Spark">
+      
+      
+      
+        <meta name="author" content="Xskipper team">
+      
+      
+        <link rel="canonical" href="https://xskipper.io/api/creating-new-plugin/">
+      
+      <link rel="icon" href="../../img/logo_black.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.0">
+    
+    
+      
+        <title>Using The Extensible API - Xskipper</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.33e2939f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="deep-purple" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#using-the-extensible-api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Xskipper" class="md-header__button md-logo" aria-label="Xskipper" data-md-component="logo">
+      
+  <img src="../../img/logo_white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xskipper
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Using The Extensible API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/xskipper-io/xskipper" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xskipper-io/xskipper
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      About
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../getting-started/quick-start-guide/" class="md-tabs__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../concepts/data-skipping/" class="md-tabs__link">
+        Concepts
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../indexing/" class="md-tabs__link md-tabs__link--active">
+        API
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="https://github.com/xskipper-io/xskipper/releases" class="md-tabs__link">
+      Releases
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Xskipper" class="md-nav__button md-logo" aria-label="Xskipper" data-md-component="logo">
+      
+  <img src="../../img/logo_white.png" alt="logo">
+
+    </a>
+    Xskipper
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/xskipper-io/xskipper" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xskipper-io/xskipper
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Getting Started
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start-guide/" class="md-nav__link">
+        Quick Start Guide
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/sample-notebooks/" class="md-nav__link">
+        Demo Notebooks
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Concepts
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Concepts" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Concepts
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/data-skipping/" class="md-nav__link">
+        Data Skipping
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/extensible/" class="md-nav__link">
+        Extensible Data Skipping
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/indexing-flow/" class="md-nav__link">
+        Indexing Flow
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/query-evaluation-flow/" class="md-nav__link">
+        Query Evaluation Flow
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      <label class="md-nav__link" for="__nav_4">
+        API
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../indexing/" class="md-nav__link">
+        Indexing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Using The Extensible API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Using The Extensible API
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#intro" class="md-nav__link">
+    Intro
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-existing-plugins" class="md-nav__link">
+    Using Existing Plugins
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indexing-flow" class="md-nav__link">
+    Indexing Flow
+  </a>
+  
+    <nav class="md-nav" aria-label="Indexing Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#define-the-abstract-metadata" class="md-nav__link">
+    Define the abstract metadata
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#define-a-new-index" class="md-nav__link">
+    Define a new index
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#define-translation-for-the-metadata" class="md-nav__link">
+    Define translation for the metadata
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query-evaluation-flow" class="md-nav__link">
+    Query Evaluation Flow
+  </a>
+  
+    <nav class="md-nav" aria-label="Query Evaluation Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#define-the-abstract-clause" class="md-nav__link">
+    Define the abstract clause
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#define-a-new-filter" class="md-nav__link">
+    Define a new filter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#define-translation-for-the-clause" class="md-nav__link">
+    Define translation for the clause
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" >
+      
+      <label class="md-nav__link" for="__nav_4_3">
+        Configuration
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Configuration" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/configuration/" class="md-nav__link">
+        Xskipper Configuration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/parquet-mdstore-configuration/" class="md-nav__link">
+        Parquet Metadatastore Configuration
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/" class="md-nav__link">
+        API Reference
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_5" type="checkbox" id="__nav_4_5" >
+      
+      <label class="md-nav__link" for="__nav_4_5">
+        Developer Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer Guide" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developer/build/" class="md-nav__link">
+        Build
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developer/parquet-metadatastore-spec/" class="md-nav__link">
+        Parquet metadatastore spec
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developer/metadata-versioning/" class="md-nav__link">
+        Metadata versioning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developer/generate-doc/" class="md-nav__link">
+        API Doc Generation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/xskipper-io/xskipper/blob/master/CONTRIBUTING.md" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/xskipper-io/xskipper/releases" class="md-nav__link">
+        Releases
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <!--
+ -- Copyright 2021 IBM Corp.
+ -- SPDX-License-Identifier: Apache-2.0
+ -->
+
+<h1 id="using-the-extensible-api">Using The Extensible API<a class="headerlink" href="#using-the-extensible-api" title="Permanent link">&para;</a></h1>
+<h2 id="intro">Intro<a class="headerlink" href="#intro" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This page explains the Extensible Data Skipping framework API. <br />
+See the <a href="../../concepts/data-skipping/">Concepts</a> page for an explanation about the underlying concepts. <br />
+See <a href="../indexing/#supported-plugins">here</a> for the list of currently available plugins.</p>
+</div>
+<p>Xskipper supports adding your index types and specifying your own data skipping logic
+in order to enjoy data skipping over UDFs and a variety of data types.</p>
+<p>The pluggability is split between two main areas:</p>
+<ul>
+<li>
+<p><a href="#indexing-flow">Indexing Flow</a></p>
+<ul>
+<li>Interfaces for defining a new index - implementations of <a href="../scaladoc/1.2.0/io/xskipper/index/index.html">Index</a> along with <a href="../scaladoc/1.2.0/io/xskipper/index/IndexFactory.html">IndexFactory</a>.</li>
+<li>Interface for specifying how to store the metadata in the metadatastore - implementations of <a href="../scaladoc/1.2.0/io/xskipper/metadatastore/MetaDataTranslator.html">MetaDataTranslator</a>.</li>
+</ul>
+</li>
+<li>
+<p><a href="#query-evaluation-flow">Query Evaluation Flow</a> </p>
+<ul>
+<li>Interfaces for defining how query expressions are mapped to abstract conditions on metadata - implementations of <a href="../scaladoc/1.2.0/io/xskipper/search/filters/MetadataFilter.html">MetaDataFilter</a> along with <a href="../scaladoc/1.2.0/io/xskipper/search/filters/MetadataFilterFactory.html">MetaDataFilterFactory</a>.</li>
+<li>Interfaces for translating an abstract clause to a specific implementation according to the metadatastore - Implementations of <a href="../scaladoc/1.2.0/io/xskipper/metadatastore/ClauseTranslator.html">ClauseTranslator</a>.</li>
+</ul>
+</li>
+</ul>
+<p>A new plugin can contain one or more of the above implementations.</p>
+<p>This architecture enables the registration of components using multiple packages.</p>
+<h2 id="using-existing-plugins">Using Existing Plugins<a class="headerlink" href="#using-existing-plugins" title="Permanent link">&para;</a></h2>
+<p>To use a plugin, load the relevant implementations using the Registration module (<a href="../scaladoc/1.2.0/io/xskipper/Registration$.html">Scala</a>, <a href="../pythondoc/1.2.0/index.html#module-xskipper.registration">Python</a>). <br />
+For example:</p>
+<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">xskipper</span> <span class="kn">import</span> <span class="n">Registration</span>
+
+<span class="n">Registration</span><span class="o">.</span><span class="n">addMetadataFilterFactory</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s1">&#39;io.xskipper.plugins.regex.filter.RegexValueListMetaDataFilterFactory&#39;</span><span class="p">)</span>
+<span class="c1"># Add IndexFactory</span>
+<span class="n">Registration</span><span class="o">.</span><span class="n">addIndexFactory</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s1">&#39;io.xskipper.plugins.regex.index.RegexIndexFactory&#39;</span><span class="p">)</span>
+<span class="c1"># Add MetaDataTranslator</span>
+<span class="n">Registration</span><span class="o">.</span><span class="n">addMetaDataTranslator</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s1">&#39;io.xskipper.plugins.regex.parquet.RegexValueListMetaDataTranslator&#39;</span><span class="p">)</span>
+<span class="c1"># Add ClauseTranslator</span>
+<span class="n">Registration</span><span class="o">.</span><span class="n">addClauseTranslator</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s1">&#39;io.xskipper.plugins.regex.parquet.RegexValueListClauseTranslator&#39;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io.xskipper._</span>
+<span class="k">import</span> <span class="nn">io.xskipper.plugins.regex.filter.RegexValueListMetaDataFilterFactory</span>
+<span class="k">import</span> <span class="nn">io.xskipper.plugins.regex.index.RegexIndexFactory</span>
+<span class="k">import</span> <span class="nn">io.xskipper.plugins.regex.parquet.</span><span class="o">{</span><span class="nc">RegexValueListClauseTranslator</span><span class="o">,</span> <span class="nc">RegexValueListMetaDataTranslator</span><span class="o">}</span>
+
+<span class="c1">// registering the filter factories for user metadataFilters</span>
+<span class="nc">Registration</span><span class="o">.</span><span class="n">addIndexFactory</span><span class="o">(</span><span class="nc">RegexIndexFactory</span><span class="o">)</span>
+<span class="nc">Registration</span><span class="o">.</span><span class="n">addMetadataFilterFactory</span><span class="o">(</span><span class="nc">RegexValueListMetaDataFilterFactory</span><span class="o">)</span>
+<span class="nc">Registration</span><span class="o">.</span><span class="n">addClauseTranslator</span><span class="o">(</span><span class="nc">RegexValueListClauseTranslator</span><span class="o">)</span>
+<span class="nc">Registration</span><span class="o">.</span><span class="n">addMetaDataTranslator</span><span class="o">(</span><span class="nc">RegexValueListMetaDataTranslator</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<p>For the full list of plugins see <a href="../indexing/#supported-plugins">here</a>.</p>
+<p><br/></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When registering multiple plugins the order of registration for <code>IndexFactory</code>, <code>MetadataTranslator</code>, and <code>ClauseTranslator</code> matters.
+If two plugins define relevant translations or index creation for the same parameters the first one registered will be used. <br />
+In general, you should avoid having multiple plugins that behave differently for the same indexes, metadata types or clauses.</p>
+</div>
+<p>In the following sections we explain how to use the above interfaces in order to create a new plugin. <br />
+The explanations will use examples from the sample plugin - <a href="https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/index/RegexValueListIndex.scala">xskipper-regex-plugin</a>.</p>
+<p>The regex plugin enables indexing a text column by specifying a list of patterns and saving the matching substrings as a value list.</p>
+<p>For example, consider an application log dataset and one of its objects :
+<div class="highlight"><pre><span></span><code>application_name,log_line
+batch job,20/12/29 18:04:39 INFO FileSourceStrategy: Pruning directories with:
+batch job,20/12/29 18:04:40 INFO DAGScheduler: ResultStage 22 (collect at ParquetMetadataHandle.scala:324) finished in 0.011 s
+</code></pre></div></p>
+<p>and the regex pattern <code>".* .* .* (.*): .*"</code>.</p>
+<p>When we index using the regex index, the metadata that will be saved is <code>List("FileSourceStrategy", "DAGScheduler")</code>.</p>
+<p>The following query will benefit from this index and will skip the above object:
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="o">*</span> 
+<span class="k">FROM</span> <span class="n">tbl</span> 
+<span class="k">WHERE</span> 
+<span class="n">regexp_extract</span><span class="p">(</span><span class="n">log_line</span><span class="p">,</span> <span class="s1">&#39;.* .* .* (.*): .*&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;MemoryStore&#39;</span>
+</code></pre></div></p>
+<h2 id="indexing-flow">Indexing Flow<a class="headerlink" href="#indexing-flow" title="Permanent link">&para;</a></h2>
+<h3 id="define-the-abstract-metadata">Define the abstract metadata<a class="headerlink" href="#define-the-abstract-metadata" title="Permanent link">&para;</a></h3>
+<p><em>Implementation(s) of <a href="../scaladoc/1.2.0/io/xskipper/index/metadata/MetadataType.html">MetaDataType</a></em></p>
+<p>First you need to define the abstract metadata type that will be generated by the index. This type will hold the metadata in memory. <br />
+For example, the MinMax index metadata type is a tuple of min and max values (see <a href="https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/index/metadata/MinMaxMetaData.scala">here</a>)</p>
+<p>For the Regex plugin, to store the unique list of matching substrings for a given pattern we use a HashSet of Strings (see <a href="https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/index/RegexValueListMetadata.scala">here</a>).</p>
+<h3 id="define-a-new-index">Define a new index<a class="headerlink" href="#define-a-new-index" title="Permanent link">&para;</a></h3>
+<p><em>Implementation(s) of <a href="../scaladoc/1.2.0/io/xskipper/index/index.html">Index</a> along with <a href="../scaladoc/1.2.0/io/xskipper/index/IndexFactory.html">IndexFactory</a></em></p>
+<p>Support for new indexes can be achieved by implementing a new class that implements the <a href="../scaladoc/1.2.0/io/xskipper/index/index.html">Index</a> abstract class.<br />
+A new index can use an existing MetaDataType or create its own MetaDataType along with a translation specification to the relevant metadatastore.</p>
+<p>The Index interface enables specifying one of two ways to collect the metadata:</p>
+<ul>
+<li>
+<p>Tree Reduce - in this code path the index processes the object row by row and updates its internal state to reflect the update to the metadata.
+This mode enables running index creation in parallel for multiple indexes.</p>
+</li>
+<li>
+<p>Optimized - using this interface the index processes the entire object DataFrame and generates the metadata.</p>
+</li>
+</ul>
+<p>For example, both the <a href="https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/index/MinMaxIndex.scala">MinMaxIndex</a> and the <a href="https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/index/RegexValueListIndex.scala">RegexValueListIndex</a>.
+use the Tree Reduce mode to accumlate the list of unique matches.</p>
+<p>Along with the Index you need to define an <a href="../scaladoc/1.2.0/io/xskipper/index/IndexFactory.html">IndexFactory</a> - 
+the IndexFactory specifies how to recreate the index instance when loading the index parameters from the metadatastore. 
+For example, see <a href="https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/index/RegexIndexFactory.scala">RegexIndexFactory</a>.</p>
+<h3 id="define-translation-for-the-metadata">Define translation for the metadata<a class="headerlink" href="#define-translation-for-the-metadata" title="Permanent link">&para;</a></h3>
+<p><em>Implementation(s) of <a href="../scaladoc/1.2.0/io/xskipper/metadatastore/MetaDataTranslator.html">MetaDataTranslator</a></em></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Xskipper uses by default Parquet as the metadatastore.  <br />
+The Parquet metadatastore stores the metadata for the objects as rows in parquet files (for more details see <a href="../developer/parquet-metadatastore-spec/">here</a>).    <br />
+The API enables defining your own metadatastore. Here we focus on storing the metadata in the Parquet metadatastore. Therefore, the translations we cover here relate to the Parquet metadatastore.</p>
+</div>
+<p>In order to store the abstract metadata defined above in the metadata store we have to specify a suitable translation which will map it to a valid representation for the metadatastore.</p>
+<p>For the Parquet metadatastore we have two options:</p>
+<ul>
+<li>
+<p>Convert the metadata to an internal Spark <a href="https://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/Row.html">Row</a> which will later be saved to Parquet automatically, as Spark supports Parquet out of the box.
+For example, the MinMax index translates its values to a nested row with <code>min</code> and <code>max</code> values (see <a href="https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/metadatastore/parquet/ParquetBaseClauseTranslator.scala#L28">here</a>)</p>
+</li>
+<li>
+<p>Use a UDT to save the serialized abstract metadata. In some cases translating the metadata to Spark Row is not possible, therefore we save the metadata as a serialized binary.  <br />
+To do so you have 2 options:</p>
+<ul>
+<li>Use the default java serialization provided by the parquet metadata store. To do so you need to define the UDT and register it. For example, for bloom filter, we use the following definition to get the default java serialization:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BloomFilterMetaDataTypeUDT</span> <span class="k">extends</span> <span class="nc">MetadataTypeUDT</span><span class="o">[</span><span class="kt">BloomFilterMetaData</span><span class="o">]</span>
+</code></pre></div>
+<p>Then register the UDT to Spark using the <a href="../scaladoc/1.2.0/org/apache/spark/sql/types/ParquetMetadataStoreUDTRegistration$.html">ParquetMetadataStoreUDTRegistration</a> object:
+<div class="highlight"><pre><span></span><code><span class="nc">ParquetMetadataStoreUDTRegistration</span><span class="o">.</span><span class="n">registerUDT</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">BloomFilterMetaData</span><span class="o">].</span><span class="n">getName</span><span class="o">,</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">BloomFilterMetaDataTypeUDT</span><span class="o">].</span><span class="n">getName</span><span class="o">)</span>
+</code></pre></div></p>
+<p>Note that the bloom filter has the above definition built in so there is no need to register it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The UDT must be defined and registered in any program that uses the index. <br />
+A recommended pattern is to define and register the UDT in the <a href="#define-translation-for-the-clause">Clause Translator</a> object where you also define the Clause Translation logic.  <br />
+This object will be loaded when <a href="#using-existing-plugins">registering</a> the Clause Translator.</p>
+</div>
+<ul>
+<li>Define your own UDT with custom serialization logic - similar to the above only this time you implement your own UDT.  <br />
+See the <a href="https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/metadatastore/parquet/ParquetMetadataTypeUDT.scala"><code>MetadataTypeUDT</code></a> class for a reference.</li>
+</ul>
+</li>
+</ul>
+<p>For the regex plugin we use the first option and translate the list of values to an array of values for storing in Parquet format (see <a href="https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/parquet/RegexValueListMetaDataTranslator.scala">here</a>).</p>
+<h2 id="query-evaluation-flow">Query Evaluation Flow<a class="headerlink" href="#query-evaluation-flow" title="Permanent link">&para;</a></h2>
+<h3 id="define-the-abstract-clause">Define the abstract clause<a class="headerlink" href="#define-the-abstract-clause" title="Permanent link">&para;</a></h3>
+<p><em>Implementations of <a href="../scaladoc/1.2.0/io/xskipper/search/clause/Clause.html">Clause</a></em></p>
+<p>First, you need to define the abstract clause that will be created by the Filter.  <br />
+The Clause specifices an abstract condition which was deduced from the query and should operate on the metadata in order to determine the relevant objects.
+Each Clause is then translated to an explicit implementation according to the metadatastore type.   </p>
+<p>For example, for the MinMax index we define a <a href="https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/search/clause/MinMaxClause.scala">MinMaxClause</a> which follows the logic that was presented <a href="../../concepts/query-evaluation-flow/#clause">here</a>.</p>
+<p>For the Regex Plugin we use a Clause which holds the required matching patterns from the query (see <a href="https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/clause/RegexValueListClause.scala">here</a>).</p>
+<h3 id="define-a-new-filter">Define a new filter<a class="headerlink" href="#define-a-new-filter" title="Permanent link">&para;</a></h3>
+<p><em>Implementation(s) of <a href="../scaladoc/1.2.0/io/xskipper/search/filters/MetadataFilter.html">MetaDataFilter</a> along with <a href="../scaladoc/1.2.0/io/xskipper/search/filters/MetadataFilterFactory.html">MetaDataFilterFactory</a></em></p>
+<p>The filter processes the query tree and labels it with clauses. In most cases we would like to map expressions to clauses.
+Therefore, xskipper provides a basic implementation of a filter called <a href="https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/search/filters/MetadataFilter.scala">BaseMetadataFilter</a>
+which processes the query tree automatically for AND and OR operators, leaving the user to handle only the remaining expressions. Implementations which extend the <a href="https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/search/filters/MetadataFilter.scala">BaseMetadataFilter</a> need only specify how expressions are mapped to clauses. <br />
+For example,  <a href="https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/filter/RegexValueListFilter.scala">RegexValueListFilter</a> and <a href="https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/search/filters/MinMaxFilter.scala">MinMaxFilter</a> map the query expressions according to the logic presented <a href="../../concepts/query-evaluation-flow/#filter">here</a>.</p>
+<p>A more advanced filter can process the entire tree by implementing the <code>MetaDataFilter</code> class without using the <code>BaseMetadataFilter</code>.</p>
+<p>Along with a Filter you need to define a <a href="../scaladoc/1.2.0/io/xskipper/search/filters/MetadataFilterFactory.html">MetadataFilterFactory</a>. The MetadataFilterFactory specifies which filters should run given the available indexes.
+For example, see the <a href="https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/index/RegexIndexFactory.scala">RegexIndexFactory</a>.</p>
+<h3 id="define-translation-for-the-clause">Define translation for the clause<a class="headerlink" href="#define-translation-for-the-clause" title="Permanent link">&para;</a></h3>
+<p><em>Implementations of <a href="../scaladoc/1.2.0/io/xskipper/metadatastore/ClauseTranslator.html">ClauseTranslator</a></em></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Xskipper uses Parquet as the metadatastore by default.  <br />
+The Parquet metadatastore stores the metadata for the objects as rows in parquet files (for more details see <a href="../developer/parquet-metadatastore-spec/">here</a>).  <br />
+Spark is used as the engine to run the abstract clauses on the metadata.   <br />
+The API enables defining your own metadatastore. Here we focus on the metadata in the Parquet metadatastore. Therefore, the translations are relevant to the Parquet metadatastore.</p>
+</div>
+<p>In order to process a clause, the abstract clause defined above needs to be translated to a form that is executable by the metadatastore.</p>
+<p>For the Parquet metadatastore we have 2 options:</p>
+<ul>
+<li>
+<p>Translate the Clause to a native Spark operation - this is useful when you have a built-in expression in Spark that can process the metadata. For example, for the MinMax index we use Spark’s built-in inequality operators (&gt;, &lt;, &gt;=, &lt;=) to translate the abstract clause (see <a href="https://github.com/xskipper-io/xskipper/blob/0b430e9df3abaec2ee8ec530c702b6534c9f751f/src/main/scala/io/xskipper/metadatastore/parquet/ParquetBaseClauseTranslator.scala#L56">here</a>).</p>
+</li>
+<li>
+<p>Use a UDF that will process the metadata - this is useful when the metadata is saved by serializing the abstract metadata type 
+or when there is no built-in operation that implements the logic needed in order to process the metadata.   <br />
+For example, for the BloomFilter index which we serializes its metadata, we use a UDF to check whether the given value exists in the metadata or not (see <a href="https://github.com/xskipper-io/xskipper/blob/master/src/main/scala/io/xskipper/metadatastore/parquet/ParquetBaseClauseTranslator.scala">here</a>).</p>
+</li>
+</ul>
+<p>For the Regex Plugin we translate the clause to use Spark's <code>arrays_overlap</code> and <code>array_except</code> functions in order to check if the values in the clause exist in the metadata (see <a href="https://github.com/xskipper-io/xskipper-regex-plugin/blob/master/src/main/scala/io/xskipper/plugins/regex/parquet/RegexValueListClauseTranslator.scala">here</a>).</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../indexing/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Indexing
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../configuration/configuration/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Xskipper Configuration
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            @ 2020 Xskipper.
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/xskipper-io" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d892486b.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

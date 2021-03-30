@@ -1,0 +1,1666 @@
+<!--
+ -- Copyright 2021 IBM Corp.
+ -- SPDX-License-Identifier: Apache-2.0
+ -->
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Extensible Data Skipping Framework for Apache Spark">
+      
+      
+      
+        <meta name="author" content="Xskipper team">
+      
+      
+        <link rel="canonical" href="https://xskipper.io/getting-started/quick-start-guide/">
+      
+      <link rel="icon" href="../../img/logo_black.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.0">
+    
+    
+      
+        <title>Quick Start Guide - Xskipper</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.33e2939f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="deep-purple" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#quick-start-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Xskipper" class="md-header__button md-logo" aria-label="Xskipper" data-md-component="logo">
+      
+  <img src="../../img/logo_white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xskipper
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Quick Start Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/xskipper-io/xskipper" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xskipper-io/xskipper
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      About
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../concepts/data-skipping/" class="md-tabs__link">
+        Concepts
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/indexing/" class="md-tabs__link">
+        API
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="https://github.com/xskipper-io/xskipper/releases" class="md-tabs__link">
+      Releases
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Xskipper" class="md-nav__button md-logo" aria-label="Xskipper" data-md-component="logo">
+      
+  <img src="../../img/logo_white.png" alt="logo">
+
+    </a>
+    Xskipper
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/xskipper-io/xskipper" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xskipper-io/xskipper
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Getting Started
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Quick Start Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Quick Start Guide
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup-apache-spark-with-xskipper" class="md-nav__link">
+    Setup Apache Spark with Xskipper
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup Apache Spark with Xskipper">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run-with-an-interactive-shell" class="md-nav__link">
+    Run with an interactive shell
+  </a>
+  
+    <nav class="md-nav" aria-label="Run with an interactive shell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spark-scala-shell" class="md-nav__link">
+    Spark Scala Shell
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyspark" class="md-nav__link">
+    PySpark
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-as-a-project" class="md-nav__link">
+    Run as a project
+  </a>
+  
+    <nav class="md-nav" aria-label="Run as a project">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#maven" class="md-nav__link">
+    Maven
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sbt" class="md-nav__link">
+    SBT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    Python
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-xskipper" class="md-nav__link">
+    Configure Xskipper
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indexing-a-dataset" class="md-nav__link">
+    Indexing a Dataset
+  </a>
+  
+    <nav class="md-nav" aria-label="Indexing a Dataset">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-sample-dataset" class="md-nav__link">
+    Creating a Sample Dataset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexing" class="md-nav__link">
+    Indexing
+  </a>
+  
+    <nav class="md-nav" aria-label="Indexing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#viewing-index-status" class="md-nav__link">
+    Viewing index status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-indexed-datasets" class="md-nav__link">
+    List Indexed datasets
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-data-skipping-indexes" class="md-nav__link">
+    Using Data Skipping Indexes
+  </a>
+  
+    <nav class="md-nav" aria-label="Using Data Skipping Indexes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabledisable-xskipper" class="md-nav__link">
+    Enable/Disable Xskipper
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-queries" class="md-nav__link">
+    Running Queries
+  </a>
+  
+    <nav class="md-nav" aria-label="Running Queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-query-using-the-minmax-index" class="md-nav__link">
+    Example query using the MinMax index
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspecting-query-skipping-stats" class="md-nav__link">
+    Inspecting query skipping stats
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index-life-cycle" class="md-nav__link">
+    Index Life Cycle
+  </a>
+  
+    <nav class="md-nav" aria-label="Index Life Cycle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#refresh-index" class="md-nav__link">
+    Refresh Index
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drop-index" class="md-nav__link">
+    Drop Index
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-hive-tables" class="md-nav__link">
+    Working with Hive tables
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Hive tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-the-base-index-location-in-the-database" class="md-nav__link">
+    Setting the base index location in the database
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting the base index location in the database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-sample-hive-table" class="md-nav__link">
+    Creating a Sample Hive Table
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexing-a-hive-table" class="md-nav__link">
+    Indexing a Hive Table
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-queries_1" class="md-nav__link">
+    Running Queries
+  </a>
+  
+    <nav class="md-nav" aria-label="Running Queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-query-using-the-minmax-index_1" class="md-nav__link">
+    Example query using the MinMax index
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#index-life-cycle-hive-tables" class="md-nav__link">
+    Index Life Cycle - Hive Tables
+  </a>
+  
+    <nav class="md-nav" aria-label="Index Life Cycle - Hive Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#view-the-index-status" class="md-nav__link">
+    View the index status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refresh-index_1" class="md-nav__link">
+    Refresh Index
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drop-index_1" class="md-nav__link">
+    Drop Index
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sample-notebooks/" class="md-nav__link">
+        Demo Notebooks
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Concepts
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Concepts" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Concepts
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/data-skipping/" class="md-nav__link">
+        Data Skipping
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/extensible/" class="md-nav__link">
+        Extensible Data Skipping
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/indexing-flow/" class="md-nav__link">
+        Indexing Flow
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/query-evaluation-flow/" class="md-nav__link">
+        Query Evaluation Flow
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        API
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/indexing/" class="md-nav__link">
+        Indexing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/creating-new-plugin/" class="md-nav__link">
+        Using The Extensible API
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" >
+      
+      <label class="md-nav__link" for="__nav_4_3">
+        Configuration
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Configuration" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/configuration/configuration/" class="md-nav__link">
+        Xskipper Configuration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/configuration/parquet-mdstore-configuration/" class="md-nav__link">
+        Parquet Metadatastore Configuration
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/api-reference/" class="md-nav__link">
+        API Reference
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_5" type="checkbox" id="__nav_4_5" >
+      
+      <label class="md-nav__link" for="__nav_4_5">
+        Developer Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer Guide" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/developer/build/" class="md-nav__link">
+        Build
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/developer/parquet-metadatastore-spec/" class="md-nav__link">
+        Parquet metadatastore spec
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/developer/metadata-versioning/" class="md-nav__link">
+        Metadata versioning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/developer/generate-doc/" class="md-nav__link">
+        API Doc Generation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/xskipper-io/xskipper/blob/master/CONTRIBUTING.md" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/xskipper-io/xskipper/releases" class="md-nav__link">
+        Releases
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <!--
+ -- Copyright 2021 IBM Corp.
+ -- SPDX-License-Identifier: Apache-2.0
+ -->
+
+<h1 id="quick-start-guide">Quick-Start Guide<a class="headerlink" href="#quick-start-guide" title="Permanent link">&para;</a></h1>
+<p>This guide helps you quickly get started using Xskipper with Apache Spark.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For advanced details see the <a href="../../api/indexing/">API</a> section and the full <a href="../../api/api-reference/">API Reference</a>. 
+See <a href="../sample-notebooks/">here</a> for sample notebooks.</p>
+</div>
+<h2 id="setup-apache-spark-with-xskipper">Setup Apache Spark with Xskipper<a class="headerlink" href="#setup-apache-spark-with-xskipper" title="Permanent link">&para;</a></h2>
+<p>Xskipper is compatible with Apache Spark 3.0. There are two ways to setup Xskipper:</p>
+<ol>
+<li>Run interactively: Start the Spark shell (Scala or Python) with Xskipper and explore Xskipper interactively.</li>
+<li>Run as a project: Set up a Maven or SBT project (Scala or Java) with Xskipper.</li>
+</ol>
+<h3 id="run-with-an-interactive-shell">Run with an interactive shell<a class="headerlink" href="#run-with-an-interactive-shell" title="Permanent link">&para;</a></h3>
+<p>To use Xskipper interactively within the Spark’s Scala/Python shell, you need a local installation of Apache Spark.
+Follow the instructions <a href="https://spark.apache.org/downloads.html">here</a> to install Apache Spark.</p>
+<h4 id="spark-scala-shell">Spark Scala Shell<a class="headerlink" href="#spark-scala-shell" title="Permanent link">&para;</a></h4>
+<p>Start a Spark Scala shell as follows:</p>
+<div class="highlight"><pre><span></span><code>./bin/spark-shell --packages io.xskipper:xskipper-core_2.12:1.2.0
+</code></pre></div>
+<h4 id="pyspark">PySpark<a class="headerlink" href="#pyspark" title="Permanent link">&para;</a></h4>
+<p>Install or upgrade PySpark (3.0 or above) by running the following:</p>
+<div class="highlight"><pre><span></span><code>pip install --upgrade pyspark
+</code></pre></div>
+<p>Then, run PySpark with the Xskipper package:</p>
+<div class="highlight"><pre><span></span><code>pyspark --packages io.xskipper:xskipper-core_2.12:1.2.0
+</code></pre></div>
+<h3 id="run-as-a-project">Run as a project<a class="headerlink" href="#run-as-a-project" title="Permanent link">&para;</a></h3>
+<p>To build a project using the Xskipper binaries from the Maven Central Repository, use the following Maven coordinates:</p>
+<h4 id="maven">Maven<a class="headerlink" href="#maven" title="Permanent link">&para;</a></h4>
+<p>Include Xskipper in a Maven project by adding it as a dependency in the project's POM file. Xskipper should be compiled with Scala 2.12.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>io.xskipper<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>xskipper-core_2.12<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.2.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+<h4 id="sbt">SBT<a class="headerlink" href="#sbt" title="Permanent link">&para;</a></h4>
+<p>Include Xskipper in an SBT project by adding the following line to its build.sbt file:</p>
+<div class="highlight"><pre><span></span><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;io.xskipper&quot;</span> <span class="o">%%</span> <span class="s">&quot;xskipper-core&quot;</span> <span class="o">%</span> <span class="s">&quot;1.2.0&quot;</span>
+</code></pre></div>
+<h4 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h4>
+<p>To set up a Python project, first start the Spark session using the Xskipper package and then import the Python APIs.</p>
+<div class="highlight"><pre><span></span><code><span class="n">spark</span> <span class="o">=</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Xskipper&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;io.xskipper:xskipper-core_2.12:1.2.0&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">xskipper</span> <span class="kn">import</span> <span class="n">Xskipper</span>
+<span class="kn">from</span> <span class="nn">xskipper</span> <span class="kn">import</span> <span class="n">Registration</span>
+</code></pre></div>
+<h2 id="configure-xskipper">Configure Xskipper<a class="headerlink" href="#configure-xskipper" title="Permanent link">&para;</a></h2>
+<p>In this example, we configure a JVM wide parameter to a base path which stores all data skipping indexes.
+The indexes can be stored on the same storage system as the data, but not under the same path.
+During query time indexes will be consulted at this location.</p>
+<p>For more configuration options, see <a href="../../api/configuration/configuration/">configuration options</a>.</p>
+<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">xskipper</span> <span class="kn">import</span> <span class="n">Xskipper</span>
+
+<span class="c1"># The base location to store all indexes </span>
+<span class="c1"># TODO: change to your index base location</span>
+<span class="n">md_base_location</span> <span class="o">=</span> <span class="s2">&quot;/tmp/metadata&quot;</span>
+
+<span class="c1"># Configuring the JVM wide parameters</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([</span>
+            <span class="p">(</span><span class="s2">&quot;io.xskipper.parquet.mdlocation&quot;</span><span class="p">,</span> <span class="n">md_base_location</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;io.xskipper.parquet.mdlocation.type&quot;</span><span class="p">,</span> <span class="s2">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="p">)])</span>
+<span class="n">Xskipper</span><span class="o">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io.xskipper._</span>
+<span class="k">import</span> <span class="nn">io.xskipper.implicits._</span>
+
+<span class="c1">// The base location to store all indexes</span>
+<span class="c1">// TODO: change to your index base location</span>
+<span class="k">val</span> <span class="n">md_base_location</span> <span class="o">=</span> <span class="s">s&quot;/tmp/metadata&quot;</span>
+
+<span class="c1">// Configuring the JVM wide parameters</span>
+<span class="k">val</span> <span class="n">conf</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">(</span>
+  <span class="s">&quot;io.xskipper.parquet.mdlocation&quot;</span> <span class="o">-&gt;</span> <span class="n">md_base_location</span><span class="o">,</span>
+  <span class="s">&quot;io.xskipper.parquet.mdlocation.type&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="o">)</span>
+<span class="nc">Xskipper</span><span class="o">.</span><span class="n">setConf</span><span class="o">(</span><span class="n">conf</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h2 id="indexing-a-dataset">Indexing a Dataset<a class="headerlink" href="#indexing-a-dataset" title="Permanent link">&para;</a></h2>
+<h3 id="creating-a-sample-dataset">Creating a Sample Dataset<a class="headerlink" href="#creating-a-sample-dataset" title="Permanent link">&para;</a></h3>
+<p>First, let's create a sample dataset.</p>
+<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># TODO: change to your data location</span>
+<span class="n">dataset_location</span> <span class="o">=</span> <span class="s2">&quot;/tmp/data&quot;</span>
+
+<span class="n">df_schema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span><span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;dt&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span> <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;temp&quot;</span><span class="p">,</span> <span class="n">DoubleType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>\
+                      <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;city&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span> <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;vid&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">)])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;2017-07-07&quot;</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="s2">&quot;Tel-Aviv&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;2017-07-08&quot;</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="s2">&quot;Jerusalem&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">df_schema</span><span class="p">)</span>
+
+<span class="c1"># use partitionBy to make sure we have two objects</span>
+<span class="n">df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">partitionBy</span><span class="p">(</span><span class="s2">&quot;dt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">parquet</span><span class="p">(</span><span class="n">dataset_location</span><span class="p">)</span>
+
+<span class="c1"># read the dataset back from storage</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;parquet&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dataset_location</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">org.apache.spark.sql.Row</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.types.</span><span class="o">{</span><span class="nc">DoubleType</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="nc">StructField</span><span class="o">,</span> <span class="nc">StructType</span><span class="o">}</span>
+
+<span class="c1">// TODO: change to your data location</span>
+<span class="k">val</span> <span class="n">dataset_location</span> <span class="o">=</span> <span class="s">s&quot;/tmp/data&quot;</span>
+
+<span class="k">val</span> <span class="n">schema</span> <span class="o">=</span> <span class="nc">List</span><span class="o">(</span>
+  <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;dt&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+  <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;temp&quot;</span><span class="o">,</span> <span class="nc">DoubleType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+  <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;city&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+  <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;vid&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">data</span> <span class="o">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="nc">Row</span><span class="o">(</span><span class="s">&quot;2017-07-07&quot;</span><span class="o">,</span> <span class="mf">20.0</span><span class="o">,</span> <span class="s">&quot;Tel-Aviv&quot;</span><span class="o">,</span> <span class="s">&quot;a&quot;</span><span class="o">),</span>
+  <span class="nc">Row</span><span class="o">(</span><span class="s">&quot;2017-07-08&quot;</span><span class="o">,</span> <span class="mf">30.0</span><span class="o">,</span> <span class="s">&quot;Jerusalem&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">)</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="o">(</span>
+  <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="n">data</span><span class="o">),</span>
+  <span class="nc">StructType</span><span class="o">(</span><span class="n">schema</span><span class="o">)</span>
+<span class="o">)</span>
+
+<span class="c1">// use partitionBy to make sure we have two objects</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">partitionBy</span><span class="o">(</span><span class="s">&quot;dt&quot;</span><span class="o">).</span><span class="n">mode</span><span class="o">(</span><span class="s">&quot;overwrite&quot;</span><span class="o">).</span><span class="n">parquet</span><span class="o">(</span><span class="n">dataset_location</span><span class="o">)</span>
+
+<span class="c1">// read the dataset back from storage</span>
+<span class="k">val</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;parquet&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">df</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="n">dataset_location</span><span class="o">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h3 id="indexing">Indexing<a class="headerlink" href="#indexing" title="Permanent link">&para;</a></h3>
+<p>When creating a data skipping index on a data set, first decide which columns to index, then choose an index type for each column.
+These choices are workload and data dependent. Typically, choose columns to which predicates are applied in many queries.</p>
+<p>The following index types are supported out of the box:</p>
+<table>
+<thead>
+<tr>
+<th>Index type</th>
+<th>Description</th>
+<th>Applicable to predicates in WHERE clauses</th>
+<th>Column types</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MinMax</td>
+<td>Stores minimum and maximum values for a column</td>
+<td>&lt;,&lt;=,=,&gt;=,&gt;</td>
+<td>All types except for complex types. See <a href="https://spark.apache.org/docs/latest/sql-ref-datatypes.html">Supported Spark SQL data types</a>.</td>
+</tr>
+<tr>
+<td>ValueList</td>
+<td>Stores the list of unique values for the column</td>
+<td>=,IN,LIKE</td>
+<td>All types except for complex types. See <a href="https://spark.apache.org/docs/latest/sql-ref-datatypes.html">Supported Spark SQL data types</a>.</td>
+</tr>
+<tr>
+<td>BloomFilter</td>
+<td>Uses a bloom filter to test for set membership</td>
+<td>=,IN</td>
+<td>Byte, String, Long, Integer, Short</td>
+</tr>
+</tbody>
+</table>
+<p>MinMax results in small index size and is a good usually choice when the dataset's sort order is correlated with a given column. For the other 2 options, 
+choose value list if the number of distinct values in an object is typically much smaller than the total number of values in that object.
+On the other hand Bloom filters are recommended for columns with high cardinality (otherwise the index can get as big as that column of the data set).</p>
+<p>Note that Xskipper also enables to create your own data skipping indexes and specify how to use them during query time. For more details see <a href="../../api/creating-new-plugin/">here</a>.</p>
+<div class="tabbed-set" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="c1"># create Xskipper instance for the sample dataset</span>
+<span class="n">xskipper</span> <span class="o">=</span> <span class="n">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">dataset_location</span><span class="p">)</span>
+
+<span class="c1"># remove index if exists</span>
+<span class="k">if</span> <span class="n">xskipper</span><span class="o">.</span><span class="n">isIndexed</span><span class="p">():</span>
+    <span class="n">xskipper</span><span class="o">.</span><span class="n">dropIndex</span><span class="p">()</span>
+
+<span class="n">xskipper</span><span class="o">.</span><span class="n">indexBuilder</span><span class="p">()</span> \
+        <span class="o">.</span><span class="n">addMinMaxIndex</span><span class="p">(</span><span class="s2">&quot;temp&quot;</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">addValueListIndex</span><span class="p">(</span><span class="s2">&quot;city&quot;</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">addBloomFilterIndex</span><span class="p">(</span><span class="s2">&quot;vid&quot;</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="c1">// create Xskipper instance for the sample dataset</span>
+<span class="k">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">dataset_location</span><span class="o">)</span>
+
+<span class="c1">// remove existing index if needed</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">xskipper</span><span class="o">.</span><span class="n">isIndexed</span><span class="o">())</span> <span class="o">{</span>
+  <span class="n">xskipper</span><span class="o">.</span><span class="n">dropIndex</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">xskipper</span><span class="o">.</span><span class="n">indexBuilder</span><span class="o">()</span>
+        <span class="o">.</span><span class="n">addMinMaxIndex</span><span class="o">(</span><span class="s">&quot;temp&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="n">addValueListIndex</span><span class="o">(</span><span class="s">&quot;city&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="n">addBloomFilterIndex</span><span class="o">(</span><span class="s">&quot;vid&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="n">build</span><span class="o">(</span><span class="n">reader</span><span class="o">)</span>
+        <span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h4 id="viewing-index-status">Viewing index status<a class="headerlink" href="#viewing-index-status" title="Permanent link">&para;</a></h4>
+<p>The following code shows how a user can view the current index status to check which indexes exist on the dataset and whether the index is up-to-date.</p>
+<div class="tabbed-set" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><label for="__tabbed_4_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">describeIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">describeIndex</span><span class="o">(</span><span class="n">reader</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h4 id="list-indexed-datasets">List Indexed datasets<a class="headerlink" href="#list-indexed-datasets" title="Permanent link">&para;</a></h4>
+<p>The following code shows how a user can view all indexed datasets under the current base location.</p>
+<div class="tabbed-set" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><label for="__tabbed_5_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">Xskipper</span><span class="o">.</span><span class="n">listIndexes</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><label for="__tabbed_5_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="o">.</span><span class="n">listIndexes</span><span class="o">(</span><span class="n">spark</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h2 id="using-data-skipping-indexes">Using Data Skipping Indexes<a class="headerlink" href="#using-data-skipping-indexes" title="Permanent link">&para;</a></h2>
+<h3 id="enabledisable-xskipper">Enable/Disable Xskipper<a class="headerlink" href="#enabledisable-xskipper" title="Permanent link">&para;</a></h3>
+<p>Xskipper provides APIs to enable or disable index usage with Spark.
+By using the "enable" command, Xskipper optimization rules become visible to the Apache Spark optimizer and will be used in query optimization and execution.
+By using the "disable' command, Xskipper optimization rules no longer apply during query optimization.
+Note that disabling Xskipper has no impact on created indexes, and they remain intact.</p>
+<div class="tabbed-set" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><label for="__tabbed_6_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="c1"># Enable Xskipper</span>
+<span class="n">Xskipper</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
+
+<span class="c1"># Disable Xskipper</span>
+<span class="n">Xskipper</span><span class="o">.</span><span class="n">disable</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
+
+<span class="c1"># You can use the following to check whether the Xskipper is enabled</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">Xskipper</span><span class="o">.</span><span class="n">isEnabled</span><span class="p">(</span><span class="n">spark</span><span class="p">):</span>
+    <span class="n">Xskipper</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><label for="__tabbed_6_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="c1">// Enable Xskipper</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">enableXskipper</span><span class="o">()</span>
+
+<span class="c1">// Disable Xskipper</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">disableXskipper</span><span class="o">()</span>
+
+<span class="c1">// You can use the following to check whether the Xskipper is enabled</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">spark</span><span class="o">.</span><span class="n">isXskipperEnabled</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">spark</span><span class="o">.</span><span class="n">enableXskipper</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div>
+</div>
+</div>
+<h3 id="running-queries">Running Queries<a class="headerlink" href="#running-queries" title="Permanent link">&para;</a></h3>
+<p>Once Xskipper has been enabled you can run queries (using either SQL or the DataFrame API) and enjoy the performance and cost benefits of data skipping. There will be no change to query results. </p>
+<p>First, let's create a temporary view:</p>
+<div class="tabbed-set" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><label for="__tabbed_7_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dataset_location</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;sample&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><label for="__tabbed_7_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="o">(</span><span class="s">&quot;sample&quot;</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h4 id="example-query-using-the-minmax-index">Example query using the MinMax index<a class="headerlink" href="#example-query-using-the-minmax-index" title="Permanent link">&para;</a></h4>
+<div class="tabbed-set" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><label for="__tabbed_8_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select * from sample where temp &lt; 30&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><label for="__tabbed_8_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;select * from sample where temp &lt; 30&quot;</span><span class="o">).</span><span class="n">show</span><span class="o">()</span>
+</code></pre></div>
+</div>
+</div>
+<p><br/></p>
+<h4 id="inspecting-query-skipping-stats">Inspecting query skipping stats<a class="headerlink" href="#inspecting-query-skipping-stats" title="Permanent link">&para;</a></h4>
+<div class="tabbed-set" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><label for="__tabbed_9_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">Xskipper</span><span class="o">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><label for="__tabbed_9_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="o">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="o">(</span><span class="n">spark</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<p>Note: the above returns the accumulated data skipping statistics for all of the datasets which were involved in the query.
+If you want to inspect the stats for a specific dataset you can call the API below to get stats on the Xskipper instance:</p>
+<div class="tabbed-set" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><label for="__tabbed_10_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">getLatestQueryStats</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><label for="__tabbed_10_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">getLatestQueryStats</span><span class="o">().</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<p>For more examples see the <a href="../sample-notebooks/">sample notebooks</a></p>
+<h2 id="index-life-cycle">Index Life Cycle<a class="headerlink" href="#index-life-cycle" title="Permanent link">&para;</a></h2>
+<p>The following operations can be used in order to maintain the index.</p>
+<h3 id="refresh-index">Refresh Index<a class="headerlink" href="#refresh-index" title="Permanent link">&para;</a></h3>
+<p>Over time the index can become stale as new files are added/removed/modified from the dataset.
+In order to bring the index up-to-date you can call the refresh operation which will index the new/modified files and remove obsolete metadata.
+Note: The index will still be beneficial for files which didn't change since the last indexing time even without refreshing.</p>
+<p>First let's simulate addition of new data to the dataset:</p>
+<div class="tabbed-set" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><label for="__tabbed_11_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="c1"># adding new file to the dataset to simulate changes in the dataset</span>
+<span class="n">update_data</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;2017-07-09&quot;</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="s2">&quot;Beer-Sheva&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)]</span>
+
+<span class="n">update_df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">update_data</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">df_schema</span><span class="p">)</span>
+
+<span class="c1"># append to the existing dataset</span>
+<span class="n">update_df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">partitionBy</span><span class="p">(</span><span class="s2">&quot;dt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;append&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">parquet</span><span class="p">(</span><span class="n">dataset_location</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><label for="__tabbed_11_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">update_data</span> <span class="o">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="nc">Row</span><span class="o">(</span><span class="s">&quot;2017-07-09&quot;</span><span class="o">,</span> <span class="mf">25.0</span><span class="o">,</span> <span class="s">&quot;Beer-Sheva&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">)</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">update_ds</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="o">(</span>
+  <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="n">update_data</span><span class="o">),</span>
+  <span class="nc">StructType</span><span class="o">(</span><span class="n">schema</span><span class="o">)</span>
+<span class="o">)</span>
+
+<span class="c1">// append to the existing dataset</span>
+<span class="n">update_ds</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">partitionBy</span><span class="o">(</span><span class="s">&quot;dt&quot;</span><span class="o">).</span><span class="n">mode</span><span class="o">(</span><span class="s">&quot;append&quot;</span><span class="o">).</span><span class="n">parquet</span><span class="o">(</span><span class="n">dataset_location</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<p>Now, let's inspect the index status:</p>
+<div class="tabbed-set" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><label for="__tabbed_12_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">describeIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><label for="__tabbed_12_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">describeIndex</span><span class="o">(</span><span class="n">reader</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<p>In this case the index status will indicate that there are new files that are not indexed. Therefore we use the Refresh operation to update the metadata:</p>
+<div class="tabbed-set" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><label for="__tabbed_13_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">refreshIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><label for="__tabbed_13_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">refreshIndex</span><span class="o">(</span><span class="n">reader</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<p>Now you can run the <code>describe</code> operation again and see that the metadata is up to date.</p>
+<h3 id="drop-index">Drop Index<a class="headerlink" href="#drop-index" title="Permanent link">&para;</a></h3>
+<p>In order to drop the index use the following API call:</p>
+<div class="tabbed-set" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><label for="__tabbed_14_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">dropIndex</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><label for="__tabbed_14_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">dropIndex</span><span class="o">()</span>
+</code></pre></div>
+</div>
+</div>
+<h2 id="working-with-hive-tables">Working with Hive tables<a class="headerlink" href="#working-with-hive-tables" title="Permanent link">&para;</a></h2>
+<p>Xskipper also supports skipping over hive tables.<br />
+Note that indexing is for Hive tables with partitions. To index tables without partitions, index the physical location directly.</p>
+<p>The API for working with hive tables is similar to the API presented above with 2 main differences:</p>
+<ol>
+<li>
+<p>The uri used in the Xskipper constructor is the table identifier with the form: <code>&lt;db&gt;.&lt;table&gt;</code>.</p>
+</li>
+<li>
+<p>The API calls do not require a DataFrameReader.</p>
+</li>
+</ol>
+<p>For more information regarding the API see <a href="../../api/indexing/">here</a>.</p>
+<p>The index location for a hive table is resolved according to the following:</p>
+<ul>
+<li>If the table contains the parameter <code>io.xskipper.parquet.mdlocation</code> this value will be used as the index location.</li>
+<li>Otherwise, xskipper will look up the parameter <code>io.xskipper.parquet.mdlocation</code> in the table's database and will use it as the base index location for all tables.</li>
+</ul>
+<p>Note: During indexing, the index location parameter can be automatically added to the table properties if the xskipper instance is configured accordingly.<br />
+For more info regarding the index location configuration see <a href="../../api/configuration/parquet-mdstore-configuration/#types-of-metadata-location">here</a>.</p>
+<h3 id="setting-the-base-index-location-in-the-database">Setting the base index location in the database<a class="headerlink" href="#setting-the-base-index-location-in-the-database" title="Permanent link">&para;</a></h3>
+<p>In this example we will set the base location in the database.</p>
+<div class="tabbed-set" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><label for="__tabbed_15_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">alter_db_ddl</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;ALTER DATABASE default SET DBPROPERTIES (&#39;io.xskipper.parquet.mdlocation&#39;=&#39;</span><span class="si">{0}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">md_base_location</span><span class="p">)</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">alter_db_ddl</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><label for="__tabbed_15_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">alter_db_ddl</span> <span class="o">=</span> <span class="s">s&quot;ALTER DATABASE default SET DBPROPERTIES (&#39;io.xskipper.parquet.mdlocation&#39;=&#39;</span><span class="si">${</span><span class="n">md_base_location</span><span class="si">}</span><span class="s">&#39;)&quot;</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="n">alter_db_ddl</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h4 id="creating-a-sample-hive-table">Creating a Sample Hive Table<a class="headerlink" href="#creating-a-sample-hive-table" title="Permanent link">&para;</a></h4>
+<p>Let's create a hive table on the dataset we created earlier:</p>
+<div class="tabbed-set" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><label for="__tabbed_16_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">create_table_ddl</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;CREATE TABLE IF NOT EXISTS tbl ( </span><span class="se">\</span>
+<span class="s2">temp Double,</span>
+<span class="s2">city String,</span>
+<span class="s2">vid String,</span>
+<span class="s2">dt String</span>
+<span class="s2">)</span>
+<span class="s2">USING PARQUET</span>
+<span class="s2">PARTITIONED BY (dt)</span>
+<span class="s2">LOCATION &#39;</span><span class="si">{0}</span><span class="s2">&#39;&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dataset_location</span><span class="p">)</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">create_table_ddl</span><span class="p">)</span>
+
+<span class="c1"># recover the partitions</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;ALTER TABLE tbl RECOVER PARTITIONS&quot;</span><span class="p">)</span>
+
+<span class="c1"># verify the table was created</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;show tables&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;show partitions tbl&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><label for="__tabbed_16_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">create_table_ddl</span> <span class="o">=</span>
+      <span class="s">s&quot;&quot;&quot;CREATE TABLE IF NOT EXISTS tbl (</span>
+<span class="s">         |temp Double,</span>
+<span class="s">         |city String,</span>
+<span class="s">         |vid String,</span>
+<span class="s">         |dt String</span>
+<span class="s">         |)</span>
+<span class="s">         |USING PARQUET</span>
+<span class="s">         |PARTITIONED BY (dt)</span>
+<span class="s">         |LOCATION &#39;</span><span class="si">${</span><span class="n">dataset_location</span><span class="si">}</span><span class="s">&#39;</span>
+<span class="s">         |&quot;&quot;&quot;</span><span class="o">.</span><span class="n">stripMargin</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="n">create_table_ddl</span><span class="o">)</span>
+
+<span class="c1">// Recover the table partitions</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;ALTER TABLE tbl RECOVER PARTITIONS&quot;</span><span class="o">)</span>
+
+<span class="c1">// verify the table was created</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;show tables&quot;</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;show partitions tbl&quot;</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h3 id="indexing-a-hive-table">Indexing a Hive Table<a class="headerlink" href="#indexing-a-hive-table" title="Permanent link">&para;</a></h3>
+<p>Note we use default.sample as the uri in the Xskipper constructor.</p>
+<div class="tabbed-set" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><label for="__tabbed_17_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="c1"># create an Xskipper instance for the sample Hive Table</span>
+<span class="n">xskipper_hive</span> <span class="o">=</span> <span class="n">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s1">&#39;default.tbl&#39;</span><span class="p">)</span>
+
+<span class="c1"># remove index if exists</span>
+<span class="k">if</span> <span class="n">xskipper_hive</span><span class="o">.</span><span class="n">isIndexed</span><span class="p">():</span>
+    <span class="n">xskipper_hive</span><span class="o">.</span><span class="n">dropIndex</span><span class="p">()</span>
+
+<span class="n">xskipper_hive</span><span class="o">.</span><span class="n">indexBuilder</span><span class="p">()</span> \
+        <span class="o">.</span><span class="n">addMinMaxIndex</span><span class="p">(</span><span class="s2">&quot;temp&quot;</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">addValueListIndex</span><span class="p">(</span><span class="s2">&quot;city&quot;</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">addBloomFilterIndex</span><span class="p">(</span><span class="s2">&quot;vid&quot;</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">build</span><span class="p">()</span> \
+        <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><label for="__tabbed_17_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="c1">// create an Xskipper instance for the sample Hive Table</span>
+<span class="k">val</span> <span class="n">xskipper_hive</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="s">&quot;default.tbl&quot;</span><span class="o">)</span>
+
+<span class="c1">// remove existing index if needed</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">isIndexed</span><span class="o">())</span> <span class="o">{</span>
+  <span class="n">xskipper_hive</span><span class="o">.</span><span class="n">dropIndex</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">xskipper_hive</span><span class="o">.</span><span class="n">indexBuilder</span><span class="o">()</span>
+        <span class="o">.</span><span class="n">addMinMaxIndex</span><span class="o">(</span><span class="s">&quot;temp&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="n">addValueListIndex</span><span class="o">(</span><span class="s">&quot;city&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="n">addBloomFilterIndex</span><span class="o">(</span><span class="s">&quot;vid&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="n">build</span><span class="o">()</span>
+        <span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h3 id="running-queries_1">Running Queries<a class="headerlink" href="#running-queries_1" title="Permanent link">&para;</a></h3>
+<p>Once Xskipper has been enabled you can continue running queries (using either SQL or DataFrame API) and enjoy the benefits of data skipping.</p>
+<p>First, let's make sure Xskipper is enabled:</p>
+<div class="tabbed-set" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><label for="__tabbed_18_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="c1"># You can use the following to check whether the Xskipper is enabled</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">Xskipper</span><span class="o">.</span><span class="n">isEnabled</span><span class="p">(</span><span class="n">spark</span><span class="p">):</span>
+    <span class="n">Xskipper</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><label for="__tabbed_18_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="c1">// You can use the following to check whether the Xskipper is enabled</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">spark</span><span class="o">.</span><span class="n">isXskipperEnabled</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">spark</span><span class="o">.</span><span class="n">enableXskipper</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div>
+</div>
+</div>
+<h4 id="example-query-using-the-minmax-index_1">Example query using the MinMax index<a class="headerlink" href="#example-query-using-the-minmax-index_1" title="Permanent link">&para;</a></h4>
+<div class="tabbed-set" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><label for="__tabbed_19_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select * from tbl where temp &lt; 30&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">false</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><label for="__tabbed_19_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;select * from tbl where temp &lt; 30&quot;</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<p>Inspecting the query stats:</p>
+<div class="tabbed-set" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><label for="__tabbed_20_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">Xskipper</span><span class="o">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><label for="__tabbed_20_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="o">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="o">(</span><span class="n">spark</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h3 id="index-life-cycle-hive-tables">Index Life Cycle - Hive Tables<a class="headerlink" href="#index-life-cycle-hive-tables" title="Permanent link">&para;</a></h3>
+<p>The API is similar to the dataset API but without the need for a <code>reader</code> instance.</p>
+<h4 id="view-the-index-status">View the index status<a class="headerlink" href="#view-the-index-status" title="Permanent link">&para;</a></h4>
+<div class="tabbed-set" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><label for="__tabbed_21_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">describeIndex</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><label for="__tabbed_21_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">describeIndex</span><span class="o">().</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h4 id="refresh-index_1">Refresh Index<a class="headerlink" href="#refresh-index_1" title="Permanent link">&para;</a></h4>
+<div class="tabbed-set" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><label for="__tabbed_22_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">refreshIndex</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><label for="__tabbed_22_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">refreshIndex</span><span class="o">(</span><span class="n">reader</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>
+</div>
+</div>
+<h4 id="drop-index_1">Drop Index<a class="headerlink" href="#drop-index_1" title="Permanent link">&para;</a></h4>
+<p>In order to drop the index use the following API call:</p>
+<div class="tabbed-set" data-tabs="23:2"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><label for="__tabbed_23_1">Python</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">dropIndex</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><label for="__tabbed_23_2">Scala</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">dropIndex</span><span class="o">()</span>
+</code></pre></div>
+</div>
+</div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../.." class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              About
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../sample-notebooks/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Demo Notebooks
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            @ 2020 Xskipper.
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/xskipper-io" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d892486b.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

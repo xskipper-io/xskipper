@@ -1,0 +1,1066 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>ValueListIndex - io.xskipper.index.ValueListIndex</title>
+          <meta name="description" content="ValueListIndex - io.xskipper.index.ValueListIndex" />
+          <meta name="keywords" content="ValueListIndex io.xskipper.index.ValueListIndex" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'io.xskipper.index.ValueListIndex';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <a href="ValueListIndex$.html" title="See companion object"><img alt="Class/Object" src="../../../lib/class_to_object_big.png" /></a>
+        <p id="owner"><a href="../../package.html" class="extype" name="io">io</a>.<a href="../package.html" class="extype" name="io.xskipper">xskipper</a>.<a href="package.html" class="extype" name="io.xskipper.index">index</a></p>
+        <h1><a href="ValueListIndex$.html" title="See companion object">ValueListIndex</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="ValueListIndex$.html" title="See companion object">object ValueListIndex</a>
+            | <a href="package.html" class="extype" name="io.xskipper.index">package index</a>
+          </div></span></h3><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ValueListIndex</span><span class="params">(<span name="col">col: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="keyMetadata">keyMetadata: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span><span class="result"> extends <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Represents an abstract ValueList index</p></div><dl class="paramcmts block"><dt class="param">col</dt><dd class="cmt"><p>the column on which the index is applied</p></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By Inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="io.xskipper.index.ValueListIndex"><span>ValueListIndex</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="io.xskipper.index.Index"><span>Index</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show All</span></li>
+            </ol>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="io.xskipper.index.ValueListIndex#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(col:String,keyMetadata:Option[String]):io.xskipper.index.ValueListIndex"></a>
+      <a id="&lt;init&gt;:ValueListIndex"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ValueListIndex</span><span class="params">(<span name="col">col: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="keyMetadata">keyMetadata: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@&lt;init&gt;(col:String,keyMetadata:Option[String]):io.xskipper.index.ValueListIndex" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">col</dt><dd class="cmt"><p>the column on which the index is applied</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@##():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@clone():Object" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="io.xskipper.index.ValueListIndex#col" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="col:String"></a>
+      <a id="col:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">col</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@col:String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">the column on which the index is applied</p>
+    </li><li name="io.xskipper.index.Index#colsMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="colsMap:Map[String,io.xskipper.index.IndexField]"></a>
+      <a id="colsMap:Map[String,IndexField]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">colsMap</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <a href="IndexField.html" class="extype" name="io.xskipper.index.IndexField">IndexField</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@colsMap:Map[String,io.xskipper.index.IndexField]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="io.xskipper.index.Index#generateBaseMetadata" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="generateBaseMetadata():io.xskipper.index.metadata.MetadataType"></a>
+      <a id="generateBaseMetadata():MetadataType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generateBaseMetadata</span><span class="params">()</span><span class="result">: <a href="metadata/MetadataType.html" class="extype" name="io.xskipper.index.metadata.MetadataType">MetadataType</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@generateBaseMetadata():io.xskipper.index.metadata.MetadataType" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>&quot;zero&quot; value of the index - will be used for the first comparison to the object's
+        rows data (by default this is null)</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="io.xskipper.index.Index#generateColsMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="generateColsMap(schemaMap:Map[String,(String,org.apache.spark.sql.types.StructField)]):Unit"></a>
+      <a id="generateColsMap(Map[String,(String,StructField)]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generateColsMap</span><span class="params">(<span name="schemaMap">schemaMap: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="org.apache.spark.sql.types.StructField">StructField</span>)]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@generateColsMap(schemaMap:Map[String,(String,org.apache.spark.sql.types.StructField)]):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Generate the column map according to a given schema
+</p><div class="fullcomment"><div class="comment cmt"><p>Generate the column map according to a given schema
+</p></div><dl class="paramcmts block"><dt class="param">schemaMap</dt><dd class="cmt"><p>a map containing column names (as appear in the object) and their data types
+                 the key is the column name in lower case</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="io.xskipper.index.Index#getCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getCols:Seq[String]"></a>
+      <a id="getCols:Seq[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getCols</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@getCols:Seq[String]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the index columns (in lower case)</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="io.xskipper.index.Index#getIndexCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getIndexCols:Iterable[io.xskipper.index.IndexField]"></a>
+      <a id="getIndexCols:Iterable[IndexField]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getIndexCols</span><span class="result">: <span class="extype" name="scala.Iterable">Iterable</span>[<a href="IndexField.html" class="extype" name="io.xskipper.index.IndexField">IndexField</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@getIndexCols:Iterable[io.xskipper.index.IndexField]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the columns which the indexed is defined on</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="io.xskipper.index.Index#getKeyMetadata" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getKeyMetadata():Option[String]"></a>
+      <a id="getKeyMetadata():Option[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getKeyMetadata</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@getKeyMetadata():Option[String]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="io.xskipper.index.ValueListIndex#getMetaDataTypeClassName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getMetaDataTypeClassName():String"></a>
+      <a id="getMetaDataTypeClassName():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMetaDataTypeClassName</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@getMetaDataTypeClassName():String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the (full) name of the MetaDataType class used by this index</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.xskipper.index.ValueListIndex">ValueListIndex</a> → <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="io.xskipper.index.ValueListIndex#getName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getName:String"></a>
+      <a id="getName:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getName</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@getName:String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the name of the index</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.xskipper.index.ValueListIndex">ValueListIndex</a> → <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="io.xskipper.index.Index#getParams" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getParams:Map[String,String]"></a>
+      <a id="getParams:Map[String,String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getParams</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@getParams:Map[String,String]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the index params map</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="io.xskipper.index.ValueListIndex#getRowMetadata" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRowMetadata(row:org.apache.spark.sql.Row):Any"></a>
+      <a id="getRowMetadata(Row):Any"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRowMetadata</span><span class="params">(<span name="row">row: <span class="extype" name="org.apache.spark.sql.Row">Row</span></span>)</span><span class="result">: <span class="extype" name="scala.Any">Any</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@getRowMetadata(row:org.apache.spark.sql.Row):Any" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Gets a <span class="extype" name="DataFrame">DataFrame</span> row and extract the raw metadata needed by the index
+</p><div class="fullcomment"><div class="comment cmt"><p>Gets a <span class="extype" name="DataFrame">DataFrame</span> row and extract the raw metadata needed by the index
+</p></div><dl class="paramcmts block"><dt class="param">row</dt><dd class="cmt"><p><span class="extype" name="Row">Row</span> a row to be indexed</p></dd><dt>returns</dt><dd class="cmt"><p>raw metadata needed by the index or null if the row contain null value</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.xskipper.index.ValueListIndex">ValueListIndex</a> → <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="io.xskipper.index.Index#indexCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="indexCols:Seq[String]"></a>
+      <a id="indexCols:Seq[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">indexCols</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@indexCols:Seq[String]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a>
+      <a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">initializeLogIfNecessary</span><span class="params">(<span name="isInterpreter">isInterpreter: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="silent">silent: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="initializeLogIfNecessary(isInterpreter:Boolean):Unit"></a>
+      <a id="initializeLogIfNecessary(Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">initializeLogIfNecessary</span><span class="params">(<span name="isInterpreter">isInterpreter: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@initializeLogIfNecessary(isInterpreter:Boolean):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="io.xskipper.index.Index#isEncrypted" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isEncrypted():Boolean"></a>
+      <a id="isEncrypted():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isEncrypted</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@isEncrypted():Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="io.xskipper.index.Index#isOptimized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isOptimized:Boolean"></a>
+      <a id="isOptimized:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isOptimized</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@isOptimized:Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#isTraceEnabled" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isTraceEnabled():Boolean"></a>
+      <a id="isTraceEnabled():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isTraceEnabled</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@isTraceEnabled():Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="io.xskipper.index.ValueListIndex#isValid" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isValid(df:org.apache.spark.sql.DataFrame,schemaMap:Map[String,(String,org.apache.spark.sql.types.DataType)]):Unit"></a>
+      <a id="isValid(DataFrame,Map[String,(String,DataType)]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isValid</span><span class="params">(<span name="df">df: <a href="../../../org/apache/spark/sql/package.html#DataFrame=org.apache.spark.sql.Dataset[org.apache.spark.sql.Row]" class="extmbr" name="org.apache.spark.sql.DataFrame">DataFrame</a></span>, <span name="schemaMap">schemaMap: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="org.apache.spark.sql.types.DataType">DataType</span>)]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@isValid(df:org.apache.spark.sql.DataFrame,schemaMap:Map[String,(String,org.apache.spark.sql.types.DataType)]):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Gets a <span class="extype" name="DataFrame">DataFrame</span> and checks whether it is valid for the index
+</p><div class="fullcomment"><div class="comment cmt"><p>Gets a <span class="extype" name="DataFrame">DataFrame</span> and checks whether it is valid for the index
+</p></div><dl class="paramcmts block"><dt class="param">df</dt><dd class="cmt"><p>the <span class="extype" name="DataFrame">DataFrame</span> to be checked</p></dd><dt class="param">schemaMap</dt><dd class="cmt"><p>a map containing column names (as appear in the object) and their data types
+                 the key is the column name in lower case</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.xskipper.index.ValueListIndex">ValueListIndex</a> → <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd><dt>Exceptions thrown</dt><dd><span class="cmt"><p><span class="extype" name="[[XskipperException]]"><code>[[XskipperException]]</code></span> if invalid index</p></span></dd></dl></div>
+    </li><li name="io.xskipper.index.ValueListIndex#keyMetadata" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="keyMetadata:Option[String]"></a>
+      <a id="keyMetadata:Option[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">keyMetadata</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@keyMetadata:Option[String]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="org.apache.spark.internal.Logging#log" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="log:org.slf4j.Logger"></a>
+      <a id="log:Logger"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">log</span><span class="result">: <span class="extype" name="org.slf4j.Logger">Logger</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@log:org.slf4j.Logger" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logDebug" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logDebug(msg:=&gt;String,throwable:Throwable):Unit"></a>
+      <a id="logDebug(⇒String,Throwable):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logDebug</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@logDebug(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logDebug" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logDebug(msg:=&gt;String):Unit"></a>
+      <a id="logDebug(⇒String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logDebug</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@logDebug(msg:=&gt;String):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logError" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logError(msg:=&gt;String,throwable:Throwable):Unit"></a>
+      <a id="logError(⇒String,Throwable):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logError</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@logError(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logError" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logError(msg:=&gt;String):Unit"></a>
+      <a id="logError(⇒String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logError</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@logError(msg:=&gt;String):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logInfo" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logInfo(msg:=&gt;String,throwable:Throwable):Unit"></a>
+      <a id="logInfo(⇒String,Throwable):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logInfo</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@logInfo(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logInfo" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logInfo(msg:=&gt;String):Unit"></a>
+      <a id="logInfo(⇒String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logInfo</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@logInfo(msg:=&gt;String):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logName" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logName:String"></a>
+      <a id="logName:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logName</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@logName:String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logTrace" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logTrace(msg:=&gt;String,throwable:Throwable):Unit"></a>
+      <a id="logTrace(⇒String,Throwable):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logTrace</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@logTrace(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logTrace" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logTrace(msg:=&gt;String):Unit"></a>
+      <a id="logTrace(⇒String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logTrace</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@logTrace(msg:=&gt;String):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logWarning" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logWarning(msg:=&gt;String,throwable:Throwable):Unit"></a>
+      <a id="logWarning(⇒String,Throwable):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logWarning</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@logWarning(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logWarning" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logWarning(msg:=&gt;String):Unit"></a>
+      <a id="logWarning(⇒String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logWarning</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@logWarning(msg:=&gt;String):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="io.xskipper.index.Index#optCollectMetaData" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="optCollectMetaData(filePath:String,df:org.apache.spark.sql.DataFrame,format:String,options:Map[String,String]):io.xskipper.index.metadata.MetadataType"></a>
+      <a id="optCollectMetaData(String,DataFrame,String,Map[String,String]):MetadataType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">optCollectMetaData</span><span class="params">(<span name="filePath">filePath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="df">df: <a href="../../../org/apache/spark/sql/package.html#DataFrame=org.apache.spark.sql.Dataset[org.apache.spark.sql.Row]" class="extmbr" name="org.apache.spark.sql.DataFrame">DataFrame</a></span>, <span name="format">format: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="options">options: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="metadata/MetadataType.html" class="extype" name="io.xskipper.index.metadata.MetadataType">MetadataType</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@optCollectMetaData(filePath:String,df:org.apache.spark.sql.DataFrame,format:String,options:Map[String,String]):io.xskipper.index.metadata.MetadataType" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">For some formats we might have an optimized way for collecting the metadata
+This function enables this by receiving the entire file <span class="extype" name="DataFrame">DataFrame</span>
+instead of processing it row by row
+(For example in Parquet we can read the min/max from the footer)
+</p><div class="fullcomment"><div class="comment cmt"><p>For some formats we might have an optimized way for collecting the metadata
+This function enables this by receiving the entire file <span class="extype" name="DataFrame">DataFrame</span>
+instead of processing it row by row
+(For example in Parquet we can read the min/max from the footer)
+</p></div><dl class="paramcmts block"><dt class="param">filePath</dt><dd class="cmt"><p>the path of the file that is being processed</p></dd><dt class="param">df</dt><dd class="cmt"><p>a <span class="extype" name="DataFrame">DataFrame</span> with the file data</p></dd><dt class="param">format</dt><dd class="cmt"><p>the format of the file</p></dd><dt class="param">options</dt><dd class="cmt"><p>the options that were used to read the file</p></dd><dt>returns</dt><dd class="cmt"><p>the collected MetadataType or null if no metadata was collected</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="io.xskipper.index.ValueListIndex#reduce" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="reduce(accuMetadata:io.xskipper.index.metadata.MetadataType,curr:Any):io.xskipper.index.metadata.MetadataType"></a>
+      <a id="reduce(MetadataType,Any):MetadataType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reduce</span><span class="params">(<span name="accuMetadata">accuMetadata: <a href="metadata/MetadataType.html" class="extype" name="io.xskipper.index.metadata.MetadataType">MetadataType</a></span>, <span name="curr">curr: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="metadata/MetadataType.html" class="extype" name="io.xskipper.index.metadata.MetadataType">MetadataType</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@reduce(accuMetadata:io.xskipper.index.metadata.MetadataType,curr:Any):io.xskipper.index.metadata.MetadataType" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Given an accumulated metadata and new value - process the new value and returns an updated
+accumulated metadata
+</p><div class="fullcomment"><div class="comment cmt"><p>Given an accumulated metadata and new value - process the new value and returns an updated
+accumulated metadata
+</p></div><dl class="paramcmts block"><dt class="param">accuMetadata</dt><dd class="cmt"><p>accumulated metadata created by processing all values until curr</p></dd><dt class="param">curr</dt><dd class="cmt"><p>new value to be processed</p></dd><dt>returns</dt><dd class="cmt"><p>updated metadata for the index</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.xskipper.index.ValueListIndex">ValueListIndex</a> → <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="io.xskipper.index.ValueListIndex#reduce" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="reduce(md1:io.xskipper.index.metadata.MetadataType,md2:io.xskipper.index.metadata.MetadataType):io.xskipper.index.metadata.MetadataType"></a>
+      <a id="reduce(MetadataType,MetadataType):MetadataType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reduce</span><span class="params">(<span name="md1">md1: <a href="metadata/MetadataType.html" class="extype" name="io.xskipper.index.metadata.MetadataType">MetadataType</a></span>, <span name="md2">md2: <a href="metadata/MetadataType.html" class="extype" name="io.xskipper.index.metadata.MetadataType">MetadataType</a></span>)</span><span class="result">: <a href="metadata/MetadataType.html" class="extype" name="io.xskipper.index.metadata.MetadataType">MetadataType</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@reduce(md1:io.xskipper.index.metadata.MetadataType,md2:io.xskipper.index.metadata.MetadataType):io.xskipper.index.metadata.MetadataType" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Same as above reduce given two accumulated metadata
+</p><div class="fullcomment"><div class="comment cmt"><p>Same as above reduce given two accumulated metadata
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>updated metadata for the index</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="io.xskipper.index.ValueListIndex">ValueListIndex</a> → <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.ValueListIndex@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="io.xskipper.index.Index">
+              <h3>Inherited from <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></h3>
+            </div><div class="parent" name="org.apache.spark.internal.Logging">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.internal.Logging">Logging</span></h3>
+            </div><div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
