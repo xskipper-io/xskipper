@@ -1,0 +1,175 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>configuration - io.xskipper.configuration</title>
+          <meta name="description" content="configuration - io.xskipper.configuration" />
+          <meta name="keywords" content="configuration io.xskipper.configuration" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'io.xskipper.configuration.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../../../lib/package_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="io">io</a>.<a href="../package.html" class="extype" name="io.xskipper">xskipper</a></p>
+        <h1>configuration</h1><span class="permalink">
+      <a href="../../../index.html#io.xskipper.configuration.package" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">configuration</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="io.xskipper.configuration.ConfigEntry" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ConfigEntry[T]extendsProductwithSerializable"></a>
+      <a id="ConfigEntry[T]:ConfigEntry[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ConfigEntry.html"><span class="name">ConfigEntry</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="key">key: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="defaultValue">defaultValue: <span class="extype" name="io.xskipper.configuration.ConfigEntry.T">T</span></span>, <span name="doc">doc: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="validationFunction">validationFunction: <span class="extype" name="scala.Option">Option</span>[((<span class="extype" name="io.xskipper.configuration.ConfigEntry.T">T</span>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span>, <span class="extype" name="scala.Predef.String">String</span>)] = <span class="symbol">None</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.configuration.package@ConfigEntry[T]extendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Represents a config entry</p><div class="fullcomment"><div class="comment cmt"><p>Represents a config entry</p></div><dl class="paramcmts block"><dt class="param">key</dt><dd class="cmt"><p>the config key</p></dd><dt class="param">defaultValue</dt><dd class="cmt"><p>the default value</p></dd><dt class="param">doc</dt><dd class="cmt"><p>documentation for the config value</p></dd><dt class="param">validationFunction</dt><dd class="cmt"><p>(optional) validation function along with error message
+                          to validate the value set if the value is invalid fallback
+                          to the default value</p></dd></dl></div>
+    </li><li name="io.xskipper.configuration.Configuration" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ConfigurationextendsAnyRef"></a>
+      <a id="Configuration:Configuration"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Configuration.html"><span class="name">Configuration</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.configuration.package@ConfigurationextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="io.xskipper.configuration.ConfigurationUtils" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ConfigurationUtils"></a>
+      <a id="ConfigurationUtils:ConfigurationUtils"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ConfigurationUtils$.html"><span class="name">ConfigurationUtils</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.internal.Logging">Logging</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.configuration.package@ConfigurationUtils" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.configuration.XskipperConf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="XskipperConf"></a>
+      <a id="XskipperConf:XskipperConf"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="XskipperConf$.html"><span class="name">XskipperConf</span></a><span class="result"> extends <a href="Configuration.html" class="extype" name="io.xskipper.configuration.Configuration">Configuration</a> with <span class="extype" name="org.apache.spark.internal.Logging">Logging</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.configuration.package@XskipperConf" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">JVM wide xskipper + metadatastore specific parameters
+such as user, password, host.</p>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

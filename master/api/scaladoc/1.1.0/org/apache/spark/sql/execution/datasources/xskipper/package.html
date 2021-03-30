@@ -1,0 +1,204 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>xskipper - org.apache.spark.sql.execution.datasources.xskipper</title>
+          <meta name="description" content="xskipper - org.apache.spark.sql.execution.datasources.xskipper" />
+          <meta name="keywords" content="xskipper org.apache.spark.sql.execution.datasources.xskipper" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../../../../index.html';
+            var hash = 'org.apache.spark.sql.execution.datasources.xskipper.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../../../../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../../../../package.html" class="extype" name="org">org</a>.<a href="../../../../../package.html" class="extype" name="org.apache">apache</a>.<a href="../../../../package.html" class="extype" name="org.apache.spark">spark</a>.<a href="../../../package.html" class="extype" name="org.apache.spark.sql">sql</a>.<a href="../../package.html" class="extype" name="org.apache.spark.sql.execution">execution</a>.<a href="../package.html" class="extype" name="org.apache.spark.sql.execution.datasources">datasources</a></p>
+        <h1>xskipper</h1><span class="permalink">
+      <a href="../../../../../../../index.html#org.apache.spark.sql.execution.datasources.xskipper.package" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xskipper</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="org.apache.spark.sql.execution.datasources.xskipper.CatalogDataSkippingFileIndex" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CatalogDataSkippingFileIndexextendsCatalogFileIndexwithLogging"></a>
+      <a id="CatalogDataSkippingFileIndex:CatalogDataSkippingFileIndex"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="CatalogDataSkippingFileIndex.html"><span class="name">CatalogDataSkippingFileIndex</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.sql.execution.datasources.CatalogFileIndex">CatalogFileIndex</span> with <span class="extype" name="org.apache.spark.internal.Logging">Logging</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#org.apache.spark.sql.execution.datasources.xskipper.package@CatalogDataSkippingFileIndexextendsCatalogFileIndexwithLogging" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Used to preserve the capabilities of <span class="extype" name="CatalogFileIndex">CatalogFileIndex</span>
+</p>
+    </li><li name="org.apache.spark.sql.execution.datasources.xskipper.DataSkippingFileIndexRule" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DataSkippingFileIndexRuleextendsRule[org.apache.spark.sql.catalyst.plans.logical.LogicalPlan]"></a>
+      <a id="DataSkippingFileIndexRule:DataSkippingFileIndexRule"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DataSkippingFileIndexRule.html"><span class="name">DataSkippingFileIndexRule</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.sql.catalyst.rules.Rule">Rule</span>[<span class="extype" name="org.apache.spark.sql.catalyst.plans.logical.LogicalPlan">LogicalPlan</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#org.apache.spark.sql.execution.datasources.xskipper.package@DataSkippingFileIndexRuleextendsRule[org.apache.spark.sql.catalyst.plans.logical.LogicalPlan]" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A Catalyst rule which replaces a logical relation plan's <span class="extype" name="InMemoryFileIndex">InMemoryFileIndex</span>
+with an extended <span class="extype" name="DataSkippingFileIndex">DataSkippingFileIndex</span> which allows fine grained file filtering.</p><div class="fullcomment"><div class="comment cmt"><p>A Catalyst rule which replaces a logical relation plan's <span class="extype" name="InMemoryFileIndex">InMemoryFileIndex</span>
+with an extended <span class="extype" name="DataSkippingFileIndex">DataSkippingFileIndex</span> which allows fine grained file filtering.</p><p>The following applies to the case where plan is an instance of LogicalRelation,
+with a <span class="extype" name="HadoopFsRelation">HadoopFsRelation</span>:
+the rule adds a dummy option to the options field of the new HadoopFsRelation.
+if the input plan's catalog is not an instance of IndexedCatalog - then the
+dummy option will be absent, thus it's addition will ensure that
+<span class="extype" name="org.apache.spark.sql.catalyst.trees.TreeNode.fastEquals">org.apache.spark.sql.catalyst.trees.TreeNode.fastEquals</span>
+will return false when comparing the input plan to the returned plan.</p><p>if the input plan's catalog is indeed an instance of IndexedCatalog -
+then the plan doesn't change, and indeed
+<span class="extype" name="org.apache.spark.sql.catalyst.trees.TreeNode.fastEquals">org.apache.spark.sql.catalyst.trees.TreeNode.fastEquals</span> will return true -
+preventing an unnecessary catalyst churn.</p></div></div>
+    </li><li name="org.apache.spark.sql.execution.datasources.xskipper.InMemoryDataSkippingIndex" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="InMemoryDataSkippingIndexextendsInMemoryFileIndex"></a>
+      <a id="InMemoryDataSkippingIndex:InMemoryDataSkippingIndex"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="InMemoryDataSkippingIndex.html"><span class="name">InMemoryDataSkippingIndex</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.sql.execution.datasources.InMemoryFileIndex">InMemoryFileIndex</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#org.apache.spark.sql.execution.datasources.xskipper.package@InMemoryDataSkippingIndexextendsInMemoryFileIndex" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="org.apache.spark.sql.execution.datasources.xskipper.PrunedInMemoryDataSkippingIndex" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PrunedInMemoryDataSkippingIndexextendsInMemoryDataSkippingIndex"></a>
+      <a id="PrunedInMemoryDataSkippingIndex:PrunedInMemoryDataSkippingIndex"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="PrunedInMemoryDataSkippingIndex.html"><span class="name">PrunedInMemoryDataSkippingIndex</span></a><span class="result"> extends <a href="InMemoryDataSkippingIndex.html" class="extype" name="org.apache.spark.sql.execution.datasources.xskipper.InMemoryDataSkippingIndex">InMemoryDataSkippingIndex</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#org.apache.spark.sql.execution.datasources.xskipper.package@PrunedInMemoryDataSkippingIndexextendsInMemoryDataSkippingIndex" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">used to support PrunedInMemoryFileIndex which might result from running
+PruneFileSourcePartitions rule, since the PrunedInMemoryFileIndex specify its own partitionSpec
+we can not use an InMemoryFileIndex
+</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="org.apache.spark.sql.execution.datasources.xskipper.DataSkippingUtils" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DataSkippingUtils"></a>
+      <a id="DataSkippingUtils:DataSkippingUtils"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DataSkippingUtils$.html"><span class="name">DataSkippingUtils</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.internal.Logging">Logging</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#org.apache.spark.sql.execution.datasources.xskipper.package@DataSkippingUtils" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
