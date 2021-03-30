@@ -8,6 +8,7 @@ on:
       - master
     paths:
       - site/**
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -23,6 +24,11 @@ jobs:
         run: |
           pip install mkdocs-material
           pip install mkdocs-redirects
+          pip install mike
       - name: Deploying Site
         working-directory: ./site
-        run: mkdocs gh-deploy --force -r origin
+        run: |
+          git config --global user.email "xskipperci@gmail.com"
+          git config --global user.name "Xskipper CI"
+          git fetch origin xskipper-site
+          mike deploy --push --remote origin --branch xskipper-site master
