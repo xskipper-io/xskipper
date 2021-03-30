@@ -30,6 +30,6 @@ jobs:
         run: |
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"
-          git fetch upstream xskipper-site
+          git fetch origin xskipper-site
           mike deploy --remote origin --branch xskipper-site latest
           mike set-default --push --remote origin --branch xskipper-site latest
