@@ -124,7 +124,7 @@ object XskipperConf extends Configuration with Logging {
     "index.minmax.inFilterThreshold"
   val XSKIPPER_MINMAX_IN_FILTER_THRESHOLD: ConfigEntry[Int] = ConfigEntry[Int](
     XSKIPPER_MINMAX_IN_FILTER_THRESHOLD_KEY,
-    defaultValue = 100,
+    defaultValue = 10,
     doc =
       s"""defines number of values in an IN filter above we will push down only
          |one min/max condition based on the min and maximum of the entire list

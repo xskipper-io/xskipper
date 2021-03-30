@@ -71,6 +71,7 @@ jobs:
           sbt 'release with-defaults'
           git push
       - name: Publish site version
+        working-directory: ./site
         run: |
           pip install mkdocs-material
           pip install mkdocs-redirects
