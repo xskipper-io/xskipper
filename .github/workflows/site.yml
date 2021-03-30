@@ -28,5 +28,7 @@ jobs:
       - name: Deploying Site
         working-directory: ./site
         run: |
+          git config --global user.email "xskipperci@gmail.com"
+          git config --global user.name "Xskipper CI"
           mike deploy latest --remote origin --branch xskipper-site
           mike set-default --push --remote origin --branch xskipper-site latest
