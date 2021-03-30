@@ -70,6 +70,16 @@ jobs:
           git config --global user.name "Xskipper CI"
           sbt 'release with-defaults'
           git push
+      - name: Publish site version
+        run: |
+          pip install mkdocs-material
+          pip install mkdocs-redirects
+          pip install mike
+          git config --global user.email "xskipperci@gmail.com"
+          git config --global user.name "Xskipper CI"
+          git fetch origin xskipper-site
+          mike deploy --push --remote origin --branch xskipper-site ${{ github.event.inputs.release-version }}
+          mike set-default --push --remote origin --branch xskipper-site ${{ github.event.inputs.release-version }}
       - name: Draft Release
         uses: release-drafter/release-drafter@v5
         env:
