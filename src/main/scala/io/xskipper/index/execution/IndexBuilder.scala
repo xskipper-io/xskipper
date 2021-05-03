@@ -5,8 +5,6 @@
 
 package io.xskipper.index.execution
 
-import java.io.IOException
-
 import io.xskipper.configuration.XskipperConf
 import io.xskipper.index.{BloomFilterIndex, Index, MinMaxIndex, ValueListIndex}
 import io.xskipper.status.{RefreshResult, Status}
@@ -18,6 +16,8 @@ import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRela
 import org.apache.spark.sql.types.StructField
 import org.apache.spark.sql.{DataFrame, DataFrameReader, SparkSession}
 
+import java.io.IOException
+import java.util.Locale
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
@@ -314,11 +314,18 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   def createOrRefreshExistingIndex(df: DataFrame,
                                    indexes: Seq[Index], isRefresh: Boolean): DataFrame = {
     // extract the format and options to enable reading of each object individually
-    val (format, options) = df.queryExecution.optimizedPlan.collect {
+    val (format, rawOptions) = df.queryExecution.optimizedPlan.collect {
       case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
         (hfs.fileFormat.toString, hfs.options)
     }(0)
 
+    // filter out "path" or "paths" entries from the options.
+    // these options are not part of the original reader options
+    // passed in, they are added because we are grabbing the relation options
+    // which contain the reader options + the path/paths.
+    val optionsToFilter = Set("path", "paths")
+    val options = rawOptions.filterKeys(k =>
+      !optionsToFilter.contains(k.toLowerCase(Locale.ROOT)))
 
     // Extract the dataframe schema - to avoid each index validation extracting it
     // the extraction includes the column name in lower case (for comparison with user input)
