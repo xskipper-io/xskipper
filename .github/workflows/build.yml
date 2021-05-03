@@ -54,10 +54,10 @@ jobs:
           python3.7 -m pip install pypandoc
           python3.7 -m pip install "pyspark==2.3.2"
       - name: Run sbt clean, Scala 2.11.8
-        run: sbt ++2.11.8 clean
+        run: build/sbt ++2.11.8 clean
       - name: Run sbt compile, Scala 2.11.8
-        run: sbt ++2.11.8 compile
+        run: build/sbt ++2.11.8 compile
       - name: Run Scala tests, Scala 2.11.8
-        run: sbt ++2.11.8 test
+        run: build/sbt ++2.11.8 test
       - name: Run Python tests
         run: python3.7 run-tests.py

@@ -1,7 +1,7 @@
 // Copyright 2021 IBM Corp.
 // SPDX-License-Identifier: Apache-2.0
 
-resolvers += "bintray-spark-packages" at "https://dl.bintray.com/spark-packages/maven/"
+resolvers += "spark-packages" at "https://repos.spark-packages.org"
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 

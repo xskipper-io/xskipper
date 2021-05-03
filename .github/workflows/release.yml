@@ -52,7 +52,10 @@ jobs:
           git clean -f
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"
-          sbt 'release release-version ${{ github.event.inputs.release-version }} next-version ${{ github.event.inputs.next-version }}'
+          # capture release version before doing release for site publishing
+          SITE_VERSION=${{ github.event.inputs.release-version }}
+          [[ -z "$SITE_VERSION" ]] && echo "ERROR: SITE_VERSION var is empty" && exit -1
+          build/sbt 'release release-version ${{ github.event.inputs.release-version }} next-version ${{ github.event.inputs.next-version }}'
           git push
       - if: |
           github.event.inputs.release-version == '' &&
@@ -69,9 +72,8 @@ jobs:
           git clean -f
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"
-          sbt 'release with-defaults'
+          # capture release version before doing release for site publishing
+          SITE_VERSION=`sed -n 's/version in ThisBuild := "\(.*\)-SNAPSHOT"/\1/p' version.sbt`
+          [[ -z "$SITE_VERSION" ]] && echo "ERROR: SITE_VERSION var is empty" && exit -1
+          build/sbt 'release with-defaults'
           git push
-      - name: Draft Release
-        uses: release-drafter/release-drafter@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
