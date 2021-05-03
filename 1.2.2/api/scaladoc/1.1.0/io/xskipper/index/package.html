@@ -1,0 +1,345 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>index - io.xskipper.index</title>
+          <meta name="description" content="index - io.xskipper.index" />
+          <meta name="keywords" content="index io.xskipper.index" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'io.xskipper.index.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../../../lib/package_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="io">io</a>.<a href="../package.html" class="extype" name="io.xskipper">xskipper</a></p>
+        <h1>index</h1><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">index</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="io.xskipper.index.BloomFilterIndex" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BloomFilterIndexextendsIndexwithProductwithSerializable"></a>
+      <a id="BloomFilterIndex:BloomFilterIndex"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="BloomFilterIndex.html"><span class="name">BloomFilterIndex</span></a><span class="params">(<span name="col">col: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="fpp">fpp: <span class="extype" name="scala.Double">Double</span> = <span class="defval" name='<span class="name"><a href="../../package.html">XskipperConf.getConf(XskipperConf.BLOOM_FILTER_FPP)</a></span>'>...</span></span>, <span name="ndv">ndv: <span class="extype" name="scala.Long">Long</span> = <span class="defval" name='<span class="name"><a href="../../package.html">XskipperConf.getConf(XskipperConf.BLOOM_FILTER_NDV)</a></span>'>...</span></span>, <span name="keyMetadata">keyMetadata: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span><span class="result"> extends <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@BloomFilterIndexextendsIndexwithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Represents an abstract bloom filter index
+</p><div class="fullcomment"><div class="comment cmt"><p>Represents an abstract bloom filter index
+</p></div><dl class="paramcmts block"><dt class="param">col</dt><dd class="cmt"><p>the column on which the index is applied</p></dd><dt class="param">fpp</dt><dd class="cmt"><p>the expected false positive probability of the bloom filter</p></dd><dt class="param">ndv</dt><dd class="cmt"><p>the expected number of distinct values</p></dd><dt class="param">keyMetadata</dt><dd class="cmt"><p>optional key metadata</p></dd></dl></div>
+    </li><li name="io.xskipper.index.Index" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="IndexextendsSerializablewithLogging"></a>
+      <a id="Index:Index"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Index.html"><span class="name">Index</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span> with <span class="extype" name="org.apache.spark.internal.Logging">Logging</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@IndexextendsSerializablewithLogging" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Represents an abstract index for a metadata on a file.</p>
+    </li><li name="io.xskipper.index.IndexCompanion" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="IndexCompanion[C&lt;:io.xskipper.index.Index]extendsAnyRef"></a>
+      <a id="IndexCompanion[C&lt;:Index]:IndexCompanion[C]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="IndexCompanion.html"><span class="name">IndexCompanion</span></a><span class="tparams">[<span name="C">C &lt;: <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a></span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@IndexCompanion[C&lt;:io.xskipper.index.Index]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Base class for companion objects for indexes.</p><div class="fullcomment"><div class="comment cmt"><p>Base class for companion objects for indexes.</p></div><dl class="paramcmts block"><dt class="tparam">C</dt><dd class="cmt"><p>the concrete Index subclass to which the companion
+          pertains.</p></dd></dl></div>
+    </li><li name="io.xskipper.index.IndexFactory" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="IndexFactoryextendsAnyRef"></a>
+      <a id="IndexFactory:IndexFactory"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="IndexFactory.html"><span class="name">IndexFactory</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@IndexFactoryextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.index.IndexField" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="IndexFieldextendsProductwithSerializable"></a>
+      <a id="IndexField:IndexField"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="IndexField.html"><span class="name">IndexField</span></a><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="dataType">dataType: <span class="extype" name="org.apache.spark.sql.types.DataType">DataType</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@IndexFieldextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.index.MinMaxIndex" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="MinMaxIndexextendsIndexwithProductwithSerializable"></a>
+      <a id="MinMaxIndex:MinMaxIndex"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="MinMaxIndex.html"><span class="name">MinMaxIndex</span></a><span class="params">(<span name="col">col: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="keyMetadata">keyMetadata: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span><span class="result"> extends <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@MinMaxIndexextendsIndexwithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Represents an abstract MinMax index</p><div class="fullcomment"><div class="comment cmt"><p>Represents an abstract MinMax index</p></div><dl class="paramcmts block"><dt class="param">col</dt><dd class="cmt"><p>the column on which the index is applied</p></dd></dl></div>
+    </li><li name="io.xskipper.index.ValueListIndex" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ValueListIndexextendsIndexwithProductwithSerializable"></a>
+      <a id="ValueListIndex:ValueListIndex"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ValueListIndex.html"><span class="name">ValueListIndex</span></a><span class="params">(<span name="col">col: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="keyMetadata">keyMetadata: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span><span class="result"> extends <a href="Index.html" class="extype" name="io.xskipper.index.Index">Index</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@ValueListIndexextendsIndexwithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Represents an abstract ValueList index</p><div class="fullcomment"><div class="comment cmt"><p>Represents an abstract ValueList index</p></div><dl class="paramcmts block"><dt class="param">col</dt><dd class="cmt"><p>the column on which the index is applied</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="io.xskipper.index.BaseIndexFactory" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BaseIndexFactory"></a>
+      <a id="BaseIndexFactory:BaseIndexFactory"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BaseIndexFactory$.html"><span class="name">BaseIndexFactory</span></a><span class="result"> extends <a href="IndexFactory.html" class="extype" name="io.xskipper.index.IndexFactory">IndexFactory</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@BaseIndexFactory" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.index.BloomFilterIndex" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BloomFilterIndex"></a>
+      <a id="BloomFilterIndex:BloomFilterIndex"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BloomFilterIndex$.html"><span class="name">BloomFilterIndex</span></a><span class="result"> extends <a href="IndexCompanion.html" class="extype" name="io.xskipper.index.IndexCompanion">IndexCompanion</a>[<a href="BloomFilterIndex.html" class="extype" name="io.xskipper.index.BloomFilterIndex">BloomFilterIndex</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@BloomFilterIndex" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.index.IndexFactoryUtils" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="IndexFactoryUtils"></a>
+      <a id="IndexFactoryUtils:IndexFactoryUtils"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="IndexFactoryUtils$.html"><span class="name">IndexFactoryUtils</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@IndexFactoryUtils" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.index.MinMaxIndex" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MinMaxIndex"></a>
+      <a id="MinMaxIndex:MinMaxIndex"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="MinMaxIndex$.html"><span class="name">MinMaxIndex</span></a><span class="result"> extends <a href="IndexCompanion.html" class="extype" name="io.xskipper.index.IndexCompanion">IndexCompanion</a>[<a href="MinMaxIndex.html" class="extype" name="io.xskipper.index.MinMaxIndex">MinMaxIndex</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@MinMaxIndex" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.index.ValueListIndex" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ValueListIndex"></a>
+      <a id="ValueListIndex:ValueListIndex"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ValueListIndex$.html"><span class="name">ValueListIndex</span></a><span class="result"> extends <a href="IndexCompanion.html" class="extype" name="io.xskipper.index.IndexCompanion">IndexCompanion</a>[<a href="ValueListIndex.html" class="extype" name="io.xskipper.index.ValueListIndex">ValueListIndex</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@ValueListIndex" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.index.execution" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="execution"></a>
+      <a id="execution:execution"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="execution/package.html"><span class="name">execution</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@execution" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.index.metadata" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="metadata"></a>
+      <a id="metadata:metadata"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="metadata/package.html"><span class="name">metadata</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.index.package@metadata" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

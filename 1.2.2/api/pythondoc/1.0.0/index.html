@@ -1,0 +1,622 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Xskipper’s documentation! &#8212; xskipper-core 1.0.0-SNAPSHOT documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">xskipper-core 1.0.0-SNAPSHOT documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to Xskipper’s documentation!</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-xskipper-s-documentation">
+<h1>Welcome to Xskipper’s documentation!<a class="headerlink" href="#welcome-to-xskipper-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="module-xskipper.xskipper">
+<span id="xskipper"></span><h1>Xskipper<a class="headerlink" href="#module-xskipper.xskipper" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="xskipper.xskipper.Xskipper">
+<em class="property">class </em><code class="sig-prename descclassname">xskipper.xskipper.</code><code class="sig-name descname">Xskipper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em>, <em class="sig-param"><span class="n">uri</span></em>, <em class="sig-param"><span class="n">metadataStoreManagerClassName</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main class for programmatically interacting with xskipper</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparkSession</strong> – SparkSession object</p></li>
+<li><p><strong>uri</strong> – the URI of the dataset / the identifier of the hive table on which the index is defined</p></li>
+<li><p><strong>metadataStoreManagerClassName</strong> – fully qualified name of MetadataStoreManager to be used</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.clearStats">
+<em class="property">static </em><code class="sig-name descname">clearStats</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.clearStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears the stats for all active MetadataHandle instances in the active MetadataStoreManager
+Should be called before each query to make sure the aggregated stats are cleared</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sparkSession</strong> – SparkSession object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.describeIndex">
+<code class="sig-name descname">describeIndex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataFrameReader</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.describeIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the indexes on the URI (for non table URI)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataFrameReader</strong> – if uri is a table identifier
+a DataFrameReader instance to enable reading the URI as a DataFrame</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataFrame object containing information about the index</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#xskipper.xskipper.XskipperException" title="xskipper.xskipper.XskipperException"><strong>XskipperException</strong></a> – if index cannot be refreshed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.disable">
+<em class="property">static </em><code class="sig-name descname">disable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.disable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disable xskipper by disabling the rules</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sparkSession</strong> – SparkSession object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.dropIndex">
+<code class="sig-name descname">dropIndex</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.dropIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#xskipper.xskipper.XskipperException" title="xskipper.xskipper.XskipperException"><strong>XskipperException</strong></a> – if index cannot be removed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.enable">
+<em class="property">static </em><code class="sig-name descname">enable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.enable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable xskipper by adding the necessary rules</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sparkSession</strong> – SparkSession object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.get">
+<em class="property">static </em><code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em>, <em class="sig-param"><span class="n">key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the value associated with the given key in the configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparkSession</strong> – SparkSession object</p></li>
+<li><p><strong>key</strong> – the key to lookup</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the value associated with the key or None if the key doesn’t exist</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.getConf">
+<em class="property">static </em><code class="sig-name descname">getConf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.getConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a map of all configurations currently set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sparkSession</strong> – SparkSession object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a map of the current values currently set in the configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.getLatestQueryAggregatedStats">
+<em class="property">static </em><code class="sig-name descname">getLatestQueryAggregatedStats</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.getLatestQueryAggregatedStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the aggregated latest query skipping stats for all active MetadataHandle instances
+in the current default MetadataStoreManager.
+In order to get reliable results it is assumed that either clearStats
+or clearActiveMetadataHandles was called before running the query.</p>
+<p>In case the API was called on a URI without an index or the API was called without
+running a query the returned DataFrame structure is - status, reason with status=FAILED
+In case the query cannot be skipped because one of the following:</p>
+<ol class="arabic simple">
+<li><p>Dataset has no indexed files</p></li>
+<li><p>No query to the metadata store can be generated - can be due to a predicate that can not
+be used in skipping (or maybe due to missing metadata filter) or due to failure to
+translate the abstract query.
+the returned dataframe structure is:
+status, isSkippable, skipped_Bytes, skipped_Objs, total_Bytes,
+total_Objs with status=SUCCESS, isSkippable=false and all other values are -1
+Otherwise the dataframe structure is the same as above with isSkippable=true
+and the relevant stats</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sparkSession</strong> – SparkSession object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataFrame object containing information about latest query stats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.getLatestQueryStats">
+<code class="sig-name descname">getLatestQueryStats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.getLatestQueryStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return latest query skipping statistics for this xskipper instance</p>
+<p>In case the API was called on a URI without an index or the API was called without
+running a query the returned DataFrame structure is - status, reason with status=FAILED
+In case the query cannot be skipped because one of the following:</p>
+<ol class="arabic simple">
+<li><p>Dataset has no indexed files</p></li>
+<li><dl class="simple">
+<dt>No query to the metadata store can be generated - can be due to a predicate that can not</dt><dd><p>be used in skipping (or maybe due to missing metadata filter) or due to failure to
+translate the abstract query.
+the returned dataframe structure is:
+status, isSkippable, skipped_Bytes, skipped_Objs, total_Bytes,
+total_Objs with status=SUCCESS, isSkippable=false and all other values are -1
+Otherwise the dataframe structure is the same as above with isSkippable=true
+and the relevant stats</p>
+</dd>
+</dl>
+</li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>object containing information about latest query stats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.indexBuilder">
+<code class="sig-name descname">indexBuilder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.indexBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper class for setting and building an index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>IndexBuilder: instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.installExceptionWrapper">
+<em class="property">static </em><code class="sig-name descname">installExceptionWrapper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.installExceptionWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Install a wrapper to wrap JVM XskipperException as python XskipperException</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.isEnabled">
+<em class="property">static </em><code class="sig-name descname">isEnabled</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.isEnabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether xskipper is enabled</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sparkSession</strong> – SparkSession object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>true if xskipper is enabled</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.isIndexed">
+<code class="sig-name descname">isIndexed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.isIndexed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the URI is indexed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>true if the URI is indexed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.listIndexes">
+<em class="property">static </em><code class="sig-name descname">listIndexes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.listIndexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns information about the indexed datasets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sparkSession</strong> – SparkSession object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataFrame object containing information about the indexed datasets
+under the configured base path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.refreshIndex">
+<code class="sig-name descname">refreshIndex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataFrameReader</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.refreshIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refresh the index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataFrameReader</strong> – if uri is a table identifier
+a DataFrameReader instance to enable reading the URI as a DataFrame
+Note: The reader is assumed to have all of the parameters configured.
+<cite>reader.load(Seq(&lt;path&gt;))</cite> will be used by the indexing code to read each
+object separately</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataFrame object containing statistics about the refresh operation</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#xskipper.xskipper.XskipperException" title="xskipper.xskipper.XskipperException"><strong>XskipperException</strong></a> – if index cannot be refreshed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.reset">
+<em class="property">static </em><code class="sig-name descname">reset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset all xskipper settings by:</p>
+<ol class="arabic simple">
+<li><p>disables filtering</p></li>
+<li><p>clear all MetadataHandle-s in the default MetadataStoreManager</p></li>
+<li><p>reset the JVM wide configuration</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sparkSession</strong> – SparkSession object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.set">
+<em class="property">static </em><code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em>, <em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a specific key in the JVM wide configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparkSession</strong> – SparkSession object</p></li>
+<li><p><strong>key</strong> – the key to set</p></li>
+<li><p><strong>value</strong> – the value associated with the key</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.setConf">
+<em class="property">static </em><code class="sig-name descname">setConf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em>, <em class="sig-param"><span class="n">params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.setConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates JVM wide xskipper parameters (Only given parameters will be updated)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparkSession</strong> – SparkSession object</p></li>
+<li><p><strong>params</strong> – a map of parameters to be set</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.setParams">
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update instance specific MetadataHandle parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>params</strong> – a map of parameters to be set</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.xskipper.Xskipper.unset">
+<em class="property">static </em><code class="sig-name descname">unset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em>, <em class="sig-param"><span class="n">key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.Xskipper.unset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a key from the configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparkSession</strong> – SparkSession object</p></li>
+<li><p><strong>key</strong> – the key to remove</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt id="xskipper.xskipper.XskipperException">
+<em class="property">exception </em><code class="sig-prename descclassname">xskipper.xskipper.</code><code class="sig-name descname">XskipperException</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">desc</span></em>, <em class="sig-param"><span class="n">stackTrace</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.XskipperException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="xskipper.xskipper.get_wrapped_function">
+<code class="sig-prename descclassname">xskipper.xskipper.</code><code class="sig-name descname">get_wrapped_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.xskipper.get_wrapped_function" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-xskipper.indexbuilder">
+<span id="indexbuilder"></span><h1>IndexBuilder<a class="headerlink" href="#module-xskipper.indexbuilder" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="xskipper.indexbuilder.IndexBuilder">
+<em class="property">class </em><code class="sig-prename descclassname">xskipper.indexbuilder.</code><code class="sig-name descname">IndexBuilder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spark</span></em>, <em class="sig-param"><span class="n">uri</span></em>, <em class="sig-param"><span class="n">xskipper</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.indexbuilder.IndexBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper class for building indexes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparkSession</strong> – SparkSession object</p></li>
+<li><p><strong>uri</strong> – the URI of the dataset / the identifier of the hive table on which the index is defined</p></li>
+<li><p><strong>xskipper</strong> – the xskipper instance associated with this IndexBuilder</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="xskipper.indexbuilder.IndexBuilder.addBloomFilterIndex">
+<code class="sig-name descname">addBloomFilterIndex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">keyMetadata</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.indexbuilder.IndexBuilder.addBloomFilterIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a BloomFilter index on the given column</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>col</strong> – the column to add the index on</p></li>
+<li><p><strong>keyMetadata</strong> – optional key metadata</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.indexbuilder.IndexBuilder.addCustomIndex">
+<code class="sig-name descname">addCustomIndex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">indexClass</span></em>, <em class="sig-param"><span class="n">cols</span></em>, <em class="sig-param"><span class="n">params</span></em>, <em class="sig-param"><span class="n">keyMetadata</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.indexbuilder.IndexBuilder.addCustomIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a Custom index on the given columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cols</strong> – a sequence of cols</p></li>
+<li><p><strong>params</strong> – a map of index specific parameters</p></li>
+<li><p><strong>keyMetadata</strong> – optional key metadata</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.indexbuilder.IndexBuilder.addMinMaxIndex">
+<code class="sig-name descname">addMinMaxIndex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">keyMetadata</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.indexbuilder.IndexBuilder.addMinMaxIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a MinMax index for the given column</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>col</strong> – the column to add the index on</p></li>
+<li><p><strong>keyMetadata</strong> – optional key metadata</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.indexbuilder.IndexBuilder.addValueListIndex">
+<code class="sig-name descname">addValueListIndex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">keyMetadata</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.indexbuilder.IndexBuilder.addValueListIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a ValueList index on the given column</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>col</strong> – the column to add the index on</p></li>
+<li><p><strong>keyMetadata</strong> – optional key metadata</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.indexbuilder.IndexBuilder.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reader</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.indexbuilder.IndexBuilder.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataFrameReader</strong> – if uri in the xskipper instance is a table identifier                                 a DataFrameReader instance to enable reading the URI as a DataFrame
+Note: The reader is assumed to have all of the parameters configured.
+<cite>reader.load(Seq(&lt;path&gt;))</cite> will be used by the indexing code to read each
+object separately</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataFrame object containing statistics about the build operation</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-xskipper.registration">
+<span id="registration"></span><h1>Registration<a class="headerlink" href="#module-xskipper.registration" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="xskipper.registration.Registration">
+<em class="property">class </em><code class="sig-prename descclassname">xskipper.registration.</code><code class="sig-name descname">Registration</code><a class="headerlink" href="#xskipper.registration.Registration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper class for registering Factories and Translators for xskipper plugins</p>
+<dl class="py method">
+<dt id="xskipper.registration.Registration.addClauseTranslator">
+<em class="property">static </em><code class="sig-name descname">addClauseTranslator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em>, <em class="sig-param"><span class="n">clauseTranslator</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.registration.Registration.addClauseTranslator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a ClauseTranslator to the start of the ClauseTranslator-s list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparkSession</strong> – SparkSession object</p></li>
+<li><p><strong>clauseFactories</strong> – fully qualified name of ClauseTranslator to be used</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.registration.Registration.addIndexFactory">
+<em class="property">static </em><code class="sig-name descname">addIndexFactory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em>, <em class="sig-param"><span class="n">indexFactory</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.registration.Registration.addIndexFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a IndexFactory to the start of the IndexFactory-s list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparkSession</strong> – SparkSession object</p></li>
+<li><p><strong>indexFactory</strong> – fully qualified name of IndexFactory to be used</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.registration.Registration.addMetaDataTranslator">
+<em class="property">static </em><code class="sig-name descname">addMetaDataTranslator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em>, <em class="sig-param"><span class="n">metadataTranslator</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.registration.Registration.addMetaDataTranslator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a IndexFactory to the start of the IndexFactory-s list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparkSession</strong> – SparkSession object</p></li>
+<li><p><strong>metadataTranslator</strong> – fully qualified name of MetadataTranslator to be used</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.registration.Registration.addMetadataFilterFactory">
+<em class="property">static </em><code class="sig-name descname">addMetadataFilterFactory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em>, <em class="sig-param"><span class="n">filterFactory</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.registration.Registration.addMetadataFilterFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a MetadataFilterFactory to the end of the MetadataFilterFactory-s list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparkSession</strong> – SparkSession object</p></li>
+<li><p><strong>filterFactory</strong> – fully qualified name of MetadataFilterFactory to be used</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.registration.Registration.getActiveMetadataStoreManagerType">
+<em class="property">static </em><code class="sig-name descname">getActiveMetadataStoreManagerType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.registration.Registration.getActiveMetadataStoreManagerType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the fully qualified name of the active MetadataStoreManagerType</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sparkSession</strong> – SparkSession object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fully qualified name of the active MetadataStoreManagerType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xskipper.registration.Registration.setActiveMetadataStoreManager">
+<em class="property">static </em><code class="sig-name descname">setActiveMetadataStoreManager</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em>, <em class="sig-param"><span class="n">metadataStoreManager</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xskipper.registration.Registration.setActiveMetadataStoreManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the currently active the [[MetadataStoreManager]]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparkSession</strong> – SparkSession object</p></li>
+<li><p><strong>metadataStoreManager</strong> – fully qualified name of MetadataStoreManagerType to be used</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to Xskipper’s documentation!</a></li>
+<li><a class="reference internal" href="#module-xskipper.xskipper">Xskipper</a></li>
+<li><a class="reference internal" href="#module-xskipper.indexbuilder">IndexBuilder</a></li>
+<li><a class="reference internal" href="#module-xskipper.registration">Registration</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">xskipper-core 1.0.0-SNAPSHOT documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to Xskipper’s documentation!</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Xskipper Committers.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>
