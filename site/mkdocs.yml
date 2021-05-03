@@ -47,6 +47,8 @@ plugins:
 
 # Customization
 extra:
+  version:
+    provider: mike
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/xskipper-io
