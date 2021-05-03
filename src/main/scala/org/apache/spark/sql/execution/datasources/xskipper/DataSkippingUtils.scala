@@ -89,12 +89,12 @@ object DataSkippingUtils extends Logging {
     * @return a FileStatusCache populated with the root paths from the given inMemoryFileIndex
     */
   def recreateFileStatusCache(spark: SparkSession,
-                              inMemoryFileIndex: PartitioningAwareFileIndex): FileStatusCache = {
+                              inMemoryFileIndex: InMemoryFileIndex): FileStatusCache = {
     // reconstructing FileStatusCache to avoid re listing
     val fileStatusCache = FileStatusCache.getOrCreate(spark)
     inMemoryFileIndex.rootPaths.foreach(path =>
       fileStatusCache.putLeafFiles(path,
-        inMemoryFileIndex.allFiles.toArray))
+        inMemoryFileIndex.listLeafFiles(Seq(path)).toArray))
     fileStatusCache
   }
 
