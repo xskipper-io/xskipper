@@ -43,6 +43,10 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     ParquetMetadataStoreConf.PARQUET_EXPECTED_MAX_METADATA_BYTES_SIZE.defaultValue
   private var MAX_RECORDS_PER_METADATA_FILE =
     ParquetMetadataStoreConf.PARQUET_MAX_RECORDS_PER_METADATA_FILE.defaultValue
+  private var DISTINCT_ON_REFRESH =
+    ParquetMetadataStoreConf.DISTINCT_ON_REFRESH.defaultValue
+  private var DISTINCT_ON_FILTER =
+    ParquetMetadataStoreConf.DISTINCT_ON_FILTER.defaultValue
   private var FOOTER_KEY: Option[String] = None
   private var PLAINTEXT_FOOTER_ENABLED: Boolean =
     ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_ENABLED.defaultValue
@@ -113,6 +117,14 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
             logInfo(s"Setting plaintext footer to ${value}")
             PLAINTEXT_FOOTER_ENABLED = ConfigurationUtils.getConf(
               ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_ENABLED, params)
+          case ParquetMetadataStoreConf.DISTINCT_ON_REFRESH_KEY =>
+            logInfo(s"Setting distinct on refresh to ${value}")
+            DISTINCT_ON_REFRESH = ConfigurationUtils.getConf(
+              ParquetMetadataStoreConf.DISTINCT_ON_REFRESH, params)
+          case ParquetMetadataStoreConf.DISTINCT_ON_FILTER_KEY =>
+            logInfo(s"Setting distinct on filter to ${value}")
+            DISTINCT_ON_FILTER = ConfigurationUtils.getConf(
+              ParquetMetadataStoreConf.DISTINCT_ON_FILTER, params)
           case _ =>
             logWarning(s"Unknown parameter ${key} with value ${value}")
         }
@@ -359,6 +371,10 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
         df = df.where(f.asInstanceOf[Expression].sql)
       case _ =>
     }
+    if (DISTINCT_ON_FILTER) {
+      logInfo("dropping index duplicates")
+      df = df.dropDuplicates("obj_name")
+    }
     // Load metadata and return all name column values
     df.collect().map(_.getString(0)).toSet
   }
@@ -408,11 +424,14 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
   private def compact(numPartitions: Int = 1): Unit = {
     logInfo("compact with #partitions : " + numPartitions)
     // read the df - use repartition and write back
-    // using coalesce since compactness should always result in a lower number of partitions
-    // (coalesce doesn't enable to increase the number of partitions)
     // we can work on the raw DF since by now the physical metadata must
     // be of the same version
-    replaceMetaData(getMetaDataDFRaw().coalesce(numPartitions))
+    var df = getMetaDataDFRaw()
+    if (DISTINCT_ON_REFRESH) {
+      logInfo("dropping index duplicates")
+      df = df.dropDuplicates("obj_name")
+    }
+    replaceMetaData(df.repartition(numPartitions))
   }
 
   /**
@@ -473,6 +492,10 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
       case Some(f) =>
         df = df.where(f.asInstanceOf[Expression].sql)
       case _ =>
+    }
+    if (DISTINCT_ON_FILTER) {
+      logInfo("dropping index duplicates")
+      df = df.dropDuplicates("obj_name")
     }
     df.collect().map(_.getString(0)).toSet
   }

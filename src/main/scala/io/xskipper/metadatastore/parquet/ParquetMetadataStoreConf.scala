@@ -118,6 +118,30 @@ object ParquetMetadataStoreConf {
         "max metadata file size must be greater than 0"))
     )
 
+  val DISTINCT_ON_REFRESH_KEY =
+    PARQUET_METADATASTORE_CONF_PREFIX + "refresh.distinct"
+  val DISTINCT_ON_REFRESH =
+    ConfigEntry[Boolean](
+      DISTINCT_ON_REFRESH_KEY,
+    defaultValue = true,
+    doc =
+      s"""Whether to run distinct when running refresh
+         |This is used to cleanup failures in refresh which might introduced duplicate rows
+         |""".stripMargin
+  )
+
+  val DISTINCT_ON_FILTER_KEY =
+    PARQUET_METADATASTORE_CONF_PREFIX + "filter.distinct"
+  val DISTINCT_ON_FILTER =
+    ConfigEntry[Boolean](
+      DISTINCT_ON_FILTER_KEY,
+      defaultValue = true,
+      doc =
+        s"""Whether to run distinct during filtering
+           |This is used to cleanup failures in refresh which might introduced duplicate rows
+           |""".stripMargin
+    )
+
   // configuration keys for Encryption
   val PARQUET_FOOTER_KEY_SPARK_KEY = "encryption.footer.key"
   val PARQUET_FOOTER_KEY_PARAM_KEY =
