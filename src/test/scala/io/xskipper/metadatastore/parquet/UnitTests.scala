@@ -113,7 +113,8 @@ class UnitTests extends FunSuite
     val numIndexedObjectBeforeRefresh = {
       xskipper.metadataHandle().asInstanceOf[ParquetMetadataHandle].getNumberOfIndexedObjects()
     }
-    assert(numIndexedObjectBeforeRefresh == 6, "Number of files index")
+    assert(numIndexedObjectBeforeRefresh == 6,
+      "number of indexed objects before refresh is invalid")
 
     // refresh will not remove the duplicates when the flag is set to false
     xskipper.setParams(Map(
@@ -122,7 +123,8 @@ class UnitTests extends FunSuite
 
     val numIndexedObjectAfterRefreshFlagOff =
       xskipper.metadataHandle().asInstanceOf[ParquetMetadataHandle].getNumberOfIndexedObjects()
-    assert(numIndexedObjectAfterRefreshFlagOff == 6, "Number")
+    assert(numIndexedObjectAfterRefreshFlagOff == 6,
+      "number of indexed objects after refresh when distinct flag is of is invalid")
 
     // setting the flag to true and making sure duplicates are removed
     xskipper.setParams(Map(
@@ -131,6 +133,7 @@ class UnitTests extends FunSuite
 
     val numIndexedObjectAfterRefreshFlagOn =
       xskipper.metadataHandle().asInstanceOf[ParquetMetadataHandle].getNumberOfIndexedObjects()
-    assert(numIndexedObjectAfterRefreshFlagOn == 3, "Number")
+    assert(numIndexedObjectAfterRefreshFlagOn == 3,
+      "number of indexed objects after refresh when distinct flag is on is invalid")
   }
 }
