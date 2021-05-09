@@ -325,11 +325,11 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
   def collectNewFiles(partitionDirectories: Seq[PartitionDirectory],
                       isRefresh: Boolean): (Seq[PartitionDirectory], Seq[String]) = {
     // collect indexed files IDs
-    var allIndexedFiles = Set.empty[String]
+    var allIndexedFiles = scala.collection.mutable.Set.empty[String]
     if (isRefresh) {
       val asyncAllFilesRequest = metadataHandle.getAllIndexedFiles()
       // we give a TIMEOUT minutes timeout since we block on this request
-      allIndexedFiles = Await.result(asyncAllFilesRequest, TIMEOUT minutes)
+      allIndexedFiles ++= Await.result(asyncAllFilesRequest, TIMEOUT minutes)
     }
 
     // choose only records from files that are not indexed in the metadata store
