@@ -418,6 +418,8 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
 
   /**
     * Compacts the metadata by rewriting it with the given num of partitions
+    * Also potentially remove duplicated rows in the metadata which might have been introduced
+    * due to failed refresh operations
     *
     * @param numPartitions the number of partitions to be compacted to
     */
