@@ -5,24 +5,24 @@
 
 package io.xskipper.metadatastore.parquet
 
-import io.xskipper.Xskipper
+import io.xskipper.{Xskipper, XskipperProvider}
 import io.xskipper.index.Index
 import io.xskipper.testing.util.Utils
-import org.apache.spark.sql._
+import io.xskipper.testing.util.Utils.{concatPaths, strToFile}
+import org.apache.commons.io.FileUtils
+import org.apache.commons.io.filefilter.{TrueFileFilter, WildcardFileFilter}
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
 
+import java.io.File
+import java.nio.file.Files
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
-class UnitTests extends FunSuite with BeforeAndAfterEach {
+class UnitTests extends FunSuite
+  with BeforeAndAfterEach
+  with ParquetXskipperProvider {
 
-  val spark = SparkSession
-    .builder()
-    .appName("Parquet UnitTests")
-    .master("local[*]")
-    .config("spark.ui.enabled", "false")
-    .enableHiveSupport()
-    .getOrCreate()
+  override val datasourceV2: Boolean = false
 
   override def beforeEach(): Unit = {
     Xskipper.reset(spark)
@@ -31,7 +31,6 @@ class UnitTests extends FunSuite with BeforeAndAfterEach {
   override def afterEach(): Unit = {
     Xskipper.reset(spark)
   }
-
 
   test("make sure indexExists do not throw exception") {
     // creating Xskipper without metadata configuration
@@ -83,5 +82,55 @@ class UnitTests extends FunSuite with BeforeAndAfterEach {
     assertThrows[ParquetMetaDataStoreException] {
       metadatastore.getNumberOfIndexedObjects()
     }
+  }
+
+  test("check dedup of metadata with duplicate entries") {
+    // create tmp directory
+    val INPUT_REL_PATH: String = "src/test/resources"
+    val dir = Files.createTempDirectory("xskipper_parquet_test").toString
+    dir.deleteOnExit()
+
+    val reader = spark.read.format("parquet")
+    // copy the files and index a dataset
+    val inputLocation = concatPaths(INPUT_REL_PATH,
+      "input_datasets/vallist1/initial/parquet")
+    FileUtils.copyDirectory(inputLocation, dir, false)
+
+    val xskipper = getXskipper(dir)
+    xskipper.indexBuilder()
+      .addMinMaxIndex("temp")
+      .build(reader)
+
+    // duplicate the index values
+    val metadatapath = xskipper.metadataHandle().asInstanceOf[ParquetMetadataHandle].getMDPath().path.toString
+    FileUtils.listFiles(
+      new File(metadatapath),
+      new WildcardFileFilter("*.parquet"),
+      TrueFileFilter.INSTANCE).forEach(f => {
+      FileUtils.copyFile(f, concatPaths(metadatapath, s"${f.getName}_duplicate"))
+    })
+
+    val numIndexedObjectBeforeRefresh = {
+      xskipper.metadataHandle().asInstanceOf[ParquetMetadataHandle].getNumberOfIndexedObjects()
+    }
+    assert(numIndexedObjectBeforeRefresh == 6, "Number of files index")
+
+    // refresh will not remove the duplicates when the flag is set to false
+    xskipper.setParams(Map(
+      "io.xskipper.parquet.refresh.distinct" -> "false"))
+    xskipper.refreshIndex(reader)
+
+    val numIndexedObjectAfterRefreshFlagOff =
+      xskipper.metadataHandle().asInstanceOf[ParquetMetadataHandle].getNumberOfIndexedObjects()
+    assert(numIndexedObjectAfterRefreshFlagOff == 6, "Number")
+
+    // setting the flag to true and making sure duplicates are removed
+    xskipper.setParams(Map(
+      "io.xskipper.parquet.refresh.distinct" -> "true"))
+    xskipper.refreshIndex(reader)
+
+    val numIndexedObjectAfterRefreshFlagOn =
+      xskipper.metadataHandle().asInstanceOf[ParquetMetadataHandle].getNumberOfIndexedObjects()
+    assert(numIndexedObjectAfterRefreshFlagOn == 3, "Number")
   }
 }

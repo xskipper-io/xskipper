@@ -401,6 +401,9 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
         Some(df.schema),
         isRefresh)
       xskipper.metadataHandle.refresh()
+    } else {
+      // call finalize metadata in any case so operations like compaction will run
+      xskipper.metadataHandle().finalizeMetadataUpload()
     }
 
     // return the operation values

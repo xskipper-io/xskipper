@@ -607,7 +607,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
   /**
     * @return the metadata path of the current instance
     */
-  private def getMDPath(): ParquetMetadataPath = {
+  def getMDPath(): ParquetMetadataPath = {
     MD_PATH match {
       case Some(parquetMetadataPath) => parquetMetadataPath
       case _ =>
