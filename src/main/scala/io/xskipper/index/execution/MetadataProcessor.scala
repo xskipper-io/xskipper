@@ -336,13 +336,14 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
     // filtering will leave only new objects or objects that have been updated since
     // the last indexing (and therefore the current fileID will be different than the one
     // indexed in the metadatastore)
+    val filesToRemove = allIndexedFiles
     val newOrModifiedPartitionDirectories = partitionDirectories.flatMap(pd => {
       val newOrModifiedFiles = pd.files.flatMap(fs => {
         val fid = Utils.getFileId(fs)
         !allIndexedFiles.contains(fid) match {
           case true => Some(fs)
           case _ =>
-            allIndexedFiles -= fid
+            filesToRemove -= fid
             None
         }
       })
@@ -352,7 +353,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
       }
     })
 
-    (newOrModifiedPartitionDirectories, allIndexedFiles.toSeq)
+    (newOrModifiedPartitionDirectories, filesToRemove.toSeq)
   }
 
   /**
