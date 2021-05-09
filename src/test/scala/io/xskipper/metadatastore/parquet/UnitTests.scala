@@ -5,7 +5,7 @@
 
 package io.xskipper.metadatastore.parquet
 
-import io.xskipper.{Xskipper, XskipperProvider}
+import io.xskipper.Xskipper
 import io.xskipper.index.Index
 import io.xskipper.testing.util.Utils
 import io.xskipper.testing.util.Utils.{concatPaths, strToFile}
