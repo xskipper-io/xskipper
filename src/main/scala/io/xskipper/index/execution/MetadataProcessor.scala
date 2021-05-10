@@ -325,24 +325,25 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
   def collectNewFiles(partitionDirectories: Seq[PartitionDirectory],
                       isRefresh: Boolean): (Seq[PartitionDirectory], Seq[String]) = {
     // collect indexed files IDs
-    var allIndexedFiles = Set.empty[String]
+    var allIndexedFiles = scala.collection.mutable.Set.empty[String]
     if (isRefresh) {
       val asyncAllFilesRequest = metadataHandle.getAllIndexedFiles()
       // we give a TIMEOUT minutes timeout since we block on this request
-      allIndexedFiles = Await.result(asyncAllFilesRequest, TIMEOUT minutes)
+      allIndexedFiles ++= Await.result(asyncAllFilesRequest, TIMEOUT minutes)
     }
 
     // choose only records from files that are not indexed in the metadata store
     // filtering will leave only new objects or objects that have been updated since
     // the last indexing (and therefore the current fileID will be different than the one
     // indexed in the metadatastore)
+    val filesToRemove = allIndexedFiles
     val newOrModifiedPartitionDirectories = partitionDirectories.flatMap(pd => {
       val newOrModifiedFiles = pd.files.flatMap(fs => {
         val fid = Utils.getFileId(fs)
         !allIndexedFiles.contains(fid) match {
           case true => Some(fs)
           case _ =>
-            allIndexedFiles -= fid
+            filesToRemove -= fid
             None
         }
       })
@@ -352,7 +353,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
       }
     })
 
-    (newOrModifiedPartitionDirectories, allIndexedFiles.toSeq)
+    (newOrModifiedPartitionDirectories, filesToRemove.toSeq)
   }
 
   /**

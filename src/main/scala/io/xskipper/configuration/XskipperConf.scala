@@ -16,17 +16,15 @@ import org.apache.spark.internal.Logging
 object XskipperConf extends Configuration with Logging {
   // override to enable custom action after setting for example:
   // the set function to reload identifier class
-  override def setConf(params: Map[String, String]): Unit = {
-    super.setConf(params)
+  override def set(key: String, value: String): Unit = {
+    super.set(key, value)
     // reload identifier class if needed
-    params.get(XSKIPPER_IDENTIFIER_CLASS_KEY) match {
-      case Some(identifierClass) =>
-        // try loading the class dynamically
-        Utils.getClassInstance[Identifier](identifierClass) match {
-          case Some(identifier) => Utils.identifier = identifier
-          case _ =>
-        }
-      case _ =>
+    if (key == XSKIPPER_IDENTIFIER_CLASS_KEY) {
+      // try loading the class dynamically
+      Utils.getClassInstance[Identifier](value) match {
+        case Some(identifier) => Utils.identifier = identifier
+        case _ =>
+      }
     }
   }
 
@@ -126,7 +124,7 @@ object XskipperConf extends Configuration with Logging {
     "index.minmax.inFilterThreshold"
   val XSKIPPER_MINMAX_IN_FILTER_THRESHOLD: ConfigEntry[Int] = ConfigEntry[Int](
     XSKIPPER_MINMAX_IN_FILTER_THRESHOLD_KEY,
-    defaultValue = 100,
+    defaultValue = 10,
     doc =
       s"""defines number of values in an IN filter above we will push down only
          |one min/max condition based on the min and maximum of the entire list
