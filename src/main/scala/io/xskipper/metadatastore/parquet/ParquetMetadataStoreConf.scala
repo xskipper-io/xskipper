@@ -118,11 +118,11 @@ object ParquetMetadataStoreConf {
         "max metadata file size must be greater than 0"))
     )
 
-  val DISTINCT_ON_REFRESH_KEY =
-    PARQUET_METADATASTORE_CONF_PREFIX + "refresh.distinct"
-  val DISTINCT_ON_REFRESH =
+  val DEDUP_ON_REFRESH_KEY =
+    PARQUET_METADATASTORE_CONF_PREFIX + "refresh.dedup"
+  val DEDUP_ON_REFRESH =
     ConfigEntry[Boolean](
-      DISTINCT_ON_REFRESH_KEY,
+      DEDUP_ON_REFRESH_KEY,
     defaultValue = true,
     doc =
       s"""Whether to run distinct when running refresh
@@ -130,11 +130,11 @@ object ParquetMetadataStoreConf {
          |""".stripMargin
   )
 
-  val DISTINCT_ON_FILTER_KEY =
-    PARQUET_METADATASTORE_CONF_PREFIX + "filter.distinct"
-  val DISTINCT_ON_FILTER =
+  val DEDUP_ON_FILTER_KEY =
+    PARQUET_METADATASTORE_CONF_PREFIX + "filter.dedup"
+  val DEDUP_ON_FILTER =
     ConfigEntry[Boolean](
-      DISTINCT_ON_FILTER_KEY,
+      DEDUP_ON_FILTER_KEY,
       defaultValue = true,
       doc =
         s"""Whether to run distinct during filtering

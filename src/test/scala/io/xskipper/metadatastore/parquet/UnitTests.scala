@@ -118,22 +118,22 @@ class UnitTests extends FunSuite
 
     // refresh will not remove the duplicates when the flag is set to false
     xskipper.setParams(Map(
-      "io.xskipper.parquet.refresh.distinct" -> "false"))
+      "io.xskipper.parquet.refresh.dedup" -> "false"))
     xskipper.refreshIndex(reader)
 
     val numIndexedObjectAfterRefreshFlagOff =
       xskipper.metadataHandle().asInstanceOf[ParquetMetadataHandle].getNumberOfIndexedObjects()
     assert(numIndexedObjectAfterRefreshFlagOff == 6,
-      "number of indexed objects after refresh when distinct flag is of is invalid")
+      "number of indexed objects after refresh when dedup flag is of is invalid")
 
     // setting the flag to true and making sure duplicates are removed
     xskipper.setParams(Map(
-      "io.xskipper.parquet.refresh.distinct" -> "true"))
+      "io.xskipper.parquet.refresh.dedup" -> "true"))
     xskipper.refreshIndex(reader)
 
     val numIndexedObjectAfterRefreshFlagOn =
       xskipper.metadataHandle().asInstanceOf[ParquetMetadataHandle].getNumberOfIndexedObjects()
     assert(numIndexedObjectAfterRefreshFlagOn == 3,
-      "number of indexed objects after refresh when distinct flag is on is invalid")
+      "number of indexed objects after refresh when dedup flag is on is invalid")
   }
 }

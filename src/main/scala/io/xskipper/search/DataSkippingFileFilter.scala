@@ -75,7 +75,7 @@ class DataSkippingFileFilter(tid: String,
     // set the metadata store params - needed when we infer the metadata location from hive table/db
     metadataHandler.setParams(params)
     // get the indexes
-    val indexDescriptor = metadataHandler.getIndexes().distinct
+    val indexDescriptor = metadataHandler.getIndexes()
 
     // remove the qualifier from the attribute reference as we have the same
     // attribute in the metadata (but no identifier)

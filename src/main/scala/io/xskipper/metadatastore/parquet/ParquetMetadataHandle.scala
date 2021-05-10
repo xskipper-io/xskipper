@@ -43,10 +43,10 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     ParquetMetadataStoreConf.PARQUET_EXPECTED_MAX_METADATA_BYTES_SIZE.defaultValue
   private var MAX_RECORDS_PER_METADATA_FILE =
     ParquetMetadataStoreConf.PARQUET_MAX_RECORDS_PER_METADATA_FILE.defaultValue
-  private var DISTINCT_ON_REFRESH =
-    ParquetMetadataStoreConf.DISTINCT_ON_REFRESH.defaultValue
-  private var DISTINCT_ON_FILTER =
-    ParquetMetadataStoreConf.DISTINCT_ON_FILTER.defaultValue
+  private var DEDUP_ON_REFRESH =
+    ParquetMetadataStoreConf.DEDUP_ON_REFRESH.defaultValue
+  private var DEDUP_ON_FILTER =
+    ParquetMetadataStoreConf.DEDUP_ON_FILTER.defaultValue
   private var FOOTER_KEY: Option[String] = None
   private var PLAINTEXT_FOOTER_ENABLED: Boolean =
     ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_ENABLED.defaultValue
@@ -117,14 +117,14 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
             logInfo(s"Setting plaintext footer to ${value}")
             PLAINTEXT_FOOTER_ENABLED = ConfigurationUtils.getConf(
               ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_ENABLED, params)
-          case ParquetMetadataStoreConf.DISTINCT_ON_REFRESH_KEY =>
-            logInfo(s"Setting distinct on refresh to ${value}")
-            DISTINCT_ON_REFRESH = ConfigurationUtils.getConf(
-              ParquetMetadataStoreConf.DISTINCT_ON_REFRESH, params)
-          case ParquetMetadataStoreConf.DISTINCT_ON_FILTER_KEY =>
-            logInfo(s"Setting distinct on filter to ${value}")
-            DISTINCT_ON_FILTER = ConfigurationUtils.getConf(
-              ParquetMetadataStoreConf.DISTINCT_ON_FILTER, params)
+          case ParquetMetadataStoreConf.DEDUP_ON_REFRESH_KEY =>
+            logInfo(s"Setting dedup on refresh to ${value}")
+            DEDUP_ON_REFRESH = ConfigurationUtils.getConf(
+              ParquetMetadataStoreConf.DEDUP_ON_REFRESH, params)
+          case ParquetMetadataStoreConf.DEDUP_ON_FILTER_KEY =>
+            logInfo(s"Setting dedup on filter to ${value}")
+            DEDUP_ON_FILTER = ConfigurationUtils.getConf(
+              ParquetMetadataStoreConf.DEDUP_ON_FILTER, params)
           case _ =>
             logWarning(s"Unknown parameter ${key} with value ${value}")
         }
@@ -371,7 +371,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
         df = df.where(f.asInstanceOf[Expression].sql)
       case _ =>
     }
-    if (DISTINCT_ON_FILTER) {
+    if (DEDUP_ON_FILTER) {
       logInfo("dropping index duplicates")
       df = df.dropDuplicates("obj_name")
     }
@@ -429,7 +429,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     // we can work on the raw DF since by now the physical metadata must
     // be of the same version
     var df = getMetaDataDFRaw()
-    if (DISTINCT_ON_REFRESH) {
+    if (DEDUP_ON_REFRESH) {
       logInfo("dropping index duplicates")
       df = df.dropDuplicates("obj_name")
     }
@@ -495,7 +495,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
         df = df.where(f.asInstanceOf[Expression].sql)
       case _ =>
     }
-    if (DISTINCT_ON_FILTER) {
+    if (DEDUP_ON_FILTER) {
       logInfo("dropping index duplicates")
       df = df.dropDuplicates("obj_name")
     }
