@@ -16,7 +16,7 @@ import org.apache.hadoop.fs.FileStatus
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.catalyst.InternalRow
 import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileTable}
-import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation, PartitionDirectory}
+import org.apache.spark.sql.execution.datasources.{FileIndex, HadoopFsRelation, LogicalRelation, PartitionDirectory}
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
@@ -291,7 +291,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
 
   }
 
-  def prepareForRefresh(indexes: Seq[Index]): Unit = {
+  def prepareForRefresh(indexes: Seq[Index], fileIndex: FileIndex): Unit = {
     metadataHandle.getMdVersionStatus() match {
       case MetadataVersionStatus.DEPRECATED_SUPPORTED
         | MetadataVersionStatus.DEPRECATED_UNSUPPORTED =>
@@ -299,7 +299,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
           throw new XskipperException("cannot upgrade metadata")
         }
         logInfo(s"Upgrading Metadata for $tableIdentifier")
-        metadataHandle.upgradeMetadata(indexes)
+        metadataHandle.upgradeMetadata(indexes, fileIndex)
         logInfo(s"Done upgrading Metadata for $tableIdentifier")
       case MetadataVersionStatus.TOO_NEW =>
         throw new XskipperException("cannot upgrade from a higher version")

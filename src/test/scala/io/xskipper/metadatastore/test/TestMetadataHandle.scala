@@ -12,6 +12,7 @@ import io.xskipper.metadatastore.{MetadataHandle, MetadataStoreManagerType, Meta
 import io.xskipper.status.IndexStatusResult
 import org.apache.spark.internal.Logging
 import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.execution.datasources.FileIndex
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{Row, SparkSession}
 
@@ -99,7 +100,7 @@ class TestMetadataHandle(val session: SparkSession, tableIdentifier: String)
 
   override def isMetadataUpgradePossible(): Boolean = true
 
-  override def upgradeMetadata(indexes: Seq[Index]): Unit = {}
+  override def upgradeMetadata(indexes: Seq[Index], fileIndex: FileIndex): Unit = {}
 
   /**
     * returns the a sequence of indexes that exist in the metadata store for the tableIdentifier

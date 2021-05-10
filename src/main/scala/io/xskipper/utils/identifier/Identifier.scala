@@ -24,7 +24,7 @@ class Identifier {
   /**
     * Given a FileStatus return the name associated with this path
     */
-  def getFileName(status: FileStatus): String = getIdentifier(status.getPath.toString)
+  def getFileName(status: FileStatus): String = getIdentifier(status.getPath.toUri)
 
   /**
     * Custom logic to be used to rename the paths which are displayed
@@ -40,13 +40,16 @@ class Identifier {
     */
   def getTableIdentifierDisplayName(tid: String): String = tid
 
-  private def getIdentifier(uri: String) = {
-    val uriObj = new URI(uri)
+  private def getIdentifier(uriString: String): String = {
+    getIdentifier(new URI(uriString))
+  }
+  private def getIdentifier(uri: URI) = {
+    val path = uri.getPath
     // remove trailing slash - as table identifier won't contain slashes in the end
-    var len = uriObj.getPath.length
-    if (uriObj.getPath.endsWith("/")) {
+    var len = path.length
+    if (path.endsWith("/")) {
       len -= 1
     }
-    uriObj.getPath.substring(0, len)
+    path.substring(0, len)
   }
 }

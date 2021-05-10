@@ -110,6 +110,8 @@ class DataSkippingFileFilter(tid: String,
               indexed = Await.result(indexedFut, TIMEOUT minutes)
               required = Await.result(requiredFut, TIMEOUT minutes)
               if (log.isTraceEnabled()) {
+                indexed.foreach(f => logTrace(s"""${f}--------> INDEXED!"""))
+                required.foreach(f => logTrace(s"""${f}--------> REQUIRED!"""))
                 (indexed -- required).foreach(f => logTrace(s"""${f}--->SKIPPABLE!"""))
               }
             case _ =>

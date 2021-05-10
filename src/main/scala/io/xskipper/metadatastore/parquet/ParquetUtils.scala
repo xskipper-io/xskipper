@@ -9,8 +9,14 @@ import com.ibm.metaindex.metadata.index.types.util.BloomFilterTransformer
 import io.xskipper.Registration
 import io.xskipper.index.{BloomFilterIndex, Index}
 import io.xskipper.metadatastore.MetadataVersionStatus._
+import io.xskipper.utils.Utils
+import org.apache.hadoop.fs.FileStatus
 import org.apache.spark.internal.Logging
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql._
+import org.apache.spark.sql.catalyst.InternalRow
+import org.apache.spark.sql.catalyst.expressions.{AttributeReference, Expression}
+import org.apache.spark.sql.execution.datasources.{FileIndex, InMemoryFileIndex, PartitionDirectory}
 import org.apache.spark.sql.execution.datasources.parquet.SparkToParquetSchemaConverter
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.internal.SQLConf
@@ -18,6 +24,7 @@ import org.apache.spark.sql.types.xskipper.utils.DataFrameColumnUpgrader.applyUp
 import org.apache.spark.sql.types.{Metadata, _}
 import org.apache.spark.{SparkException, sql}
 
+import scala.::
 import scala.collection.JavaConverters._
 import scala.reflect.runtime.universe._
 
@@ -99,12 +106,14 @@ object ParquetUtils extends Logging {
     * note that only the schema is upgraded (including the column metadata and version),
     * but the column types and order are not changed.
     *
-    * @param df      the RAW metadata DataFrame
-    * @param indexes indexes (with the colsMap), must comply with the schema
+    * @param df              the RAW metadata DataFrame
+    * @param indexes         indexes (with the colsMap), must comply with the schema
+    * @param partitionSchema - The partitioning schema of the indexed dataset, if exists
     * @return the upgraded schema
     */
-  private[parquet] def extractSchema(df: DataFrame, indexes: Seq[Index]): StructType = {
-    extractSchema(df.schema, indexes)
+  private[parquet] def extractSchema(df: DataFrame, indexes: Seq[Index],
+                                     partitionSchema: Option[StructType]): StructType = {
+    extractSchema(df.schema, indexes, partitionSchema)
   }
 
   /**
@@ -112,11 +121,14 @@ object ParquetUtils extends Logging {
     * note that only the schema is upgraded (including the column metadata and version),
     * but the column types and order are not changed.
     *
-    * @param schema  original RAW schema
-    * @param indexes indexes (with the colsMap), must comply with the schema
+    * @param schema          original RAW schema
+    * @param indexes         indexes (with the colsMap), must comply with the schema
+    * @param partitionSchema - The partitioning schema of the indexed dataset, if exists
     * @return
     */
-  private[parquet] def extractSchema(schema: StructType, indexes: Seq[Index]): StructType = {
+  private[parquet] def extractSchema(schema: StructType,
+                                     indexes: Seq[Index],
+                                     partitionSchema: Option[StructType]): StructType = {
     // no need to do anything if the version is the same as the current one
     if (getVersion(schema) == ParquetMetadataStoreConf.PARQUET_MD_STORAGE_VERSION) {
       return schema
@@ -130,10 +142,9 @@ object ParquetUtils extends Logging {
 
     val newSchema = ParquetUtils.extractEncryptionDescriptor(schema) match {
       case Some(EncryptionDescriptor(_, footerLabel, plaintextFooterEnabled)) =>
-        // TODO: fix partitioning when using encryption
-        createDFSchema(indexes, None, true,
+        createDFSchema(indexes, partitionSchema, true,
           tableIdentifier, Some(footerLabel), plaintextFooterEnabled)
-      case None => createDFSchema(indexes, None,
+      case None => createDFSchema(indexes, partitionSchema,
         true, tableIdentifier, None, false)
     }
     newSchema
@@ -208,8 +219,9 @@ object ParquetUtils extends Logging {
     // if encryption is ON, then the footer key must be set regardless
     // of plaintext footer being set or not (used for footer signing by PME
     // even if the footer itself is left plaintext).
-    // in that case, if plaintext footer is set to ON (default) then the footer
-    // and the obj_name column are both encrypted with the footer key.
+    // in that case, if plaintext footer is set to OFF (default) then the footer
+    // and the obj_name column are both encrypted with the footer key. the partition (hive style)
+    // columns are also encrypted using the footer key.
     // if plaintext footer is set to ON - the obj_name is still encrypted
     // and the footer is in plaintext mode. we encrypt the obj_name in that case
     // mainly for tamper proofing (the footer is tamper-proofed even in plaintext footer mode)
@@ -303,14 +315,20 @@ object ParquetUtils extends Logging {
     *
     */
   private[parquet] def getColumnKeyListString(indexes: Seq[Index],
+                                              partitionSchema: Option[StructType],
                                               footerKeyLabel: String): String = {
     val idxKeysToColumns = getColumnPathsPerIndex(indexes.filter(_.isEncrypted()))
       .toSeq
       .map(tpl => (tpl._1.getKeyMetadata().get, tpl._2.mkString(",")))
 
-    val objNameKey = Seq((footerKeyLabel, "obj_name"))
+    val objNameKey: Seq[(String, String)] = Seq((footerKeyLabel, "obj_name"))
+    val partitionSchemaKeys = partitionSchema match {
+      case Some(schema) => schema.fieldNames.map(
+        name => (footerKeyLabel, getPartitionColName(name))).toSeq
+      case _ => Seq.empty
+    }
 
-    val res = (idxKeysToColumns ++ objNameKey)
+    val res = (idxKeysToColumns ++ objNameKey ++ partitionSchemaKeys)
       .groupBy(_._1)
       .mapValues(_.map { case (a, b) => b })
       .mapValues(_.mkString(","))
@@ -339,14 +357,30 @@ object ParquetUtils extends Logging {
     val allFields = includeExtraColumns match {
       case true => Seq(StructField("obj_name",
         StringType, false,
-        createMasterMetadata(indexes, tableIdentifier, footerKey, plainTextFooterEnabled)
-      )) ++ partitionSchema.getOrElse(Seq.empty) ++ idxFields
+        createMasterMetadata(indexes,
+          partitionSchema,
+          tableIdentifier,
+          footerKey,
+          plainTextFooterEnabled)
+      )) ++ generatePartitionStructs(partitionSchema) ++ idxFields
       case false => idxFields
     }
 
     StructType(allFields)
   }
 
+  def getPartitionColName(partCol: String): String = {
+    s"virtual_$partCol"
+  }
+
+  def generatePartitionStructs(partitionSchema: Option[StructType]): Seq[StructField] = {
+    partitionSchema match {
+      case Some(schema) =>
+        schema.map{case StructField(name, dataType, nullable, _) =>
+          StructField(getPartitionColName(name), dataType, nullable, Metadata.empty)}
+      case _ => Seq.empty
+    }
+  }
 
   /**
     * Creates the master metadata (which is assigned to the `obj_name` column)
@@ -358,6 +392,7 @@ object ParquetUtils extends Logging {
     *
     */
   private[parquet] def createMasterMetadata(indexes: Seq[Index],
+                                            partitionSchema: Option[StructType],
                                             tableIdentifier: String,
                                             footerKey: Option[String],
                                             plainTextFooterEnabled: Boolean): Metadata = {
@@ -373,7 +408,7 @@ object ParquetUtils extends Logging {
         throw ParquetMetaDataStoreException(
           "At least 1 index is marked encrypted but no footer key provided")
       }
-      val keysToColumnsString = getColumnKeyListString(indexes, footerKey.get)
+      val keysToColumnsString = getColumnKeyListString(indexes, partitionSchema, footerKey.get)
       val encryptionMetaBuilder = new sql.types.MetadataBuilder()
       // Column keys
       encryptionMetaBuilder.putString(ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SPARK_KEY,
@@ -437,6 +472,17 @@ object ParquetUtils extends Logging {
   }
 
 
+  def replaceReferences(expr: Expression, mapping: Map[String, String]):
+  Expression = expr.mapChildren {
+    child: Expression => child match {
+      case attr: AttributeReference =>
+        assert(mapping.contains(attr.name))
+        attr.withName(mapping(attr.name))
+      case child: Expression => replaceReferences(child, mapping)
+    }
+  }
+
+
   private[parquet] def isMetadataUpgradePossible(dataFrame: DataFrame): Boolean = {
     val diskVersion = getVersion(dataFrame)
     if (diskVersion == 0) {
@@ -475,6 +521,7 @@ object ParquetUtils extends Logging {
 
   private[parquet] def getTransformedDataFrame(baseDf: DataFrame,
                                                indexes: Seq[Index],
+                                               partitionSchema: Option[StructType],
                                                transformMetadata: Boolean = false): DataFrame = {
     val diskVersion = ParquetUtils.getVersion(baseDf)
     val currVersion = ParquetMetadataStoreConf.PARQUET_MD_STORAGE_VERSION
@@ -486,7 +533,7 @@ object ParquetUtils extends Logging {
     val indexesCurrColNames = indexes.map(getColumnName(_, currVersion))
     val (indexesMetadata, masterMetadata) = transformMetadata match {
       case true =>
-        val newSchema = extractSchema(baseDf.schema, indexes)
+        val newSchema = extractSchema(baseDf.schema, indexes, partitionSchema)
         (indexesCurrColNames.map(col => newSchema.apply(col).metadata),
           newSchema.apply("obj_name").metadata)
       case false => (Seq.fill(indexes.size)(Metadata.empty), Metadata.empty)
@@ -494,7 +541,7 @@ object ParquetUtils extends Logging {
 
     val resDf = diskVersion match {
       // rename the columns that were changed
-      case x if x == 1L || x == 2L =>
+      case x if x == 1L || x == 2L || x == 3L =>
         val objNameUpgradeDescriptor = UpgradeDescriptor("obj_name",
           col("obj_name"),
           "obj_name",
@@ -506,9 +553,11 @@ object ParquetUtils extends Logging {
               val newColName = getColumnName(idx, currVersion)
               val newMetadata = md
               val upgradeExpr = idx match {
-                case bf: BloomFilterIndex =>
+                // BloomFilter needs the transformer only if the version <=2,
+                // else just select the column as-is
+                case _: BloomFilterIndex if diskVersion <= 2L =>
                   BloomFilterTransformer.transformLegacyBloomFilter(col(origColName))
-                case index: Index => col(origColName)
+                case _: Index => col(origColName)
               }
 
               UpgradeDescriptor(
@@ -517,7 +566,14 @@ object ParquetUtils extends Logging {
                 newColName,
                 newMetadata)
           }
-        upgradeDescriptors.foldLeft(baseDf)(applyUpgradeDescriptor)
+        val colNamesMapping: Map[String, String] = upgradeDescriptors.collect {
+          case descriptor: UpgradeDescriptor if descriptor.origColName != descriptor.newColName =>
+            descriptor.origColName -> descriptor.newColName
+        }.toMap
+        val selectionExpr = baseDf.columns
+          .map(colName => colNamesMapping.getOrElse(colName, colName))
+          .map(col)
+        upgradeDescriptors.foldLeft(baseDf)(applyUpgradeDescriptor).select(selectionExpr: _*)
       case x if x != currVersion =>
         // this code path can only happen if we change the version and don't address
         // it in this function! it means a match case is semantically missing!!
@@ -525,9 +581,35 @@ object ParquetUtils extends Logging {
           s" software version $currVersion but no upgrade path exists!"
         logError(msg)
         throw new ParquetMetaDataStoreException(msg)
-      case currVersion => baseDf
+      case x if x == currVersion => baseDf
     }
     resDf
+  }
+
+  private[parquet] def getMetadataWithPartitionCols(mdDf: DataFrame,
+                                                    fileIndex: FileIndex): DataFrame = {
+    // if the metadata is of a version after partition data was added, no need to touch it
+    // also - if the Indexed dataset is not partitioned - no need to touch
+    if (getVersion(mdDf) >= ParquetMetadataStoreConf.PARQUET_MINIMUM_PARTITION_DATA_VERSION
+      || fileIndex.partitionSchema.isEmpty) {
+      return mdDf
+    }
+    val partCols = fileIndex.partitionSchema
+    val partStructs = generatePartitionStructs(Some(partCols))
+    val schema: StructType = StructType(Seq(StructField("obj_name", StringType)) ++ partStructs)
+    val spark = mdDf.sparkSession
+    val partitionDataRDD: RDD[Row] = spark.sparkContext
+      .parallelize(fileIndex.listFiles(Seq.empty, Seq.empty)
+      .flatMap {
+        case PartitionDirectory(values, files) =>
+          val partSeq = Utils.toSeq(values, partCols)
+          files.map(f => Row.fromSeq(Seq(Utils.getFileId(f)) ++ partSeq))
+      })
+    val partitionDataDf = spark.createDataFrame(partitionDataRDD, schema)
+    val colNames = StructType(schema ++ mdDf.schema.drop(1)).names
+    val df = mdDf.join(partitionDataDf, "obj_name").select(colNames.map(col): _*)
+
+    df
   }
 
 }

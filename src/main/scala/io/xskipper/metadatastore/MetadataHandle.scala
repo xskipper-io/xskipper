@@ -10,6 +10,7 @@ import io.xskipper.index.execution.PartitionSpec
 import io.xskipper.status.{IndexStatusResult, QueryIndexStatsResult}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.Row
+import org.apache.spark.sql.execution.datasources.FileIndex
 import org.apache.spark.sql.types.StructType
 
 import scala.collection.JavaConverters._
@@ -179,10 +180,10 @@ trait MetadataHandle {
 
   /**
     * Upgrades the metadata to comply with the current version
-    *
     * @param indexes - the indexes stored in the metadataStore.
+    * @param fileIndex the file index of the indexed dataset or table
     */
-  def upgradeMetadata(indexes: Seq[Index]): Unit
+  def upgradeMetadata(indexes: Seq[Index], fileIndex: FileIndex): Unit
 
   /**
     * returns the sequence of indexes that exist in the metadatastore for the tableIdentifier

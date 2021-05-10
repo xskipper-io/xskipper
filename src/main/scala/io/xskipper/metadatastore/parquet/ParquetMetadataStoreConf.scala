@@ -15,6 +15,8 @@ object ParquetMetadataStoreConf {
   val PARQUET_MD_STORAGE_VERSION: Long = 4L
   // Minimum version supported
   val PARQUET_MINIMUM_SUPPORTED_MD_STORAGE_VERSION: Long = 1L
+  // Minimum version from which partition data is available
+  val PARQUET_MINIMUM_PARTITION_DATA_VERSION = 4L
 
   // Parquet metadatastore specific configurations
   private[parquet] val PARQUET_MD_LOCATION_SUFFIX = "mdlocation"
