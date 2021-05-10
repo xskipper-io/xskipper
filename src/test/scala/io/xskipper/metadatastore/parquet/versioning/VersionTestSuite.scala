@@ -36,9 +36,6 @@ class VersionTestSuite(override val datasourceV2: Boolean) extends FunSuite
   val skippableFilesRegex: Regex = "(.*).*#.*-->SKIPPABLE!".r
   val skippedFilesRegex = "(.*).*#.*--------> SKIPPED!".r
 
-  // the current version for Parquet MD Storage
-  val currVersion = ParquetMetadataStoreConf.PARQUET_MD_STORAGE_VERSION.toInt
-
   // copy all input datasets into the destination. we can't use the original
   // as the metadata already exists and its tableIdentifier and file names are already written.
   // notice that for this reason we are also unable to simply run the queries and expect
@@ -53,7 +50,7 @@ class VersionTestSuite(override val datasourceV2: Boolean) extends FunSuite
 
   def runTests(): Unit = {
     testDescriptors.foreach(td =>
-      (td.minVersion until currVersion + 1).foreach(version => {
+      (td.minVersion to td.maxVersion).foreach(version => {
         // testing "regular" md usage
         runSkipTest(td, version)
         // testing REFRESH
