@@ -469,14 +469,20 @@ object ParquetUtils extends Logging {
   }
 
 
-  def replaceReferences(expr: Expression, mapping: Map[String, String]):
-  Expression = expr.mapChildren {
-    child: Expression => child match {
-      case attr: AttributeReference =>
-        assert(mapping.contains(attr.name))
-        attr.withName(mapping(attr.name))
-      case child: Expression => replaceReferences(child, mapping)
-    }
+  /**
+    * Replaces attribute references names in the given expression according to the given mapping
+    * @param expr the expression to replace
+    * @param mapping a mapping from attribute name to new attribute name
+    * @return the new expresion with attribute references replaced with the given mapping
+    */
+  def replaceReferences(expr: Expression, mapping: Map[String, String]): Expression =
+    expr.mapChildren {
+      child: Expression => child match {
+        case attr: AttributeReference =>
+          assert(mapping.contains(attr.name))
+          attr.withName(mapping(attr.name))
+        case child: Expression => replaceReferences(child, mapping)
+      }
   }
 
 
