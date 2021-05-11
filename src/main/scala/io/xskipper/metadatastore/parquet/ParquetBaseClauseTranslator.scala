@@ -83,7 +83,7 @@ object ParquetBaseClauseTranslator extends ClauseTranslator {
             Some(!isnull(col(mdColName)).and(size(array_except(col(mdColName), lit(values))) > 0))
           case BloomFilterClause(column, values) =>
             val mdColName = ParquetUtils.getColumnNameForCols(Seq(column), "bloomfilter")
-            Some(!isnull(col(mdColName)).and(bloomFilterUDF(values)(col(mdColName))))
+            Some(bloomFilterUDF(values)(col(mdColName)))
           case _ =>
             None
         }
