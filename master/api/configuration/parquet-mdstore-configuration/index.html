@@ -20,7 +20,7 @@
         <link rel="canonical" href="https://xskipper.io/master/api/configuration/parquet-mdstore-configuration/">
       
       <link rel="icon" href="../../../img/logo_black.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.4">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.e35208c4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.bde7dde4.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ef6f36e2.min.css">
@@ -796,6 +796,16 @@ The Parquet metadatastore store the metadata for the objects as rows in parquet 
 <td>N/A</td>
 <td>The encryption key that will be used to encrypt the metadata footer</td>
 </tr>
+<tr>
+<td>io.xskipper.parquet<br/>.refresh.dedup</td>
+<td>true</td>
+<td>When set to true each refresh operation will drop duplicates metadata entries (which might exist due to failed refresh operations)</td>
+</tr>
+<tr>
+<td>io.xskipper.parquet<br/>.filter.dedup</td>
+<td>false</td>
+<td>When set to true duplicate metadata entries (which might exist due to failed refresh operations) will be dropped when filtering in query run time</td>
+</tr>
 </tbody>
 </table>
 <h2 id="types-of-metadata-location">Types of metadata location<a class="headerlink" href="#types-of-metadata-location" title="Permanent link">&para;</a></h2>
@@ -828,17 +838,17 @@ The Parquet metadatastore store the metadata for the objects as rows in parquet 
 </code></pre></div>
 </div>
 <input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">from</span> <span class="n">xskipper</span> <span class="k">import</span> <span class="nn">Xskipper</span>
+<div class="highlight"><pre><span></span><code><span class="n">from</span> <span class="n">xskipper</span> <span class="k">import</span> <span class="nc">Xskipper</span>
 
-<span class="o">#</span> <span class="nc">The</span> <span class="n">base</span> <span class="n">location</span> <span class="n">to</span> <span class="n">store</span> <span class="n">all</span> <span class="n">indexes</span> 
-<span class="o">#</span> <span class="nc">TODO</span><span class="k">:</span> <span class="kt">change</span> <span class="kt">to</span> <span class="kt">your</span> <span class="kt">index</span> <span class="kt">base</span> <span class="kt">location</span>
+<span class="n">#</span> <span class="nc">The</span> <span class="n">base</span> <span class="n">location</span> <span class="n">to</span> <span class="n">store</span> <span class="n">all</span> <span class="n">indexes</span> 
+<span class="n">#</span> <span class="nc">TODO</span><span class="p">:</span> <span class="n">change</span> <span class="n">to</span> <span class="n">your</span> <span class="n">index</span> <span class="n">base</span> <span class="n">location</span>
 <span class="n">md_base_location</span> <span class="o">=</span> <span class="s">&quot;/tmp/metadata&quot;</span>
 
-<span class="o">#</span> <span class="nc">Configuring</span> <span class="n">the</span> <span class="nc">JVM</span> <span class="n">wide</span> <span class="n">parameters</span>
-<span class="n">conf</span> <span class="o">=</span> <span class="n">dict</span><span class="o">([</span>
-            <span class="o">(</span><span class="err">&quot;</span><span class="kt">io.xskipper.parquet.mdlocation</span><span class="err">&quot;</span><span class="p">,</span> <span class="kt">md_base_location</span><span class="o">)</span><span class="p">,</span>
-            <span class="o">(</span><span class="err">&quot;</span><span class="kt">io.xskipper.parquet.mdlocation.</span><span class="k">type</span><span class="err">&quot;</span><span class="p">,</span> <span class="err">&quot;</span><span class="kt">EXPLICIT_BASE_PATH_LOCATION</span><span class="err">&quot;</span><span class="o">)])</span>
-<span class="nc">Xskipper</span><span class="o">.</span><span class="n">setConf</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">conf</span><span class="o">)</span>
+<span class="n">#</span> <span class="nc">Configuring</span> <span class="n">the</span> <span class="nc">JVM</span> <span class="n">wide</span> <span class="n">parameters</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="n">dict</span><span class="p">([</span>
+            <span class="p">(</span><span class="s">&quot;io.xskipper.parquet.mdlocation&quot;</span><span class="p">,</span> <span class="n">md_base_location</span><span class="p">),</span>
+            <span class="p">(</span><span class="s">&quot;io.xskipper.parquet.mdlocation.type&quot;</span><span class="p">,</span> <span class="s">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="p">)])</span>
+<span class="nc">Xskipper</span><span class="p">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -857,13 +867,13 @@ The Parquet metadatastore store the metadata for the objects as rows in parquet 
 </code></pre></div>
 </div>
 <input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">dataset_location</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">dataset_location</span><span class="p">)</span>
 
 <span class="c1">// call set params to make sure it overwrites JVM wide config</span>
-<span class="k">val</span> <span class="n">params</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">(</span>
-  <span class="s">&quot;io.xskipper.parquet.mdlocation&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;&lt;your metadata&gt;&quot;</span><span class="o">,</span>
-  <span class="s">&quot;io.xskipper.parquet.mdlocation.type&quot;</span> <span class="o">-&gt;</span>  <span class="s">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="o">)</span>
-<span class="n">xskipper</span><span class="o">.</span><span class="n">setParams</span><span class="o">(</span><span class="n">params</span><span class="o">)</span>
+<span class="kd">val</span> <span class="n">params</span> <span class="o">=</span> <span class="nc">Map</span><span class="p">(</span>
+  <span class="s">&quot;io.xskipper.parquet.mdlocation&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;&lt;your metadata&gt;&quot;</span><span class="p">,</span>
+  <span class="s">&quot;io.xskipper.parquet.mdlocation.type&quot;</span> <span class="o">-&gt;</span>  <span class="s">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="p">)</span>
+<span class="n">xskipper</span><span class="p">.</span><span class="n">setParams</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -998,10 +1008,10 @@ These parameters are the default JVM wide parameters unless set differently for 
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.4fa0e4ee.min.js", "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.1d3bfcf1.min.js"></script>
       
         <script src="../../../javascripts/config.js"></script>
       

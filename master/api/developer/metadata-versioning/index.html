@@ -20,7 +20,7 @@
         <link rel="canonical" href="https://xskipper.io/master/api/developer/metadata-versioning/">
       
       <link rel="icon" href="../../../img/logo_black.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.4">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.e35208c4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.bde7dde4.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ef6f36e2.min.css">
@@ -690,21 +690,21 @@
 <p>The versioning mechanism, version numbers and inter-version support matrix is up to the metadata store implementation.<br />
 However, some details were pulled above the metadata store abstraction.  </p>
 <p>A metadata store must be able to report the <strong><em>metadata version status</em></strong>, which is defined as follows:</p>
-<p><div class="highlight"><pre><span></span><code><span class="k">object</span> <span class="nc">MetadataVersionStatus</span> <span class="k">extends</span> <span class="nc">Enumeration</span> <span class="o">{</span>
-  <span class="k">type</span> <span class="kt">MetadataVersionStatus</span> <span class="o">=</span> <span class="nc">Value</span>
+<p><div class="highlight"><pre><span></span><code><span class="k">object</span> <span class="nc">MetadataVersionStatus</span> <span class="k">extends</span> <span class="nc">Enumeration</span> <span class="p">{</span>
+  <span class="k">type</span> <span class="nc">MetadataVersionStatus</span> <span class="o">=</span> <span class="nc">Value</span>
 
   <span class="cm">/**</span>
 <span class="cm">    * The stored metadata is from exactly the same version</span>
 <span class="cm">    * as the metadata version of this jar.</span>
 <span class="cm">    */</span>
-  <span class="k">val</span> <span class="nc">CURRENT</span> <span class="o">=</span> <span class="nc">Value</span><span class="o">(</span><span class="s">&quot;current&quot;</span><span class="o">)</span>
+  <span class="kd">val</span> <span class="nc">CURRENT</span> <span class="o">=</span> <span class="nc">Value</span><span class="p">(</span><span class="s">&quot;current&quot;</span><span class="p">)</span>
 
   <span class="cm">/**</span>
 <span class="cm">    * The stored metadata is from a version strictly smaller than</span>
 <span class="cm">    * the metadata version of this jar. however, it can be used for filtering</span>
 <span class="cm">    * and a REFRESH operation will result in the metadata having the `CURRENT` status</span>
 <span class="cm">    */</span>
-  <span class="k">val</span> <span class="nc">DEPRECATED_SUPPORTED</span> <span class="o">=</span> <span class="nc">Value</span><span class="o">(</span><span class="s">&quot;deprecated_supported&quot;</span><span class="o">)</span>
+  <span class="kd">val</span> <span class="nc">DEPRECATED_SUPPORTED</span> <span class="o">=</span> <span class="nc">Value</span><span class="p">(</span><span class="s">&quot;deprecated_supported&quot;</span><span class="p">)</span>
 
   <span class="cm">/**</span>
 <span class="cm">    * The stored metadata is from a version strictly smaller than</span>
@@ -712,26 +712,26 @@ However, some details were pulled above the metadata store abstraction.  </p>
 <span class="cm">    * a REFRESH operation may or may not be able to upgrade it, up to the</span>
 <span class="cm">    * metadata store&#39;s `isMetadataUpgradePossible` method.</span>
 <span class="cm">    */</span>
-  <span class="k">val</span> <span class="nc">DEPRECATED_UNSUPPORTED</span> <span class="o">=</span> <span class="nc">Value</span><span class="o">(</span><span class="s">&quot;deprecated_unsupported&quot;</span><span class="o">)</span>
+  <span class="kd">val</span> <span class="nc">DEPRECATED_UNSUPPORTED</span> <span class="o">=</span> <span class="nc">Value</span><span class="p">(</span><span class="s">&quot;deprecated_unsupported&quot;</span><span class="p">)</span>
 
   <span class="cm">/**</span>
 <span class="cm">    * The stored metadata is from a version which is strictly greater</span>
 <span class="cm">    * than the metadata version of this jar.</span>
 <span class="cm">    * the metadata store is not expected to able to either read or refresh this metadata.</span>
 <span class="cm">    */</span>
-  <span class="k">val</span> <span class="nc">TOO_NEW</span> <span class="o">=</span> <span class="nc">Value</span><span class="o">(</span><span class="s">&quot;too_new&quot;</span><span class="o">)</span>
-<span class="o">}</span>
+  <span class="kd">val</span> <span class="nc">TOO_NEW</span> <span class="o">=</span> <span class="nc">Value</span><span class="p">(</span><span class="s">&quot;too_new&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre></div>
 and so the metadata store must be able to perform the following operation regarding versioning:</p>
 <ol>
 <li>Report the Metadata Version Status:
-      <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="n">getMdVersionStatus</span><span class="o">()</span><span class="k">:</span> <span class="kt">MetadataVersionStatus</span>
+      <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getMdVersionStatus</span><span class="p">():</span> <span class="nc">MetadataVersionStatus</span>
 </code></pre></div></li>
 <li>Report whether or not a metadata upgrade is possible:
-      <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="n">isMetadataUpgradePossible</span><span class="o">()</span><span class="k">:</span> <span class="kt">Boolean</span>
+      <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">isMetadataUpgradePossible</span><span class="p">():</span> <span class="nc">Boolean</span>
 </code></pre></div></li>
 <li>Perform a Metadata Upgrade if reported as possible:
-      <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="n">upgradeMetadata</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span>
+      <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">upgradeMetadata</span><span class="p">():</span> <span class="nc">Unit</span>
 </code></pre></div></li>
 </ol>
 <p>During a REFRESH operation, the metadata version status is first checked, and upgraded if necessary, before performing the actual refresh or removing metadata for deleted objects.<br />
@@ -821,10 +821,10 @@ Any failure during this process (e.g., metadata version status <code>TOO_NEW</co
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.4fa0e4ee.min.js", "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.1d3bfcf1.min.js"></script>
       
         <script src="../../../javascripts/config.js"></script>
       

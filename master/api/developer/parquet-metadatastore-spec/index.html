@@ -20,7 +20,7 @@
         <link rel="canonical" href="https://xskipper.io/master/api/developer/parquet-metadatastore-spec/">
       
       <link rel="icon" href="../../../img/logo_black.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.4">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.e35208c4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.bde7dde4.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ef6f36e2.min.css">
@@ -636,6 +636,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#version-4" class="md-nav__link">
+    Version 4
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#version-3" class="md-nav__link">
     Version 3
   </a>
@@ -788,6 +795,12 @@ what metadata for which column is laid out in what way.</li>
     from how spark actually represents these structures in the Parquet schema.</li>
 </ol>
 <h2 id="format-specifications">Format Specifications<a class="headerlink" href="#format-specifications" title="Permanent link">&para;</a></h2>
+<h3 id="version-4">Version 4<a class="headerlink" href="#version-4" title="Permanent link">&para;</a></h3>
+<p>This version differs from Version 3 by:</p>
+<ol>
+<li>Saving the partition columns in the metadata for partitioned table in order to get the indexed files only for relevant partitions </li>
+<li>The partition columns are saved as <code>virtual_&lt;column_name&gt;</code></li>
+</ol>
 <h3 id="version-3">Version 3<a class="headerlink" href="#version-3" title="Permanent link">&para;</a></h3>
 <p>This version differs from Version 2 by:</p>
 <ol>
@@ -906,15 +919,15 @@ for this specific Metadata type.</p>
 <li><code>obj_name</code> column:
     stores the object name.<ul>
 <li>For Unversioned files, defined as
-    <div class="highlight"><pre><span></span><code> <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;obj_name&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span>
+    <div class="highlight"><pre><span></span><code> <span class="nc">StructField</span><span class="p">(</span><span class="s">&quot;obj_name&quot;</span><span class="p">,</span> <span class="nc">StringType</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
      &gt; That is, a non-nullable column named "obj_name"
              of type String, without metadata.</li>
 <li>For Versioned files (that is, version 0), defined as:
-    <div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">objNameMeta</span> <span class="o">=</span>  <span class="k">new</span> <span class="n">sql</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="nc">MetadataBuilder</span><span class="o">()</span>
-               <span class="o">.</span><span class="n">putLong</span><span class="o">(</span><span class="s">&quot;version&quot;</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
-               <span class="o">.</span><span class="n">build</span><span class="o">()</span>
-    <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;obj_name&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="n">objNameMeta</span><span class="o">)</span>
+    <div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">objNameMeta</span> <span class="o">=</span>  <span class="k">new</span> <span class="n">sql</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="nc">MetadataBuilder</span><span class="p">()</span>
+               <span class="p">.</span><span class="n">putLong</span><span class="p">(</span><span class="s">&quot;version&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+               <span class="p">.</span><span class="n">build</span><span class="p">()</span>
+    <span class="nc">StructField</span><span class="p">(</span><span class="s">&quot;obj_name&quot;</span><span class="p">,</span> <span class="nc">StringType</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="n">objNameMeta</span><span class="p">)</span>
 </code></pre></div>
     &gt; That is, a non-nullable column named "obj_name"
      of type String, with Metadata containing a single key, "version", 
@@ -925,7 +938,7 @@ for this specific Metadata type.</p>
 <p>Per-Index Columns:</p>
 <p>For each index <span class="arithmatex">\(I\)</span> (assume <span class="arithmatex">\(I\)</span> is the name), defined on columns <span class="arithmatex">\(c_1,...,c_n\)</span> (in this order),<br />
 with UDT type T and params given as</p>
-<div class="highlight"><pre><span></span><code><span class="n">params</span> <span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">String</span><span class="p">,</span> <span class="kt">String</span><span class="o">]</span> 
+<div class="highlight"><pre><span></span><code><span class="n">params</span> <span class="p">:</span> <span class="nc">Map</span><span class="p">[</span><span class="nc">String</span><span class="p">,</span> <span class="nc">String</span><span class="p">]</span> 
 </code></pre></div>
 </li>
 </ol>
@@ -1041,10 +1054,10 @@ It's not defined what will happen should we encounter a file without a version, 
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.4fa0e4ee.min.js", "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.1d3bfcf1.min.js"></script>
       
         <script src="../../../javascripts/config.js"></script>
       

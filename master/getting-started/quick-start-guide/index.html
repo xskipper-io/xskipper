@@ -20,7 +20,7 @@
         <link rel="canonical" href="https://xskipper.io/master/getting-started/quick-start-guide/">
       
       <link rel="icon" href="../../img/logo_black.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.4">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.e35208c4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bde7dde4.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
@@ -1073,18 +1073,18 @@ During query time indexes will be consulted at this location.</p>
 </code></pre></div>
 </div>
 <input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io.xskipper._</span>
-<span class="k">import</span> <span class="nn">io.xskipper.implicits._</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="n">_</span>
+<span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="nn">implicits</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">// The base location to store all indexes</span>
 <span class="c1">// TODO: change to your index base location</span>
-<span class="k">val</span> <span class="n">md_base_location</span> <span class="o">=</span> <span class="s">s&quot;/tmp/metadata&quot;</span>
+<span class="kd">val</span> <span class="n">md_base_location</span> <span class="o">=</span> <span class="s">s&quot;/tmp/metadata&quot;</span>
 
 <span class="c1">// Configuring the JVM wide parameters</span>
-<span class="k">val</span> <span class="n">conf</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">(</span>
-  <span class="s">&quot;io.xskipper.parquet.mdlocation&quot;</span> <span class="o">-&gt;</span> <span class="n">md_base_location</span><span class="o">,</span>
-  <span class="s">&quot;io.xskipper.parquet.mdlocation.type&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="o">)</span>
-<span class="nc">Xskipper</span><span class="o">.</span><span class="n">setConf</span><span class="o">(</span><span class="n">conf</span><span class="o">)</span>
+<span class="kd">val</span> <span class="n">conf</span> <span class="o">=</span> <span class="nc">Map</span><span class="p">(</span>
+  <span class="s">&quot;io.xskipper.parquet.mdlocation&quot;</span> <span class="o">-&gt;</span> <span class="n">md_base_location</span><span class="p">,</span>
+  <span class="s">&quot;io.xskipper.parquet.mdlocation.type&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="p">)</span>
+<span class="nc">Xskipper</span><span class="p">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1114,36 +1114,36 @@ During query time indexes will be consulted at this location.</p>
 </code></pre></div>
 </div>
 <input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">org.apache.spark.sql.Row</span>
-<span class="k">import</span> <span class="nn">org.apache.spark.sql.types.</span><span class="o">{</span><span class="nc">DoubleType</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="nc">StructField</span><span class="o">,</span> <span class="nc">StructType</span><span class="o">}</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">org</span><span class="p">.</span><span class="nn">apache</span><span class="p">.</span><span class="nn">spark</span><span class="p">.</span><span class="nn">sql</span><span class="p">.</span><span class="nc">Row</span>
+<span class="k">import</span> <span class="nn">org</span><span class="p">.</span><span class="nn">apache</span><span class="p">.</span><span class="nn">spark</span><span class="p">.</span><span class="nn">sql</span><span class="p">.</span><span class="nn">types</span><span class="p">.{</span><span class="nc">DoubleType</span><span class="p">,</span> <span class="nc">StringType</span><span class="p">,</span> <span class="nc">StructField</span><span class="p">,</span> <span class="nc">StructType</span><span class="p">}</span>
 
 <span class="c1">// TODO: change to your data location</span>
-<span class="k">val</span> <span class="n">dataset_location</span> <span class="o">=</span> <span class="s">s&quot;/tmp/data&quot;</span>
+<span class="kd">val</span> <span class="n">dataset_location</span> <span class="o">=</span> <span class="s">s&quot;/tmp/data&quot;</span>
 
-<span class="k">val</span> <span class="n">schema</span> <span class="o">=</span> <span class="nc">List</span><span class="o">(</span>
-  <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;dt&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
-  <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;temp&quot;</span><span class="o">,</span> <span class="nc">DoubleType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
-  <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;city&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
-  <span class="nc">StructField</span><span class="o">(</span><span class="s">&quot;vid&quot;</span><span class="o">,</span> <span class="nc">StringType</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
-<span class="o">)</span>
+<span class="kd">val</span> <span class="n">schema</span> <span class="o">=</span> <span class="nc">List</span><span class="p">(</span>
+  <span class="nc">StructField</span><span class="p">(</span><span class="s">&quot;dt&quot;</span><span class="p">,</span> <span class="nc">StringType</span><span class="p">,</span> <span class="kc">true</span><span class="p">),</span>
+  <span class="nc">StructField</span><span class="p">(</span><span class="s">&quot;temp&quot;</span><span class="p">,</span> <span class="nc">DoubleType</span><span class="p">,</span> <span class="kc">true</span><span class="p">),</span>
+  <span class="nc">StructField</span><span class="p">(</span><span class="s">&quot;city&quot;</span><span class="p">,</span> <span class="nc">StringType</span><span class="p">,</span> <span class="kc">true</span><span class="p">),</span>
+  <span class="nc">StructField</span><span class="p">(</span><span class="s">&quot;vid&quot;</span><span class="p">,</span> <span class="nc">StringType</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+<span class="p">)</span>
 
-<span class="k">val</span> <span class="n">data</span> <span class="o">=</span> <span class="nc">Seq</span><span class="o">(</span>
-  <span class="nc">Row</span><span class="o">(</span><span class="s">&quot;2017-07-07&quot;</span><span class="o">,</span> <span class="mf">20.0</span><span class="o">,</span> <span class="s">&quot;Tel-Aviv&quot;</span><span class="o">,</span> <span class="s">&quot;a&quot;</span><span class="o">),</span>
-  <span class="nc">Row</span><span class="o">(</span><span class="s">&quot;2017-07-08&quot;</span><span class="o">,</span> <span class="mf">30.0</span><span class="o">,</span> <span class="s">&quot;Jerusalem&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">)</span>
-<span class="o">)</span>
+<span class="kd">val</span> <span class="n">data</span> <span class="o">=</span> <span class="nc">Seq</span><span class="p">(</span>
+  <span class="nc">Row</span><span class="p">(</span><span class="s">&quot;2017-07-07&quot;</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="s">&quot;Tel-Aviv&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">),</span>
+  <span class="nc">Row</span><span class="p">(</span><span class="s">&quot;2017-07-08&quot;</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="s">&quot;Jerusalem&quot;</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 
-<span class="k">val</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="o">(</span>
-  <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="n">data</span><span class="o">),</span>
-  <span class="nc">StructType</span><span class="o">(</span><span class="n">schema</span><span class="o">)</span>
-<span class="o">)</span>
+<span class="kd">val</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+  <span class="n">spark</span><span class="p">.</span><span class="n">sparkContext</span><span class="p">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+  <span class="nc">StructType</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="c1">// use partitionBy to make sure we have two objects</span>
-<span class="n">ds</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">partitionBy</span><span class="o">(</span><span class="s">&quot;dt&quot;</span><span class="o">).</span><span class="n">mode</span><span class="o">(</span><span class="s">&quot;overwrite&quot;</span><span class="o">).</span><span class="n">parquet</span><span class="o">(</span><span class="n">dataset_location</span><span class="o">)</span>
+<span class="n">ds</span><span class="p">.</span><span class="n">write</span><span class="p">.</span><span class="n">partitionBy</span><span class="p">(</span><span class="s">&quot;dt&quot;</span><span class="p">).</span><span class="n">mode</span><span class="p">(</span><span class="s">&quot;overwrite&quot;</span><span class="p">).</span><span class="n">parquet</span><span class="p">(</span><span class="n">dataset_location</span><span class="p">)</span>
 
 <span class="c1">// read the dataset back from storage</span>
-<span class="k">val</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">&quot;parquet&quot;</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">df</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="n">dataset_location</span><span class="o">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="kd">val</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;parquet&quot;</span><span class="p">)</span>
+<span class="kd">val</span> <span class="n">df</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">dataset_location</span><span class="p">)</span>
+<span class="n">df</span><span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1203,19 +1203,19 @@ On the other hand Bloom filters are recommended for columns with high cardinalit
 </div>
 <input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Scala</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code><span class="c1">// create Xskipper instance for the sample dataset</span>
-<span class="k">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">dataset_location</span><span class="o">)</span>
+<span class="kd">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">dataset_location</span><span class="p">)</span>
 
 <span class="c1">// remove existing index if needed</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">xskipper</span><span class="o">.</span><span class="n">isIndexed</span><span class="o">())</span> <span class="o">{</span>
-  <span class="n">xskipper</span><span class="o">.</span><span class="n">dropIndex</span><span class="o">()</span>
-<span class="o">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">xskipper</span><span class="p">.</span><span class="n">isIndexed</span><span class="p">())</span> <span class="p">{</span>
+  <span class="n">xskipper</span><span class="p">.</span><span class="n">dropIndex</span><span class="p">()</span>
+<span class="p">}</span>
 
-<span class="n">xskipper</span><span class="o">.</span><span class="n">indexBuilder</span><span class="o">()</span>
-        <span class="o">.</span><span class="n">addMinMaxIndex</span><span class="o">(</span><span class="s">&quot;temp&quot;</span><span class="o">)</span>
-        <span class="o">.</span><span class="n">addValueListIndex</span><span class="o">(</span><span class="s">&quot;city&quot;</span><span class="o">)</span>
-        <span class="o">.</span><span class="n">addBloomFilterIndex</span><span class="o">(</span><span class="s">&quot;vid&quot;</span><span class="o">)</span>
-        <span class="o">.</span><span class="n">build</span><span class="o">(</span><span class="n">reader</span><span class="o">)</span>
-        <span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="n">xskipper</span><span class="p">.</span><span class="n">indexBuilder</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">addMinMaxIndex</span><span class="p">(</span><span class="s">&quot;temp&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">addValueListIndex</span><span class="p">(</span><span class="s">&quot;city&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">addBloomFilterIndex</span><span class="p">(</span><span class="s">&quot;vid&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1226,7 +1226,7 @@ On the other hand Bloom filters are recommended for columns with high cardinalit
 </code></pre></div>
 </div>
 <input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">describeIndex</span><span class="o">(</span><span class="n">reader</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">describeIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1237,7 +1237,7 @@ On the other hand Bloom filters are recommended for columns with high cardinalit
 </code></pre></div>
 </div>
 <input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><label for="__tabbed_5_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="o">.</span><span class="n">listIndexes</span><span class="o">(</span><span class="n">spark</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="p">.</span><span class="n">listIndexes</span><span class="p">(</span><span class="n">spark</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1261,15 +1261,15 @@ Note that disabling Xskipper has no impact on created indexes, and they remain i
 </div>
 <input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><label for="__tabbed_6_2">Scala</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code><span class="c1">// Enable Xskipper</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">enableXskipper</span><span class="o">()</span>
+<span class="n">spark</span><span class="p">.</span><span class="n">enableXskipper</span><span class="p">()</span>
 
 <span class="c1">// Disable Xskipper</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">disableXskipper</span><span class="o">()</span>
+<span class="n">spark</span><span class="p">.</span><span class="n">disableXskipper</span><span class="p">()</span>
 
 <span class="c1">// You can use the following to check whether the Xskipper is enabled</span>
-<span class="k">if</span> <span class="o">(!</span><span class="n">spark</span><span class="o">.</span><span class="n">isXskipperEnabled</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">spark</span><span class="o">.</span><span class="n">enableXskipper</span><span class="o">()</span>
-<span class="o">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">spark</span><span class="p">.</span><span class="n">isXskipperEnabled</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">spark</span><span class="p">.</span><span class="n">enableXskipper</span><span class="p">()</span>
+<span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
@@ -1282,7 +1282,7 @@ Note that disabling Xskipper has no impact on created indexes, and they remain i
 </code></pre></div>
 </div>
 <input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><label for="__tabbed_7_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="o">(</span><span class="s">&quot;sample&quot;</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s">&quot;sample&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1292,7 +1292,7 @@ Note that disabling Xskipper has no impact on created indexes, and they remain i
 </code></pre></div>
 </div>
 <input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><label for="__tabbed_8_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;select * from sample where temp &lt; 30&quot;</span><span class="o">).</span><span class="n">show</span><span class="o">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="s">&quot;select * from sample where temp &lt; 30&quot;</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 </div>
 </div>
@@ -1303,7 +1303,7 @@ Note that disabling Xskipper has no impact on created indexes, and they remain i
 </code></pre></div>
 </div>
 <input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><label for="__tabbed_9_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="o">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="o">(</span><span class="n">spark</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="p">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="p">(</span><span class="n">spark</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1314,7 +1314,7 @@ If you want to inspect the stats for a specific dataset you can call the API bel
 </code></pre></div>
 </div>
 <input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><label for="__tabbed_10_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">getLatestQueryStats</span><span class="o">().</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">getLatestQueryStats</span><span class="p">().</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1337,17 +1337,17 @@ Note: The index will still be beneficial for files which didn't change since the
 </code></pre></div>
 </div>
 <input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><label for="__tabbed_11_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">update_data</span> <span class="o">=</span> <span class="nc">Seq</span><span class="o">(</span>
-  <span class="nc">Row</span><span class="o">(</span><span class="s">&quot;2017-07-09&quot;</span><span class="o">,</span> <span class="mf">25.0</span><span class="o">,</span> <span class="s">&quot;Beer-Sheva&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">)</span>
-<span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">update_data</span> <span class="o">=</span> <span class="nc">Seq</span><span class="p">(</span>
+  <span class="nc">Row</span><span class="p">(</span><span class="s">&quot;2017-07-09&quot;</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="s">&quot;Beer-Sheva&quot;</span><span class="p">,</span> <span class="s">&quot;c&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 
-<span class="k">val</span> <span class="n">update_ds</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="o">(</span>
-  <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="n">update_data</span><span class="o">),</span>
-  <span class="nc">StructType</span><span class="o">(</span><span class="n">schema</span><span class="o">)</span>
-<span class="o">)</span>
+<span class="kd">val</span> <span class="n">update_ds</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+  <span class="n">spark</span><span class="p">.</span><span class="n">sparkContext</span><span class="p">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">update_data</span><span class="p">),</span>
+  <span class="nc">StructType</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="c1">// append to the existing dataset</span>
-<span class="n">update_ds</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">partitionBy</span><span class="o">(</span><span class="s">&quot;dt&quot;</span><span class="o">).</span><span class="n">mode</span><span class="o">(</span><span class="s">&quot;append&quot;</span><span class="o">).</span><span class="n">parquet</span><span class="o">(</span><span class="n">dataset_location</span><span class="o">)</span>
+<span class="n">update_ds</span><span class="p">.</span><span class="n">write</span><span class="p">.</span><span class="n">partitionBy</span><span class="p">(</span><span class="s">&quot;dt&quot;</span><span class="p">).</span><span class="n">mode</span><span class="p">(</span><span class="s">&quot;append&quot;</span><span class="p">).</span><span class="n">parquet</span><span class="p">(</span><span class="n">dataset_location</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1357,7 +1357,7 @@ Note: The index will still be beneficial for files which didn't change since the
 </code></pre></div>
 </div>
 <input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><label for="__tabbed_12_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">describeIndex</span><span class="o">(</span><span class="n">reader</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">describeIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1367,7 +1367,7 @@ Note: The index will still be beneficial for files which didn't change since the
 </code></pre></div>
 </div>
 <input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><label for="__tabbed_13_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">refreshIndex</span><span class="o">(</span><span class="n">reader</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">refreshIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1379,7 +1379,7 @@ Note: The index will still be beneficial for files which didn't change since the
 </code></pre></div>
 </div>
 <input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><label for="__tabbed_14_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">dropIndex</span><span class="o">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">dropIndex</span><span class="p">()</span>
 </code></pre></div>
 </div>
 </div>
@@ -1411,8 +1411,8 @@ For more info regarding the index location configuration see <a href="../../api/
 </code></pre></div>
 </div>
 <input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><label for="__tabbed_15_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">alter_db_ddl</span> <span class="o">=</span> <span class="s">s&quot;ALTER DATABASE default SET DBPROPERTIES (&#39;io.xskipper.parquet.mdlocation&#39;=&#39;</span><span class="si">${</span><span class="n">md_base_location</span><span class="si">}</span><span class="s">&#39;)&quot;</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="n">alter_db_ddl</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">alter_db_ddl</span> <span class="o">=</span> <span class="s">s&quot;ALTER DATABASE default SET DBPROPERTIES (&#39;io.xskipper.parquet.mdlocation&#39;=&#39;</span><span class="si">${</span><span class="n">md_base_location</span><span class="si">}</span><span class="s">&#39;)&quot;</span>
+<span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="n">alter_db_ddl</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1439,7 +1439,7 @@ For more info regarding the index location configuration see <a href="../../api/
 </code></pre></div>
 </div>
 <input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><label for="__tabbed_16_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">create_table_ddl</span> <span class="o">=</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">create_table_ddl</span> <span class="o">=</span>
       <span class="s">s&quot;&quot;&quot;CREATE TABLE IF NOT EXISTS tbl (</span>
 <span class="s">         |temp Double,</span>
 <span class="s">         |city String,</span>
@@ -1449,15 +1449,15 @@ For more info regarding the index location configuration see <a href="../../api/
 <span class="s">         |USING PARQUET</span>
 <span class="s">         |PARTITIONED BY (dt)</span>
 <span class="s">         |LOCATION &#39;</span><span class="si">${</span><span class="n">dataset_location</span><span class="si">}</span><span class="s">&#39;</span>
-<span class="s">         |&quot;&quot;&quot;</span><span class="o">.</span><span class="n">stripMargin</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="n">create_table_ddl</span><span class="o">)</span>
+<span class="s">         |&quot;&quot;&quot;</span><span class="p">.</span><span class="n">stripMargin</span>
+<span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="n">create_table_ddl</span><span class="p">)</span>
 
 <span class="c1">// Recover the table partitions</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;ALTER TABLE tbl RECOVER PARTITIONS&quot;</span><span class="o">)</span>
+<span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="s">&quot;ALTER TABLE tbl RECOVER PARTITIONS&quot;</span><span class="p">)</span>
 
 <span class="c1">// verify the table was created</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;show tables&quot;</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;show partitions tbl&quot;</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="s">&quot;show tables&quot;</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="s">&quot;show partitions tbl&quot;</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1481,19 +1481,19 @@ For more info regarding the index location configuration see <a href="../../api/
 </div>
 <input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><label for="__tabbed_17_2">Scala</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code><span class="c1">// create an Xskipper instance for the sample Hive Table</span>
-<span class="k">val</span> <span class="n">xskipper_hive</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="s">&quot;default.tbl&quot;</span><span class="o">)</span>
+<span class="kd">val</span> <span class="n">xskipper_hive</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s">&quot;default.tbl&quot;</span><span class="p">)</span>
 
 <span class="c1">// remove existing index if needed</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">isIndexed</span><span class="o">())</span> <span class="o">{</span>
-  <span class="n">xskipper_hive</span><span class="o">.</span><span class="n">dropIndex</span><span class="o">()</span>
-<span class="o">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">xskipper_hive</span><span class="p">.</span><span class="n">isIndexed</span><span class="p">())</span> <span class="p">{</span>
+  <span class="n">xskipper_hive</span><span class="p">.</span><span class="n">dropIndex</span><span class="p">()</span>
+<span class="p">}</span>
 
-<span class="n">xskipper_hive</span><span class="o">.</span><span class="n">indexBuilder</span><span class="o">()</span>
-        <span class="o">.</span><span class="n">addMinMaxIndex</span><span class="o">(</span><span class="s">&quot;temp&quot;</span><span class="o">)</span>
-        <span class="o">.</span><span class="n">addValueListIndex</span><span class="o">(</span><span class="s">&quot;city&quot;</span><span class="o">)</span>
-        <span class="o">.</span><span class="n">addBloomFilterIndex</span><span class="o">(</span><span class="s">&quot;vid&quot;</span><span class="o">)</span>
-        <span class="o">.</span><span class="n">build</span><span class="o">()</span>
-        <span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="n">xskipper_hive</span><span class="p">.</span><span class="n">indexBuilder</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">addMinMaxIndex</span><span class="p">(</span><span class="s">&quot;temp&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">addValueListIndex</span><span class="p">(</span><span class="s">&quot;city&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">addBloomFilterIndex</span><span class="p">(</span><span class="s">&quot;vid&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">build</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1508,9 +1508,9 @@ For more info regarding the index location configuration see <a href="../../api/
 </div>
 <input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><label for="__tabbed_18_2">Scala</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code><span class="c1">// You can use the following to check whether the Xskipper is enabled</span>
-<span class="k">if</span> <span class="o">(!</span><span class="n">spark</span><span class="o">.</span><span class="n">isXskipperEnabled</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">spark</span><span class="o">.</span><span class="n">enableXskipper</span><span class="o">()</span>
-<span class="o">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">spark</span><span class="p">.</span><span class="n">isXskipperEnabled</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">spark</span><span class="p">.</span><span class="n">enableXskipper</span><span class="p">()</span>
+<span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
@@ -1520,7 +1520,7 @@ For more info regarding the index location configuration see <a href="../../api/
 </code></pre></div>
 </div>
 <input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><label for="__tabbed_19_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;select * from tbl where temp &lt; 30&quot;</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="s">&quot;select * from tbl where temp &lt; 30&quot;</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1530,7 +1530,7 @@ For more info regarding the index location configuration see <a href="../../api/
 </code></pre></div>
 </div>
 <input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><label for="__tabbed_20_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="o">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="o">(</span><span class="n">spark</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="p">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="p">(</span><span class="n">spark</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1542,7 +1542,7 @@ For more info regarding the index location configuration see <a href="../../api/
 </code></pre></div>
 </div>
 <input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><label for="__tabbed_21_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">describeIndex</span><span class="o">().</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="p">.</span><span class="n">describeIndex</span><span class="p">().</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1552,7 +1552,7 @@ For more info regarding the index location configuration see <a href="../../api/
 </code></pre></div>
 </div>
 <input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><label for="__tabbed_22_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">refreshIndex</span><span class="o">(</span><span class="n">reader</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">refreshIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -1563,7 +1563,7 @@ For more info regarding the index location configuration see <a href="../../api/
 </code></pre></div>
 </div>
 <input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><label for="__tabbed_23_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">dropIndex</span><span class="o">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="p">.</span><span class="n">dropIndex</span><span class="p">()</span>
 </code></pre></div>
 </div>
 </div>
@@ -1652,10 +1652,10 @@ For more info regarding the index location configuration see <a href="../../api/
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.4fa0e4ee.min.js", "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      <script src="../../assets/javascripts/bundle.1d3bfcf1.min.js"></script>
       
         <script src="../../javascripts/config.js"></script>
       

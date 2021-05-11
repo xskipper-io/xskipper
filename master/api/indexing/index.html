@@ -20,7 +20,7 @@
         <link rel="canonical" href="https://xskipper.io/master/api/indexing/">
       
       <link rel="icon" href="../../img/logo_black.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.4">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.e35208c4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bde7dde4.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
@@ -808,19 +808,19 @@
 </div>
 <input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Scala</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code><span class="c1">// create Xskipper instance for the sample dataset</span>
-<span class="k">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">dataset_location</span><span class="o">)</span>
+<span class="kd">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">dataset_location</span><span class="p">)</span>
 
 <span class="c1">// remove existing index if needed</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">xskipper</span><span class="o">.</span><span class="n">isIndexed</span><span class="o">())</span> <span class="o">{</span>
-  <span class="n">xskipper</span><span class="o">.</span><span class="n">dropIndex</span><span class="o">()</span>
-<span class="o">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">xskipper</span><span class="p">.</span><span class="n">isIndexed</span><span class="p">())</span> <span class="p">{</span>
+  <span class="n">xskipper</span><span class="p">.</span><span class="n">dropIndex</span><span class="p">()</span>
+<span class="p">}</span>
 
-<span class="n">xskipper</span><span class="o">.</span><span class="n">indexBuilder</span><span class="o">()</span>
-        <span class="o">.</span><span class="n">addMinMaxIndex</span><span class="o">(</span><span class="s">&quot;temp&quot;</span><span class="o">)</span>
-        <span class="o">.</span><span class="n">addValueListIndex</span><span class="o">(</span><span class="s">&quot;city&quot;</span><span class="o">)</span>
-        <span class="o">.</span><span class="n">addBloomFilterIndex</span><span class="o">(</span><span class="s">&quot;vid&quot;</span><span class="o">)</span>
-        <span class="o">.</span><span class="n">build</span><span class="o">(</span><span class="n">reader</span><span class="o">)</span>
-        <span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="n">xskipper</span><span class="p">.</span><span class="n">indexBuilder</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">addMinMaxIndex</span><span class="p">(</span><span class="s">&quot;temp&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">addValueListIndex</span><span class="p">(</span><span class="s">&quot;city&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">addBloomFilterIndex</span><span class="p">(</span><span class="s">&quot;vid&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -850,16 +850,16 @@ For example, for the <a href="https://github.com/xskipper-io/xskipper-regex-plug
 </code></pre></div>
 </div>
 <input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io.xskipper._</span>
-<span class="k">import</span> <span class="nn">io.xskipper.plugins.regex.filter.RegexValueListMetaDataFilterFactory</span>
-<span class="k">import</span> <span class="nn">io.xskipper.plugins.regex.index.RegexIndexFactory</span>
-<span class="k">import</span> <span class="nn">io.xskipper.plugins.regex.parquet.</span><span class="o">{</span><span class="nc">RegexValueListClauseTranslator</span><span class="o">,</span> <span class="nc">RegexValueListMetaDataTranslator</span><span class="o">}</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="n">_</span>
+<span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="nn">plugins</span><span class="p">.</span><span class="nn">regex</span><span class="p">.</span><span class="nn">filter</span><span class="p">.</span><span class="nc">RegexValueListMetaDataFilterFactory</span>
+<span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="nn">plugins</span><span class="p">.</span><span class="nn">regex</span><span class="p">.</span><span class="nn">index</span><span class="p">.</span><span class="nc">RegexIndexFactory</span>
+<span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="nn">plugins</span><span class="p">.</span><span class="nn">regex</span><span class="p">.</span><span class="nn">parquet</span><span class="p">.{</span><span class="nc">RegexValueListClauseTranslator</span><span class="p">,</span> <span class="nc">RegexValueListMetaDataTranslator</span><span class="p">}</span>
 
 <span class="c1">// registering the filter factories for user metadataFilters</span>
-<span class="nc">Registration</span><span class="o">.</span><span class="n">addIndexFactory</span><span class="o">(</span><span class="nc">RegexIndexFactory</span><span class="o">)</span>
-<span class="nc">Registration</span><span class="o">.</span><span class="n">addMetadataFilterFactory</span><span class="o">(</span><span class="nc">RegexValueListMetaDataFilterFactory</span><span class="o">)</span>
-<span class="nc">Registration</span><span class="o">.</span><span class="n">addClauseTranslator</span><span class="o">(</span><span class="nc">RegexValueListClauseTranslator</span><span class="o">)</span>
-<span class="nc">Registration</span><span class="o">.</span><span class="n">addMetaDataTranslator</span><span class="o">(</span><span class="nc">RegexValueListMetaDataTranslator</span><span class="o">)</span>
+<span class="nc">Registration</span><span class="p">.</span><span class="n">addIndexFactory</span><span class="p">(</span><span class="nc">RegexIndexFactory</span><span class="p">)</span>
+<span class="nc">Registration</span><span class="p">.</span><span class="n">addMetadataFilterFactory</span><span class="p">(</span><span class="nc">RegexValueListMetaDataFilterFactory</span><span class="p">)</span>
+<span class="nc">Registration</span><span class="p">.</span><span class="n">addClauseTranslator</span><span class="p">(</span><span class="nc">RegexValueListClauseTranslator</span><span class="p">)</span>
+<span class="nc">Registration</span><span class="p">.</span><span class="n">addMetaDataTranslator</span><span class="p">(</span><span class="nc">RegexValueListMetaDataTranslator</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -878,19 +878,19 @@ For example, for the <a href="https://github.com/xskipper-io/xskipper-regex-plug
 </code></pre></div>
 </div>
 <input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Scala</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io.xskipper.plugins.regex.implicits._</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="nn">plugins</span><span class="p">.</span><span class="nn">regex</span><span class="p">.</span><span class="nn">implicits</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">// index the dataset</span>
-<span class="k">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">dataset_path</span><span class="o">)</span>
+<span class="kd">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">dataset_path</span><span class="p">)</span>
 
 
 <span class="n">xskipper</span>
-  <span class="o">.</span><span class="n">indexBuilder</span><span class="o">()</span>
+  <span class="p">.</span><span class="n">indexBuilder</span><span class="p">()</span>
   <span class="c1">// using the implicit method defined in the plugin implicits</span>
-  <span class="o">.</span><span class="n">addRegexValueListIndex</span><span class="o">(</span><span class="s">&quot;log_line&quot;</span><span class="o">,</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;.* .* .* (.*): .*&quot;</span><span class="o">))</span>
+  <span class="p">.</span><span class="n">addRegexValueListIndex</span><span class="p">(</span><span class="s">&quot;log_line&quot;</span><span class="p">,</span> <span class="nc">Seq</span><span class="p">(</span><span class="s">&quot;.* .* .* (.*): .*&quot;</span><span class="p">))</span>
   <span class="c1">// equivalent</span>
   <span class="c1">//.addCustomIndex(RegexValueListIndex(&quot;log_line&quot;, Seq(&quot;.* .* .* (.*): .*&quot;)))</span>
-  <span class="o">.</span><span class="n">build</span><span class="o">(</span><span class="n">reader</span><span class="o">).</span><span class="n">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+  <span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
@@ -981,10 +981,10 @@ For example, for the <a href="https://github.com/xskipper-io/xskipper-regex-plug
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.4fa0e4ee.min.js", "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      <script src="../../assets/javascripts/bundle.1d3bfcf1.min.js"></script>
       
         <script src="../../javascripts/config.js"></script>
       
