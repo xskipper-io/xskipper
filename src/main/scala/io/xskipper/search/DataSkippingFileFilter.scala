@@ -122,7 +122,10 @@ class DataSkippingFileFilter(tid: String,
                 val requiredFut = metadataHandler.getRequiredObjects(translatedQuery, partitionExp)
                 val indexed = Await.result(indexedFut, TIMEOUT minutes)
                 val required = Await.result(requiredFut, TIMEOUT minutes)
-                assert(required ++ notRequired == indexed)
+                assert(required.intersect(notRequired).isEmpty,
+                  "required and notRequired should be disjoint")
+                assert(required ++ notRequired == indexed,
+                  "union of required and notRequired should exactly match indexed")
                 indexed.foreach(f => logDebug(s"""${f}--------> INDEXED!"""))
                 required.foreach(f => logDebug(s"""${f}--------> REQUIRED!"""))
                 (indexed -- required).foreach(f => logDebug(s"""${f}--->SKIPPABLE!"""))
