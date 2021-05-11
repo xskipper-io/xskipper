@@ -33,7 +33,8 @@ import scala.collection.mutable.ArrayBuffer
 class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   extends Logging {
 
-  val metadataProcessor = MetadataProcessor(spark, uri, xskipper.metadataHandle)
+  val metadataProcessor = MetadataProcessor(spark, xskipper.tableIdentifier,
+    xskipper.metadataHandle)
 
   import spark.implicits._
 
@@ -132,7 +133,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   }
 
   /**
-    * Adds a custoom index
+    * Adds a custom index
     *
     * @param index the index instance to add
     */
@@ -269,7 +270,12 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     val dataTypeMap = schemaMap.mapValues(v => (v._1, v._2.dataType))
 
     // Extract partition columns
-    val schemaPartitions = Utils.getPartitionColumns(df)
+    val partitionSchemaOption = Utils.getPartitionColumns(df)
+
+    val partitionFields = partitionSchemaOption match {
+      case Some(partitionSchema) => partitionSchema.fieldNames.toSeq
+      case _ => Seq.empty[String]
+    }
 
     // make sure all requested indexing parameters are valid
     indexes.foreach(index => {
@@ -278,7 +284,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
         if (!schemaMap.contains(col)) {
           throw new XskipperException(Status.nonExistentColumnError(col))
         }
-        if (schemaPartitions.contains(col)){
+        if (partitionFields.contains(col)) {
           throw new XskipperException(Status.partitionColumnError(col))
         }
       })
@@ -314,11 +320,11 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   def createOrRefreshExistingIndex(df: DataFrame,
                                    indexes: Seq[Index], isRefresh: Boolean) : DataFrame = {
     // extract the format and options to enable reading of each object individually
-    val (format, rawOptions) = df.queryExecution.optimizedPlan.collect {
+    val (format, rawOptions, fileIndex) = df.queryExecution.optimizedPlan.collect {
       case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
-        (hfs.fileFormat.toString, hfs.options)
+        (hfs.fileFormat.toString, hfs.options, hfs.location)
       case _@DataSourceV2ScanRelation(table: FileTable, _, _) =>
-        (table.formatName, table.properties().asScala.toMap)
+        (table.formatName, table.properties().asScala.toMap, table.fileIndex)
     }(0)
 
     // filter out "path" or "paths" entries from the options.
@@ -340,7 +346,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
 
     // if this is a refresh, we run the preparation (which means upgrade)
     if (isRefresh) {
-      metadataProcessor.prepareForRefresh(indexes)
+      metadataProcessor.prepareForRefresh(indexes, fileIndex)
     }
 
     // make sure the index creation request is valid
@@ -391,10 +397,14 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
         format,
         options,
         indexes,
+        Utils.getPartitionColumns(df),
         newOrModifiedFilesIDs,
         Some(df.schema),
         isRefresh)
       xskipper.metadataHandle.refresh()
+    } else {
+      // call finalize metadata in any case so operations like compaction will run
+      xskipper.metadataHandle().finalizeMetadataUpload()
     }
 
     // return the operation values

@@ -32,7 +32,7 @@ object MetadataVersionStatus extends Enumeration {
   /**
     * The stored metadata is from a version which is strictly greater
     * than the metadata version of this jar.
-    * the metadata store is not expected to able to either read or refresh this metadata.
+    * the metadata store is not expected to be able to either read or refresh this metadata.
     */
   val TOO_NEW = Value("too_new")
 }

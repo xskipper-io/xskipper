@@ -52,7 +52,7 @@ object DataSkippingUtils extends Logging {
         sparkSession, rootPathsSpecified, caseSensitiveMap, userSpecifiedSchema, fileStatusCache)
 
       val metadataStoreManager = Registration.getActiveMetadataStoreManager()
-      val tableIdentifiers = paths.map(p => Utils.getTableIdentifier(p)).distinct
+      val tableIdentifiers = paths.map(p => Utils.getTableIdentifier(new Path(p).toUri)).distinct
       val ff = tableIdentifiers.map(tid => getFileFilter(fileIndex,
         tid, metadataStoreManager, sparkSession,
         XskipperConf.getConf(XskipperConf.XSKIPPER_EVALUATION_ENABLED)))

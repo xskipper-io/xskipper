@@ -12,9 +12,11 @@ object ParquetMetadataStoreConf {
   val PARQUET_METADATASTORE_CONF_PREFIX = "io.xskipper.parquet."
   val LEGACY_PARQUET_METADATASTORE_CONF_PREFIX = "spark.ibm.metaindex.parquet."
   // Metadata storage version
-  val PARQUET_MD_STORAGE_VERSION: Long = 3L
+  val PARQUET_MD_STORAGE_VERSION: Long = 4L
   // Minimum version supported
   val PARQUET_MINIMUM_SUPPORTED_MD_STORAGE_VERSION: Long = 1L
+  // Minimum version from which partition data is available
+  val PARQUET_MINIMUM_PARTITION_DATA_VERSION = 4L
 
   // Parquet metadatastore specific configurations
   private[parquet] val PARQUET_MD_LOCATION_SUFFIX = "mdlocation"
@@ -116,6 +118,30 @@ object ParquetMetadataStoreConf {
            |""".stripMargin,
       validationFunction = Some(((size: Long) => size > 0,
         "max metadata file size must be greater than 0"))
+    )
+
+  val DEDUP_ON_REFRESH_KEY =
+    PARQUET_METADATASTORE_CONF_PREFIX + "refresh.dedup"
+  val DEDUP_ON_REFRESH =
+    ConfigEntry[Boolean](
+      DEDUP_ON_REFRESH_KEY,
+    defaultValue = true,
+    doc =
+      s"""Whether to run distinct when running refresh
+         |This is used to cleanup failures in refresh which might introduced duplicate rows
+         |""".stripMargin
+  )
+
+  val DEDUP_ON_FILTER_KEY =
+    PARQUET_METADATASTORE_CONF_PREFIX + "filter.dedup"
+  val DEDUP_ON_FILTER =
+    ConfigEntry[Boolean](
+      DEDUP_ON_FILTER_KEY,
+      defaultValue = true,
+      doc =
+        s"""Whether to run distinct during filtering
+           |This is used to cleanup failures in refresh which might introduced duplicate rows
+           |""".stripMargin
     )
 
   // configuration keys for Encryption
