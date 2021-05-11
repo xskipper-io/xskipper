@@ -102,7 +102,8 @@ class UnitTests extends FunSuite
       .build(reader)
 
     // duplicate the index values
-    val metadatapath = xskipper.metadataHandle().asInstanceOf[ParquetMetadataHandle].getMDPath().path.toString
+    val metadatapath = xskipper.metadataHandle().asInstanceOf[ParquetMetadataHandle]
+      .getMDPath().path.toString
     FileUtils.listFiles(
       new File(metadatapath),
       new WildcardFileFilter("*.parquet"),
