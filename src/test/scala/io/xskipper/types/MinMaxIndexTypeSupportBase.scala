@@ -123,7 +123,7 @@ abstract class MinMaxIndexTypeSupportBase(override val datasourceV2: Boolean) ex
         expectedSkippedFiles)
 
       // check date type
-      logInfo("Checking skipping on timestampType")
+      logInfo("Checking skipping on dateType")
       TypeSupportUtils.checkQuery(spark.sql(
         "select * from table where dateType > to_date('2018-02-27')"),
         expectedSkippedFiles)

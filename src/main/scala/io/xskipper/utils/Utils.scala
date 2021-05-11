@@ -5,8 +5,6 @@
 
 package io.xskipper.utils
 
-import java.util.Locale
-
 import io.xskipper.XskipperException
 import io.xskipper.index.{Index, IndexCompanion}
 import io.xskipper.status.Status
@@ -18,11 +16,15 @@ import org.apache.spark.sql.catalyst.analysis.UnresolvedAttribute
 import org.apache.spark.sql.catalyst.catalog.CatalogTableType
 import org.apache.spark.sql.catalyst.expressions.{Expression, GetStructField, _}
 import org.apache.spark.sql.catalyst.parser.ParseException
-import org.apache.spark.sql.catalyst.{util => CatalystUtils}
+import org.apache.spark.sql.catalyst.util.DateTimeUtils
+import org.apache.spark.sql.catalyst.util.DateTimeUtils.{SQLDate, SQLTimestamp}
+import org.apache.spark.sql.catalyst.{InternalRow, util => CatalystUtils}
 import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation}
-import org.apache.spark.sql.types.{StructField, StructType}
+import org.apache.spark.sql.types._
 import org.apache.spark.sql.{AnalysisException, DataFrame, SparkSession}
 
+import java.net.URI
+import java.util.Locale
 import scala.reflect.runtime.universe._
 
 object Utils extends Logging {
@@ -36,7 +38,7 @@ object Utils extends Logging {
     * @param uri the uri to be parsed
     * @return The corresponding Table identifier returns it as it is
     */
-  def getTableIdentifier(uri: String): String = {
+  def getTableIdentifier(uri: URI): String = {
     identifier.getTableIdentifier(uri)
   }
 
@@ -162,14 +164,22 @@ object Utils extends Logging {
     *
     * @param df the [[DataFrame]] for which the partition
     *           columns are to be extracted
-    * @return
+    * @return StructType representing the column schema
     */
-  def getPartitionColumns(df: DataFrame): Set[String] = {
-    val partitionSchema: StructType = df.queryExecution.optimizedPlan match {
-      case LogicalRelation(hfs: HadoopFsRelation, _, _, _) => hfs.partitionSchema
-      case _ => StructType(Seq())
+  def getPartitionColumns(df: DataFrame): Option[StructType] = {
+    /**
+      * HACK ALERT (sort of...)
+      * at the moment, the order of the virtual columns in hfs.location.partitionSchema or
+      * scan.readPartitionSchema
+      * is the same as their order in the object name (i.e., the closer it is to the root,
+      * the lower its index in partitionSchema will be).
+      */
+    // Note using optimized plan to force resolving
+    df.queryExecution.optimizedPlan match {
+      case LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
+        hfs.partitionSchemaOption
+      case _ => None
     }
-    partitionSchema.map(field => field.name.toLowerCase(Locale.ROOT)).toSet
   }
 
   /**
@@ -280,5 +290,33 @@ object Utils extends Logging {
     // Convert to bytes, rather than directly to MB, because when no units are specified the unit
     // is assumed to be bytes
     (JavaUtils.byteStringAsBytes(str) / 1024 / 1024).toInt
+  }
+
+  /**
+    * Casts an InternalRow with a given schema to a Sequence of java/scala values
+    * @param row the row to cast
+    * @param schema the schema corresponding to the row
+    * @return a sequence of java values corresponding to the row
+    */
+  def toSeq(row: InternalRow, schema: StructType): Seq[Any] = {
+    val len = row.numFields
+    val fieldTypes = schema.map(_.dataType)
+    assert(len == fieldTypes.length)
+
+    val values = new Array[Any](len)
+    var i = 0
+    while (i < len) {
+      fieldTypes(i) match {
+        case dt: DateType =>
+          values(i) = DateTimeUtils.toJavaDate(row.get(i, dt).asInstanceOf[SQLDate])
+        case dt: StringType => values(i) = row.get(i, dt).toString
+        case dt: TimestampType =>
+          values(i) = DateTimeUtils.toJavaTimestamp(row.get(i, dt).asInstanceOf[SQLTimestamp])
+        case _ => values(i) = row.get(i, fieldTypes(i))
+      }
+
+      i += 1
+    }
+    values
   }
 }

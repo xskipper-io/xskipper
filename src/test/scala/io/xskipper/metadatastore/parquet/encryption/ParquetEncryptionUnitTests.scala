@@ -32,8 +32,8 @@ class ParquetEncryptionUnitTests extends FunSuite {
     "src/test/resources/parquet_version_tests/schema_extraction")
 
   val currVersion = ParquetMetadataStoreConf.PARQUET_MD_STORAGE_VERSION
-  // make sure this suite runs in V3 - update it if bumping the version!
-  assert(currVersion == 3L)
+  // make sure this suite runs in V4 - update it if bumping the version!
+  assert(currVersion == 4L)
 
 
   /**
@@ -117,39 +117,42 @@ class ParquetEncryptionUnitTests extends FunSuite {
 
   test("Test Generation of the Column Keys string with encrypted footer") {
     assertResult(columnKeyListStringEncryptedFooter)(
-      getColumnKeyListString(indexes, footerKeyLabel))
+      getColumnKeyListString(indexes, Some(partitionSchema), footerKeyLabel))
   }
 
 
   test("Test Generation of the master metadata with encrypted footer") {
     assertResult(masterMetaEncryptedFooter)(
-      createMasterMetadata(indexes, tableIdentifier, Some(footerKeyLabel), false))
+      createMasterMetadata(indexes, Some(partitionSchema),
+        tableIdentifier, Some(footerKeyLabel), false))
   }
 
 
   test("Test Generation of the master metadata with plaintext footer") {
     assertResult(masterMetaPlaintextFooter)(
-      createMasterMetadata(indexes, tableIdentifier, Some(footerKeyLabel), true))
+      createMasterMetadata(indexes, Some(partitionSchema),
+        tableIdentifier, Some(footerKeyLabel), true))
   }
 
   test("Test Generation of the master metadata with encrypted footer," +
     " verify exception thrown when no footer key supplied") {
     assertThrows[ParquetMetaDataStoreException] {
-      createMasterMetadata(indexes, tableIdentifier, None, false)
+      createMasterMetadata(indexes, Some(partitionSchema), tableIdentifier, None, false)
     }
   }
 
   test("Test Generation of the master metadata with plaintext footer," +
     " verify exception thrown when no footer key supplied") {
     assertThrows[ParquetMetaDataStoreException] {
-      createMasterMetadata(indexes, tableIdentifier, None, true)
+      createMasterMetadata(indexes, Some(partitionSchema), tableIdentifier, None, true)
     }
   }
 
   test("Test Generation of the master metadata," +
     " verify exception thrown when footer key supplied but no indexes are encrypted") {
     assertThrows[ParquetMetaDataStoreException] {
-      createMasterMetadata(Seq(MinMaxIndex("temp")), tableIdentifier, Some(footerKeyLabel), false)
+      createMasterMetadata(Seq(MinMaxIndex("temp")), Some(partitionSchema),
+        tableIdentifier, Some(footerKeyLabel), false)
     }
   }
 
@@ -164,10 +167,11 @@ class ParquetEncryptionUnitTests extends FunSuite {
       StringType, false, masterMetaEncryptedFooter)
 
     val expectedSchema = StructType(
-      Seq(objNameField) ++ indexes.map(genField)
+      Seq(objNameField, expectedDtField, expectedYearField) ++ indexes.map(genField)
     )
 
     val actualResult = createDFSchema(indexes,
+      Some(partitionSchema),
       true,
       tableIdentifier,
       Some(footerKeyLabel),
@@ -182,10 +186,11 @@ class ParquetEncryptionUnitTests extends FunSuite {
       StringType, false, masterMetaPlaintextFooter)
 
     val expectedSchema = StructType(
-      Seq(objNameField) ++ indexes.map(genField)
+      Seq(objNameField, expectedDtField, expectedYearField) ++ indexes.map(genField)
     )
 
     val actualResult = createDFSchema(indexes,
+      Some(partitionSchema),
       true,
       tableIdentifier,
       Some(footerKeyLabel),
@@ -200,7 +205,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
         StringType, nullable = false, masterMetaPlaintextFooter)
 
       val expectedSchema = StructType(
-        Seq(objNameField) ++ indexes.map(genField)
+        Seq(objNameField, expectedDtField, expectedYearField) ++ indexes.map(genField)
       )
 
       val inputLocation = Utils.concatPaths(schemaExtractionBaseDir,
@@ -211,7 +216,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
       assertResult(version)(ParquetUtils.getVersion(inputSchema))
 
       // make sure the schema is extracted correctly
-      val actualSchema = extractSchema(inputSchema, indexes)
+      val actualSchema = extractSchema(inputSchema, indexes, Some(partitionSchema))
       assertResult(expectedSchema)(actualSchema)
     }
   }
@@ -223,7 +228,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
         StringType, nullable = false, masterMetaEncryptedFooter)
 
       val expectedSchema = StructType(
-        Seq(objNameField) ++ indexes.map(genField)
+        Seq(objNameField, expectedDtField, expectedYearField) ++ indexes.map(genField)
       )
 
       val inputLocation = Utils.concatPaths(schemaExtractionBaseDir,
@@ -234,7 +239,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
       // the version on the schema should be the same as the input version
       assertResult(version)(ParquetUtils.getVersion(inputSchema))
       // make sure the schema is extracted correctly
-      val actualSchema = extractSchema(inputSchema, indexes)
+      val actualSchema = extractSchema(inputSchema, indexes, Some(partitionSchema))
       assertResult(expectedSchema)(actualSchema)
     }
   }

@@ -6,11 +6,14 @@
 package io.xskipper.metadatastore.test
 
 import io.xskipper.index.Index
+import io.xskipper.index.execution.PartitionSpec
 import io.xskipper.metadatastore.MetadataVersionStatus.MetadataVersionStatus
-import io.xskipper.metadatastore.{MetadataStoreManagerType, MetadataHandle, MetadataVersionStatus}
+import io.xskipper.metadatastore.{MetadataHandle, MetadataStoreManagerType, MetadataVersionStatus}
 import io.xskipper.status.IndexStatusResult
 import org.apache.spark.internal.Logging
 import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.execution.datasources.FileIndex
+import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{Row, SparkSession}
 
 import scala.collection.mutable
@@ -27,7 +30,9 @@ class TestMetadataHandle(val session: SparkSession, tableIdentifier: String)
   /** Maximum number of objects to delete in one chunk */
   override def getDeletionChunkSize(): Int = ???
 
-  override def uploadMetadata(metaData: RDD[Row], indexes: Seq[Index],
+  override def uploadMetadata(metaData: RDD[Row],
+                              partitionSpec: Option[StructType],
+                              indexes: Seq[Index],
                               isRefresh: Boolean): Unit = {}
 
   /**
@@ -48,9 +53,12 @@ class TestMetadataHandle(val session: SparkSession, tableIdentifier: String)
   override def dropAllMetadata(): Unit = ???
 
   /**
-    * Returns a set of all index files (async)
+    * Returns a set of all indexed files (async)
+    * @param filter optional filter to apply
+    *        (can be used to get all indexed file for a given partition)
+    * @return a set of all indexed files ids
     */
-  override def getAllIndexedFiles(): Future[Set[String]] = ???
+  def getAllIndexedFiles(filter: Option[Any] = None): Future[Set[String]] = ???
 
   /**
     * Removes the metadata for a sequence of files
@@ -74,15 +82,17 @@ class TestMetadataHandle(val session: SparkSession, tableIdentifier: String)
   override def clean(): Unit = ???
 
   /**
-    * Returns the required file ids for the given query
+    * Returns the required file ids for the given query (async)
     *
     * @param query the query to be used in order to get the relevant files
-    *              (this query is of type Any and it is the responsibility of the MetaDatastore
+    *              (this query is of type Any and it is the responsibility of the metadatastore
     *              implementation to cast it to as instance which matches the translation for
-    *              this MetaDataStore.
+    *              this MetaDataStore)
+    * @param filter an optional filter to apply
+    *        (can be used to get all indexed file for a given partition)
     * @return the set of fileids required for this query
     */
-  override def getRequiredObjects(query: Any): Future[Set[String]] = ???
+  override def getRequiredObjects(query: Any, filter: Option[Any] = None): Future[Set[String]] = ???
 
   override def getMdVersionStatus(): MetadataVersionStatus = {
     MetadataVersionStatus.CURRENT
@@ -90,7 +100,7 @@ class TestMetadataHandle(val session: SparkSession, tableIdentifier: String)
 
   override def isMetadataUpgradePossible(): Boolean = true
 
-  override def upgradeMetadata(indexes: Seq[Index]): Unit = {}
+  override def upgradeMetadata(indexes: Seq[Index], fileIndex: FileIndex): Unit = {}
 
   /**
     * returns the a sequence of indexes that exist in the metadata store for the tableIdentifier

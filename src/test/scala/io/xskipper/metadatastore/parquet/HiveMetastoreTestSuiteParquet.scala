@@ -21,7 +21,7 @@ import org.scalatest.{BeforeAndAfterEach, FunSuite}
   * Test suite to check data skipping integration with hive metastore
   * Note: tests that check for skipping files need the logging for
   * io.xskipper.search to be on DEBUG level
-  * This can also be set by having log4j-defaults.properties
+  * This can also be set by having log4j.properties
   * in the resources folder and setting there:
   * log4j.logger.io.xskipper.search=DEBUG
   */
