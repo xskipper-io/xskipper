@@ -450,6 +450,41 @@
         ],
         "query": "SELECT address, temp FROM sample WHERE tEmP <= 10.1"
       }
+    },
+    {
+      "testDescription": {
+        "name": "Value list with inequality condition with partition condition - check filtering according to partition value - old versions",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/vallist1/initial/csv",
+        "testId": 37,
+        "maxVersion": 3,
+        "indexTypes": [
+          "valuelist address"
+        ],
+        "expectedSkippedFiles": [
+          "date=2018-05-21/20-25-BJ.csv"
+        ],
+        "expectedSkippedFilesAfterUpdate": [
+        ],
+        "query": "SELECT address, temp FROM sample WHERE address not IN ('Jerusalem', 'Batyam') and date != '2018-05-21'"
+      }
+    },
+    {
+      "testDescription": {
+        "name": "Value list with inequality condition with partition condition - check filtering according to partition value - versions with partition data",
+        "inputFormat": "csv",
+        "dataSetPath": "input_datasets/vallist1/initial/csv",
+        "testId": 37,
+        "minVersion": 4,
+        "indexTypes": [
+          "valuelist address"
+        ],
+        "expectedSkippedFiles": [
+        ],
+        "expectedSkippedFilesAfterUpdate": [
+        ],
+        "query": "SELECT address, temp FROM sample WHERE address not IN ('Jerusalem', 'Batyam') and date != '2018-05-21'"
+      }
     }
   ]
 }
