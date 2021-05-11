@@ -434,10 +434,11 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     // read the df - use repartition and write back
     // we can work on the raw DF since by now the physical metadata must
     // be of the same version
-    var df = getMetaDataDFRaw()
-    if (DEDUP_ON_REFRESH) {
-      logInfo("dropping index duplicates")
-      df = df.dropDuplicates("obj_name")
+    val df = DEDUP_ON_REFRESH match {
+      case true =>
+        logInfo("dropping index duplicates")
+        getMetaDataDFRaw().dropDuplicates("obj_name")
+      case _ => getMetaDataDFRaw()
     }
     replaceMetaData(df.repartition(numPartitions))
   }
