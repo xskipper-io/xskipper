@@ -33,6 +33,9 @@ object Values {
   val yearField = StructField("year", StringType, true)
   val partitionSchema = StructType(Seq(dtField, yearField))
 
+  val expectedDtField = StructField("virtual_dt", DateType, true)
+  val expectedYearField = StructField("virtual_year", StringType, true)
+
   val tableIdentifier = "foo/bar"
   val columnKeyListStringEncryptedFooter =
     "k1:temp_minmax_4.min,temp_minmax_4.max,city_bloomfilter_4,obj_name,virtual_dt,virtual_year"

@@ -7,7 +7,7 @@
       "nullable": false,
       "metadata": {
         "encryption": {
-          "encryption.column.keys": "k1:temp_minmax_4.min,temp_minmax_4.max,city_bloomfilter_4,obj_name,dt,year",
+          "encryption.column.keys": "k1:temp_minmax_4.min,temp_minmax_4.max,city_bloomfilter_4,obj_name,virtual_dt,virtual_year",
           "encryption.plaintext.footer": "true",
           "encryption.footer.key": "k1"
         },
@@ -16,13 +16,13 @@
       }
     },
     {
-      "name": "dt",
+      "name": "virtual_dt",
       "type": "date",
       "nullable": true,
       "metadata": {}
     },
     {
-      "name": "year",
+      "name": "virtual_year",
       "type": "string",
       "nullable": true,
       "metadata": {}

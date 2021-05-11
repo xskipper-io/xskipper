@@ -31,13 +31,8 @@ class ParquetEncryptionUnitTests extends FunSuite {
   val schemaExtractionBaseDir = Utils.concatPaths(System.getProperty("user.dir"),
     "src/test/resources/parquet_version_tests/schema_extraction")
 
-  // scalastyle:off line.size.limit
-//  val df = spark.read.parquet(
-//    "/Users/gallushi/dev/guy_forks/xskipper/src/test/resources/input_datasets/gridpocket/initial/parquet")
-  // scalastyle:on line.size.limit
-
   val currVersion = ParquetMetadataStoreConf.PARQUET_MD_STORAGE_VERSION
-  // make sure this suite runs in V3 - update it if bumping the version!
+  // make sure this suite runs in V4 - update it if bumping the version!
   assert(currVersion == 4L)
 
 
@@ -172,7 +167,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
       StringType, false, masterMetaEncryptedFooter)
 
     val expectedSchema = StructType(
-      Seq(objNameField, dtField, yearField) ++ indexes.map(genField)
+      Seq(objNameField, expectedDtField, expectedYearField) ++ indexes.map(genField)
     )
 
     val actualResult = createDFSchema(indexes,
@@ -191,7 +186,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
       StringType, false, masterMetaPlaintextFooter)
 
     val expectedSchema = StructType(
-      Seq(objNameField, dtField, yearField) ++ indexes.map(genField)
+      Seq(objNameField, expectedDtField, expectedYearField) ++ indexes.map(genField)
     )
 
     val actualResult = createDFSchema(indexes,
@@ -210,7 +205,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
         StringType, nullable = false, masterMetaPlaintextFooter)
 
       val expectedSchema = StructType(
-        Seq(objNameField, dtField, yearField) ++ indexes.map(genField)
+        Seq(objNameField, expectedDtField, expectedYearField) ++ indexes.map(genField)
       )
 
       val inputLocation = Utils.concatPaths(schemaExtractionBaseDir,
@@ -233,7 +228,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
         StringType, nullable = false, masterMetaEncryptedFooter)
 
       val expectedSchema = StructType(
-        Seq(objNameField, dtField, yearField) ++ indexes.map(genField)
+        Seq(objNameField, expectedDtField, expectedYearField) ++ indexes.map(genField)
       )
 
       val inputLocation = Utils.concatPaths(schemaExtractionBaseDir,
