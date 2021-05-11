@@ -32,6 +32,8 @@ libraryDependencies ++= Seq (
 
 fork in Test := true
 
+testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oDG")
+
 // Configurations to speed up tests and reduce memory footprint
 javaOptions in Test ++= Seq(
   "-Dspark.ui.enabled=false",
