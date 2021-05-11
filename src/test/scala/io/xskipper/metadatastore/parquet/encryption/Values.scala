@@ -43,35 +43,17 @@ object Values {
   val columnKeyListStringPlaintextFooter =
     "k1:temp_minmax_4.min,temp_minmax_4.max,city_bloomfilter_4,obj_name,virtual_dt,virtual_year"
 
-//  val columnKeyListStringEncryptedFooterV1 =
-//    "k1:temp_minmax.min,temp_minmax.max,city_bloomfilter,obj_name"
-//
-//  val columnKeyListStringPlaintextFooterV1 =
-//    "k1:temp_minmax.min,temp_minmax.max,city_bloomfilter,obj_name"
-
   val encryptionMetaEncryptedFooter = new sql.types.MetadataBuilder()
     .putString(ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SPARK_KEY,
       columnKeyListStringEncryptedFooter)
     .putString(ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SPARK_KEY, footerKeyLabel)
     .build()
 
-//  val encryptionMetaEncryptedFooterV1 = new sql.types.MetadataBuilder()
-//    .putString(ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SPARK_KEY,
-//      columnKeyListStringEncryptedFooterV1)
-//    .putString(ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SPARK_KEY, footerKeyLabel)
-//    .build()
-
   val masterMetaEncryptedFooter = new sql.types.MetadataBuilder()
     .putMetadata("encryption", encryptionMetaEncryptedFooter)
     .putString("tableIdentifier", tableIdentifier)
     .putLong("version", ParquetMetadataStoreConf.PARQUET_MD_STORAGE_VERSION)
     .build()
-
-//  val masterMetaEncryptedFooterV1 = new sql.types.MetadataBuilder()
-//    .putMetadata("encryption", encryptionMetaEncryptedFooterV1)
-//    .putString("tableIdentifier", tableIdentifier)
-//    .putLong("version", 1L)
-//    .build()
 
   val encryptionMetaPlaintextFooter = new sql.types.MetadataBuilder()
     .putString(ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SPARK_KEY,
@@ -80,22 +62,9 @@ object Values {
     .putString(ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SPARK_KEY, footerKeyLabel)
     .build()
 
-//  val encryptionMetaPlaintextFooterV1 = new sql.types.MetadataBuilder()
-//    .putString(ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SPARK_KEY,
-//      columnKeyListStringPlaintextFooterV1)
-//    .putString(ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_SPARK_KEY, "true")
-//    .putString(ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SPARK_KEY, footerKeyLabel)
-//    .build()
-
   val masterMetaPlaintextFooter = new sql.types.MetadataBuilder()
     .putMetadata("encryption", encryptionMetaPlaintextFooter)
     .putString("tableIdentifier", tableIdentifier)
     .putLong("version", ParquetMetadataStoreConf.PARQUET_MD_STORAGE_VERSION)
     .build()
-
-//  val masterMetaPlaintextFooterV1 = new sql.types.MetadataBuilder()
-//    .putMetadata("encryption", encryptionMetaPlaintextFooterV1)
-//    .putString("tableIdentifier", tableIdentifier)
-//    .putLong("version", 1L)
-//    .build()
 }
