@@ -14,7 +14,7 @@ class Identifier {
     * Given a URI/table identifier returns the table identifier
     * that will be used in xskipper
     */
-  def getTableIdentifier(uri: String): String = getIdentifier(uri)
+  def getTableIdentifier(uri: URI): String = getIdentifier(uri)
 
   /**
     * Given a FileStatus returns the identifier that will be used as the fileID
@@ -40,10 +40,7 @@ class Identifier {
     */
   def getTableIdentifierDisplayName(tid: String): String = tid
 
-  private def getIdentifier(uriString: String): String = {
-    getIdentifier(new URI(uriString))
-  }
-  private def getIdentifier(uri: URI) = {
+  private def getIdentifier(uri: URI): String = {
     val path = uri.getPath
     // remove trailing slash - as table identifier won't contain slashes in the end
     var len = path.length

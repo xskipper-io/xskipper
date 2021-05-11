@@ -33,7 +33,8 @@ import scala.collection.mutable.ArrayBuffer
 class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   extends Logging {
 
-  val metadataProcessor = MetadataProcessor(spark, uri, xskipper.metadataHandle)
+  val metadataProcessor = MetadataProcessor(spark, xskipper.tableIdentifier,
+    xskipper.metadataHandle)
 
   import spark.implicits._
 

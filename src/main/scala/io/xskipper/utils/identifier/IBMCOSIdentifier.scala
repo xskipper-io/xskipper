@@ -20,7 +20,7 @@ class IBMCOSIdentifier extends Identifier {
     * @return For COS the path without the service - <bucket_name>/<object_name>
     *         For Table identifier returns it as it is
     */
-  override def getTableIdentifier(uri: String): String = {
+  override def getTableIdentifier(uri: URI): String = {
     getIdentifier(uri)
   }
 
@@ -32,9 +32,6 @@ class IBMCOSIdentifier extends Identifier {
     getIdentifier(status.getPath.toUri)
   }
 
-  private def getIdentifier(uriString: String): String = {
-    getIdentifier(new URI(uriString))
-  }
   private def getIdentifier(uri: URI): String = {
     val path = uri.getPath
     // remove trailing slash - as table identifier won't contain slashes in the end

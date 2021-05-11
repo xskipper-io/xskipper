@@ -32,8 +32,9 @@ import scala.math.max
   * A Helper class which collects the indexes and use a [[MetadataHandle]] to upload the metadata
   */
 object MetadataProcessor {
-  def apply(spark: SparkSession, uri: String, metadataHandler: MetadataHandle): MetadataProcessor =
-    new MetadataProcessor(spark, uri, metadataHandler)
+  def apply(spark: SparkSession, tableIdentifier: String,
+            metadataHandler: MetadataHandle): MetadataProcessor =
+    new MetadataProcessor(spark, tableIdentifier, metadataHandler)
 
   /**
     * Returns a sequence of partitionDirectory of the given dataframe
@@ -60,10 +61,9 @@ object MetadataProcessor {
   * @param uri the URI of the dataset
   * @param metadataHandle a [[MetadataHandle]] instance to be used for saving the metadata
   */
-class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: MetadataHandle)
-  extends Logging with Serializable {
+class MetadataProcessor(spark: SparkSession,
+  tableIdentifier: String, metadataHandle: MetadataHandle) extends Logging with Serializable {
 
-  val tableIdentifier = Utils.getTableIdentifier(uri)
   private val PARALLELISM =
     XskipperConf.getConf(XskipperConf.XSKIPPER_INDEX_CREATION_PARALLELISM)
   logInfo(s"Parallelism set to ${PARALLELISM}")
