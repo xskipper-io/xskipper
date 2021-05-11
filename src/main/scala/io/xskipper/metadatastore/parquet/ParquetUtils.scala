@@ -10,21 +10,18 @@ import io.xskipper.Registration
 import io.xskipper.index.{BloomFilterIndex, Index}
 import io.xskipper.metadatastore.MetadataVersionStatus._
 import io.xskipper.utils.Utils
-import org.apache.hadoop.fs.FileStatus
 import org.apache.spark.internal.Logging
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql._
-import org.apache.spark.sql.catalyst.InternalRow
 import org.apache.spark.sql.catalyst.expressions.{AttributeReference, Expression}
-import org.apache.spark.sql.execution.datasources.{FileIndex, InMemoryFileIndex, PartitionDirectory}
 import org.apache.spark.sql.execution.datasources.parquet.SparkToParquetSchemaConverter
+import org.apache.spark.sql.execution.datasources.{FileIndex, PartitionDirectory}
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.types.xskipper.utils.DataFrameColumnUpgrader.applyUpgradeDescriptor
 import org.apache.spark.sql.types.{Metadata, _}
 import org.apache.spark.{SparkException, sql}
 
-import scala.::
 import scala.collection.JavaConverters._
 import scala.reflect.runtime.universe._
 
