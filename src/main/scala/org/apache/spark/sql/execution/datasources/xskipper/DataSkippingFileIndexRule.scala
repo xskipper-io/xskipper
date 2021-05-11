@@ -150,7 +150,7 @@ class DataSkippingFileIndexRule extends Rule[LogicalPlan] {
               inMemoryFileIndex)
             // replace with dataskipping FileIndex
             val tableIdentifiers =
-              hfs.location.rootPaths.map(p => Utils.getTableIdentifier(p.toUri.toString)).distinct
+              hfs.location.rootPaths.map(p => Utils.getTableIdentifier(p.toUri)).distinct
             // create the file filter according to the backend
             val metadataStoreManager = Registration.getActiveMetadataStoreManager()
             val ff = tableIdentifiers.map(tid =>

@@ -16,7 +16,7 @@ import org.apache.hadoop.fs.FileStatus
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.catalyst.InternalRow
 import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileTable}
-import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation, PartitionDirectory}
+import org.apache.spark.sql.execution.datasources.{FileIndex, HadoopFsRelation, LogicalRelation, PartitionDirectory}
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
@@ -32,8 +32,9 @@ import scala.math.max
   * A Helper class which collects the indexes and use a [[MetadataHandle]] to upload the metadata
   */
 object MetadataProcessor {
-  def apply(spark: SparkSession, uri: String, metadataHandler: MetadataHandle): MetadataProcessor =
-    new MetadataProcessor(spark, uri, metadataHandler)
+  def apply(spark: SparkSession, tableIdentifier: String,
+            metadataHandler: MetadataHandle): MetadataProcessor =
+    new MetadataProcessor(spark, tableIdentifier, metadataHandler)
 
   /**
     * Returns a sequence of partitionDirectory of the given dataframe
@@ -60,10 +61,9 @@ object MetadataProcessor {
   * @param uri the URI of the dataset
   * @param metadataHandle a [[MetadataHandle]] instance to be used for saving the metadata
   */
-class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: MetadataHandle)
-  extends Logging with Serializable {
+class MetadataProcessor(spark: SparkSession,
+  tableIdentifier: String, metadataHandle: MetadataHandle) extends Logging with Serializable {
 
-  val tableIdentifier = Utils.getTableIdentifier(uri)
   private val PARALLELISM =
     XskipperConf.getConf(XskipperConf.XSKIPPER_INDEX_CREATION_PARALLELISM)
   logInfo(s"Parallelism set to ${PARALLELISM}")
@@ -291,7 +291,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
 
   }
 
-  def prepareForRefresh(indexes: Seq[Index]): Unit = {
+  def prepareForRefresh(indexes: Seq[Index], fileIndex: FileIndex): Unit = {
     metadataHandle.getMdVersionStatus() match {
       case MetadataVersionStatus.DEPRECATED_SUPPORTED
         | MetadataVersionStatus.DEPRECATED_UNSUPPORTED =>
@@ -299,7 +299,7 @@ class MetadataProcessor(spark: SparkSession, uri: String, metadataHandle: Metada
           throw new XskipperException("cannot upgrade metadata")
         }
         logInfo(s"Upgrading Metadata for $tableIdentifier")
-        metadataHandle.upgradeMetadata(indexes)
+        metadataHandle.upgradeMetadata(indexes, fileIndex)
         logInfo(s"Done upgrading Metadata for $tableIdentifier")
       case MetadataVersionStatus.TOO_NEW =>
         throw new XskipperException("cannot upgrade from a higher version")

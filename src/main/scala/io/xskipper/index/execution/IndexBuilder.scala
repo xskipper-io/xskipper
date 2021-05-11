@@ -33,7 +33,8 @@ import scala.collection.mutable.ArrayBuffer
 class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   extends Logging {
 
-  val metadataProcessor = MetadataProcessor(spark, uri, xskipper.metadataHandle)
+  val metadataProcessor = MetadataProcessor(spark, xskipper.tableIdentifier,
+    xskipper.metadataHandle)
 
   import spark.implicits._
 
@@ -132,7 +133,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   }
 
   /**
-    * Adds a custoom index
+    * Adds a custom index
     *
     * @param index the index instance to add
     */
@@ -319,11 +320,11 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
   def createOrRefreshExistingIndex(df: DataFrame,
                                    indexes: Seq[Index], isRefresh: Boolean) : DataFrame = {
     // extract the format and options to enable reading of each object individually
-    val (format, rawOptions) = df.queryExecution.optimizedPlan.collect {
+    val (format, rawOptions, fileIndex) = df.queryExecution.optimizedPlan.collect {
       case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
-        (hfs.fileFormat.toString, hfs.options)
+        (hfs.fileFormat.toString, hfs.options, hfs.location)
       case _@DataSourceV2ScanRelation(table: FileTable, _, _) =>
-        (table.formatName, table.properties().asScala.toMap)
+        (table.formatName, table.properties().asScala.toMap, table.fileIndex)
     }(0)
 
     // filter out "path" or "paths" entries from the options.
@@ -345,7 +346,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
 
     // if this is a refresh, we run the preparation (which means upgrade)
     if (isRefresh) {
-      metadataProcessor.prepareForRefresh(indexes)
+      metadataProcessor.prepareForRefresh(indexes, fileIndex)
     }
 
     // make sure the index creation request is valid

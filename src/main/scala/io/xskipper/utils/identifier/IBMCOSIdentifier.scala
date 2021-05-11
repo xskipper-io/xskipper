@@ -20,7 +20,7 @@ class IBMCOSIdentifier extends Identifier {
     * @return For COS the path without the service - <bucket_name>/<object_name>
     *         For Table identifier returns it as it is
     */
-  override def getTableIdentifier(uri: String): String = {
+  override def getTableIdentifier(uri: URI): String = {
     getIdentifier(uri)
   }
 
@@ -29,26 +29,26 @@ class IBMCOSIdentifier extends Identifier {
     * (Enables for example stripping the service name from COS path)
     */
   override def getFileName(status: FileStatus): String = {
-    getIdentifier(status.getPath.toString)
+    getIdentifier(status.getPath.toUri)
   }
 
-  private def getIdentifier(uri: String) = {
-    val uriObj = new URI(uri)
+  private def getIdentifier(uri: URI): String = {
+    val path = uri.getPath
     // remove trailing slash - as table identifier won't contain slashes in the end
-    var len = uriObj.getPath.length
-    if (uriObj.getPath.endsWith("/")) {
+    var len = path.length
+    if (path.endsWith("/")) {
       len -= 1
     }
-    uriObj.getScheme match {
+    uri.getScheme match {
       // for cos table identifier is <bucket_name>/<object_name> excluding the service name
       case "cos" =>
         // Note: Relies on Stocator - update if Stocator changes
-        val host = getHost(uriObj)
+        val host = getHost(uri)
         val bucketName = getContainerName(host)
-        s"cos://${bucketName}${uriObj.getPath.substring(0, len)}"
+        s"cos://${bucketName}${path.substring(0, len)}"
       // for all other cases table identifier is <object_name>
       case _ =>
-        uriObj.getPath.substring(0, len)
+        path.substring(0, len)
     }
   }
 

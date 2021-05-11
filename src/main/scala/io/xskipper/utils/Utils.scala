@@ -5,8 +5,6 @@
 
 package io.xskipper.utils
 
-import java.util.Locale
-
 import io.xskipper.XskipperException
 import io.xskipper.index.{Index, IndexCompanion}
 import io.xskipper.status.Status
@@ -19,13 +17,15 @@ import org.apache.spark.sql.catalyst.catalog.CatalogTableType
 import org.apache.spark.sql.catalyst.expressions.{Expression, GetStructField, _}
 import org.apache.spark.sql.catalyst.parser.ParseException
 import org.apache.spark.sql.catalyst.util.DateTimeUtils
-import org.apache.spark.sql.catalyst.util.DateTimeUtils.SQLDate
+import org.apache.spark.sql.catalyst.util.DateTimeUtils.{SQLDate, SQLTimestamp}
 import org.apache.spark.sql.catalyst.{InternalRow, util => CatalystUtils}
 import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileScan}
 import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation}
-import org.apache.spark.sql.types.{DateType, StructField, StructType}
+import org.apache.spark.sql.types._
 import org.apache.spark.sql.{AnalysisException, DataFrame, SparkSession}
 
+import java.net.URI
+import java.util.Locale
 import scala.reflect.runtime.universe._
 
 object Utils extends Logging {
@@ -39,7 +39,7 @@ object Utils extends Logging {
     * @param uri the uri to be parsed
     * @return The corresponding Table identifier returns it as it is
     */
-  def getTableIdentifier(uri: String): String = {
+  def getTableIdentifier(uri: URI): String = {
     identifier.getTableIdentifier(uri)
   }
 
@@ -311,6 +311,9 @@ object Utils extends Logging {
       fieldTypes(i) match {
         case dt: DateType =>
           values(i) = DateTimeUtils.toJavaDate(row.get(i, dt).asInstanceOf[SQLDate])
+        case dt: StringType => values(i) = row.get(i, dt).toString
+        case dt: TimestampType =>
+          values(i) = DateTimeUtils.toJavaTimestamp(row.get(i, dt).asInstanceOf[SQLTimestamp])
         case _ => values(i) = row.get(i, fieldTypes(i))
       }
 

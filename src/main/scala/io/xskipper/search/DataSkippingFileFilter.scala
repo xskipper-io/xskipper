@@ -7,6 +7,7 @@ package io.xskipper.search
 
 import io.xskipper.configuration.XskipperConf
 import io.xskipper.metadatastore.{ClauseTranslator, MetadataStoreManager, TranslationUtils}
+import io.xskipper.search.clause.NotClause
 import io.xskipper.search.filters.MetadataFilterFactory
 import io.xskipper.status.{QueryIndexStatsResult, Status}
 import io.xskipper.utils.Utils
@@ -53,8 +54,10 @@ class DataSkippingFileFilter(tid: String,
   // i.e - it has indexed files and a metadata query can be generated
   private var isSkippable = false
 
-  private var required: Set[String] = Set.empty
-  private var indexed: Set[String] = Set.empty
+  // saves the list of fileIDs which are indicated by the metadata as not required for the query
+  // these files will be skipped in case the query tries to read them
+  // This requires less memory than saving all indexed files + all required files for the query
+  private var notRequired: Set[String] = Set.empty
 
   /**
     * Filters the partition directory by removing unnecessary objects from each partition directory
@@ -95,22 +98,37 @@ class DataSkippingFileFilter(tid: String,
 
       abstractFilterQuery match {
         case Some(abstractQuery) =>
+          // negate the expression in order to get all not required objects
+          val negatedAbstractQuery = NotClause(abstractQuery)
           // translate the query to the metadatastore representation
           val translatedQuery = TranslationUtils.getClauseTranslation[Any](
-            metadataStoreManager.getType, abstractQuery, clauseTranslators)
+            metadataStoreManager.getType, negatedAbstractQuery, clauseTranslators)
           translatedQuery match {
             case Some(queryInstance) =>
               isSkippable = true // translation succeeded so dataset is skippable
               logInfo(s"Filtering partitions using " +
                 s"${metadataStoreManager.getType.toString} backend")
-              logInfo("Getting all indexed files and required files")
-              val indexedFut = metadataHandler.getAllIndexedFiles(partitionExp)
-              val requiredFut = metadataHandler.getRequiredObjects(queryInstance,
+              logInfo("Getting all not required objects")
+              val notRequiredFut = metadataHandler.getRequiredObjects(queryInstance,
                 partitionExp)
-              indexed = Await.result(indexedFut, TIMEOUT minutes)
-              required = Await.result(requiredFut, TIMEOUT minutes)
-              if (log.isTraceEnabled()) {
-                (indexed -- required).foreach(f => logTrace(s"""${f}--->SKIPPABLE!"""))
+              notRequired = Await.result(notRequiredFut, TIMEOUT minutes)
+              if (log.isDebugEnabled()) {
+                // log the required and indexed files for debugging purposes
+                // translate the abstract query - translation should succeed since the translation
+                // of the negation succeeded
+                val translatedQuery = TranslationUtils.getClauseTranslation[Any](
+                  metadataStoreManager.getType, abstractQuery, clauseTranslators).get
+                val indexedFut = metadataHandler.getAllIndexedFiles(partitionExp)
+                val requiredFut = metadataHandler.getRequiredObjects(translatedQuery, partitionExp)
+                val indexed = Await.result(indexedFut, TIMEOUT minutes)
+                val required = Await.result(requiredFut, TIMEOUT minutes)
+                assert(required.intersect(notRequired).isEmpty,
+                  "required and notRequired should be disjoint")
+                assert(required ++ notRequired == indexed,
+                  "union of required and notRequired should exactly match indexed")
+                indexed.foreach(f => logDebug(s"""${f}--------> INDEXED!"""))
+                required.foreach(f => logDebug(s"""${f}--------> REQUIRED!"""))
+                (indexed -- required).foreach(f => logDebug(s"""${f}--->SKIPPABLE!"""))
               }
             case _ =>
               logInfo("No translation for the abstract query => no skipping")
@@ -132,8 +150,8 @@ class DataSkippingFileFilter(tid: String,
     */
   def isRequired(fs: FileStatus): Boolean = {
     val id = Utils.getFileId(fs)
-    // the file isRequired if it is in the required files or not indexed
-    val res = required.contains(id) || !indexed.contains(id)
+    // the file isRequired if it is not contained in the not required set
+    val res = !notRequired.contains(id)
     updateStats(fs, res)
     res
   }
@@ -229,8 +247,7 @@ class DataSkippingFileFilter(tid: String,
     */
   private def resetState(): Unit = {
     // clear collected data
-    indexed = Set.empty
-    required = Set.empty
+    notRequired = Set.empty
     // set isSkippable to false
     isSkippable = false
   }

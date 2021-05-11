@@ -6,7 +6,6 @@
 package io.xskipper.metadatastore.parquet
 
 import java.io.IOException
-
 import io.xskipper.Registration
 import io.xskipper.configuration.ConfigurationUtils
 import io.xskipper.index.metadata.MetadataType
@@ -20,6 +19,7 @@ import org.apache.spark.internal.Logging
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql._
 import org.apache.spark.sql.catalyst.expressions.Expression
+import org.apache.spark.sql.execution.datasources.FileIndex
 import org.apache.spark.sql.execution.datasources.parquet.SparkToParquetSchemaConverter
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.internal.SQLConf
@@ -367,8 +367,14 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
   override def getAllIndexedFiles(filter: Option[Any]): Future[Set[String]] = Future {
     var df = getRectifiedMetadataDf().select("obj_name")
     filter match {
-      case Some(f) =>
-        df = df.where(f.asInstanceOf[Expression].sql)
+      case Some(f) if isPartitionDataAvailable() =>
+        val filterExpr = f.asInstanceOf[Expression]
+        val mapping: Map[String, String] = filterExpr.references.map(ref =>
+          ref.name->getPartitionColName(ref.name)).toMap
+        val transformedPartitionFilter = ParquetUtils.replaceReferences(filterExpr, mapping)
+        logDebug(s"Original partition filter ${filterExpr.sql}")
+        logDebug(s"Transformed partition filter ${transformedPartitionFilter.sql}")
+        df = df.where(transformedPartitionFilter.sql)
       case _ =>
     }
     if (DEDUP_ON_FILTER) {
@@ -491,8 +497,14 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     // use repartition to utilize the cluster for filtering
     var df = getRectifiedMetadataDf().select("obj_name").where(q)
     filter match {
-      case Some(f) =>
-        df = df.where(f.asInstanceOf[Expression].sql)
+      case Some(f) if isPartitionDataAvailable() =>
+        val filterExpr = f.asInstanceOf[Expression]
+        val mapping: Map[String, String] = filterExpr.references.map(ref =>
+          ref.name->getPartitionColName(ref.name)).toMap
+        val transformedPartitionFilter = ParquetUtils.replaceReferences(filterExpr, mapping)
+        logInfo(s"Original partition filter ${filterExpr.sql}")
+        logInfo(s"Transformed partition filter ${transformedPartitionFilter.sql}")
+        df = df.where(transformedPartitionFilter.sql)
       case _ =>
     }
     if (DEDUP_ON_FILTER) {
@@ -502,12 +514,14 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     df.collect().map(_.getString(0)).toSet
   }
 
-
   /**
     * Returns the metadata df after upgrading it to the current
-    * version (both the schema and actual md).
-    * the returned value contains the metadata as if it existed
-    * on disk with the current software version.
+    * version:
+    * 1. the indexes themselves are upgraded in full as if they
+    *   were created using the current software version.
+    * 2. the KV store (i.e., spark schema metadata) and the partition
+    *     keys are not touched (in particular, partition keys are not
+    *     added even if the metadata is of an old version that doesn't contain them)
     *
     * @return
     */
@@ -515,7 +529,9 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     val baseDf = getMetaDataDFRaw(false)
 
     val indexes = getIndexes(Registration.getCurrentIndexFactories())
-    ParquetUtils.getTransformedDataFrame(baseDf, indexes, false)
+    // note here we are not passing any partition schema since
+    // we only add these during an upgrade (i.e., REFRESH).
+    ParquetUtils.getTransformedDataFrame(baseDf, indexes, None, false)
   }
 
   /**
@@ -577,12 +593,18 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     *
     * @param indexes - the indexes stored in the metadataStore.
     */
-  override def upgradeMetadata(indexes: Seq[Index]): Unit = {
+  override def upgradeMetadata(indexes: Seq[Index], fileIndex: FileIndex): Unit = {
     val baseDf = getMetaDataDFRaw()
     val currVersion = ParquetMetadataStoreConf.PARQUET_MD_STORAGE_VERSION
     val diskVersion = getVersion(baseDf)
+    val partSchema = fileIndex.partitionSchema match {
+      case x if x.nonEmpty => Some(x)
+      case _ => None
+    }
     if (diskVersion != currVersion) {
-      val newDf = ParquetUtils.getTransformedDataFrame(baseDf, indexes, true)
+      val dfWithPartitionData = ParquetUtils.getMetadataWithPartitionCols(baseDf, fileIndex)
+      val newDf = ParquetUtils.getTransformedDataFrame(dfWithPartitionData,
+        indexes, partSchema, true)
       replaceMetaData(newDf)
     }
     // if the index was built on a hive table add the relevant parameter to the table properties.
@@ -640,6 +662,12 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
 
     IndexStatusResult(indexes, numberOfIndexedObjects,
       Map("Metadata location" -> metadataLocation), versionStatus)
+  }
+
+
+  private def isPartitionDataAvailable(dfOpt: Option[DataFrame] = None): Boolean = {
+    getVersion(dfOpt.getOrElse(getMetaDataDFRaw())) >=
+      ParquetMetadataStoreConf.PARQUET_MINIMUM_PARTITION_DATA_VERSION
   }
 
   /**

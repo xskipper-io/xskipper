@@ -23,7 +23,10 @@ class TestCOSIdentifier extends FunSuite {
       "cos://my-bucket-read.service_a-job-id_1/name/with/prefix/my-object-read",
       "cos://my-bucket-read.service_a-job-id_1/name/with/prefix/my-object-read/",
       "/Users/abc/def",
-      "/Users/abc/def/")
+      "/Users/abc/def/",
+      "/Users/abc/timestamp=2018-02-28%2002:06:43",
+      "/Users/abc/timestamp=2018-02-28 02:06:43",
+      "db.table")
     val expectedTableIdentifiers = Seq(
       "cos://testbucket",
       "cos://testbucket",
@@ -31,11 +34,14 @@ class TestCOSIdentifier extends FunSuite {
       "cos://my-bucket-read/name/with/prefix/my-object-read",
       "cos://my-bucket-read/name/with/prefix/my-object-read",
       "/Users/abc/def",
-      "/Users/abc/def")
+      "/Users/abc/def",
+      "/Users/abc/timestamp=2018-02-28%2002:06:43",
+      "/Users/abc/timestamp=2018-02-28 02:06:43",
+      "db.table")
 
     // verify tableIdentifiers
-    (URIs zip expectedTableIdentifiers).foreach { case (path: String, tid: String) =>
-      assert(Utils.getTableIdentifier(path) == tid)
+    (URIs zip expectedTableIdentifiers).foreach { case (uri: String, tid: String) =>
+      assert(Utils.getTableIdentifier(new Path(uri).toUri) == tid)
     }
   }
 
@@ -46,14 +52,22 @@ class TestCOSIdentifier extends FunSuite {
       "cos://my-bucket-read.service_a-job-id_1/name/with/prefix/my-object-read/a.parquet",
       "cos://my-bucket-read.service_a-job-id_1/name/with/prefix/my-object-read/a.parquet",
       "/Users/abc/def/a.parquet",
-      "/Users/abc/def/a.parquet")
+      "/Users/abc/def/a.parquet",
+      "/Users/abc/timestamp=2018-03-28%2003:06:43/a.parquet",
+      "/Users/abc/timestamp=2018-03-28 03:06:43/a.parquet",
+      "cos://my-bucket-read.service_a-job-id_1/timestamp=2018-03-28%2003:06:43/a.parquet",
+      "cos://my-bucket-read.service_a-job-id_1/timestamp=2018-03-28 03:06:43/a.parquet")
     val expectedFileIds = Seq(
       "cos://testbucket/a.parquet#0",
       "cos://testbucket/myobject/myobject2/a.parquet#0",
       "cos://my-bucket-read/name/with/prefix/my-object-read/a.parquet#0",
       "cos://my-bucket-read/name/with/prefix/my-object-read/a.parquet#0",
       "/Users/abc/def/a.parquet#0",
-      "/Users/abc/def/a.parquet#0")
+      "/Users/abc/def/a.parquet#0",
+      "/Users/abc/timestamp=2018-03-28%2003:06:43/a.parquet#0",
+      "/Users/abc/timestamp=2018-03-28 03:06:43/a.parquet#0",
+      "cos://my-bucket-read/timestamp=2018-03-28%2003:06:43/a.parquet#0",
+      "cos://my-bucket-read/timestamp=2018-03-28 03:06:43/a.parquet#0")
 
     // verify tableIdentifiers
     (URIs zip expectedFileIds).foreach { case (path: String, fid: String) =>
