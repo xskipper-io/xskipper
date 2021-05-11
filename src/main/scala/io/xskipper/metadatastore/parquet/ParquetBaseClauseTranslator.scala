@@ -69,7 +69,7 @@ object ParquetBaseClauseTranslator extends ClauseTranslator {
               case LT => metadataCol < value
               case LTE => metadataCol <= value
             }
-            Some(!isnull(metadataCol).and(expression))
+            Some((!isnull(metadataCol)).and(expression))
           // checks if a list of values exists in the value list metadata
           // (used for equality checks)
           case ValueListClause(column, values, false) =>
