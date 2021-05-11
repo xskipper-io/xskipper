@@ -26,7 +26,7 @@ abstract class PartitionTypeSupport(override val datasourceV2: Boolean)
 
   import spark.implicits._
 
-  LogManager.getLogger("io.xskipper.search.DataSkippingFileFilter").setLevel(Level.TRACE)
+  LogManager.getLogger("io.xskipper.search.DataSkippingFileFilter").setLevel(Level.DEBUG)
   val skippedRegexp = "(.*).*#.*--------> SKIPPED!".r
   val skippedFiles = LogTrackerBuilder.getRegexTracker(skippedRegexp)
   val requiredRegexp = "(.*).*#.*--------> REQUIRED!".r

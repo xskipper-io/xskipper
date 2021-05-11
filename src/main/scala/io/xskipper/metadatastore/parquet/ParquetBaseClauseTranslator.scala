@@ -13,6 +13,7 @@ import org.apache.spark.sql.catalyst.CatalystTypeConverters
 import org.apache.spark.sql.catalyst.expressions.Literal
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.sources.IsNotNull
 import org.apache.spark.sql.types.MetadataTypeUDT
 
 object ParquetBaseClauseTranslator extends ClauseTranslator {
@@ -68,7 +69,7 @@ object ParquetBaseClauseTranslator extends ClauseTranslator {
               case LT => metadataCol < value
               case LTE => metadataCol <= value
             }
-            Some(expression)
+            Some(expression.and(!isnull(metadataCol)))
           // checks if a list of values exists in the value list metadata
           // (used for equality checks)
           case ValueListClause(column, values, false) =>
