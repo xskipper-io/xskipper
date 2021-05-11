@@ -219,7 +219,7 @@ object ParquetUtils extends Logging {
     // in that case, if plaintext footer is set to OFF (default) then the footer
     // and the obj_name column are both encrypted with the footer key. the partition (hive style)
     // columns are also encrypted using the footer key.
-    // if plaintext footer is set to ON - the obj_name is still encrypted
+    // if plaintext footer is set to ON - the obj_name is still encrypted along with the partitions
     // and the footer is in plaintext mode. we encrypt the obj_name in that case
     // mainly for tamper proofing (the footer is tamper-proofed even in plaintext footer mode)
     // any other config (including a case where no index is encrypted but a footer key is set)
@@ -288,6 +288,7 @@ object ParquetUtils extends Logging {
   : Map[Index, Seq[String]] = {
 
     // HACK ALERT - passing the tableIdentifier as empty and no key metadata for the footer.
+    // the partition schema is also omitted.
     // this only works since we need the schema tree (names and types) and not metadata, so
     // we can live with the incorrect md returned in the schema
     val parquetSchema = converter.convert(

@@ -491,9 +491,12 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
 
   /**
     * Returns the metadata df after upgrading it to the current
-    * version (both the schema and actual md).
-    * the returned value contains the metadata as if it existed
-    * on disk with the current software version.
+    * version:
+    * 1. the indexes themselves are upgraded in full as if they
+    *   were created using the current software version.
+    * 2. the KV store (i.e., spark schema metadata) and the partition
+    *     keys are not touched (in particular, partition keys are not
+    *     added even if the metadata is of an old version that doesn't contain them)
     *
     * @return
     */
@@ -501,6 +504,8 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     val baseDf = getMetaDataDFRaw(false)
 
     val indexes = getIndexes(Registration.getCurrentIndexFactories())
+    // note here we are not passing any partition schema since
+    // we only add these during an upgrade (i.e., REFRESH).
     ParquetUtils.getTransformedDataFrame(baseDf, indexes, None, false)
   }
 
