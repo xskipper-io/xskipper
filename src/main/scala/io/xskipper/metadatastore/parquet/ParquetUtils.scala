@@ -366,10 +366,22 @@ object ParquetUtils extends Logging {
     StructType(allFields)
   }
 
+  /**
+    * given a column name adds `virtual_` before it
+    * done to avoid aliasing existing columns in the data
+    * @param partCol the partition column to handle
+    * @return `virtual_<column_name>`
+    */
   def getPartitionColName(partCol: String): String = {
     s"virtual_$partCol"
   }
 
+  /**
+    * Given a partition schema transform it to an equivalent partition schema where each
+    * partition column name was transformed to `virtual_<partition_column_name>`
+    * @param partitionSchema the partition schema to transform
+    * @return the transformed partition schema fields
+    */
   def generatePartitionStructs(partitionSchema: Option[StructType]): Seq[StructField] = {
     partitionSchema match {
       case Some(schema) =>

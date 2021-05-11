@@ -360,8 +360,8 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
         val mapping: Map[String, String] = filterExpr.references.map(ref =>
           ref.name->getPartitionColName(ref.name)).toMap
         val transformedPartitionFilter = ParquetUtils.replaceReferences(filterExpr, mapping)
-        logInfo(s"Original partition filter ${filterExpr.sql}")
-        logInfo(s"Transformed partition filter ${transformedPartitionFilter.sql}")
+        logDebug(s"Original partition filter ${filterExpr.sql}")
+        logDebug(s"Transformed partition filter ${transformedPartitionFilter.sql}")
         df = df.where(transformedPartitionFilter.sql)
       case _ =>
     }
