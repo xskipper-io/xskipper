@@ -5,8 +5,9 @@
 
 package io.xskipper.metadatastore.parquet.versioning.util
 
-import java.io.File
+import io.xskipper.metadatastore.parquet.ParquetMetadataStoreConf
 
+import java.io.File
 import io.xskipper.metadatastore.parquet.versioning.VersionTest
 import io.xskipper.testing.util.JSONImplicits._
 import io.xskipper.testing.util.Utils
@@ -61,6 +62,8 @@ object VersionTestUtils extends Logging {
         targetMdLocationPrefix = json.getOrElse(
           "targetMdLocationPrefix", globalTargetMdLocationPrefix),
         minVersion = json.getOrElse("minVersion", globalMinVersion.toLong),
+        maxVersion = json.getOrElse("maxVersion",
+          ParquetMetadataStoreConf.PARQUET_MD_STORAGE_VERSION),
         testId = json.getLong("testId"),
         indexTypes = indexTypes,
         query = json.getString("query"),

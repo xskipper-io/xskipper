@@ -68,19 +68,19 @@ object ParquetBaseClauseTranslator extends ClauseTranslator {
               case LT => metadataCol < value
               case LTE => metadataCol <= value
             }
-            Some(expression)
+            Some((!isnull(metadataCol)).and(expression))
           // checks if a list of values exists in the value list metadata
           // (used for equality checks)
           case ValueListClause(column, values, false) =>
             val mdColName = ParquetUtils.getColumnNameForCols(Seq(column), "valuelist")
-            Some(values.map(v =>
-              array_contains(col(mdColName), v)).reduce((a, b) => a or b))
+            Some((!isnull(col(mdColName))).and(values.map(v =>
+              array_contains(col(mdColName), v)).reduce((a, b) => a or b)))
           // checks if the value list metadata contain values which
           // are different than the given list of values
           // (used for inequality checks)
           case ValueListClause(column, values, true) =>
             val mdColName = ParquetUtils.getColumnNameForCols(Seq(column), "valuelist")
-            Some(negativeValueListUDF(values)(col(mdColName)))
+            Some((!isnull(col(mdColName))).and(negativeValueListUDF(values)(col(mdColName))))
           case BloomFilterClause(column, values) =>
             val mdColName = ParquetUtils.getColumnNameForCols(Seq(column), "bloomfilter")
             Some(bloomFilterUDF(values)(col(mdColName)))

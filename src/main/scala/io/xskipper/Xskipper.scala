@@ -16,6 +16,7 @@ import io.xskipper.metadatastore._
 import io.xskipper.metadatastore.parquet.ParquetMetadataStoreManager
 import io.xskipper.status.{Status, StatusResult}
 import io.xskipper.utils.Utils
+import org.apache.hadoop.fs.Path
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, DataFrameReader, Row, SparkSession}
 
@@ -233,7 +234,7 @@ class Xskipper(sparkSession: SparkSession, val uri: String,
 
   import sparkSession.implicits._
 
-  val tableIdentifier = Utils.getTableIdentifier(uri)
+  val tableIdentifier = Utils.getTableIdentifier(new Path(uri).toUri)
   // the metadataHandle associated with the instance - using a function to make
   // sure using only active instances
   private[xskipper] def metadataHandle() =

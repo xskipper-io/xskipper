@@ -53,8 +53,10 @@ jobs:
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"
           # capture release version before doing release for site publishing
-          SITE_VERSION=${{ github.event.inputs.release-version }}
+          export SITE_VERSION=${{ github.event.inputs.release-version }}
           [[ -z "$SITE_VERSION" ]] && echo "ERROR: SITE_VERSION var is empty" && exit -1
+          # set the env variable to be available for the next step
+          echo "::set-env name=SITE_VERSION::$SITE_VERSION"
           build/sbt 'release release-version ${{ github.event.inputs.release-version }} next-version ${{ github.event.inputs.next-version }}'
           git push
       - if: |
@@ -73,7 +75,9 @@ jobs:
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"
           # capture release version before doing release for site publishing
-          SITE_VERSION=`sed -n 's/version in ThisBuild := "\(.*\)-SNAPSHOT"/\1/p' version.sbt`
+          export SITE_VERSION=`sed -n 's/version in ThisBuild := "\(.*\)-SNAPSHOT"/\1/p' version.sbt`
           [[ -z "$SITE_VERSION" ]] && echo "ERROR: SITE_VERSION var is empty" && exit -1
+          # set the env variable to be available for the next step
+          echo "::set-env name=SITE_VERSION::$SITE_VERSION"
           build/sbt 'release with-defaults'
           git push

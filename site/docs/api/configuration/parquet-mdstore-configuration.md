@@ -24,6 +24,8 @@ These parameters can be set as:
 |io.xskipper.parquet<br/>.maxMetadataFileSize | 33554432 (32MB) | The expected max size of each metadata file will be used by the compact function to distribute the data to multiple files to distribute the data to multiple files in such way that each is less than the expected max size of each metadata file used in conjunction with the max records per file configuration |
 |io.xskipper.parquet<br/>.encryption.plaintext.footer | false | Whether or not to use plain footer |
 |io.xskipper.parquet<br/>.encryption.footer.key | N/A | The encryption key that will be used to encrypt the metadata footer |
+|io.xskipper.parquet<br/>.refresh.dedup | true | When set to true each refresh operation will drop duplicates metadata entries (which might exist due to failed refresh operations) |
+|io.xskipper.parquet<br/>.filter.dedup | false | When set to true duplicate metadata entries (which might exist due to failed refresh operations) will be dropped when filtering in query run time |
 
 
 ## Types of metadata location
