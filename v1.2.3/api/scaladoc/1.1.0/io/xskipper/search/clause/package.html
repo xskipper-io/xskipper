@@ -1,0 +1,361 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>clause - io.xskipper.search.clause</title>
+          <meta name="description" content="clause - io.xskipper.search.clause" />
+          <meta name="keywords" content="clause io.xskipper.search.clause" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../index.html';
+            var hash = 'io.xskipper.search.clause.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="io">io</a>.<a href="../../package.html" class="extype" name="io.xskipper">xskipper</a>.<a href="../package.html" class="extype" name="io.xskipper.search">search</a></p>
+        <h1>clause</h1><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clause</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="io.xskipper.search.clause.AndClause" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AndClauseextendsClausewithProductwithSerializable"></a>
+      <a id="AndClause:AndClause"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="AndClause.html"><span class="name">AndClause</span></a><span class="params">(<span name="right">right: <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a></span>, <span name="left">left: <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a></span>)</span><span class="result"> extends <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@AndClauseextendsClausewithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.search.clause.BloomFilterClause" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BloomFilterClauseextendsClausewithProductwithSerializable"></a>
+      <a id="BloomFilterClause:BloomFilterClause"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="BloomFilterClause.html"><span class="name">BloomFilterClause</span></a><span class="params">(<span name="col">col: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="values">values: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="org.apache.spark.sql.catalyst.expressions.Literal">Literal</span>]</span>)</span><span class="result"> extends <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@BloomFilterClauseextendsClausewithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Represents an abstract bloom filter clause
+</p><div class="fullcomment"><div class="comment cmt"><p>Represents an abstract bloom filter clause
+</p></div><dl class="paramcmts block"><dt class="param">col</dt><dd class="cmt"><p>the column on which the clause is applied</p></dd><dt class="param">values</dt><dd class="cmt"><p>sequence of values representing the value list</p></dd></dl></div>
+    </li><li name="io.xskipper.search.clause.Clause" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="ClauseextendsAnyRef"></a>
+      <a id="Clause:Clause"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Clause.html"><span class="name">Clause</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@ClauseextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Represents an abstract clause for a metadata Query on a file.</p><div class="fullcomment"><div class="comment cmt"><p>Represents an abstract clause for a metadata Query on a file.
+a few handy definitions:
+Representation:
+for a Clause c and a (boolean) expression  e, we say that c Represents e,
+if the following holds:
+for every file f, if there exists a row in f that meets e, than f meets c.
+</p></div></div>
+    </li><li name="io.xskipper.search.clause.FalseClause" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="FalseClauseextendsClausewithProductwithSerializable"></a>
+      <a id="FalseClause:FalseClause"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="FalseClause.html"><span class="name">FalseClause</span></a><span class="params">(<span name="col">col: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@FalseClauseextendsClausewithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.search.clause.MinMaxClause" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="MinMaxClauseextendsClausewithProductwithSerializable"></a>
+      <a id="MinMaxClause:MinMaxClause"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="MinMaxClause.html"><span class="name">MinMaxClause</span></a><span class="params">(<span name="col">col: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="op">op: <a href="OperatorType.html" class="extype" name="io.xskipper.search.clause.OperatorType">OperatorType</a></span>, <span name="value">value: <span class="extype" name="org.apache.spark.sql.catalyst.expressions.Literal">Literal</span></span>, <span name="min">min: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result"> extends <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@MinMaxClauseextendsClausewithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Represents an abstract minmax clause
+</p><div class="fullcomment"><div class="comment cmt"><p>Represents an abstract minmax clause
+</p></div><dl class="paramcmts block"><dt class="param">col</dt><dd class="cmt"><p>the column on which the clause is applied</p></dd><dt class="param">op</dt><dd class="cmt"><p>the operator of the inequality</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value to be used in the inequality</p></dd><dt class="param">min</dt><dd class="cmt"><p>true if the clause is on min value and false o.w</p></dd></dl></div>
+    </li><li name="io.xskipper.search.clause.NotClause" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="NotClauseextendsClausewithProductwithSerializable"></a>
+      <a id="NotClause:NotClause"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="NotClause.html"><span class="name">NotClause</span></a><span class="params">(<span name="c">c: <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a></span>)</span><span class="result"> extends <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@NotClauseextendsClausewithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">word of caution: THIS IS A SIMPLE NOT OPERATOR,
+THE NEGATION IS SIMPLE - NOT THE ONE DEFINED IN THE TRAIT
+</p><div class="fullcomment"><div class="comment cmt"><p>word of caution: THIS IS A SIMPLE NOT OPERATOR,
+THE NEGATION IS SIMPLE - NOT THE ONE DEFINED IN THE TRAIT
+</p></div><dl class="paramcmts block"><dt class="param">c</dt><dd class="cmt"><p>the clause to negate</p></dd></dl></div>
+    </li><li name="io.xskipper.search.clause.OperatorType" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="OperatorTypeextendsAnyRef"></a>
+      <a id="OperatorType:OperatorType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="OperatorType.html"><span class="name">OperatorType</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@OperatorTypeextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.search.clause.OrClause" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="OrClauseextendsClausewithProductwithSerializable"></a>
+      <a id="OrClause:OrClause"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="OrClause.html"><span class="name">OrClause</span></a><span class="params">(<span name="right">right: <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a></span>, <span name="left">left: <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a></span>)</span><span class="result"> extends <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@OrClauseextendsClausewithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.search.clause.TrueClause" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TrueClauseextendsClausewithProductwithSerializable"></a>
+      <a id="TrueClause:TrueClause"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="TrueClause.html"><span class="name">TrueClause</span></a><span class="params">(<span name="col">col: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@TrueClauseextendsClausewithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.search.clause.ValueListClause" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ValueListClauseextendsClausewithProductwithSerializable"></a>
+      <a id="ValueListClause:ValueListClause"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ValueListClause.html"><span class="name">ValueListClause</span></a><span class="params">(<span name="col">col: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="values">values: <span class="extype" name="org.apache.spark.sql.catalyst.expressions.Literal">Literal</span></span>, <span name="negated">negated: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result"> extends <a href="Clause.html" class="extype" name="io.xskipper.search.clause.Clause">Clause</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@ValueListClauseextendsClausewithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Represents an abstract value list clause
+</p><div class="fullcomment"><div class="comment cmt"><p>Represents an abstract value list clause
+</p></div><dl class="paramcmts block"><dt class="param">col</dt><dd class="cmt"><p>the column on which the clause is applied</p></dd><dt class="param">values</dt><dd class="cmt"><p>literal of type array with values representing the value list from the query</p></dd><dt class="param">negated</dt><dd class="cmt"><p>if true the clause is used to check whether the value list contain values which
+                are different from all of the values in the list (used for inequality checks)
+                if false the clause is used to check whether the value list metadata contain all
+                of the values in the list (used for equality checks)</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="io.xskipper.search.clause.GT" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GT"></a>
+      <a id="GT:GT"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="GT$.html"><span class="name">GT</span></a><span class="result"> extends <a href="OperatorType.html" class="extype" name="io.xskipper.search.clause.OperatorType">OperatorType</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@GT" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.search.clause.GTE" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GTE"></a>
+      <a id="GTE:GTE"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="GTE$.html"><span class="name">GTE</span></a><span class="result"> extends <a href="OperatorType.html" class="extype" name="io.xskipper.search.clause.OperatorType">OperatorType</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@GTE" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.search.clause.LT" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LT"></a>
+      <a id="LT:LT"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="LT$.html"><span class="name">LT</span></a><span class="result"> extends <a href="OperatorType.html" class="extype" name="io.xskipper.search.clause.OperatorType">OperatorType</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@LT" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.search.clause.LTE" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LTE"></a>
+      <a id="LTE:LTE"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="LTE$.html"><span class="name">LTE</span></a><span class="result"> extends <a href="OperatorType.html" class="extype" name="io.xskipper.search.clause.OperatorType">OperatorType</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#io.xskipper.search.clause.package@LTE" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
