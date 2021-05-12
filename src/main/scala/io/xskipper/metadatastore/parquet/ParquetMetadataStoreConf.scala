@@ -137,7 +137,7 @@ object ParquetMetadataStoreConf {
   val DEDUP_ON_FILTER =
     ConfigEntry[Boolean](
       DEDUP_ON_FILTER_KEY,
-      defaultValue = true,
+      defaultValue = false,
       doc =
         s"""Whether to run distinct during filtering
            |This is used to cleanup failures in refresh which might introduced duplicate rows

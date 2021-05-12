@@ -86,6 +86,10 @@ from xskipper import Registration
 In this example, we configure a JVM wide parameter to a base path which stores all data skipping indexes.
 The indexes can be stored on the same storage system as the data, but not under the same path.
 During query time indexes will be consulted at this location.
+!!! Note
+    Deduplication during filtering is documented as `false` by default but in version `1.2.3` it accidentally defaults to `true`.
+    this cannot afect query results, but may degrade performance.
+    as a workaround, it can be manually set `io.xskipper.parquet.filter.dedup` to `false`.
 
 For more configuration options, see [configuration options](../api/configuration/configuration.md).
 
