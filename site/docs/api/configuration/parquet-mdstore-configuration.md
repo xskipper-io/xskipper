@@ -25,8 +25,12 @@ These parameters can be set as:
 |io.xskipper.parquet<br/>.encryption.plaintext.footer | false | Whether or not to use plain footer |
 |io.xskipper.parquet<br/>.encryption.footer.key | N/A | The encryption key that will be used to encrypt the metadata footer |
 |io.xskipper.parquet<br/>.refresh.dedup | true | When set to true each refresh operation will drop duplicates metadata entries (which might exist due to failed refresh operations) |
-|io.xskipper.parquet<br/>.filter.dedup | false | When set to true duplicate metadata entries (which might exist due to failed refresh operations) will be dropped when filtering in query run time |
+|io.xskipper.parquet<br/>.filter.dedup | true | When set to true duplicate metadata entries (which might exist due to failed refresh operations) will be dropped when filtering in query run time |
 
+!!! Note
+Deduplication during filtering is documented as `false` by default, but in version `1.2.3` it accidentally defaults to `true`.
+this cannot affect query results, but may degrade performance.
+as a workaround, it can be manually set `io.xskipper.parquet.filter.dedup` to `false`.
 
 ## Types of metadata location
 
