@@ -77,7 +77,7 @@ jobs:
           export SITE_VERSION=`sed -n 's/version in ThisBuild := "\(.*\)-SNAPSHOT"/\1/p' version.sbt`
           [[ -z "$SITE_VERSION" ]] && echo "ERROR: SITE_VERSION var is empty" && exit -1
           # set the env variable to be available for the next step
-          echo "::set-env name=SITE_VERSION::$SITE_VERSION"
+          echo "SITE_VERSION=$SITE_VERSION" >> $GITHUB_ENV
           build/sbt 'release with-defaults'
           git push
       - name: Publish site version
@@ -89,8 +89,8 @@ jobs:
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"
           git fetch origin xskipper-site
-          mike deploy --push --remote origin --branch xskipper-site $SITE_VERSION
-          mike set-default --push --remote origin --branch xskipper-site $SITE_VERSION
+          mike deploy --push --remote origin --branch xskipper-site ${{ env.SITE_VERSION }}
+          mike set-default --push --remote origin --branch xskipper-site ${{ env.SITE_VERSION }}
       - name: Draft Release
         uses: release-drafter/release-drafter@v5
         env:
