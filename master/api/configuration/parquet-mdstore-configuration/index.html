@@ -803,17 +803,17 @@ The Parquet metadatastore store the metadata for the objects as rows in parquet 
 </tr>
 <tr>
 <td>io.xskipper.parquet<br/>.filter.dedup</td>
-<td>true</td>
+<td>false</td>
 <td>When set to true duplicate metadata entries (which might exist due to failed refresh operations) will be dropped when filtering in query run time</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-</div>
 <p>Deduplication during filtering is documented as <code>false</code> by default, but in version <code>1.2.3</code> it accidentally defaults to <code>true</code>.
 this cannot affect query results, but may degrade performance.
 as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</code> to <code>false</code>.</p>
+</div>
 <h2 id="types-of-metadata-location">Types of metadata location<a class="headerlink" href="#types-of-metadata-location" title="Permanent link">&para;</a></h2>
 <p>The parquet metadatastore looks up the metadata location according to the paramater <code>io.xskipper.parquet.mdlocation</code>, this parameter  is interpreted according to the URL type defined in the parameter <code>io.xskipper.parquet.mdlocation.type</code>.  </p>
 <p>The following options are available for the parameter <code>io.xskipper.parquet.mdlocation.type</code>:</p>

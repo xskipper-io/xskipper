@@ -1074,7 +1074,8 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
 <span class="c1"># Configuring the JVM wide parameters</span>
 <span class="n">conf</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([</span>
             <span class="p">(</span><span class="s2">&quot;io.xskipper.parquet.mdlocation&quot;</span><span class="p">,</span> <span class="n">md_base_location</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;io.xskipper.parquet.mdlocation.type&quot;</span><span class="p">,</span> <span class="s2">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="p">)])</span>
+            <span class="p">(</span><span class="s2">&quot;io.xskipper.parquet.mdlocation.type&quot;</span><span class="p">,</span> <span class="s2">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;io.xskipper.parquet.filter.dedup&quot;</span><span class="p">,</span> <span class="s2">&quot;false&quot;</span><span class="p">)])</span>
 <span class="n">Xskipper</span><span class="o">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
 </code></pre></div>
 </div>
@@ -1089,7 +1090,8 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
 <span class="c1">// Configuring the JVM wide parameters</span>
 <span class="kd">val</span> <span class="n">conf</span> <span class="o">=</span> <span class="nc">Map</span><span class="p">(</span>
   <span class="s">&quot;io.xskipper.parquet.mdlocation&quot;</span> <span class="o">-&gt;</span> <span class="n">md_base_location</span><span class="p">,</span>
-  <span class="s">&quot;io.xskipper.parquet.mdlocation.type&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="p">)</span>
+  <span class="s">&quot;io.xskipper.parquet.mdlocation.type&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="p">,</span>
+  <span class="s">&quot;io.xskipper.parquet.filter.dedup&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;false&quot;</span><span class="p">)</span>
 <span class="nc">Xskipper</span><span class="p">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
 </code></pre></div>
 </div>
