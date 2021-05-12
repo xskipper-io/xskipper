@@ -1057,6 +1057,12 @@ Follow the instructions <a href="https://spark.apache.org/downloads.html">here</
 <p>In this example, we configure a JVM wide parameter to a base path which stores all data skipping indexes.
 The indexes can be stored on the same storage system as the data, but not under the same path.
 During query time indexes will be consulted at this location.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Deduplication during filtering is documented as <code>false</code> by default, but in version <code>1.2.3</code> it accidentally defaults to <code>true</code>.
+this cannot affect query results, but may degrade performance.
+as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</code> to <code>false</code>.</p>
+</div>
 <p>For more configuration options, see <a href="../../api/configuration/configuration/">configuration options</a>.</p>
 <div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Python</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">xskipper</span> <span class="kn">import</span> <span class="n">Xskipper</span>
