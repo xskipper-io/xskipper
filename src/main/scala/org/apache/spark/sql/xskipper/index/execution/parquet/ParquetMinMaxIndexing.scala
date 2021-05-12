@@ -6,8 +6,11 @@ package org.apache.spark.sql.xskipper.index.execution.parquet
 
 import io.xskipper.configuration.XskipperConf
 import io.xskipper.index.Index
+import io.xskipper.index.execution.PartitionSpec
 import io.xskipper.index.metadata.MinMaxMetaData
 import io.xskipper.metadatastore.MetadataHandle
+import io.xskipper.utils.Utils
+import org.apache.hadoop.fs.FileStatus
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.types.{ByteType, DataType, ShortType}
 import org.apache.spark.sql.{Row, SparkSession}
@@ -18,10 +21,11 @@ import org.apache.spark.util.SerializableConfiguration
   * from Parquet file footer
   */
 object ParquetMinMaxIndexing extends Logging{
-  def parquetMinMaxParallelIndexing(
-                                     metadataStore: MetadataHandle,
+  def parquetMinMaxParallelIndexing(metadataStore: MetadataHandle,
+                                     partitionSpec: Option[PartitionSpec],
                                      options: Map[String, String],
-                                     indexes: Seq[Index], fileIds: Seq[(String, String)],
+                                     indexes: Seq[Index],
+                                     fileIds: Seq[FileStatus],
                                      isRefresh: Boolean,
                                      spark: SparkSession): Unit = {
     val cols = indexes.flatMap(_.getIndexCols)
@@ -32,11 +36,15 @@ object ParquetMinMaxIndexing extends Logging{
     val serializableConfiguration =
       new SerializableConfiguration(spark.sparkContext.hadoopConfiguration)
 
+    // filestatus is not serializable so extract fileID and path
+    val serializedPaths = fileIds.map(fs => (fs.getPath.toString, Utils.getFileId(fs)))
+
     // create the metadata in parallel
-    val metadataRDD = spark.sparkContext.parallelize(fileIds, numParallelism)
+    val metadataRDD = spark.sparkContext.parallelize(serializedPaths, numParallelism)
       .flatMap {
-        case (fileName, fileID) =>
-          val parquetMetadata = getMinMaxStat(fileName, colsNames, serializableConfiguration)
+        case (path: String, fid: String) =>
+          val parquetMetadata = getMinMaxStat(path,
+            colsNames, serializableConfiguration)
           // store metadata only if it's defined for all of the columns collected
           // if it's not defined it means the parquet object didn't contain the metadata
           // and therefore we can't index this object using the optimized method
@@ -51,15 +59,24 @@ object ParquetMinMaxIndexing extends Logging{
                     case _ => null
                   }
               }
-            Some(Row.fromSeq(Seq(fileID) ++ metadata))
+            partitionSpec match {
+              case Some(spec) => Some(Row.fromSeq(Seq(fid)
+                ++ Utils.toSeq(spec.values, spec.schema) ++ metadata))
+              case _ => Some(Row.fromSeq(Seq(fid) ++ metadata))
+            }
           } else {
-            logWarning(s"Unable to index ${fileID} using" +
+            logWarning(s"Unable to index ${fid} using" +
               s" optimized min/max index collection for parquet")
             None
           }
       }
 
-    metadataStore.uploadMetadata(metadataRDD, indexes, isRefresh)
+    partitionSpec match {
+      case Some(spec) =>
+        metadataStore.uploadMetadata(metadataRDD, Some(spec.schema), indexes, isRefresh)
+      case _ =>
+        metadataStore.uploadMetadata(metadataRDD, None, indexes, isRefresh)
+    }
   }
 
   /**

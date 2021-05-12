@@ -31,6 +31,13 @@ what metadata for which column is laid out in what way.
  
 ## Format Specifications
 
+### Version 4
+
+This version differs from Version 3 by:
+
+1. Saving the partition columns in the metadata for partitioned table in order to get the indexed files only for relevant partitions 
+2. The partition columns are saved as `virtual_<column_name>`
+
 ### Version 3
 
 This version differs from Version 2 by:

@@ -13,6 +13,7 @@ import org.apache.spark.sql.catalyst.CatalystTypeConverters
 import org.apache.spark.sql.catalyst.expressions.Literal
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.sources.IsNotNull
 import org.apache.spark.sql.types.MetadataTypeUDT
 
 object ParquetBaseClauseTranslator extends ClauseTranslator {
@@ -68,18 +69,18 @@ object ParquetBaseClauseTranslator extends ClauseTranslator {
               case LT => metadataCol < value
               case LTE => metadataCol <= value
             }
-            Some(expression)
+            Some((!isnull(metadataCol)).and(expression))
           // checks if a list of values exists in the value list metadata
           // (used for equality checks)
           case ValueListClause(column, values, false) =>
             val mdColName = ParquetUtils.getColumnNameForCols(Seq(column), "valuelist")
-            Some(arrays_overlap(col(mdColName), lit(values)))
+            Some((!isnull(col(mdColName))).and(arrays_overlap(col(mdColName), lit(values))))
           // checks if the value list metadata contain values which
           // are different than the given list of values
           // (used for inequality checks)
           case ValueListClause(column, values, true) =>
             val mdColName = ParquetUtils.getColumnNameForCols(Seq(column), "valuelist")
-            Some(size(array_except(col(mdColName), lit(values))) > 0)
+            Some((!isnull(col(mdColName))).and(size(array_except(col(mdColName), lit(values))) > 0))
           case BloomFilterClause(column, values) =>
             val mdColName = ParquetUtils.getColumnNameForCols(Seq(column), "bloomfilter")
             Some(bloomFilterUDF(values)(col(mdColName)))

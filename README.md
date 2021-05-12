@@ -26,7 +26,7 @@ Include Xskipper in a Maven project by adding it as a dependency in the project'
 <dependency>
   <groupId>io.xskipper</groupId>
   <artifactId>xskipper-core_2.12</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.3</version>
 </dependency>
 ```
 or:
@@ -34,7 +34,7 @@ or:
 <dependency>
   <groupId>io.xskipper</groupId>
   <artifactId>xskipper-core_2.11</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.3</version>
 </dependency>
 ```
 
@@ -44,7 +44,7 @@ or:
 Include Xskipper in an SBT project by adding the following line to its build.sbt file:
 
 ```Scala
-libraryDependencies += "io.xskipper" %% "xskipper-core" % "1.1.1"
+libraryDependencies += "io.xskipper" %% "xskipper-core" % "1.1.3"
 ```
 
 # Building

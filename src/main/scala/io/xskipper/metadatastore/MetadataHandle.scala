@@ -6,9 +6,12 @@
 package io.xskipper.metadatastore
 
 import io.xskipper.index.Index
+import io.xskipper.index.execution.PartitionSpec
 import io.xskipper.status.{IndexStatusResult, QueryIndexStatsResult}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.Row
+import org.apache.spark.sql.execution.datasources.FileIndex
+import org.apache.spark.sql.types.StructType
 
 import scala.collection.JavaConverters._
 import scala.concurrent.Future
@@ -82,6 +85,7 @@ trait MetadataHandle {
     * @param isRefresh indicates whether the operation is a refresh operation
     */
   def uploadMetadata(metaData: RDD[Row],
+                     partitionSchema: Option[StructType],
                      indexes: Seq[Index],
                      isRefresh: Boolean): Unit
 
@@ -106,8 +110,11 @@ trait MetadataHandle {
 
   /**
     * Returns a set of all indexed files (async)
+    * @param filter optional filter to apply
+    *        (can be used to get all indexed file for a given partition)
+    * @return a set of all indexed files ids
     */
-  def getAllIndexedFiles(): Future[Set[String]]
+  def getAllIndexedFiles(filter: Option[Any] = None): Future[Set[String]]
 
   /**
     * Returns the required file ids for the given query (async)
@@ -116,9 +123,11 @@ trait MetadataHandle {
     *              (this query is of type Any and it is the responsibility of the metadatastore
     *              implementation to cast it to as instance which matches the translation for
     *              this MetaDataStore)
+    * @param filter an optional filter to apply
+    *        (can be used to get all indexed file for a given partition)
     * @return the set of fileids required for this query
     */
-  def getRequiredObjects(query: Any): Future[Set[String]]
+  def getRequiredObjects(query: Any, filter: Option[Any] = None): Future[Set[String]]
 
   /**
     * Removes the metadata for a sequence of files.
@@ -171,10 +180,10 @@ trait MetadataHandle {
 
   /**
     * Upgrades the metadata to comply with the current version
-    *
     * @param indexes - the indexes stored in the metadataStore.
+    * @param fileIndex the file index of the indexed dataset or table
     */
-  def upgradeMetadata(indexes: Seq[Index]): Unit
+  def upgradeMetadata(indexes: Seq[Index], fileIndex: FileIndex): Unit
 
   /**
     * returns the sequence of indexes that exist in the metadatastore for the tableIdentifier
