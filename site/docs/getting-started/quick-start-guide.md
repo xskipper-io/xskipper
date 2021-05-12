@@ -105,7 +105,8 @@ For more configuration options, see [configuration options](../api/configuration
     # Configuring the JVM wide parameters
     conf = dict([
                 ("io.xskipper.parquet.mdlocation", md_base_location),
-                ("io.xskipper.parquet.mdlocation.type", "EXPLICIT_BASE_PATH_LOCATION")])
+                ("io.xskipper.parquet.mdlocation.type", "EXPLICIT_BASE_PATH_LOCATION"),
+                ("io.xskipper.parquet.filter.dedup", "false")])
     Xskipper.setConf(spark, conf)
     ```
 
@@ -122,7 +123,8 @@ For more configuration options, see [configuration options](../api/configuration
     // Configuring the JVM wide parameters
     val conf = Map(
       "io.xskipper.parquet.mdlocation" -> md_base_location,
-      "io.xskipper.parquet.mdlocation.type" -> "EXPLICIT_BASE_PATH_LOCATION")
+      "io.xskipper.parquet.mdlocation.type" -> "EXPLICIT_BASE_PATH_LOCATION",
+      "io.xskipper.parquet.filter.dedup" -> "false")
     Xskipper.setConf(conf)
     ```
 
