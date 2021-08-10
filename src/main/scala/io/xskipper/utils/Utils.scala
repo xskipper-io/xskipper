@@ -17,7 +17,6 @@ import org.apache.spark.sql.catalyst.catalog.CatalogTableType
 import org.apache.spark.sql.catalyst.expressions.{Expression, GetStructField, _}
 import org.apache.spark.sql.catalyst.parser.ParseException
 import org.apache.spark.sql.catalyst.util.DateTimeUtils
-import org.apache.spark.sql.catalyst.util.DateTimeUtils.{SQLDate, SQLTimestamp}
 import org.apache.spark.sql.catalyst.{InternalRow, util => CatalystUtils}
 import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileScan}
 import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation}
@@ -310,10 +309,10 @@ object Utils extends Logging {
     while (i < len) {
       fieldTypes(i) match {
         case dt: DateType =>
-          values(i) = DateTimeUtils.toJavaDate(row.get(i, dt).asInstanceOf[SQLDate])
+          values(i) = DateTimeUtils.toJavaDate(row.get(i, dt).asInstanceOf[Int])
         case dt: StringType => values(i) = row.get(i, dt).toString
         case dt: TimestampType =>
-          values(i) = DateTimeUtils.toJavaTimestamp(row.get(i, dt).asInstanceOf[SQLTimestamp])
+          values(i) = DateTimeUtils.toJavaTimestamp(row.get(i, dt).asInstanceOf[Long])
         case _ => values(i) = row.get(i, fieldTypes(i))
       }
 
