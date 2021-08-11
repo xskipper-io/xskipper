@@ -5,9 +5,7 @@
 
 # Data Skipping
 
-<center>
 ![Data Skipping](../img/data-skipping.png)
-</center>
 
 !!! note
     This section explains the concepts that are use in Xskipper.   
