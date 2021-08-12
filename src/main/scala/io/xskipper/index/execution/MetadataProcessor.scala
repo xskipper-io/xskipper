@@ -15,7 +15,7 @@ import io.xskipper.utils.Utils
 import org.apache.hadoop.fs.FileStatus
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileTable}
+import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2Relation, DataSourceV2ScanRelation, FileTable}
 import org.apache.spark.sql.execution.datasources.{FileIndex, HadoopFsRelation, LogicalRelation, PartitionDirectory}
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
@@ -45,10 +45,12 @@ object MetadataProcessor {
     df.queryExecution.optimizedPlan.collect {
       case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
         hfs.location.listFiles(Seq.empty, Seq.empty)
-      case DataSourceV2ScanRelation(table: FileTable, _, _) =>
+      // scalastyle:off line.size.limit
+      case _@DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _) =>
         // not using allFiles since it returns also empty files which are not used
         // since Spark only calls list files during query processing
         table.fileIndex.listFiles(Seq.empty, Seq.empty)
+      // scalastyle:on line.size.limit
     }.flatten
   }
 }

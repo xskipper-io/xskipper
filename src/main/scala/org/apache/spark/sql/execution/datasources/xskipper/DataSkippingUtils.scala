@@ -26,7 +26,7 @@ object DataSkippingUtils extends Logging {
 
   /**
     * This function contains the same logic for creating the FileIndex as appears in
-    * PartitioningAwareFileIndex class and replaces the InMemoryFileIndex with
+    * FileTable class and replaces the InMemoryFileIndex with
     * InMemoryDataSkippingIndex.
     * The reason for keeping the same logic is that the original variable is lazy
     * so we can rely on not having the FileIndex created until this function is called.
@@ -45,8 +45,10 @@ object DataSkippingUtils extends Logging {
         options.asScala.toMap, userSpecifiedSchema)
     } else {
       // This is a non-streaming file based datasource.
+      val globPaths = Option(options.get(DataSource.GLOB_PATHS_KEY))
+        .map(_ == "true").getOrElse(true)
       val rootPathsSpecified = DataSource.checkAndGlobPathIfNecessary(paths, hadoopConf,
-        checkEmptyGlobPath = true, checkFilesExist = true)
+        checkEmptyGlobPath = true, checkFilesExist = true, enableGlobbing = globPaths)
       val fileStatusCache = FileStatusCache.getOrCreate(sparkSession)
       val fileIndex = new InMemoryFileIndex(
         sparkSession, rootPathsSpecified, caseSensitiveMap, userSpecifiedSchema, fileStatusCache)

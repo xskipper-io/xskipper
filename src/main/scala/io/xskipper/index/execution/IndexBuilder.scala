@@ -12,7 +12,8 @@ import io.xskipper.utils.Utils
 import io.xskipper.{Xskipper, XskipperException}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.internal.Logging
-import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2ScanRelation, FileTable}
+import org.apache.spark.sql.catalog.Table
+import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2Relation, DataSourceV2ScanRelation, FileTable}
 import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation}
 import org.apache.spark.sql.types.StructField
 import org.apache.spark.sql.{DataFrame, DataFrameReader, SparkSession}
@@ -323,8 +324,10 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     val (format, rawOptions, fileIndex) = df.queryExecution.optimizedPlan.collect {
       case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
         (hfs.fileFormat.toString, hfs.options, hfs.location)
-      case _@DataSourceV2ScanRelation(table: FileTable, _, _) =>
+      // scalastyle:off line.size.limit
+      case _@DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _) =>
         (table.formatName, table.properties().asScala.toMap, table.fileIndex)
+      // scalastyle:on line.size.limit
     }(0)
 
     // filter out "path" or "paths" entries from the options.
