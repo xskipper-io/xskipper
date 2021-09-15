@@ -10,11 +10,13 @@ import io.xskipper.configuration.XskipperConf
 import io.xskipper.metadatastore.MetadataStoreManager
 import io.xskipper.search.{DataSkippingFileFilter, DataSkippingFileFilterEvaluator}
 import io.xskipper.utils.Utils
-import org.apache.hadoop.fs.Path
+import org.apache.hadoop.fs.{FileStatus, Path}
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan
 import org.apache.spark.sql.catalyst.rules.Rule
+import org.apache.spark.sql.catalyst.util.{CaseInsensitiveMap, DateTimeUtils}
+import org.apache.spark.sql.execution.datasources.DataSourceUtils.isDataPath
 import org.apache.spark.sql.execution.datasources._
 import org.apache.spark.sql.execution.streaming.{FileStreamSink, MetadataLogFileIndex}
 import org.apache.spark.sql.types.StructType
@@ -148,5 +150,28 @@ object DataSkippingUtils extends Logging {
     logInfo(s"Injecting rule ${rule.getClass.getCanonicalName}" +
       s" as part of the extended operator optimization rules")
     sparkSession.extensions.injectOptimizerRule(_ => rule)
+  }
+
+  def parsePartitions(sparkSession: SparkSession, files: Seq[FileStatus],
+                      schema: StructType, basePaths: Set[Path],
+                      parameters: Map[String, String]): PartitionSpec = {
+    val leafDirToChildrenFiles = files.toArray.groupBy(_.getPath.getParent)
+    // We use leaf dirs containing data files to discover the schema.
+    val leafDirs = leafDirToChildrenFiles.filter { case (_, files) =>
+      files.exists(f => isDataPath(f.getPath))
+    }.keys.toSeq
+
+    val caseInsensitiveOptions = CaseInsensitiveMap(parameters)
+    val timeZoneId = caseInsensitiveOptions.get(DateTimeUtils.TIMEZONE_OPTION)
+      .getOrElse(sparkSession.sessionState.conf.sessionLocalTimeZone)
+
+    PartitioningUtils.parsePartitions(
+      leafDirs,
+      typeInference = sparkSession.sessionState.conf.partitionColumnTypeInferenceEnabled,
+      basePaths = basePaths,
+      userSpecifiedSchema = Some(schema),
+      caseSensitive = sparkSession.sqlContext.conf.caseSensitiveAnalysis,
+      validatePartitionColumns = sparkSession.sqlContext.conf.validatePartitionColumns,
+      timeZoneId = timeZoneId)
   }
 }

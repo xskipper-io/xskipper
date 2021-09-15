@@ -16,7 +16,7 @@ import io.xskipper.metadatastore._
 import io.xskipper.metadatastore.parquet.ParquetMetadataStoreManager
 import io.xskipper.status.{Status, StatusResult}
 import io.xskipper.utils.Utils
-import org.apache.hadoop.fs.Path
+import org.apache.hadoop.fs.{FileStatus, Path}
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, DataFrameReader, Row, SparkSession}
 
@@ -267,19 +267,31 @@ class Xskipper(sparkSession: SparkSession, val uri: String,
     * @throws XskipperException if index cannot be refreshed
     */
   def refreshIndex(reader: DataFrameReader): DataFrame = {
-    refreshIndex(reader.load(uri))
+    refreshIndex(reader.load(uri), None)
   }
 
   /**
     * Refresh index operation for table URI
     *
+    * @param filesToIndex optional list of files to index to avoid listing
     * @return [[DataFrame]] object containing statistics about
     *         the refresh operation
     * @throws XskipperException if index cannot be refreshed
     */
-  def refreshIndex() : DataFrame = {
+  def refreshIndex(filesToIndex: Option[Seq[FileStatus]]): DataFrame = {
     val df = Utils.getTable(sparkSession, uri)
-    refreshIndex(df)
+    refreshIndex(df, filesToIndex)
+  }
+
+  def refreshIndex(partitionPaths: Seq[String]): DataFrame = {
+    val fileStatuses = partitionPaths.map(new Path(_)).flatMap(p => {
+      p.getFileSystem(sparkSession.sparkContext.hadoopConfiguration).listStatus(p)
+    })
+    refreshIndex(Some(fileStatuses))
+  }
+
+  def refreshIndex(): DataFrame = {
+    refreshIndex(None)
   }
 
   /**
@@ -288,15 +300,16 @@ class Xskipper(sparkSession: SparkSession, val uri: String,
     * @param df the [[DataFrame]] to be indexed - can be either a dataset
     *           that was created by `spark.read`` on some hadoop file system path or a table on
     *           top of some hadoop file system
+    * @param filesToIndex optional list of files to index to avoid listing
     * @return [[DataFrame]] object containing statistics about the
     *         refresh operation
     * @throws XskipperException if index cannot be refreshed
     */
-  private def refreshIndex(df: DataFrame): DataFrame = {
+  private def refreshIndex(df: DataFrame, filesToIndex: Option[Seq[FileStatus]]): DataFrame = {
     if (!isIndexed()) throw new XskipperException(Status.INDEX_NOT_FOUND)
     // getting the indexes
     val indexes = metadataHandle.getIndexes()
-    val res = indexBuilder().createOrRefreshExistingIndex(df, indexes, true)
+    val res = indexBuilder().createOrRefreshExistingIndex(df, indexes, true, filesToIndex)
     res
   }
 

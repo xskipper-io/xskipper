@@ -10,11 +10,11 @@ import io.xskipper.index.{BloomFilterIndex, Index, MinMaxIndex, ValueListIndex}
 import io.xskipper.status.{RefreshResult, Status}
 import io.xskipper.utils.Utils
 import io.xskipper.{Xskipper, XskipperException}
-import org.apache.hadoop.fs.Path
+import org.apache.hadoop.fs.{FileStatus, Path}
 import org.apache.spark.internal.Logging
-import org.apache.spark.sql.catalog.Table
 import org.apache.spark.sql.execution.datasources.v2.{DataSourceV2Relation, DataSourceV2ScanRelation, FileTable}
-import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation}
+import org.apache.spark.sql.execution.datasources.xskipper.DataSkippingUtils
+import org.apache.spark.sql.execution.datasources.{HadoopFsRelation, LogicalRelation, PartitionDirectory, PartitionPath}
 import org.apache.spark.sql.types.StructField
 import org.apache.spark.sql.{DataFrame, DataFrameReader, SparkSession}
 
@@ -190,7 +190,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     if (new Path(uri).toString.exists("{}[]*?\\".toSet.contains)) {
       throw new XskipperException(s"""${Status.GLOBPATH_INDEX}""")
     }
-    build(reader.load(uri))
+    build(reader.load(uri), None)
   }
 
   /**
@@ -198,9 +198,10 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     * It is assumed that the URI that was used in Xskipper definition is the
     * identifier of a table (<db>.<table>)
     *
+    * @param filesToIndex optional list of files to index to avoid listing
     * @return a [[DataFrame]] indicating if the operation succeeded or not
     */
-  def build() : DataFrame = {
+  def build(filesToIndex: Option[Seq[FileStatus]]) : DataFrame = {
     // get the dataframe of the table
     val df = Utils.getTable(spark, uri)
     // Indexing of hive tables is available only for partitioned hive tables
@@ -208,7 +209,11 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     if (schemaPartitions.isEmpty) {
       throw new XskipperException(s"""${Status.HIVE_NON_PARTITIONED_TABLE}""")
     }
-    build(df)
+    build(df, filesToIndex)
+  }
+
+  def build(): DataFrame = {
+    build(None)
   }
 
   /**
@@ -217,15 +222,16 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     * @param df the [[DataFrame]] of objects to be indexed - can be either a dataset created
     *           by [[SparkSession.read]] on some hadoop file system path or a
     *           hive table on top of some hadoop file system
+    * @param filesToIndex optional list of files to index to avoid listing
     * @return a [[DataFrame]] indicating if the operation succeeded or not
     */
-  private def build(df: DataFrame): DataFrame = {
+  private def build(df: DataFrame, filesToIndex: Option[Seq[FileStatus]]): DataFrame = {
     if (xskipper.isIndexed()) {
       throw new XskipperException(s"""${Status.INDEX_ALREADY_EXISTS}""")
     }
 
     try {
-      createOrRefreshExistingIndex(df, indexes, false)
+      createOrRefreshExistingIndex(df, indexes, false, filesToIndex)
     } catch {
       // IO exceptions typically occur when authentication fails this can happen if the access
       // token expired (in SQL Query after 1h)
@@ -319,13 +325,15 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     * @return a [[DataFrame]] of the format status, #indexedFiles, #removedFiles
     */
   def createOrRefreshExistingIndex(df: DataFrame,
-                                   indexes: Seq[Index], isRefresh: Boolean) : DataFrame = {
+                                   indexes: Seq[Index],
+                                   isRefresh: Boolean,
+                                   filesToIndex: Option[Seq[FileStatus]] = None) : DataFrame = {
     // extract the format and options to enable reading of each object individually
     val (format, rawOptions, fileIndex) = df.queryExecution.optimizedPlan.collect {
-      case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
+      case LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
         (hfs.fileFormat.toString, hfs.options, hfs.location)
       // scalastyle:off line.size.limit
-      case _@DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _) =>
+      case DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _) =>
         (table.formatName, table.properties().asScala.toMap, table.fileIndex)
       // scalastyle:on line.size.limit
     }(0)
@@ -358,11 +366,46 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     // update index optimizations if possible
     updateIndexOptimizations(df, indexes)
 
+    val partitionDirectories = filesToIndex match {
+      case Some(files) =>
+        // first make sure the df is a catalog table
+        val leafDirToChildrenFiles = files.toArray.groupBy(_.getPath.getParent)
+        val (rootPaths, parameters) = df.queryExecution.optimizedPlan match {
+          case LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
+            (hfs.location.rootPaths, hfs.options)
+          // scalastyle:off line.size.limit
+          case DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _) =>
+            (table.fileIndex.rootPaths, table.properties().asScala.toMap)
+          // scalastyle:on line.size.limit
+        }
+        val basePaths = rootPaths.map { path =>
+          // Make the path qualified (consistent with listLeafFiles and bulkListLeafFiles).
+          val qualifiedPath =
+            path.getFileSystem(spark.sparkContext.hadoopConfiguration).makeQualified(path)
+          if (files.contains(qualifiedPath)) qualifiedPath.getParent else qualifiedPath }.toSet
+        DataSkippingUtils.parsePartitions(spark, files, df.schema,
+          basePaths, parameters).partitions.map {
+          case PartitionPath(values, path) =>
+            val files: Seq[FileStatus] = leafDirToChildrenFiles.get(path) match {
+              case Some(existingDir) =>
+                existingDir
+              case None =>
+                // Directory does not exist, or has no children files
+                Nil
+            }
+            PartitionDirectory(values, files)
+        }
+      case _ => Seq.empty[PartitionDirectory]
+    }
+
     // Note we rely on the file index to do the right listing meaning that for hive tables
     // it will also list object in partitions which are not under the location defined in the table
-    val files = MetadataProcessor.listFilesFromDf(df)
-    val (newOrModifiedFilesIDs, fileIDsForRemove) =
-      metadataProcessor.collectNewFiles(files, isRefresh)
+    val (newOrModifiedFilesIDs, fileIDsForRemove) = partitionDirectories.isEmpty match {
+      case true =>
+        val files = MetadataProcessor.listFilesFromDf(df)
+        metadataProcessor.collectNewFiles(files, isRefresh)
+      case _ => (partitionDirectories, Seq.empty[String])
+    }
 
     // remove unnecessary files
     var removedCount = 0

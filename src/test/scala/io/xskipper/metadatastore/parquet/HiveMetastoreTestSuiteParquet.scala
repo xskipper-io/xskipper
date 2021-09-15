@@ -12,6 +12,7 @@ import io.xskipper.implicits._
 import io.xskipper.testing.util.Utils._
 import io.xskipper.testing.util.{LogTrackerBuilder, Utils}
 import org.apache.commons.io.FileUtils
+import org.apache.hadoop.fs.Path
 import org.apache.log4j.{Level, LogManager}
 import org.apache.spark.sql.catalyst.TableIdentifier
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
@@ -321,6 +322,154 @@ abstract class HiveMetastoreTestSuiteParquet(override val datasourceV2: Boolean 
   testDirectIndexing(false)
   testDirectIndexing(true)
 
+  def testExplicitIndexing(usePartitionPath: Boolean): Unit = {
+    test(testName =
+      s"test indexing explicit paths - hive table, usePartitionPath = $usePartitionPath") {
+      val input_path = Utils.concatPaths(baseDir, "input_datasets/gridpocket/initial/parquet/")
+      val md_base_path = Files.createTempDirectory("hms_suite_parquet").toString
+      md_base_path.deleteOnExit()
+
+      // set the base metadata location in the database
+      val locParam = ParquetMetadataStoreConf.LEGACY_PARQUET_MD_LOCATION_KEY
+
+      spark.sql(
+        s"ALTER DATABASE $databaseName SET DBPROPERTIES " +
+          s"('$locParam'='${md_base_path}')")
+
+      // drop table if it already exists
+      spark.sql(s"drop table if exists $fullTableName")
+      // create hive metastore table
+      val createTable =
+        s"""CREATE TABLE IF NOT EXISTS $fullTableName (
+            vid String,
+            date Timestamp,
+            index Double,
+            sumHC Double,
+            sumHP Double,
+            type String,
+            size Integer,
+            temp Double,
+            city String,
+            region Integer,
+            lat Double,
+            lng Double,
+            dt Date
+          )
+          USING PARQUET
+          PARTITIONED BY (dt)
+          LOCATION '${input_path}'"""
+      spark.sql(createTable)
+
+      // add the relevant partitions under the base path
+      spark.sql(s"ALTER TABLE $fullTableName RECOVER PARTITIONS")
+      // equivalent to:
+      // spark.sql(s"ALTER TABLE metergen add partition " +
+      //  s"(dt='2017-07-15') LOCATION '$input_path/dt=2017-07-15'")
+      // spark.sql(s"ALTER TABLE metergen add partition " +
+      //  s"(dt='2017-07-16') LOCATION '$input_path/dt=2017-07-16'")
+
+      // add one more partition under specific location to verify that the when
+      // indexing this partition is read as well
+      val sidePartitionLocation = Utils.concatPaths(baseDir,
+        "input_datasets/gridpocket/updated/parquet/dt=2017-07-08")
+      spark.sql(
+        s"ALTER TABLE $fullTableName ADD" +
+          s" PARTITION(dt='2017-07-08') location '$sidePartitionLocation'")
+
+      // index the dataset - using the table name
+      // During indexing the path in the table is not yet defined so there will be a fall back to
+      // db base location (and if it doesn't exist to the JVM base location)
+      val xskipper = getXskipperWithHiveTableName(fullTableName, fullTableName)
+
+      // remove existing index first
+      if (xskipper.isIndexed()) {
+        xskipper.dropIndex()
+      }
+
+      // set the paths to be indexed
+      val dir = new Path(s"$input_path/dt=2017-07-15")
+      val filesToIndex =
+        dir.getFileSystem(spark.sparkContext.hadoopConfiguration).listStatus(dir)
+
+      val indexBuildRes = xskipper.indexBuilder()
+        .addMinMaxIndex("temp")
+        .addValueListIndex("city")
+        .build(Some(filesToIndex.toSeq))
+      assert(Utils.isResDfValid(indexBuildRes))
+
+      // enable filtering
+      spark.enableXskipper()
+
+      val tableIdentifier = TableIdentifier(tableName, Some(databaseName))
+
+      // set the expected skipped files
+      val expectedSkippedFiles = Seq(
+        "dt=2017-07-15/c1.snappy.parquet",
+        "dt=2017-07-15/c0.snappy.parquet")
+      // include the main table location and the side partition
+      var expectedSkippedFilesFormatted =
+        Utils.getResultSet(input_path, expectedSkippedFiles: _*)
+
+      // execute query and monitor skipped files
+      skippedFiles.clearSet()
+      skippedFiles.startCollecting()
+
+      spark.sql(s"select * from $tableName where temp > 30").collect()
+
+      skippedFiles.stopCollecting()
+
+      // assert skipping was successful
+      assertResult(expectedSkippedFilesFormatted)(skippedFiles.getResultSet())
+
+      // refresh the index to include one more partition
+      if (usePartitionPath) {
+        // use only partition path
+        xskipper.refreshIndex(Seq(s"$input_path/dt=2017-07-16"))
+      } else {
+        // set the paths to be indexed explicitly
+        val new_dir = new Path(s"$input_path/dt=2017-07-16")
+        val newFilesToIndex =
+          new_dir.getFileSystem(spark.sparkContext.hadoopConfiguration).listStatus(new_dir)
+        xskipper.refreshIndex(Some(newFilesToIndex.toSeq))
+      }
+
+      expectedSkippedFilesFormatted ++= Utils.getResultSet(input_path,
+        "dt=2017-07-16/c7.snappy.parquet",
+        "dt=2017-07-16/c8.snappy.parquet")
+
+      // execute query and monitor skipped files
+      skippedFiles.clearSet()
+      skippedFiles.startCollecting()
+
+      spark.sql(s"select * from $tableName where temp > 30").collect()
+
+      skippedFiles.stopCollecting()
+
+      // assert skipping was successful
+      assertResult(expectedSkippedFilesFormatted)(skippedFiles.getResultSet())
+
+      // drop the index and make sure the property doesn't exist anymore.
+      xskipper.dropIndex()
+      assert(!spark.sessionState.catalog
+        .getTableMetadata(TableIdentifier(tableName, Some(databaseName)))
+        .properties.contains(ParquetMetadataStoreConf.PARQUET_MD_LOCATION_KEY),
+        "Table metadata still contains the xskipper location property after dropping index")
+      // assert the table contains the correct metadata parameter
+      val updatedTableProperties = spark.sessionState
+        .catalog.getTableMetadata(tableIdentifier).properties
+      assert(!updatedTableProperties.contains(ParquetMetadataStoreConf.PARQUET_MD_LOCATION_KEY),
+        "Table metadata still contains the xskipper location property")
+      assert(!updatedTableProperties.contains(
+        ParquetMetadataStoreConf.LEGACY_PARQUET_MD_LOCATION_KEY),
+        "Table metadata still contains the legacy metadata location property")
+
+      // drop the created table
+      spark.sql(s"drop table if exists $fullTableName")
+    }
+  }
+
+  testExplicitIndexing(false)
+  testExplicitIndexing(true)
 
   test("test failure on indexing partition columns") {
     val input_path = Utils.concatPaths(baseDir, "input_datasets/gridpocket/initial/parquet/")
