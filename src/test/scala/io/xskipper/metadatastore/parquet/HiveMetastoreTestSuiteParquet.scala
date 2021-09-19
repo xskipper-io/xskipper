@@ -406,7 +406,6 @@ abstract class HiveMetastoreTestSuiteParquet(override val datasourceV2: Boolean 
       val expectedSkippedFiles = Seq(
         "dt=2017-07-15/c1.snappy.parquet",
         "dt=2017-07-15/c0.snappy.parquet")
-      // include the main table location and the side partition
       var expectedSkippedFilesFormatted =
         Utils.getResultSet(input_path, expectedSkippedFiles: _*)
 

@@ -152,6 +152,11 @@ object DataSkippingUtils extends Logging {
     sparkSession.extensions.injectOptimizerRule(_ => rule)
   }
 
+  /**
+    * Given a sequence of qualified paths, tries to parse them and returns a
+    * partition specification.
+    * Using Spark's built-in private method to parse the partitions
+    */
   def parsePartitions(sparkSession: SparkSession, files: Seq[FileStatus],
                       schema: StructType, basePaths: Set[Path],
                       parameters: Map[String, String]): PartitionSpec = {

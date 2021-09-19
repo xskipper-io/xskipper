@@ -368,7 +368,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
 
     val partitionDirectories = filesToIndex match {
       case Some(files) =>
-        // first make sure the df is a catalog table
+        // if we were given a list of files to index, index only these files
         val leafDirToChildrenFiles = files.toArray.groupBy(_.getPath.getParent)
         val (rootPaths, parameters) = df.queryExecution.optimizedPlan match {
           case LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
