@@ -15,7 +15,7 @@ For every column in the object, the summary metadata might include minimum and m
 
 Xskipper supports all of Spark's native data formats, including Parquet, ORC, CSV, JSON and Avro. Data skipping is a performance optimization feature which means that using data skipping does not affect the content of query results.
 
-Xskipper can be used to easily define new data skipping index types using a concept we call Extensible Data Skipping, more information can be found on [xskipper site](xskipper.io).
+Xskipper can be used to easily define new data skipping index types using a concept we call Extensible Data Skipping, more information can be found on [xskipper site](https://xskipper.io).
 
 For more information about usage see:
 
