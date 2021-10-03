@@ -2,87 +2,87 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://xskipper.io/master/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/api/api-reference/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/api/creating-new-plugin/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/api/indexing/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/api/configuration/configuration/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/api/configuration/parquet-mdstore-configuration/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/api/developer/build/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/api/developer/generate-doc/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/api/developer/metadata-versioning/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/api/developer/parquet-metadatastore-spec/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/concepts/data-skipping/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/concepts/extensible/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/concepts/indexing-flow/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/concepts/query-evaluation-flow/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/getting-started/operatefirst-getting-started/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/getting-started/quick-start-guide/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://xskipper.io/master/getting-started/sample-notebooks/</loc>
-         <lastmod>2021-08-12</lastmod>
+         <lastmod>2021-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
