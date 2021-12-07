@@ -44,6 +44,7 @@ extra_css:
 plugins:
   - search
   - redirects
+  - markdownextradata: {}
 
 # Customization
 extra:
@@ -52,6 +53,8 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/xskipper-io
+  extra_vars:
+    version: !ENV [SITE_VERSION, '1.2.3-DUMMY']
 
 # Extensions
 markdown_extensions:
