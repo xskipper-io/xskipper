@@ -34,4 +34,4 @@ jobs:
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"
           git fetch origin xskipper-site
-          mike deploy --push --remote origin --branch xskipper-site master
+          SITE_VERSION=$SITE_VERSION mike deploy --push --remote origin --branch xskipper-site master
