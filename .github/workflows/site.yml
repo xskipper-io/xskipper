@@ -30,6 +30,7 @@ jobs:
         working-directory: ./site
         run: |
           export SITE_VERSION=`sed -n 's/version in ThisBuild := "\(.*\)"/\1/p' version.sbt`
+          echo "SITE_VERSION=$SITE_VERSION" >> $GITHUB_ENV
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"
           git fetch origin xskipper-site
