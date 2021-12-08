@@ -85,6 +85,7 @@ jobs:
         run: |
           pip install mkdocs-material
           pip install mkdocs-redirects
+          pip install mkdocs-markdownextradata-plugin
           pip install mike
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"

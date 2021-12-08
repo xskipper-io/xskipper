@@ -20,7 +20,7 @@ pip install mock
 
 ### Local Changes
 
-The doc configs are location in `python/doc`.
+The doc configs are located in `python/doc`.
 
 Make the needed changes to the python files and then create the HTML files using:
 

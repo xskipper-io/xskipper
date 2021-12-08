@@ -13,7 +13,7 @@ This guide helps you quickly get started using Xskipper with Apache Spark.
 
 ## Setup Apache Spark with Xskipper
 
-Xskipper is compatible with Apache Spark 3.0. There are two ways to setup Xskipper:
+Xskipper is compatible with Apache Spark 3.x, There are two ways to setup Xskipper:
 
 1. Run interactively: Start the Spark shell (Scala or Python) with Xskipper and explore Xskipper interactively.
 2. Run as a project: Set up a Maven or SBT project (Scala or Java) with Xskipper.
@@ -28,7 +28,7 @@ Follow the instructions [here](https://spark.apache.org/downloads.html) to insta
 Start a Spark Scala shell as follows:
 
 ```bash
-./bin/spark-shell --packages io.xskipper:xskipper-core_2.12:1.2.3
+./bin/spark-shell --packages io.xskipper:xskipper-core_2.12:{{extra_vars.version}}
 ```
 
 #### PySpark
@@ -42,7 +42,7 @@ pip install --upgrade pyspark
 Then, run PySpark with the Xskipper package:
 
 ```bash
-pyspark --packages io.xskipper:xskipper-core_2.12:1.2.3
+pyspark --packages io.xskipper:xskipper-core_2.12:{{extra_vars.version}}
 ```
 
 ### Run as a project
@@ -57,7 +57,7 @@ Include Xskipper in a Maven project by adding it as a dependency in the project'
 <dependency>
   <groupId>io.xskipper</groupId>
   <artifactId>xskipper-core_2.12</artifactId>
-  <version>1.2.3</version>
+  <version>{{extra_vars.version}}</version>
 </dependency>
 ```
 
@@ -65,7 +65,7 @@ Include Xskipper in a Maven project by adding it as a dependency in the project'
 Include Xskipper in an SBT project by adding the following line to its build.sbt file:
 
 ```Scala
-libraryDependencies += "io.xskipper" %% "xskipper-core" % "1.2.3"
+libraryDependencies += "io.xskipper" %% "xskipper-core" % "{{extra_vars.version}}"
 ```
 
 #### Python
@@ -74,7 +74,7 @@ To set up a Python project, first start the Spark session using the Xskipper pac
 
 ```Python
 spark = pyspark.sql.SparkSession.builder.appName("Xskipper") \
-    .config("spark.jars.packages", "io.xskipper:xskipper-core_2.12:1.2.3") \
+    .config("spark.jars.packages", "io.xskipper:xskipper-core_2.12:{{extra_vars.version}}") \
     .getOrCreate()
 
 from xskipper import Xskipper
