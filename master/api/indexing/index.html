@@ -859,7 +859,9 @@
 </tbody>
 </table>
 <p>In order to add an index using the <code>IndexBuilder</code> to specify the required indexes, for example:</p>
-<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python</label><label for="__tabbed_1_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1"># create Xskipper instance for the sample dataset</span>
 <span class="n">xskipper</span> <span class="o">=</span> <span class="n">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">dataset_location</span><span class="p">)</span>
 
@@ -875,7 +877,7 @@
         <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1">// create Xskipper instance for the sample dataset</span>
 <span class="kd">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">dataset_location</span><span class="p">)</span>
 
@@ -893,6 +895,7 @@
 </code></pre></div>
 </div>
 </div>
+</div>
 <p>By default, the indexes are stored as parquet files stored in storage  Each parquet file with row per each object in the dataset.  </p>
 <p>For more information about the parquet metadatastore see <a href="../developer/parquet-metadatastore-spec/">here</a>.</p>
 <h2 id="plugins">Plugins<a class="headerlink" href="#plugins" title="Permanent link">&para;</a></h2>
@@ -906,7 +909,9 @@ For instructions on how to create a new plugin see <a href="../creating-new-plug
 <h3 id="setting-up-a-plugin">Setting up a plugin<a class="headerlink" href="#setting-up-a-plugin" title="Permanent link">&para;</a></h3>
 <p>In order to use a plugin you first need to register the needed classes.<br />
 For example, for the <a href="https://github.com/xskipper-io/xskipper-regex-plugin">Regex Plugin</a>:</p>
-<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">xskipper</span> <span class="kn">import</span> <span class="n">Registration</span>
 
 <span class="n">Registration</span><span class="o">.</span><span class="n">addMetadataFilterFactory</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s1">&#39;io.xskipper.plugins.regex.filter.RegexValueListMetaDataFilterFactory&#39;</span><span class="p">)</span>
@@ -918,7 +923,7 @@ For example, for the <a href="https://github.com/xskipper-io/xskipper-regex-plug
 <span class="n">Registration</span><span class="o">.</span><span class="n">addClauseTranslator</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s1">&#39;io.xskipper.plugins.regex.parquet.RegexValueListClauseTranslator&#39;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="n">_</span>
 <span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="nn">plugins</span><span class="p">.</span><span class="nn">regex</span><span class="p">.</span><span class="nn">filter</span><span class="p">.</span><span class="nc">RegexValueListMetaDataFilterFactory</span>
 <span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="nn">plugins</span><span class="p">.</span><span class="nn">regex</span><span class="p">.</span><span class="nn">index</span><span class="p">.</span><span class="nc">RegexIndexFactory</span>
@@ -932,10 +937,13 @@ For example, for the <a href="https://github.com/xskipper-io/xskipper-regex-plug
 </code></pre></div>
 </div>
 </div>
+</div>
 <h3 id="index-building">Index building<a class="headerlink" href="#index-building" title="Permanent link">&para;</a></h3>
 <p>In order to build an index you can use the <code>addCustomIndex</code> API.   </p>
 <p>For example for the <a href="https://github.com/xskipper-io/xskipper-regex-plugin">Regex Plugin</a>:</p>
-<div class="tabbed-set" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python</label><label for="__tabbed_3_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>    <span class="n">xskipper</span> <span class="o">=</span> <span class="n">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">dataset_path</span><span class="p">)</span>
 
     <span class="c1"># adding the index using the custom index API</span>
@@ -946,7 +954,7 @@ For example, for the <a href="https://github.com/xskipper-io/xskipper-regex-plug
         <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="nn">plugins</span><span class="p">.</span><span class="nn">regex</span><span class="p">.</span><span class="nn">implicits</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">// index the dataset</span>
@@ -961,6 +969,7 @@ For example, for the <a href="https://github.com/xskipper-io/xskipper-regex-plug
   <span class="c1">//.addCustomIndex(RegexValueListIndex(&quot;log_line&quot;, Seq(&quot;.* .* .* (.*): .*&quot;)))</span>
   <span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
+</div>
 </div>
 </div>
 <h3 id="creating-you-own-plugin">Creating you own plugin<a class="headerlink" href="#creating-you-own-plugin" title="Permanent link">&para;</a></h3>

@@ -890,7 +890,9 @@ in order to enjoy data skipping over UDFs and a variety of data types.</p>
 <h2 id="using-existing-plugins">Using Existing Plugins<a class="headerlink" href="#using-existing-plugins" title="Permanent link">&para;</a></h2>
 <p>To use a plugin, load the relevant implementations using the Registration module (<a href="../scaladoc/1.2.3/io/xskipper/Registration$.html">Scala</a>, <a href="../pythondoc/1.2.3/index.html#module-xskipper.registration">Python</a>). <br />
 For example:</p>
-<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python</label><label for="__tabbed_1_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">xskipper</span> <span class="kn">import</span> <span class="n">Registration</span>
 
 <span class="n">Registration</span><span class="o">.</span><span class="n">addMetadataFilterFactory</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s1">&#39;io.xskipper.plugins.regex.filter.RegexValueListMetaDataFilterFactory&#39;</span><span class="p">)</span>
@@ -902,7 +904,7 @@ For example:</p>
 <span class="n">Registration</span><span class="o">.</span><span class="n">addClauseTranslator</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s1">&#39;io.xskipper.plugins.regex.parquet.RegexValueListClauseTranslator&#39;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="n">_</span>
 <span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="nn">plugins</span><span class="p">.</span><span class="nn">regex</span><span class="p">.</span><span class="nn">filter</span><span class="p">.</span><span class="nc">RegexValueListMetaDataFilterFactory</span>
 <span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="nn">plugins</span><span class="p">.</span><span class="nn">regex</span><span class="p">.</span><span class="nn">index</span><span class="p">.</span><span class="nc">RegexIndexFactory</span>
@@ -914,6 +916,7 @@ For example:</p>
 <span class="nc">Registration</span><span class="p">.</span><span class="n">addClauseTranslator</span><span class="p">(</span><span class="nc">RegexValueListClauseTranslator</span><span class="p">)</span>
 <span class="nc">Registration</span><span class="p">.</span><span class="n">addMetaDataTranslator</span><span class="p">(</span><span class="nc">RegexValueListMetaDataTranslator</span><span class="p">)</span>
 </code></pre></div>
+</div>
 </div>
 </div>
 <p>For the full list of plugins see <a href="../indexing/#supported-plugins">here</a>.</p>

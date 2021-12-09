@@ -898,7 +898,9 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
 <p>This configuration is useful for setting base location once for all datasets and should be used with the <code>EXPLICIT_BASE_PATH_LOCATION</code> or <code>HIVE_DB_NAME</code> types.</p>
 <p>The location of the metadata for each data set will be inferred automatically by combining the base path with a data set identifier.</p>
 <p>For example, setting <code>EXPLICIT_BASE_PATH_LOCATION</code>:</p>
-<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python</label><label for="__tabbed_1_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">xskipper</span> <span class="kn">import</span> <span class="n">Xskipper</span>
 
 <span class="c1"># The base location to store all indexes </span>
@@ -912,7 +914,7 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
 <span class="n">Xskipper</span><span class="o">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">from</span> <span class="n">xskipper</span> <span class="k">import</span> <span class="nc">Xskipper</span>
 
 <span class="n">#</span> <span class="nc">The</span> <span class="n">base</span> <span class="n">location</span> <span class="n">to</span> <span class="n">store</span> <span class="n">all</span> <span class="n">indexes</span> 
@@ -927,11 +929,14 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
 </code></pre></div>
 </div>
 </div>
+</div>
 <h3 id="setting-an-explicit-metadata-location-for-xskipper-instance">Setting an explicit metadata location for Xskipper instance<a class="headerlink" href="#setting-an-explicit-metadata-location-for-xskipper-instance" title="Permanent link">&para;</a></h3>
 <p>This configuration is useful for setting a specific metadata location for a certain data set and should be used with the <code>EXPLICIT_LOCATION</code> or <code>HIVE_TABLE_NAME</code> type.<br />
   You can also set it to <code>EXPLICIT_BASE_PATH_LOCATION</code> or <code>HIVE_DB_NAME</code> if you want to override the JVM defaults. </p>
 <p>For example setting an <code>EXPLICIT_LOCATION</code> for xskipper instance:</p>
-<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span> <span class="o">=</span> <span class="n">Xskipper</span><span class="p">(</span><span class="n">spark_session</span><span class="p">,</span> <span class="n">dataset_location</span><span class="p">)</span>
 
 <span class="c1"># call set params to make sure it overwrites JVM wide config</span>
@@ -941,7 +946,7 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
 <span class="n">xskipper</span><span class="o">.</span><span class="n">setParams</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">dataset_location</span><span class="p">)</span>
 
 <span class="c1">// call set params to make sure it overwrites JVM wide config</span>
@@ -950,6 +955,7 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
   <span class="s">&quot;io.xskipper.parquet.mdlocation.type&quot;</span> <span class="o">-&gt;</span>  <span class="s">&quot;EXPLICIT_BASE_PATH_LOCATION&quot;</span><span class="p">)</span>
 <span class="n">xskipper</span><span class="p">.</span><span class="n">setParams</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 </code></pre></div>
+</div>
 </div>
 </div>
 <p><br/>

@@ -1133,7 +1133,9 @@ this cannot affect query results, but may degrade performance.
 as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</code> to <code>false</code>.</p>
 </div>
 <p>For more configuration options, see <a href="../../api/configuration/configuration/">configuration options</a>.</p>
-<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python</label><label for="__tabbed_1_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">xskipper</span> <span class="kn">import</span> <span class="n">Xskipper</span>
 
 <span class="c1"># The base location to store all indexes </span>
@@ -1148,7 +1150,7 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
 <span class="n">Xskipper</span><span class="o">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="n">_</span>
 <span class="k">import</span> <span class="nn">io</span><span class="p">.</span><span class="nn">xskipper</span><span class="p">.</span><span class="nn">implicits</span><span class="p">.</span><span class="n">_</span>
 
@@ -1165,10 +1167,13 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
 </code></pre></div>
 </div>
 </div>
+</div>
 <h2 id="indexing-a-dataset">Indexing a Dataset<a class="headerlink" href="#indexing-a-dataset" title="Permanent link">&para;</a></h2>
 <h3 id="creating-a-sample-dataset">Creating a Sample Dataset<a class="headerlink" href="#creating-a-sample-dataset" title="Permanent link">&para;</a></h3>
 <p>First, let's create a sample dataset.</p>
-<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># TODO: change to your data location</span>
@@ -1190,7 +1195,7 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
 <span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">org</span><span class="p">.</span><span class="nn">apache</span><span class="p">.</span><span class="nn">spark</span><span class="p">.</span><span class="nn">sql</span><span class="p">.</span><span class="nc">Row</span>
 <span class="k">import</span> <span class="nn">org</span><span class="p">.</span><span class="nn">apache</span><span class="p">.</span><span class="nn">spark</span><span class="p">.</span><span class="nn">sql</span><span class="p">.</span><span class="nn">types</span><span class="p">.{</span><span class="nc">DoubleType</span><span class="p">,</span> <span class="nc">StringType</span><span class="p">,</span> <span class="nc">StructField</span><span class="p">,</span> <span class="nc">StructType</span><span class="p">}</span>
 
@@ -1222,6 +1227,7 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
 <span class="kd">val</span> <span class="n">df</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">dataset_location</span><span class="p">)</span>
 <span class="n">df</span><span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
+</div>
 </div>
 </div>
 <h3 id="indexing">Indexing<a class="headerlink" href="#indexing" title="Permanent link">&para;</a></h3>
@@ -1262,7 +1268,9 @@ These choices are workload and data dependent. Typically, choose columns to whic
 choose value list if the number of distinct values in an object is typically much smaller than the total number of values in that object.
 On the other hand Bloom filters are recommended for columns with high cardinality (otherwise the index can get as big as that column of the data set).</p>
 <p>Note that Xskipper also enables to create your own data skipping indexes and specify how to use them during query time. For more details see <a href="../../api/creating-new-plugin/">here</a>.</p>
-<div class="tabbed-set" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python</label><label for="__tabbed_3_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1"># create Xskipper instance for the sample dataset</span>
 <span class="n">xskipper</span> <span class="o">=</span> <span class="n">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">dataset_location</span><span class="p">)</span>
 
@@ -1278,7 +1286,7 @@ On the other hand Bloom filters are recommended for columns with high cardinalit
         <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1">// create Xskipper instance for the sample dataset</span>
 <span class="kd">val</span> <span class="n">xskipper</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">dataset_location</span><span class="p">)</span>
 
@@ -1296,26 +1304,33 @@ On the other hand Bloom filters are recommended for columns with high cardinalit
 </code></pre></div>
 </div>
 </div>
+</div>
 <h4 id="viewing-index-status">Viewing index status<a class="headerlink" href="#viewing-index-status" title="Permanent link">&para;</a></h4>
 <p>The following code shows how a user can view the current index status to check which indexes exist on the dataset and whether the index is up-to-date.</p>
-<div class="tabbed-set" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><label for="__tabbed_4_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python</label><label for="__tabbed_4_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">describeIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">describeIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
+</div>
 <h4 id="list-indexed-datasets">List Indexed datasets<a class="headerlink" href="#list-indexed-datasets" title="Permanent link">&para;</a></h4>
 <p>The following code shows how a user can view all indexed datasets under the current base location.</p>
-<div class="tabbed-set" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><label for="__tabbed_5_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python</label><label for="__tabbed_5_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">Xskipper</span><span class="o">.</span><span class="n">listIndexes</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><label for="__tabbed_5_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="p">.</span><span class="n">listIndexes</span><span class="p">(</span><span class="n">spark</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
+</div>
 </div>
 </div>
 <h2 id="using-data-skipping-indexes">Using Data Skipping Indexes<a class="headerlink" href="#using-data-skipping-indexes" title="Permanent link">&para;</a></h2>
@@ -1324,7 +1339,9 @@ On the other hand Bloom filters are recommended for columns with high cardinalit
 By using the "enable" command, Xskipper optimization rules become visible to the Apache Spark optimizer and will be used in query optimization and execution.
 By using the "disable' command, Xskipper optimization rules no longer apply during query optimization.
 Note that disabling Xskipper has no impact on created indexes, and they remain intact.</p>
-<div class="tabbed-set" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><label for="__tabbed_6_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Python</label><label for="__tabbed_6_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1"># Enable Xskipper</span>
 <span class="n">Xskipper</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
 
@@ -1336,7 +1353,7 @@ Note that disabling Xskipper has no impact on created indexes, and they remain i
     <span class="n">Xskipper</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><label for="__tabbed_6_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1">// Enable Xskipper</span>
 <span class="n">spark</span><span class="p">.</span><span class="n">enableXskipper</span><span class="p">()</span>
 
@@ -1350,49 +1367,62 @@ Note that disabling Xskipper has no impact on created indexes, and they remain i
 </code></pre></div>
 </div>
 </div>
+</div>
 <h3 id="running-queries">Running Queries<a class="headerlink" href="#running-queries" title="Permanent link">&para;</a></h3>
 <p>Once Xskipper has been enabled you can run queries (using either SQL or the DataFrame API) and enjoy the performance and cost benefits of data skipping. There will be no change to query results. </p>
 <p>First, let's create a temporary view:</p>
-<div class="tabbed-set" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><label for="__tabbed_7_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Python</label><label for="__tabbed_7_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dataset_location</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;sample&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><label for="__tabbed_7_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s">&quot;sample&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
+</div>
 <h4 id="example-query-using-the-minmax-index">Example query using the MinMax index<a class="headerlink" href="#example-query-using-the-minmax-index" title="Permanent link">&para;</a></h4>
-<div class="tabbed-set" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><label for="__tabbed_8_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Python</label><label for="__tabbed_8_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select * from sample where temp &lt; 30&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><label for="__tabbed_8_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="s">&quot;select * from sample where temp &lt; 30&quot;</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 </div>
 </div>
+</div>
 <p><br/></p>
 <h4 id="inspecting-query-skipping-stats">Inspecting query skipping stats<a class="headerlink" href="#inspecting-query-skipping-stats" title="Permanent link">&para;</a></h4>
-<div class="tabbed-set" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><label for="__tabbed_9_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Python</label><label for="__tabbed_9_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">Xskipper</span><span class="o">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><label for="__tabbed_9_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="p">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="p">(</span><span class="n">spark</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
+</div>
 <p>Note: the above returns the accumulated data skipping statistics for all of the datasets which were involved in the query.
 If you want to inspect the stats for a specific dataset you can call the API below to get stats on the Xskipper instance:</p>
-<div class="tabbed-set" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><label for="__tabbed_10_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Python</label><label for="__tabbed_10_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">getLatestQueryStats</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><label for="__tabbed_10_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">getLatestQueryStats</span><span class="p">().</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
+</div>
 </div>
 </div>
 <p>For more examples see the <a href="../sample-notebooks/">sample notebooks</a></p>
@@ -1403,7 +1433,9 @@ If you want to inspect the stats for a specific dataset you can call the API bel
 In order to bring the index up-to-date you can call the refresh operation which will index the new/modified files and remove obsolete metadata.
 Note: The index will still be beneficial for files which didn't change since the last indexing time even without refreshing.</p>
 <p>First let's simulate addition of new data to the dataset:</p>
-<div class="tabbed-set" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><label for="__tabbed_11_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Python</label><label for="__tabbed_11_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1"># adding new file to the dataset to simulate changes in the dataset</span>
 <span class="n">update_data</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;2017-07-09&quot;</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="s2">&quot;Beer-Sheva&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)]</span>
 
@@ -1413,7 +1445,7 @@ Note: The index will still be beneficial for files which didn't change since the
 <span class="n">update_df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">partitionBy</span><span class="p">(</span><span class="s2">&quot;dt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;append&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">parquet</span><span class="p">(</span><span class="n">dataset_location</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><label for="__tabbed_11_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">update_data</span> <span class="o">=</span> <span class="nc">Seq</span><span class="p">(</span>
   <span class="nc">Row</span><span class="p">(</span><span class="s">&quot;2017-07-09&quot;</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="s">&quot;Beer-Sheva&quot;</span><span class="p">,</span> <span class="s">&quot;c&quot;</span><span class="p">)</span>
 <span class="p">)</span>
@@ -1428,36 +1460,46 @@ Note: The index will still be beneficial for files which didn't change since the
 </code></pre></div>
 </div>
 </div>
+</div>
 <p>Now, let's inspect the index status:</p>
-<div class="tabbed-set" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><label for="__tabbed_12_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Python</label><label for="__tabbed_12_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">describeIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><label for="__tabbed_12_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">describeIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
+</div>
 <p>In this case the index status will indicate that there are new files that are not indexed. Therefore we use the Refresh operation to update the metadata:</p>
-<div class="tabbed-set" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><label for="__tabbed_13_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Python</label><label for="__tabbed_13_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">refreshIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><label for="__tabbed_13_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">refreshIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
+</div>
 </div>
 </div>
 <p>Now you can run the <code>describe</code> operation again and see that the metadata is up to date.</p>
 <h3 id="drop-index">Drop Index<a class="headerlink" href="#drop-index" title="Permanent link">&para;</a></h3>
 <p>In order to drop the index use the following API call:</p>
-<div class="tabbed-set" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><label for="__tabbed_14_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">Python</label><label for="__tabbed_14_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="o">.</span><span class="n">dropIndex</span><span class="p">()</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><label for="__tabbed_14_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">dropIndex</span><span class="p">()</span>
 </code></pre></div>
+</div>
 </div>
 </div>
 <h2 id="working-with-hive-tables">Working with Hive tables<a class="headerlink" href="#working-with-hive-tables" title="Permanent link">&para;</a></h2>
@@ -1482,20 +1524,25 @@ Note that indexing is for Hive tables with partitions. To index tables without p
 For more info regarding the index location configuration see <a href="../../api/configuration/parquet-mdstore-configuration/#types-of-metadata-location">here</a>.</p>
 <h3 id="setting-the-base-index-location-in-the-database">Setting the base index location in the database<a class="headerlink" href="#setting-the-base-index-location-in-the-database" title="Permanent link">&para;</a></h3>
 <p>In this example we will set the base location in the database.</p>
-<div class="tabbed-set" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><label for="__tabbed_15_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Python</label><label for="__tabbed_15_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">alter_db_ddl</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;ALTER DATABASE default SET DBPROPERTIES (&#39;io.xskipper.parquet.mdlocation&#39;=&#39;</span><span class="si">{0}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">md_base_location</span><span class="p">)</span>
 <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">alter_db_ddl</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><label for="__tabbed_15_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">alter_db_ddl</span> <span class="o">=</span> <span class="s">s&quot;ALTER DATABASE default SET DBPROPERTIES (&#39;io.xskipper.parquet.mdlocation&#39;=&#39;</span><span class="si">${</span><span class="n">md_base_location</span><span class="si">}</span><span class="s">&#39;)&quot;</span>
 <span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="n">alter_db_ddl</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
+</div>
 <h4 id="creating-a-sample-hive-table">Creating a Sample Hive Table<a class="headerlink" href="#creating-a-sample-hive-table" title="Permanent link">&para;</a></h4>
 <p>Let's create a hive table on the dataset we created earlier:</p>
-<div class="tabbed-set" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><label for="__tabbed_16_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Python</label><label for="__tabbed_16_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">create_table_ddl</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;CREATE TABLE IF NOT EXISTS tbl ( </span><span class="se">\</span>
 <span class="s2">temp Double,</span>
 <span class="s2">city String,</span>
@@ -1515,7 +1562,7 @@ For more info regarding the index location configuration see <a href="../../api/
 <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;show partitions tbl&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><label for="__tabbed_16_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">create_table_ddl</span> <span class="o">=</span>
       <span class="s">s&quot;&quot;&quot;CREATE TABLE IF NOT EXISTS tbl (</span>
 <span class="s">         |temp Double,</span>
@@ -1538,9 +1585,12 @@ For more info regarding the index location configuration see <a href="../../api/
 </code></pre></div>
 </div>
 </div>
+</div>
 <h3 id="indexing-a-hive-table">Indexing a Hive Table<a class="headerlink" href="#indexing-a-hive-table" title="Permanent link">&para;</a></h3>
 <p>Note we use default.sample as the uri in the Xskipper constructor.</p>
-<div class="tabbed-set" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><label for="__tabbed_17_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Python</label><label for="__tabbed_17_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1"># create an Xskipper instance for the sample Hive Table</span>
 <span class="n">xskipper_hive</span> <span class="o">=</span> <span class="n">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s1">&#39;default.tbl&#39;</span><span class="p">)</span>
 
@@ -1556,7 +1606,7 @@ For more info regarding the index location configuration see <a href="../../api/
         <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><label for="__tabbed_17_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1">// create an Xskipper instance for the sample Hive Table</span>
 <span class="kd">val</span> <span class="n">xskipper_hive</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Xskipper</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s">&quot;default.tbl&quot;</span><span class="p">)</span>
 
@@ -1574,16 +1624,19 @@ For more info regarding the index location configuration see <a href="../../api/
 </code></pre></div>
 </div>
 </div>
+</div>
 <h3 id="running-queries_1">Running Queries<a class="headerlink" href="#running-queries_1" title="Permanent link">&para;</a></h3>
 <p>Once Xskipper has been enabled you can continue running queries (using either SQL or DataFrame API) and enjoy the benefits of data skipping.</p>
 <p>First, let's make sure Xskipper is enabled:</p>
-<div class="tabbed-set" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><label for="__tabbed_18_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">Python</label><label for="__tabbed_18_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1"># You can use the following to check whether the Xskipper is enabled</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">Xskipper</span><span class="o">.</span><span class="n">isEnabled</span><span class="p">(</span><span class="n">spark</span><span class="p">):</span>
     <span class="n">Xskipper</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><label for="__tabbed_18_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1">// You can use the following to check whether the Xskipper is enabled</span>
 <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">spark</span><span class="p">.</span><span class="n">isXskipperEnabled</span><span class="p">())</span> <span class="p">{</span>
     <span class="n">spark</span><span class="p">.</span><span class="n">enableXskipper</span><span class="p">()</span>
@@ -1591,57 +1644,73 @@ For more info regarding the index location configuration see <a href="../../api/
 </code></pre></div>
 </div>
 </div>
+</div>
 <h4 id="example-query-using-the-minmax-index_1">Example query using the MinMax index<a class="headerlink" href="#example-query-using-the-minmax-index_1" title="Permanent link">&para;</a></h4>
-<div class="tabbed-set" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><label for="__tabbed_19_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">Python</label><label for="__tabbed_19_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select * from tbl where temp &lt; 30&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><label for="__tabbed_19_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="s">&quot;select * from tbl where temp &lt; 30&quot;</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
+</div>
 <p>Inspecting the query stats:</p>
-<div class="tabbed-set" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><label for="__tabbed_20_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Python</label><label for="__tabbed_20_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">Xskipper</span><span class="o">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><label for="__tabbed_20_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="nc">Xskipper</span><span class="p">.</span><span class="n">getLatestQueryAggregatedStats</span><span class="p">(</span><span class="n">spark</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
+</div>
 </div>
 </div>
 <h3 id="index-life-cycle-hive-tables">Index Life Cycle - Hive Tables<a class="headerlink" href="#index-life-cycle-hive-tables" title="Permanent link">&para;</a></h3>
 <p>The API is similar to the dataset API but without the need for a <code>reader</code> instance.</p>
 <h4 id="view-the-index-status">View the index status<a class="headerlink" href="#view-the-index-status" title="Permanent link">&para;</a></h4>
-<div class="tabbed-set" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><label for="__tabbed_21_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">Python</label><label for="__tabbed_21_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">describeIndex</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><label for="__tabbed_21_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="p">.</span><span class="n">describeIndex</span><span class="p">().</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
+</div>
 <h4 id="refresh-index_1">Refresh Index<a class="headerlink" href="#refresh-index_1" title="Permanent link">&para;</a></h4>
-<div class="tabbed-set" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><label for="__tabbed_22_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">Python</label><label for="__tabbed_22_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">refreshIndex</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><label for="__tabbed_22_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper</span><span class="p">.</span><span class="n">refreshIndex</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </div>
+</div>
 <h4 id="drop-index_1">Drop Index<a class="headerlink" href="#drop-index_1" title="Permanent link">&para;</a></h4>
 <p>In order to drop the index use the following API call:</p>
-<div class="tabbed-set" data-tabs="23:2"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><label for="__tabbed_23_1">Python</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="23:2"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">Python</label><label for="__tabbed_23_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="o">.</span><span class="n">dropIndex</span><span class="p">()</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><label for="__tabbed_23_2">Scala</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="n">xskipper_hive</span><span class="p">.</span><span class="n">dropIndex</span><span class="p">()</span>
 </code></pre></div>
+</div>
 </div>
 </div>
 
