@@ -111,6 +111,12 @@ object Utils {
     new Path(new Path(parent), new Path(relChild)).toString
   }
 
+  def readTextFileAsString(fileName: String): String = {
+    val source = scala.io.Source.fromFile(fileName)
+    val res = source.mkString
+    source.close()
+    res
+  }
 
   def getDefaultReader(spark: SparkSession, format: String): DataFrameReader = {
     spark.read.format(format).options(getReaderOptions(format))
@@ -131,19 +137,6 @@ object Utils {
     aggregatedStats.skipped_Objs
   }
 
-  // return the number of skipped files to compare with the actual number
-  // if using show with rdd comparison skipping will run twice
-  // if using datasource v2 - for now skipping will be done twice in the query path
-  def factoredExpectedNumSkippedFiles(expectedSkippedFiles: Long, showQueryResults: Boolean,
-                                      datasourcev2: Boolean): Long = {
-    val factor = if (datasourcev2) 2 else 1
-    val res = if (showQueryResults) {
-      expectedSkippedFiles * 2 * factor
-    } else {
-      expectedSkippedFiles * factor
-    }
-    res
-  }
 
   def getResultSet(basePath: String, filesToSkip: String*): Set[String] = {
     filesToSkip.map(concatPaths(basePath, _)).toSet

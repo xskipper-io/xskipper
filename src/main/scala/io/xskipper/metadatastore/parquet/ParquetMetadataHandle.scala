@@ -5,7 +5,6 @@
 
 package io.xskipper.metadatastore.parquet
 
-import java.io.IOException
 import io.xskipper.Registration
 import io.xskipper.configuration.ConfigurationUtils
 import io.xskipper.index.metadata.MetadataType
@@ -26,6 +25,7 @@ import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.types.xskipper.utils.MetadataUtils
 
+import java.io.IOException
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -99,20 +99,8 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
           case ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_PARAM_KEY =>
             // do not log the label of the footer key since someone
             // may accidentally place the actual key here
-            logInfo("Setting Footer key ")
-            FOOTER_KEY = Some(value.toString)
-            logInfo("Verifying PME Classes exist")
-            // we have encryption configured. make sure PME is loaded
-            // note that if the user fails to set the footer key and still
-            // tries to configure encrypted indexes, another exception will be raised
-            // so in any case we will never try to enable encryption without
-            // PME Loaded. note we only check it here, and in particular, not checking
-            // during refresh - this is since if PME isn't loaded refresh will fail since
-            // we won't even be able to read the entire md (at least 1 index will be encrypted)
-            if (!isPmeAvailable()) {
-              throw new ParquetMetaDataStoreException(
-                "Metadata encryption is specified but PME is not loaded!")
-            }
+            logInfo("Setting Footer key")
+            FOOTER_KEY = Some(value)
           case ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_ENABLED_KEY =>
             logInfo(s"Setting plaintext footer to ${value}")
             PLAINTEXT_FOOTER_ENABLED = ConfigurationUtils.getConf(
@@ -215,7 +203,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     // extract the indexes from the metadata
     loadIndexMetadata(getMetaDataDFRaw().schema, getMDPath.path.toString, indexFactories) match {
       case Some((_: String, (versionStatus: MetadataVersionStatus, indexes))) if
-      versionStatus == CURRENT || versionStatus == DEPRECATED_SUPPORTED => indexes
+        versionStatus == CURRENT || versionStatus == DEPRECATED_SUPPORTED => indexes
       case Some((_: String, (TOO_NEW, _))) =>
         val msg = s"Metadata for ${tableIdentifier} is from a version that is too new!"
         logWarning(msg)
@@ -301,8 +289,8 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     */
   override def uploadMetadata(metaData: RDD[Row],
                               partitionSchema: Option[StructType],
-                               indexes: Seq[Index],
-                               isRefresh: Boolean): Unit = {
+                              indexes: Seq[Index],
+                              isRefresh: Boolean): Unit = {
 
     // Translate the metadata if possible to avoid serialization
     val translators = Registration.getCurrentMetaDataTranslators().collect {
@@ -315,7 +303,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     }
     val translatedRDD = metaData.map(row => {
       val translatedMetaData: Seq[Any] = (1 + numPartitionColumns to
-        indexes.size + numPartitionColumns ).map(i =>
+        indexes.size + numPartitionColumns).map(i =>
         TranslationUtils.getMetaDataTypeTranslation(Parquet, row.getAs[MetadataType](i),
           indexes(i - 1 - numPartitionColumns), translators).getOrElse(row.getAs[Any](i)))
       val res = Row((0 until numPartitionColumns + 1).map(row.get(_)) ++ translatedMetaData: _*)
@@ -360,8 +348,9 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
 
   /**
     * Returns a set of all indexed files (async)
+    *
     * @param filter optional filter to apply
-    *        (can be used to get all indexed file for a given partition)
+    *               (can be used to get all indexed file for a given partition)
     * @return a set of all indexed files ids
     */
   override def getAllIndexedFiles(filter: Option[Any]): Future[Set[String]] = Future {
@@ -370,7 +359,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
       case Some(f) if isPartitionDataAvailable() =>
         val filterExpr = f.asInstanceOf[Expression]
         val mapping: Map[String, String] = filterExpr.references.map(ref =>
-          ref.name->getPartitionColName(ref.name)).toMap
+          ref.name -> getPartitionColName(ref.name)).toMap
         val transformedPartitionFilter = ParquetUtils.replaceReferences(filterExpr, mapping)
         logDebug(s"Original partition filter ${filterExpr.sql}")
         logDebug(s"Transformed partition filter ${transformedPartitionFilter.sql}")
@@ -483,12 +472,12 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
   /**
     * Returns the required file ids for the given query (async)
     *
-    * @param query the query to be used in order to get the relevant files
-    *              (this query is of type Any and it is the responsibility of the metadatastore
-    *              implementation to cast it to as instance which matches the translation for
-    *              this MetaDataStore)
+    * @param query  the query to be used in order to get the relevant files
+    *               (this query is of type Any and it is the responsibility of the metadatastore
+    *               implementation to cast it to as instance which matches the translation for
+    *               this MetaDataStore)
     * @param filter an optional filter to apply
-    *        (can be used to get all indexed file for a given partition)
+    *               (can be used to get all indexed file for a given partition)
     * @return the set of fileids required for this query
     */
   override def getRequiredObjects(query: Any, filter: Option[Any]): Future[Set[String]] = Future {
@@ -501,7 +490,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
       case Some(f) if isPartitionDataAvailable() =>
         val filterExpr = f.asInstanceOf[Expression]
         val mapping: Map[String, String] = filterExpr.references.map(ref =>
-          ref.name->getPartitionColName(ref.name)).toMap
+          ref.name -> getPartitionColName(ref.name)).toMap
         val transformedPartitionFilter = ParquetUtils.replaceReferences(filterExpr, mapping)
         logInfo(s"Original partition filter ${filterExpr.sql}")
         logInfo(s"Transformed partition filter ${transformedPartitionFilter.sql}")
@@ -519,10 +508,10 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     * Returns the metadata df after upgrading it to the current
     * version:
     * 1. the indexes themselves are upgraded in full as if they
-    *   were created using the current software version.
+    * were created using the current software version.
     * 2. the KV store (i.e., spark schema metadata) and the partition
-    *     keys are not touched (in particular, partition keys are not
-    *     added even if the metadata is of an old version that doesn't contain them)
+    * keys are not touched (in particular, partition keys are not
+    * added even if the metadata is of an old version that doesn't contain them)
     *
     * @return
     */
