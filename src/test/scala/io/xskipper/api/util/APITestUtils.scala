@@ -35,9 +35,6 @@ object APITestUtils {
 
     val testObjs = json.getSeq[JSONObject]("tests")
     testObjs.map(testObject => {
-      if (!testObject.containsKey("inputLocations")) {
-        val x = 5
-      }
       val inputDatasets = testObject
         .getSeq[JSONObject]("inputLocations")
         .map(parseDatasetDescriptor(_, inputLocationPrefix))
