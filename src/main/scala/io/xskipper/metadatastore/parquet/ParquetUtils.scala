@@ -23,7 +23,6 @@ import org.apache.spark.sql.types.{Metadata, _}
 import org.apache.spark.{SparkException, sql}
 
 import scala.collection.JavaConverters._
-import scala.reflect.runtime.universe._
 
 
 case class EncryptionDescriptor(columnKeyListString: String,
@@ -370,6 +369,7 @@ object ParquetUtils extends Logging {
   /**
     * given a column name adds `virtual_` before it
     * done to avoid aliasing existing columns in the data
+    *
     * @param partCol the partition column to handle
     * @return `virtual_<column_name>`
     */
@@ -380,14 +380,16 @@ object ParquetUtils extends Logging {
   /**
     * Given a partition schema transform it to an equivalent partition schema where each
     * partition column name was transformed to `virtual_<partition_column_name>`
+    *
     * @param partitionSchema the partition schema to transform
     * @return the transformed partition schema fields
     */
   def generatePartitionStructs(partitionSchema: Option[StructType]): Seq[StructField] = {
     partitionSchema match {
       case Some(schema) =>
-        schema.map{case StructField(name, dataType, nullable, _) =>
-          StructField(getPartitionColName(name), dataType, nullable, Metadata.empty)}
+        schema.map { case StructField(name, dataType, nullable, _) =>
+          StructField(getPartitionColName(name), dataType, nullable, Metadata.empty)
+        }
       case _ => Seq.empty
     }
   }
@@ -444,25 +446,6 @@ object ParquetUtils extends Logging {
   }
 
   /**
-    * checks if Parquet Modular Encryption (PME) is available
-    * the check is performed by verifying that [[org.apache.parquet.crypto.AesCipher]] is available
-    * (will be available if and only if PME is loaded)
-    *
-    * @return true if PME is loaded, else false
-    */
-  def isPmeAvailable(): Boolean = {
-    val clsName = "org.apache.parquet.crypto.AesCipher"
-    try {
-      val mirror = runtimeMirror(getClass.getClassLoader)
-      val module = mirror.staticModule(clsName)
-      true
-    } catch {
-      case _: ScalaReflectionException =>
-        false
-    }
-  }
-
-  /**
     * Given an index and schema translator tries searching for the first available translation.
     * to a native [[DataFrame]] schema. if no translation is found return None
     *
@@ -484,19 +467,21 @@ object ParquetUtils extends Logging {
 
   /**
     * Replaces attribute references names in the given expression according to the given mapping
-    * @param expr the expression to replace
+    *
+    * @param expr    the expression to replace
     * @param mapping a mapping from attribute name to new attribute name
     * @return the new expresion with attribute references replaced with the given mapping
     */
   def replaceReferences(expr: Expression, mapping: Map[String, String]): Expression =
     expr.mapChildren {
-      child: Expression => child match {
-        case attr: AttributeReference =>
-          assert(mapping.contains(attr.name))
-          attr.withName(mapping(attr.name))
-        case child: Expression => replaceReferences(child, mapping)
-      }
-  }
+      child: Expression =>
+        child match {
+          case attr: AttributeReference =>
+            assert(mapping.contains(attr.name))
+            attr.withName(mapping(attr.name))
+          case child: Expression => replaceReferences(child, mapping)
+        }
+    }
 
 
   private[parquet] def isMetadataUpgradePossible(dataFrame: DataFrame): Boolean = {
@@ -616,11 +601,11 @@ object ParquetUtils extends Logging {
     val spark = mdDf.sparkSession
     val partitionDataRDD: RDD[Row] = spark.sparkContext
       .parallelize(fileIndex.listFiles(Seq.empty, Seq.empty)
-      .flatMap {
-        case PartitionDirectory(values, files) =>
-          val partSeq = Utils.toSeq(values, partCols)
-          files.map(f => Row.fromSeq(Seq(Utils.getFileId(f)) ++ partSeq))
-      })
+        .flatMap {
+          case PartitionDirectory(values, files) =>
+            val partSeq = Utils.toSeq(values, partCols)
+            files.map(f => Row.fromSeq(Seq(Utils.getFileId(f)) ++ partSeq))
+        })
     val partitionDataDf = spark.createDataFrame(partitionDataRDD, schema)
     val colNames = StructType(schema ++ mdDf.schema.drop(1)).names
     val df = mdDf.join(partitionDataDf, "obj_name").select(colNames.map(col): _*)

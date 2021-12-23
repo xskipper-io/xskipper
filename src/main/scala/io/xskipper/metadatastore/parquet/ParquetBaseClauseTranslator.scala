@@ -13,17 +13,18 @@ import org.apache.spark.sql.catalyst.CatalystTypeConverters
 import org.apache.spark.sql.catalyst.expressions.Literal
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.sources.IsNotNull
 import org.apache.spark.sql.types.MetadataTypeUDT
+
+import java.io.ByteArrayInputStream
 
 object ParquetBaseClauseTranslator extends ClauseTranslator {
   /**
     * Translates a clause to the representation of Parquet [[MetaDataStoreType]]
     *
     * @param metadataStoreManagerType the [[MetadataStoreManagerType]] to translate to
-    * @param clause the clause to be translated
-    * @param clauseTranslators a sequence of clause translation factories
-    *                          to enable recursive translation
+    * @param clause                   the clause to be translated
+    * @param clauseTranslators        a sequence of clause translation factories
+    *                                 to enable recursive translation
     * @return return type is Any since each metadatastore may require different representation
     */
   override def translate(metadataStoreManagerType: MetadataStoreManagerType, clause: Clause,
@@ -33,14 +34,14 @@ object ParquetBaseClauseTranslator extends ClauseTranslator {
         clause match {
           case AndClause(left, right) =>
             (TranslationUtils.getClauseTranslation[Column](Parquet, left, clauseTranslators),
-             TranslationUtils.getClauseTranslation[Column](Parquet, right, clauseTranslators))
+              TranslationUtils.getClauseTranslation[Column](Parquet, right, clauseTranslators))
             match {
               case (Some(leftQuery), Some(rightQuery)) => Some(leftQuery.and(rightQuery))
               case _ => None
             }
           case OrClause(left, right) =>
             (TranslationUtils.getClauseTranslation[Column](Parquet, left, clauseTranslators),
-             TranslationUtils.getClauseTranslation[Column](Parquet, right, clauseTranslators))
+              TranslationUtils.getClauseTranslation[Column](Parquet, right, clauseTranslators))
             match {
               case (Some(leftQuery), Some(rightQuery)) => Some(leftQuery.or(rightQuery))
               case _ => None
@@ -91,7 +92,21 @@ object ParquetBaseClauseTranslator extends ClauseTranslator {
     }
   }
 
-  class BloomFilterMetaDataTypeUDT extends MetadataTypeUDT[BloomFilterMetaData]
+
+  class BloomFilterMetaDataTypeUDT extends MetadataTypeUDT[BloomFilterMetaData] {
+    override def deserialize(metadataBinary: Any): BloomFilterMetaData = {
+      // java/scala serialization
+      val wrapperIn = new ByteArrayInputStream(metadataBinary.asInstanceOf[Array[Byte]])
+      // use a SUID-agnostic object input stream since BloomFilterImpl
+      // changed SUID. see https://github.com/apache/spark/pull/32907
+      val iostream = new SUIDAgnosticObjectInputStream(wrapperIn)
+      val md = iostream.readObject().asInstanceOf[BloomFilterMetaData]
+      iostream.close()
+      wrapperIn.close()
+      md
+    }
+  }
+
   /**
     * BloomFilterMetaData udf function for querying if value exists
     * in indexed column using bloom filter
@@ -108,4 +123,5 @@ object ParquetBaseClauseTranslator extends ClauseTranslator {
           scalaValues.exists(v => col.bloomFilter.mightContain(v)))
     })
   }
+
 }

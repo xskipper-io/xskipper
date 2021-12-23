@@ -28,6 +28,9 @@ trait MetadataStoreManager {
     */
   def getType: MetadataStoreManagerType
 
+
+  protected var objectStatsEnabled: Boolean = true
+
   // holds all of the active Metadata in the JVM
   val metadataHandlesInstanceMap: ConcurrentHashMap[String, MetadataHandle] =
     new ConcurrentHashMap[String, MetadataHandle]()
@@ -77,6 +80,7 @@ trait MetadataStoreManager {
   def clearActiveMetadataHandles(): Unit = {
     metadataHandlesInstanceMap.values().iterator().asScala.foreach(_.clean())
     metadataHandlesInstanceMap.clear()
+    enableSkippedObjectStats()
   }
 
   /**
@@ -146,8 +150,34 @@ trait MetadataStoreManager {
           case _ =>
         }
     }
+    // if skipped object stats are disabled, set all numeric fields to 0
+    if (!skippedObjectStatsEnabled) {
+      QueryIndexStatsResult(aggregatedStats.status,
+        aggregatedStats.isSkippable,
+        0, 0, 0, 0)
+    }
     aggregatedStats
   }
+
+  /**
+    * Disables the Skipped Object stats, other fields are still maintained.
+    */
+  def disableSkippedObjectStats(): Unit = {
+    objectStatsEnabled = false
+  }
+
+  /**
+    * Enables the skipped Objects stats
+    */
+  def enableSkippedObjectStats(): Unit = {
+    objectStatsEnabled = true
+  }
+
+  /**
+    * whether the Skipped Object stats are enabled
+    * @return
+    */
+  def skippedObjectStatsEnabled: Boolean = objectStatsEnabled
 
   /**
     * Clears the stats for all active [[MetadataHandle]] instances.
@@ -158,5 +188,6 @@ trait MetadataStoreManager {
     metadataHandlesInstanceMap.values().asScala.foreach {
       case (metaDataHandle: MetadataHandle) => metaDataHandle.clearStats()
     }
+    enableSkippedObjectStats()
   }
 }

@@ -6,8 +6,6 @@
 package io.xskipper.metadatastore.parquet.versioning.util
 
 import io.xskipper.metadatastore.parquet.ParquetMetadataStoreConf
-
-import java.io.File
 import io.xskipper.metadatastore.parquet.versioning.VersionTest
 import io.xskipper.testing.util.JSONImplicits._
 import io.xskipper.testing.util.Utils
@@ -15,6 +13,8 @@ import org.apache.commons.io.FileUtils
 import org.apache.spark.internal.Logging
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
+
+import java.io.File
 
 object VersionTestUtils extends Logging {
 
@@ -33,7 +33,7 @@ object VersionTestUtils extends Logging {
     * @return
     */
   def parseTestListFromJson(jsonFileName: String): Seq[VersionTest] = {
-    val jsonString = scala.io.Source.fromFile(jsonFileName).mkString
+    val jsonString = Utils.readTextFileAsString(jsonFileName)
     val jsonObj = new JSONParser().parse(jsonString).asInstanceOf[JSONObject]
     val paramsObj = jsonObj.getAs[JSONObject]("params")
     val globalDestPathPrefix = paramsObj.getString("destPathPrefix")

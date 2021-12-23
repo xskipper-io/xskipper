@@ -32,22 +32,13 @@ class UnitTests extends FunSuite
     Xskipper.reset(spark)
   }
 
-  test("make sure indexExists do not throw exception") {
+  test("make sure indexExists does not throw exception") {
     // creating Xskipper without metadata configuration
     // to make sure metadata path resolving doesn't throw exception
     val xskipper = new Xskipper(spark, "/tmp", ParquetMetadataStoreManager)
     assert(!xskipper.isIndexed())
   }
 
-  // NOTE - this test WILL FAIL when PME is available. the reason is it assumes PME is not loaded.
-  test("make sure setting a footer key w/o PME loaded triggers an exception") {
-    val metadatastore = new ParquetMetadataHandle(spark, "/tmp")
-    val params = Map(
-      "io.xskipper.parquet.encryption.footer.key" -> "k1")
-    assertThrows[ParquetMetaDataStoreException] {
-      metadatastore.setParams(params)
-    }
-  }
 
   // test creation of ParquetMetadataStore on path that doesn't contain parquet metadata (or empty)
   test("Check reading of invalid metadata") {

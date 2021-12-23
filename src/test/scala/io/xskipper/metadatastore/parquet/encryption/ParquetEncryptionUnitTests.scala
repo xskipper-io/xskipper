@@ -210,7 +210,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
 
       val inputLocation = Utils.concatPaths(schemaExtractionBaseDir,
         s"version=${version}/plaintext_footer/schema.json")
-      val inputSchemaString = scala.io.Source.fromFile(inputLocation).mkString
+      val inputSchemaString = Utils.readTextFileAsString(inputLocation)
       val inputSchema = DataType.fromJson(inputSchemaString).asInstanceOf[StructType]
       // the version on the schema should be the same as the input version
       assertResult(version)(ParquetUtils.getVersion(inputSchema))
@@ -233,7 +233,7 @@ class ParquetEncryptionUnitTests extends FunSuite {
 
       val inputLocation = Utils.concatPaths(schemaExtractionBaseDir,
         s"version=${version}/encrypted_footer/schema.json")
-      val inputSchemaString = scala.io.Source.fromFile(inputLocation).mkString
+      val inputSchemaString = Utils.readTextFileAsString(inputLocation)
       val inputSchema = DataType.fromJson(inputSchemaString).asInstanceOf[StructType]
 
       // the version on the schema should be the same as the input version

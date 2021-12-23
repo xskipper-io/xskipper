@@ -34,7 +34,8 @@ object DataSkippingUtils extends Logging {
   def getFileIndex(sparkSession: SparkSession,
                    options: CaseInsensitiveStringMap,
                    paths: Seq[String],
-                   userSpecifiedSchema: Option[StructType]): PartitioningAwareFileIndex = {
+                   userSpecifiedSchema: Option[StructType],
+                   isDataSourceV2: Boolean = true): PartitioningAwareFileIndex = {
     val caseSensitiveMap = options.asCaseSensitiveMap.asScala.toMap
     // Hadoop Configurations are case sensitive.
     val hadoopConf = sparkSession.sessionState.newHadoopConfWithOptions(caseSensitiveMap)
@@ -54,6 +55,14 @@ object DataSkippingUtils extends Logging {
         sparkSession, rootPathsSpecified, caseSensitiveMap, userSpecifiedSchema, fileStatusCache)
 
       val metadataStoreManager = Registration.getActiveMetadataStoreManager()
+
+      // TODO: FIX WHEN DATA SOURCE V2 STATS ISSUE IS FIXED
+      // see https://github.com/xskipper-io/xskipper/issues/79
+      // if this is a datasource V2, disable the skipped object stats
+      // since they are unreliable in the presence of joins
+      if (isDataSourceV2) {
+        metadataStoreManager.disableSkippedObjectStats()
+      }
       val tableIdentifiers = paths.map(p => Utils.getTableIdentifier(new Path(p).toUri)).distinct
       val ff = tableIdentifiers.map(tid => getFileFilter(fileIndex,
         tid, metadataStoreManager, sparkSession,

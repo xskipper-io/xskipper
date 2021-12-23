@@ -21,10 +21,29 @@ object APITestUtils {
 
   def parseAPITestDescriptors(fileName: String, inputLocationPrefix: String
   = getDefaultInputLocationPrefix()): Seq[APITestDescriptor] = {
-    val input = scala.io.Source.fromFile(fileName).mkString
+    val input = readTextFileAsString(fileName)
     val parser = new JSONParser()
     val jsonObject = parser.parse(input).asInstanceOf[JSONObject]
     parseAPITestDescriptors(jsonObject, inputLocationPrefix)
+  }
+
+  def parseAPITestDescriptors(json: JSONObject,
+                              inputLocationPrefix: String)
+  : Seq[APITestDescriptor] = {
+    val defaults = json.getAs[JSONObject]("defaults")
+    val defaultInputFormats = defaults.getSeq[String]("inputFormats")
+
+    val testObjs = json.getSeq[JSONObject]("tests")
+    testObjs.map(testObject => {
+      val inputDatasets = testObject
+        .getSeq[JSONObject]("inputLocations")
+        .map(parseDatasetDescriptor(_, inputLocationPrefix))
+      APITestDescriptor(inputDatasets,
+        testObject.getOptionSeq[String]("inputFormats").getOrElse(defaultInputFormats),
+        testObject.getString("name"),
+        testObject.getString("query")
+      )
+    })
   }
 
   private def parseDatasetDescriptor(json: JSONObject, inputLocationPrefix: String)
@@ -58,27 +77,5 @@ object APITestUtils {
       expectedSkippedFiles,
       updatedInputLocation,
       expectedSkippedFilesAfterUpdate)
-  }
-
-  def parseAPITestDescriptors(json: JSONObject,
-                              inputLocationPrefix: String)
-  : Seq[APITestDescriptor] = {
-    val defaults = json.getAs[JSONObject]("defaults")
-    val defaultInputFormats = defaults.getSeq[String]("inputFormats")
-
-    val testObjs = json.getSeq[JSONObject]("tests")
-    testObjs.map(testObject => {
-      if (!testObject.containsKey("inputLocations")) {
-        val x = 5
-      }
-      val inputDatasets = testObject
-        .getSeq[JSONObject]("inputLocations")
-        .map(parseDatasetDescriptor(_, inputLocationPrefix))
-      APITestDescriptor(inputDatasets,
-        testObject.getOptionSeq[String]("inputFormats").getOrElse(defaultInputFormats),
-        testObject.getString("name"),
-        testObject.getString("query")
-      )
-    })
   }
 }
