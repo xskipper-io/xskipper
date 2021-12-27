@@ -92,8 +92,11 @@ class ParquetEncryptionUnitTests extends FunSuite {
     val schema = StructType(Seq(
       StructField("obj_name", StringType, false, masterMetaEncryptedFooter)))
     val expectedRes = scala.collection.immutable.HashMap[String, String](
-      (ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SPARK_KEY, columnKeyListStringEncryptedFooter),
-      (ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SPARK_KEY, footerKeyLabel)
+      (ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SHORT_KEY, columnKeyListStringEncryptedFooter),
+      (ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_PME_KEY, columnKeyListStringEncryptedFooter),
+      (ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SHORT_KEY, footerKeyLabel),
+      (ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_PME_KEY, footerKeyLabel)
+
     )
 
     val actualRes = getDFWriterOptions(schema)
@@ -105,9 +108,12 @@ class ParquetEncryptionUnitTests extends FunSuite {
     val schema = StructType(Seq(
       StructField("obj_name", StringType, false, masterMetaPlaintextFooter)))
     val expectedRes = scala.collection.immutable.HashMap[String, String](
-      (ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SPARK_KEY, columnKeyListStringPlaintextFooter),
-      (ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_SPARK_KEY, "true"),
-      (ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SPARK_KEY, footerKeyLabel)
+      (ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SHORT_KEY, columnKeyListStringPlaintextFooter),
+      (ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_PME_KEY, columnKeyListStringPlaintextFooter),
+      (ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_SHORT_KEY, "true"),
+      (ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_PME_KEY, "true"),
+      (ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SHORT_KEY, footerKeyLabel),
+      (ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_PME_KEY, footerKeyLabel)
     )
 
     val actualRes = getDFWriterOptions(schema)

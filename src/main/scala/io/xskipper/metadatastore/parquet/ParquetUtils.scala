@@ -186,14 +186,25 @@ object ParquetUtils extends Logging {
       case Some(EncryptionDescriptor(columnKeyListString,
       footerLabel,
       plaintextFooterEnabled)) => {
-        res.put(key = ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SPARK_KEY,
+        // column keylist string - using both params (w & w/o the "parquet" prefix)
+        res.put(key = ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SHORT_KEY,
           value = columnKeyListString)
-        res.put(key = ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SPARK_KEY,
+        res.put(key = ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_PME_KEY,
+          value = columnKeyListString)
+
+        // footer key - using both params (w & w/o the "parquet" prefix)
+        res.put(key = ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SHORT_KEY,
           value = footerLabel)
+        res.put(key = ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_PME_KEY,
+          value = footerLabel)
+
         // as a convention (also expressed in the spec), can omit plaintextFooter definition
         // if it's false
         if (plaintextFooterEnabled) {
-          res.put(key = ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_SPARK_KEY,
+          // palintext footer - using both params (w & w/o the "parquet" prefix)
+          res.put(key = ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_SHORT_KEY,
+            value = plaintextFooterEnabled.toString)
+          res.put(key = ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_PME_KEY,
             value = plaintextFooterEnabled.toString)
         }
       }
@@ -227,19 +238,19 @@ object ParquetUtils extends Logging {
     // the master metadata (specifically, the column key list string).
 
     // the column keys must be set, as "encryption" meta is set
-    assert(encMeta.contains(ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SPARK_KEY))
+    assert(encMeta.contains(ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SHORT_KEY))
     val columnKeyListString = encMeta
-      .getString(ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SPARK_KEY)
+      .getString(ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SHORT_KEY)
 
     // the footer key must also be set in the meta
-    assert(encMeta.contains(ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SPARK_KEY))
+    assert(encMeta.contains(ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SHORT_KEY))
     // the footer label
-    val footerLabel = encMeta.getString(ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SPARK_KEY)
+    val footerLabel = encMeta.getString(ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SHORT_KEY)
 
     // if the key for plaintext footer does not exist then it's implicitly false
     val plaintextFooterEnabled =
-      encMeta.contains(ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_SPARK_KEY) &&
-        encMeta.getString(ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_SPARK_KEY).toBoolean
+      encMeta.contains(ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_SHORT_KEY) &&
+        encMeta.getString(ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_SHORT_KEY).toBoolean
     Some(EncryptionDescriptor(columnKeyListString, footerLabel, plaintextFooterEnabled))
   }
 
@@ -423,16 +434,16 @@ object ParquetUtils extends Logging {
       val keysToColumnsString = getColumnKeyListString(indexes, partitionSchema, footerKey.get)
       val encryptionMetaBuilder = new sql.types.MetadataBuilder()
       // Column keys
-      encryptionMetaBuilder.putString(ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SPARK_KEY,
+      encryptionMetaBuilder.putString(ParquetMetadataStoreConf.PARQUET_COLUMN_KEYS_SHORT_KEY,
         keysToColumnsString)
 
       // footer key (always necessary even if plaintext footer is used)
-      encryptionMetaBuilder.putString(key = ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SPARK_KEY,
+      encryptionMetaBuilder.putString(key = ParquetMetadataStoreConf.PARQUET_FOOTER_KEY_SHORT_KEY,
         value = footerKey.get)
       // plaintext footer mode?
       if (plainTextFooterEnabled) {
         encryptionMetaBuilder.putString(
-          key = ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_SPARK_KEY, value = "true")
+          key = ParquetMetadataStoreConf.PARQUET_PLAINTEXT_FOOTER_SHORT_KEY, value = "true")
       }
 
       metaBuilder.putMetadata("encryption", encryptionMetaBuilder.build())

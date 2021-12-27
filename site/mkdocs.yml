@@ -72,7 +72,12 @@ markdown_extensions:
   - pymdownx.highlight
   - pymdownx.tabbed:
       alternate_style: true
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
 
 # extra java script for math
 extra_javascript:
@@ -93,6 +98,7 @@ nav:
       - Query Evaluation Flow: concepts/query-evaluation-flow.md
   - API:
       - Indexing: api/indexing.md
+      - Index Encryption: api/encryption.md
       - Using The Extensible API: api/creating-new-plugin.md
       - Configuration:
         - Xskipper Configuration: api/configuration/configuration.md
