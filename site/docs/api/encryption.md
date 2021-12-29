@@ -42,31 +42,22 @@ If at least 1 index is encrypted then the footer key must be set.
 ## Usage Flow
 !!! danger
     When using index encryption, whenever a "key" is configured in any Xskipper API,
-    it's always the label - NEVER the key itself.
+    it's always the label - **NEVER** the key itself.
 
 ### Index Creation Flow
-``` mermaid
-graph LR
-  A[Start] --> B[Configure PME];
-  B --> C[Configure footer key, (optional) plaintext footer];
-  C --> D[Add indexes, attach key metadata to encrypted once];
-  D --> E[Build];
-  E --> F[Done]
-```
+
+<center>
+![Encrypted Index Creation Flow](../img/encryption_index_creation_flow.svg)
+</center>
 
 ### Query Flow
-``` mermaid
-graph LR
-  A[Start] --> B[Cofigure PME];
-  B --> C[Enable Xskipper];
-  C --> D[Run Queries];
-  D --> E[Done];
-```
+
+<center>
+![Encrypted Index Query Flow](../img/encryption_query_flow.svg)
+</center>
 
 ### Index Refresh Flow
-``` mermaid
-graph LR
-  A[Start] --> B[Configure PME];
-  B --> C[Call Refresh];
-  C --> D[Done];
-```
+
+<center>
+![Encrypted Index Refresh Flow](../img/encryption_refresh_flow.svg)
+</center>
