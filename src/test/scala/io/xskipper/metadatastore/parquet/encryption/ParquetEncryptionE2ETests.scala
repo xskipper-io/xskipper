@@ -40,7 +40,7 @@ abstract class ParquetEncryptionE2ETests(override val datasourceV2: Boolean = fa
   val baseInputPath = Utils.concatPaths(baseDir, "input_datasets/gridpocket/initial/parquet")
   val baseUpdatePath = Utils.concatPaths(baseDir, "input_datasets/gridpocket/updated/parquet")
 
-  // copy input to temp directory to allow update
+  // copy input to temp directory to enable update
   val input = Files.createTempDirectory("xskipper_encryption_validation").toString
   input.deleteOnExit()
   FileUtils.copyDirectory(baseInputPath, input, false)
@@ -115,7 +115,6 @@ abstract class ParquetEncryptionE2ETests(override val datasourceV2: Boolean = fa
     */
   def assertEncrypted(path: String, plainTextFooter: Boolean): Unit = {
     // try reading the file using spark and assert it fails on reading the footer
-    // get the metadata path and try reading the file
     val caught = intercept[SparkException] {
       spark.read.parquet(path)
     }
