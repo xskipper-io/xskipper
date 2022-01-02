@@ -21,7 +21,9 @@ libraryDependencies ++= Seq (
   "org.apache.spark" %% "spark-core" % sparkVersion.value % "test",
   "org.apache.spark" %% "spark-sql" % sparkVersion.value % "test",
   "org.apache.spark" %% "spark-hive" % sparkVersion.value % "test",
-  "com.googlecode.json-simple" % "json-simple" % "1.1" % "test"
+  "com.googlecode.json-simple" % "json-simple" % "1.1" % "test",
+  // dependency for InMemoryKMS to test parquet encryption
+  "org.apache.parquet" % "parquet-hadoop" % "1.12.1" % "test" classifier "tests"
 )
 
 /**

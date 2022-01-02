@@ -27,7 +27,10 @@ class ParquetEncryptionUnitTests extends FunSuite {
   Registration.setActiveMetadataStoreManager(Parquet)
 
 
-  val spark = SparkSession.builder().master("local[*]").getOrCreate()
+  val spark = SparkSession.builder()
+    .master("local[*]")
+    .config("spark.ui.enabled", "false")
+    .getOrCreate()
   val schemaExtractionBaseDir = Utils.concatPaths(System.getProperty("user.dir"),
     "src/test/resources/parquet_version_tests/schema_extraction")
 
