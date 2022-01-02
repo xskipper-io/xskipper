@@ -1,3 +1,8 @@
+/*
+ * Copyright 2021 IBM Corp.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package io.xskipper.metadatastore.parquet.encryption
 
 import io.xskipper.metadatastore.parquet.{Parquet, ParquetMetadataHandle, ParquetXskipperProvider}
