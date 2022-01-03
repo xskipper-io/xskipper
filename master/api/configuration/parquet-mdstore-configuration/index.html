@@ -19,7 +19,7 @@
         <link rel="canonical" href="https://xskipper.io/master/api/configuration/parquet-mdstore-configuration/">
       
       <link rel="icon" href="../../../img/logo_black.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.3">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.edf004c2.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.bb3983ee.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.e6a45f82.min.css">
@@ -517,6 +517,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../encryption/" class="md-nav__link">
+        Index Encryption
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../creating-new-plugin/" class="md-nav__link">
         Using The Extensible API
       </a>
@@ -536,18 +550,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_4" type="checkbox" id="__nav_4_4" checked>
       
       
       
       
-        <label class="md-nav__link" for="__nav_4_3">
+        <label class="md-nav__link" for="__nav_4_4">
           Configuration
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Configuration" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_3">
+        <label class="md-nav__title" for="__nav_4_4">
           <span class="md-nav__icon md-icon"></span>
           Configuration
         </label>
@@ -679,18 +693,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_5" type="checkbox" id="__nav_4_5" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_4_5">
+        <label class="md-nav__link" for="__nav_4_6">
           Developer Guide
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Developer Guide" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_5">
+        <label class="md-nav__title" for="__nav_4_6">
           <span class="md-nav__icon md-icon"></span>
           Developer Guide
         </label>
@@ -961,8 +975,8 @@ as a workaround, it can be manually set <code>io.xskipper.parquet.filter.dedup</
 <p><br/>
   Note that when setting the type to <code>HIVE_TABLE_NAME</code> you should first set the parameter <code>io.xskipper.parquet.mdlocation</code> in the table properties to point to the metadata location.  </p>
 <p>You can the set the metadata location for hive table manually using the following DDL:
-    <div class="highlight"><pre><span></span><code><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">myDb</span><span class="p">.</span><span class="n">myTable</span>
-<span class="k">SET</span> <span class="n">TBLPROPERTIES</span> <span class="p">(</span><span class="s1">&#39;io.xskipper.parquet.mdlocation&#39;</span><span class="o">=</span><span class="s1">&#39;/location/of/metadata&#39;</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">myDb</span><span class="p">.</span><span class="n">myTable</span><span class="w"></span>
+<span class="k">SET</span><span class="w"> </span><span class="n">TBLPROPERTIES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;io.xskipper.parquet.mdlocation&#39;</span><span class="o">=</span><span class="s1">&#39;/location/of/metadata&#39;</span><span class="p">)</span><span class="w"></span>
 </code></pre></div></p>
 <p>If the location does not exist in the Hive table, xskipper will try to look up the parameter <code>io.xskipper.parquet.mdlocation</code> in the table's database and treat it as a base path location.</p>
 <p>When using <code>HIVE_TABLE_NAME</code> as the location type once indexing is done the parameter <code>io.xskipper.parquet.mdlocation</code> is set in the table properties.<br />
@@ -1086,10 +1100,10 @@ These parameters are the default JVM wide parameters unless set differently for 
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.0bbba5b5.min.js", "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.361d90f1.min.js", "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.e1a181d9.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.289a2a4b.min.js"></script>
       
         <script src="../../../javascripts/config.js"></script>
       

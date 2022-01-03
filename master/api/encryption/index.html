@@ -16,14 +16,14 @@
         <meta name="author" content="Xskipper team">
       
       
-        <link rel="canonical" href="https://xskipper.io/master/getting-started/operatefirst-getting-started/">
+        <link rel="canonical" href="https://xskipper.io/master/api/encryption/">
       
       <link rel="icon" href="../../img/logo_black.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
     
     
       
-        <title>Operatefirst getting started - Xskipper</title>
+        <title>Index Encryption - Xskipper</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#data-skipping" class="md-skip">
+        <a href="#encrypting-indexes" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Operatefirst getting started
+              Index Encryption
             
           </span>
         </div>
@@ -202,7 +202,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../quick-start-guide/" class="md-tabs__link">
+      <a href="../../getting-started/quick-start-guide/" class="md-tabs__link">
         Getting Started
       </a>
     </li>
@@ -228,13 +228,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../../api/indexing/" class="md-tabs__link">
+      <a href="../indexing/" class="md-tabs__link md-tabs__link--active">
         API
       </a>
     </li>
@@ -347,7 +349,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quick-start-guide/" class="md-nav__link">
+      <a href="../../getting-started/quick-start-guide/" class="md-nav__link">
         Quick Start Guide
       </a>
     </li>
@@ -361,7 +363,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sample-notebooks/" class="md-nav__link">
+      <a href="../../getting-started/sample-notebooks/" class="md-nav__link">
         Demo Notebooks
       </a>
     </li>
@@ -471,12 +473,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       
       
@@ -499,7 +503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/indexing/" class="md-nav__link">
+      <a href="../indexing/" class="md-nav__link">
         Indexing
       </a>
     </li>
@@ -511,11 +515,86 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../api/encryption/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Index Encryption
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Index Encryption
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#modularity" class="md-nav__link">
+    Modularity
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-flow" class="md-nav__link">
+    Usage Flow
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index-creation-flow" class="md-nav__link">
+    Index Creation Flow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-flow" class="md-nav__link">
+    Query Flow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#index-refresh-flow" class="md-nav__link">
+    Index Refresh Flow
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -527,7 +606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/creating-new-plugin/" class="md-nav__link">
+      <a href="../creating-new-plugin/" class="md-nav__link">
         Using The Extensible API
       </a>
     </li>
@@ -567,7 +646,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/configuration/configuration/" class="md-nav__link">
+      <a href="../configuration/configuration/" class="md-nav__link">
         Xskipper Configuration
       </a>
     </li>
@@ -581,7 +660,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/configuration/parquet-mdstore-configuration/" class="md-nav__link">
+      <a href="../configuration/parquet-mdstore-configuration/" class="md-nav__link">
         Parquet Metadatastore Configuration
       </a>
     </li>
@@ -602,7 +681,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/api-reference/" class="md-nav__link">
+      <a href="../api-reference/" class="md-nav__link">
         API Reference
       </a>
     </li>
@@ -642,7 +721,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/developer/build/" class="md-nav__link">
+      <a href="../developer/build/" class="md-nav__link">
         Build
       </a>
     </li>
@@ -656,7 +735,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/developer/parquet-metadatastore-spec/" class="md-nav__link">
+      <a href="../developer/parquet-metadatastore-spec/" class="md-nav__link">
         Parquet metadatastore spec
       </a>
     </li>
@@ -670,7 +749,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/developer/metadata-versioning/" class="md-nav__link">
+      <a href="../developer/metadata-versioning/" class="md-nav__link">
         Metadata versioning
       </a>
     </li>
@@ -684,7 +763,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/developer/generate-doc/" class="md-nav__link">
+      <a href="../developer/generate-doc/" class="md-nav__link">
         API Doc Generation
       </a>
     </li>
@@ -752,18 +831,61 @@
  -- SPDX-License-Identifier: Apache-2.0
  -->
 
-<h1 id="data-skipping">Data Skipping<a class="headerlink" href="#data-skipping" title="Permanent link">&para;</a></h1>
-<p><img alt="Data Skipping" src="../../img/data-skipping.png" /></p>
-<p>Xskipper is enabled and supported in most spark notebook images and ready for you to use. If not present, update pyspark packages to include the relevant xskipper jar based on spark release. </p>
-<p>Data skipping can significantly boost the performance of SQL queries by skipping over irrelevant data objects or files based on summary metadata associated with each object.</p>
-<p>For every column in the object, the summary metadata might include minimum and maximum values, a list or bloom filter of the appearing values, or other metadata which succinctly represents the data in that column. We call this metadata a <em>data skipping index</em> (or simply index), and it is used during query evaluation to skip over objects which have no relevant data.</p>
-<p>Xskipper supports all of Spark's native data formats, including Parquet, ORC, CSV, JSON and Avro. Data skipping is a performance optimization feature which means that using data skipping does not affect the content of query results.</p>
-<p>Xskipper can be used to easily define new data skipping index types using a concept we call Extensible Data Skipping, more information can be found on <a href="https://xskipper.io">xskipper site</a>.</p>
-<p>For more information about usage see:</p>
+<h1 id="encrypting-indexes">Encrypting Indexes<a class="headerlink" href="#encrypting-indexes" title="Permanent link">&para;</a></h1>
+<p>When using Parquet Metadata Store, The metadata can
+optionally be encrypted using Parquet Modular Encryption (PME).
+This is achieved since the metadata itself is stored as a Parquet dataset,
+and thus PME can be used to encrypt it.
+This feature applies to all input formats, for example, a dataset stored
+in CSV format can have its metadata encrypted using PME.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the following sections, unless said otherwise, when referring
+to footers, columns etc., these are with respect to the metadata objects,
+and not the objects in the indexed dataset.</p>
+</div>
+<h2 id="modularity">Modularity<a class="headerlink" href="#modularity" title="Permanent link">&para;</a></h2>
+<p>Index Encryption is modular and is granular in the following way:</p>
 <ul>
-<li><a href="../../api/indexing/">API</a></li>
-<li><a href="../sample-notebooks/">Example Notebooks</a></li>
+<li>Each Index can either be encrypted (with a per-index key granularity) or left plaintext.</li>
+<li>Footer + object name column + partition key values:<ul>
+<li>The footer of the metadata object (in itself a Parquet file) contains (among other things):<ul>
+<li>Schema of the metadata object, which reveals the types, parameters and column names for
+all indexes collected (for example, one can learn that a Bloom Filter Index is defined on column
+<code>city</code> with false-positive probability <code>0.1</code>)</li>
+<li>Full path of the original dataset (or table name in case of a Hive Metastore table)</li>
 </ul>
+</li>
+<li>The object name column stores the names of all indexed objects, and their
+  modification timestamps at indexing time.</li>
+<li>The partition key values (for example, when Hive Style partitioning is used in the indexed dataset)
+  are automatically stored by Xskipper, each virtual column in its own dedicated column.</li>
+</ul>
+</li>
+</ul>
+<p>The footer + object name column + partition columns are encrypted using the same key - "the footer key",
+unless Plaintext footer is specified, in that case the object name column and the partition
+columns will still be encrypted, but the footer itself will be left plaintext (that is,
+the plaintext footer mode of PME will be activated).
+If at least 1 index is encrypted then the footer key must be set.</p>
+<h2 id="usage-flow">Usage Flow<a class="headerlink" href="#usage-flow" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>When using index encryption, whenever a "key" is configured in any Xskipper API,
+it's always the label - <strong>NEVER</strong> the key itself.</p>
+</div>
+<h3 id="index-creation-flow">Index Creation Flow<a class="headerlink" href="#index-creation-flow" title="Permanent link">&para;</a></h3>
+<p><center>
+<img alt="Encrypted Index Creation Flow" src="../../img/encryption_index_creation_flow.svg" />
+</center></p>
+<h3 id="query-flow">Query Flow<a class="headerlink" href="#query-flow" title="Permanent link">&para;</a></h3>
+<p><center>
+<img alt="Encrypted Index Query Flow" src="../../img/encryption_query_flow.svg" />
+</center></p>
+<h3 id="index-refresh-flow">Index Refresh Flow<a class="headerlink" href="#index-refresh-flow" title="Permanent link">&para;</a></h3>
+<p><center>
+<img alt="Encrypted Index Refresh Flow" src="../../img/encryption_refresh_flow.svg" />
+</center></p>
 
               
             </article>
@@ -773,6 +895,41 @@
       </main>
       
         <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../indexing/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Indexing" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Indexing
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../creating-new-plugin/" class="md-footer__link md-footer__link--next" aria-label="Next: Using The Extensible API" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Using The Extensible API
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

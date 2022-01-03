@@ -19,7 +19,7 @@
         <link rel="canonical" href="https://xskipper.io/master/api/creating-new-plugin/">
       
       <link rel="icon" href="../../img/logo_black.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.3">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.edf004c2.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bb3983ee.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
@@ -515,6 +515,20 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../encryption/" class="md-nav__link">
+        Index Encryption
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -650,18 +664,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_4" type="checkbox" id="__nav_4_4" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_4_3">
+        <label class="md-nav__link" for="__nav_4_4">
           Configuration
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Configuration" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_3">
+        <label class="md-nav__title" for="__nav_4_4">
           <span class="md-nav__icon md-icon"></span>
           Configuration
         </label>
@@ -725,18 +739,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_5" type="checkbox" id="__nav_4_5" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_4_5">
+        <label class="md-nav__link" for="__nav_4_6">
           Developer Guide
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Developer Guide" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_5">
+        <label class="md-nav__title" for="__nav_4_6">
           <span class="md-nav__icon md-icon"></span>
           Developer Guide
         </label>
@@ -938,10 +952,10 @@ batch job,20/12/29 18:04:40 INFO DAGScheduler: ResultStage 22 (collect at Parque
 <p>and the regex pattern <code>".* .* .* (.*): .*"</code>.</p>
 <p>When we index using the regex index, the metadata that will be saved is <code>List("FileSourceStrategy", "DAGScheduler")</code>.</p>
 <p>The following query will benefit from this index and will skip the above object:
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="o">*</span> 
-<span class="k">FROM</span> <span class="n">tbl</span> 
-<span class="k">WHERE</span> 
-<span class="n">regexp_extract</span><span class="p">(</span><span class="n">log_line</span><span class="p">,</span> <span class="s1">&#39;.* .* .* (.*): .*&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;MemoryStore&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">tbl</span><span class="w"> </span>
+<span class="k">WHERE</span><span class="w"> </span>
+<span class="n">regexp_extract</span><span class="p">(</span><span class="n">log_line</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;.* .* .* (.*): .*&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;MemoryStore&#39;</span><span class="w"></span>
 </code></pre></div></p>
 <h2 id="indexing-flow">Indexing Flow<a class="headerlink" href="#indexing-flow" title="Permanent link">&para;</a></h2>
 <h3 id="define-the-abstract-metadata">Define the abstract metadata<a class="headerlink" href="#define-the-abstract-metadata" title="Permanent link">&para;</a></h3>
@@ -1060,7 +1074,7 @@ For example, for the BloomFilter index which we serializes its metadata, we use 
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../indexing/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Indexing" rel="prev">
+        <a href="../encryption/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Index Encryption" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1069,7 +1083,7 @@ For example, for the BloomFilter index which we serializes its metadata, we use 
               <span class="md-footer__direction">
                 Previous
               </span>
-              Indexing
+              Index Encryption
             </div>
           </div>
         </a>
@@ -1129,10 +1143,10 @@ For example, for the BloomFilter index which we serializes its metadata, we use 
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.0bbba5b5.min.js", "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.361d90f1.min.js", "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.e1a181d9.min.js"></script>
+      <script src="../../assets/javascripts/bundle.289a2a4b.min.js"></script>
       
         <script src="../../javascripts/config.js"></script>
       
