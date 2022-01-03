@@ -145,18 +145,42 @@ object ParquetMetadataStoreConf {
     )
 
   // configuration keys for Encryption
-  val PARQUET_FOOTER_KEY_SPARK_KEY = "encryption.footer.key"
-  val PARQUET_FOOTER_KEY_PARAM_KEY =
-    PARQUET_METADATASTORE_CONF_PREFIX + PARQUET_FOOTER_KEY_SPARK_KEY
+  // the (short) property for the footer key label.
+  // the footer key label is saved under this key in the md. note that this used
+  // to be the property used by PME, but was changed and have the "parquet"
+  // prefix added - we set both this one and the new one in the DF writer options
+  val PARQUET_FOOTER_KEY_SHORT_KEY = "encryption.footer.key"
+  // the property used by PME from spark 3.2.0 onwards for the footer key.
+  // we set both of them.
+  val PARQUET_FOOTER_KEY_PME_KEY: String = "parquet." + PARQUET_FOOTER_KEY_SHORT_KEY
 
-  val PARQUET_PLAINTEXT_FOOTER_SPARK_KEY = "encryption.plaintext.footer"
-  val PARQUET_PLAINTEXT_FOOTER_ENABLED_KEY =
-    PARQUET_METADATASTORE_CONF_PREFIX + PARQUET_PLAINTEXT_FOOTER_SPARK_KEY
-  val PARQUET_PLAINTEXT_FOOTER_ENABLED = ConfigEntry[Boolean](
+  val PARQUET_FOOTER_KEY_PARAM_KEY: String =
+    PARQUET_METADATASTORE_CONF_PREFIX + PARQUET_FOOTER_KEY_SHORT_KEY
+
+
+  // the (short) property for the plaintext footer mode.
+  // the plaintext footer mode is saved under this key in the md. note that this used
+  // to be the property used by PME, but was changed and have the "parquet"
+  // prefix added - we set both this one and the new one in the DF writer options
+  val PARQUET_PLAINTEXT_FOOTER_SHORT_KEY = "encryption.plaintext.footer"
+  // the property used by PME from spark 3.2.0 onwards for plaintext footer mode.
+  // we set both of them.
+  val PARQUET_PLAINTEXT_FOOTER_PME_KEY: String = "parquet." + PARQUET_PLAINTEXT_FOOTER_SHORT_KEY
+
+  val PARQUET_PLAINTEXT_FOOTER_ENABLED_KEY: String =
+    PARQUET_METADATASTORE_CONF_PREFIX + PARQUET_PLAINTEXT_FOOTER_SHORT_KEY
+  val PARQUET_PLAINTEXT_FOOTER_ENABLED: ConfigEntry[Boolean] = ConfigEntry[Boolean](
     PARQUET_PLAINTEXT_FOOTER_ENABLED_KEY,
     defaultValue = false,
     doc = "Whether or not to use plain footer"
   )
 
-  val PARQUET_COLUMN_KEYS_SPARK_KEY = "encryption.column.keys"
+  // property for the column keylist string, the column keylist
+  // string is saved under this key in the md. note that this used
+  // to be the property used by PME, but was changed and have the "parquet"
+  // prefix added - we set both this one and the new one in the DF writer options
+  val PARQUET_COLUMN_KEYS_SHORT_KEY = "encryption.column.keys"
+  // the property used by PME from spark 3.2.0 onwards for the column keylist string.
+  // we set both of them.
+  val PARQUET_COLUMN_KEYS_PME_KEY: String = "parquet." + PARQUET_COLUMN_KEYS_SHORT_KEY
 }
