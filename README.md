@@ -25,7 +25,7 @@ Include Xskipper in a Maven project by adding it as a dependency in the project'
 <dependency>
   <groupId>io.xskipper</groupId>
   <artifactId>xskipper-core_2.12</artifactId>
-  <version>1.2.3</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 
@@ -33,7 +33,7 @@ Include Xskipper in a Maven project by adding it as a dependency in the project'
 Include Xskipper in an SBT project by adding the following line to its build.sbt file:
 
 ```Scala
-libraryDependencies += "io.xskipper" %% "xskipper-core" % "1.2.3"
+libraryDependencies += "io.xskipper" %% "xskipper-core" % "1.3.0"
 ```
 
 # Building
@@ -60,7 +60,18 @@ Xskipper tracks issues in GitHub and prefers to receive contributions as pull re
 
 # Compatibility
 
-Xskipper currently requires Apache Spark 3.0.0 
+### Compatibility
+
+Xskipper is compatible with Spark according to the following table:
+
+| Xskipper version | Spark Version        |
+| --------------- | --------------------- |
+| 1.3.0           | 3.2.x   |
+| 1.2.3           | 3.0.x   | 
+| 1.1.x           | 2.4.x   | 
+| 1.0.x           | 2.3.x   |
+
+
 
 # See Also
 

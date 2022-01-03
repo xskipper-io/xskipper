@@ -33,7 +33,7 @@ Start a Spark Scala shell as follows:
 
 #### PySpark
 
-Install or upgrade PySpark (3.0 or above) by running the following:
+Install or upgrade PySpark (3.2 or above) by running the following:
 
 ```bash
 pip install --upgrade pyspark
@@ -350,7 +350,7 @@ First, let's create a temporary view:
 <br/>
 #### Inspecting query skipping stats
 !!! Note
-    Starting from version 1.2.4, skipping stats are disabled for queries involving
+    Starting from version 1.3.0, skipping stats are disabled for queries involving
     Data Source V2 file sources. note that after processing a query that involves Data Source v2
     file sources, stats are disabled for all subsequent queries until the stats are cleared.
     See [this](https://github.com/xskipper-io/xskipper/issues/79) issue
