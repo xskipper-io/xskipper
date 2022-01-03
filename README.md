@@ -66,8 +66,8 @@ Xskipper is compatible with Spark according to the following table:
 
 | Xskipper version | Spark Version        |
 | --------------- | --------------------- |
-| 1.3.0           | 3.2.x   |
-| 1.2.3           | 3.0.x   | 
+| 1.3.x           | 3.2.x   |
+| 1.2.x           | 3.0.x   | 
 | 1.1.x           | 2.4.x   | 
 | 1.0.x           | 2.3.x   |
 
