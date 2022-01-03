@@ -1,0 +1,210 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>search - io.xskipper.search</title>
+          <meta name="description" content="search - io.xskipper.search" />
+          <meta name="keywords" content="search io.xskipper.search" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'io.xskipper.search.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../../../lib/package_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="io">io</a>.<a href="../package.html" class="extype" name="io.xskipper">xskipper</a></p>
+        <h1>search</h1><span class="permalink">
+      <a href="../../../index.html#io.xskipper.search.package" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">search</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="io.xskipper.search.DataSkippingFileFilter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DataSkippingFileFilterextendsLogging"></a>
+      <a id="DataSkippingFileFilter:DataSkippingFileFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DataSkippingFileFilter.html"><span class="name">DataSkippingFileFilter</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.internal.Logging">Logging</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.search.package@DataSkippingFileFilterextendsLogging" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A Custom FileFilter which enables to filter sequence of PartitionDirectory using
+a given MetadataBackend
+</p>
+    </li><li name="io.xskipper.search.DataSkippingFileFilterEvaluator" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DataSkippingFileFilterEvaluatorextendsDataSkippingFileFilter"></a>
+      <a id="DataSkippingFileFilterEvaluator:DataSkippingFileFilterEvaluator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DataSkippingFileFilterEvaluator.html"><span class="name">DataSkippingFileFilterEvaluator</span></a><span class="result"> extends <a href="DataSkippingFileFilter.html" class="extype" name="io.xskipper.search.DataSkippingFileFilter">DataSkippingFileFilter</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.search.package@DataSkippingFileFilterEvaluatorextendsDataSkippingFileFilter" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">this class overrides the base file filter, it implements the same interface,
+but only collect parent statistics WITHOUT reading any data during execution
+</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="io.xskipper.search.MetadataQueryBuilder" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MetadataQueryBuilder"></a>
+      <a id="MetadataQueryBuilder:MetadataQueryBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="MetadataQueryBuilder$.html"><span class="name">MetadataQueryBuilder</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.search.package@MetadataQueryBuilder" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.search.clause" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="clause"></a>
+      <a id="clause:clause"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="clause/package.html"><span class="name">clause</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.search.package@clause" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.search.expressions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="expressions"></a>
+      <a id="expressions:expressions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="expressions/package.html"><span class="name">expressions</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.search.package@expressions" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="io.xskipper.search.filters" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="filters"></a>
+      <a id="filters:filters"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="filters/package.html"><span class="name">filters</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#io.xskipper.search.package@filters" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

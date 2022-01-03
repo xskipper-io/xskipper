@@ -1,0 +1,9 @@
+/**
+ Copyright 2021 IBM Corp.
+ SPDX-License-Identifier: Apache-2.0
+*/
+
+.md-header-nav__button.md-logo img, .md-header-nav__button.md-logo svg {
+  width: 7.3em;
+  height: 5.5em;
+}
