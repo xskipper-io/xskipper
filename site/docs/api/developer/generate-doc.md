@@ -41,7 +41,7 @@ To update the docs copy `_build/html` to `site/docs/api/pythondoc/<version_numbe
 For example (assuming you shell is pointed at the project root):
 
 ```
-cp -r python/doc/_build/html site/docs/api/pythondoc/{{extra_vars.version}}
+cp -r python/doc/_build/html site/docs/api/pythondoc/{{extra_vars.stable_version}}
 ```
 
 Then update the [index](https://github.com/xskipper-io/xskipper/blob/master/site/docs/api/pythondoc/index.html) file to point to the new API documentation.
@@ -61,11 +61,11 @@ sbt doc
 
 ### Publishing
 
-To update the docs copy `target/scala-2.12/api/` to `../scaladoc/{{extra_vars.version}}/`.  
+To update the docs copy `target/scala-2.12/api/` to `../scaladoc/{{extra_vars.stable_version}}/`.  
 For example (assuming you shell is pointed at the project root):
 
 ```
-cp -r target/scala-2.12/api/ site/docs/api/scaladoc/{{extra_vars.version}}/
+cp -r target/scala-2.12/api/ site/docs/api/scaladoc/{{extra_vars.stable_version}}/
 ```
 
 Then update the [index](https://github.com/xskipper-io/xskipper/blob/master/site/docs/api/scaladoc/index.html) file to point to the new API documentation.
