@@ -74,6 +74,7 @@ markdown_extensions:
       alternate_style: true
   - pymdownx.superfences
 
+
 # extra java script for math
 extra_javascript:
   - javascripts/config.js
@@ -93,6 +94,7 @@ nav:
       - Query Evaluation Flow: concepts/query-evaluation-flow.md
   - API:
       - Indexing: api/indexing.md
+      - Index Encryption: api/encryption.md
       - Using The Extensible API: api/creating-new-plugin.md
       - Configuration:
         - Xskipper Configuration: api/configuration/configuration.md
