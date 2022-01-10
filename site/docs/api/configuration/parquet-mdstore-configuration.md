@@ -74,25 +74,23 @@ You should set the `io.xskipper.parquet.mdlocation` in one of two ways:
 === "Scala"
 
     ``` scala
-    from xskipper import Xskipper
-    
-    # The base location to store all indexes 
-    # TODO: change to your index base location
-    md_base_location = "/tmp/metadata"
-    
-    # Configuring the JVM wide parameters
-    conf = dict([
-                ("io.xskipper.parquet.mdlocation", md_base_location),
-                ("io.xskipper.parquet.mdlocation.type", "EXPLICIT_BASE_PATH_LOCATION")])
-    Xskipper.setConf(spark, conf)
+    import io.xskipper._
+    // TODO: Change to your location
+    val location = "/tmp/metadata"
+    val conf = Map(
+      "io.xskipper.parquet.mdlocation" -> location,
+      "io.xskipper.parquet.mdlocation.type" ->  "EXPLICIT_BASE_PATH_LOCATION")
+    // set JVM-wide parameters
+    Xskipper.setConf(conf)
+
     ```
 
-### Setting an explicit metadata location for Xskipper instance
+### Setting an explicit metadata location for an Xskipper instance
 
   This configuration is useful for setting a specific metadata location for a certain data set and should be used with the `EXPLICIT_LOCATION` or `HIVE_TABLE_NAME` type.  
   You can also set it to `EXPLICIT_BASE_PATH_LOCATION` or `HIVE_DB_NAME` if you want to override the JVM defaults. 
   
-  For example setting an `EXPLICIT_LOCATION` for xskipper instance:
+  For example setting an `EXPLICIT_LOCATION` for a specific xskipper instance:
 
 === "Python"
 
@@ -102,7 +100,7 @@ You should set the `io.xskipper.parquet.mdlocation` in one of two ways:
     # call set params to make sure it overwrites JVM wide config
     params = dict([
         ('io.xskipper.parquet.mdlocation', '<your metadata>'),
-        ('io.xskipper.parquet.mdlocation.type', 'EXPLICIT_BASE_PATH_LOCATION')])
+        ('io.xskipper.parquet.mdlocation.type', 'EXPLICIT_LOCATION')])
     xskipper.setParams(params)
     ```
 
@@ -114,7 +112,7 @@ You should set the `io.xskipper.parquet.mdlocation` in one of two ways:
     // call set params to make sure it overwrites JVM wide config
     val params = Map(
       "io.xskipper.parquet.mdlocation" -> "<your metadata>",
-      "io.xskipper.parquet.mdlocation.type" ->  "EXPLICIT_BASE_PATH_LOCATION")
+      "io.xskipper.parquet.mdlocation.type" ->  "EXPLICIT_LOCATION")
     xskipper.setParams(params)
     ```
   <br/>
