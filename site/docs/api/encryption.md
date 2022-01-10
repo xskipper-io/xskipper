@@ -32,7 +32,7 @@ Index Encryption is modular and is granular in the following way:
     - The partition key values (for example, when Hive Style partitioning is used in the indexed dataset)
       are automatically stored by Xskipper, each virtual column in its own dedicated column.
       
-The footer + object name column + partition columns are encrypted using the same key - "the footer key",
+The footer + object name column + partition columns are encrypted using the same key - the "footer key",
 unless Plaintext footer is specified, in that case the object name column and the partition
 columns will still be encrypted, but the footer itself will be left plaintext (that is,
 the plaintext footer mode of PME will be activated).
