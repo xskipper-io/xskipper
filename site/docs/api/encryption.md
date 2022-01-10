@@ -142,7 +142,7 @@ PME configurations (KMS, auth etc.) - everything remains the same.
     .build(reader).show(false)
     ```
 ### Query Flow
-When Running Queries, there is no practical difference between encrypted metadata and non-encrypted metadata.
+When running Queries, there is no practical difference between encrypted metadata and non-encrypted metadata.
 The only addition is the need to configure PME.
 <center>
 ![Encrypted Index Query Flow](../img/encryption_query_flow.svg)
