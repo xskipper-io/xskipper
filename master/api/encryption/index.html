@@ -19,7 +19,7 @@
         <link rel="canonical" href="https://xskipper.io/master/api/encryption/">
       
       <link rel="icon" href="../../img/logo_black.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.7">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.bb3983ee.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.cd566b2a.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
@@ -555,6 +555,19 @@
     Modularity
   </a>
   
+    <nav class="md-nav" aria-label="Modularity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-choose-keys" class="md-nav__link">
+    How to choose keys
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -569,6 +582,26 @@
   <a href="#index-creation-flow" class="md-nav__link">
     Index Creation Flow
   </a>
+  
+    <nav class="md-nav" aria-label="Index Creation Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sample-1-creating-metadata-with-encrypted-footer-default" class="md-nav__link">
+    Sample 1 - Creating metadata with encrypted footer (default)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-2-creating-metadata-with-plaintext-footer" class="md-nav__link">
+    Sample 2 - creating metadata with plaintext footer
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -863,27 +896,121 @@ all indexes collected (for example, one can learn that a Bloom Filter Index is d
 </ul>
 </li>
 </ul>
-<p>The footer + object name column + partition columns are encrypted using the same key - "the footer key",
+<p>The footer + object name column + partition columns are encrypted using the same key - the "footer key",
 unless Plaintext footer is specified, in that case the object name column and the partition
 columns will still be encrypted, but the footer itself will be left plaintext (that is,
 the plaintext footer mode of PME will be activated).
 If at least 1 index is encrypted then the footer key must be set.</p>
+<p>This granularity enables usecases where different users have access to different subsets of the indexes in the metadata.
+In general, Xskipper will only try to access the indexes relevant for the query (based on the predicates in the <code>WHERE</code>  clause) - and thus
+it's enough to only have access to the footer key and the keys for the relevant indexes.
+Thus, with an appropriate key selection, a single copy of the metadata can be used by different users, with each user having the keys for the indexes
+relevant to the columns they have access to in the data.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Xskipper doesn't have a fallback mechanism for index access, so even if the user has access to a subset of the indexes
+that is able to provide some skipping, if there are usable indexes for the query which are unaccessible - Xskipper will not be able to provide
+any skipping, the query will succeed but no skipping will happen - for example,
+say we have a <code>MinMax</code> on <code>temp</code> and <code>ValueList</code> on <code>city</code> but we can only access the footer key + the key 
+for the <code>MinMax</code> and we run a query with <code>WHERE city = 'PARIS' AND temp &lt; 5</code> - even though we could use just the <code>MinMax</code>
+to get some skipping (though probably not all) - no skipping will occur.</p>
+</div>
+<h3 id="how-to-choose-keys">How to choose keys<a class="headerlink" href="#how-to-choose-keys" title="Permanent link">&para;</a></h3>
+<p>As mentioned before, if an index is not required for a query, Xskipper won't try to access it,
+and so the only factor for whether Xskipper tries to access an index is whether it's required for a query - and NOT whether it's accessible.
+thus, a good practice would be to make sure that if someone has access to a column, they will also have access to the indexes defined for that column (and of course the footer).</p>
 <h2 id="usage-flow">Usage Flow<a class="headerlink" href="#usage-flow" title="Permanent link">&para;</a></h2>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <p>When using index encryption, whenever a "key" is configured in any Xskipper API,
 it's always the label - <strong>NEVER</strong> the key itself.</p>
 </div>
+<p>In the following code examples we omit the PME configuration part as it varies between different implementations.
+A demonstrational KMS example can be found <a href="https://spark.apache.org/docs/latest/sql-data-sources-parquet.html#columnar-encryption">here</a></p>
 <h3 id="index-creation-flow">Index Creation Flow<a class="headerlink" href="#index-creation-flow" title="Permanent link">&para;</a></h3>
 <p><center>
 <img alt="Encrypted Index Creation Flow" src="../../img/encryption_index_creation_flow.svg" />
 </center></p>
+<p>Once the metadata is created, subsequent usages (both querying and refreshing) are 
+all agnostic to the fact that this metadata is encrypted - so, except for the regular
+PME configurations (KMS, auth etc.) - everything remains the same.</p>
+<h4 id="sample-1-creating-metadata-with-encrypted-footer-default">Sample 1 - Creating metadata with encrypted footer (default)<a class="headerlink" href="#sample-1-creating-metadata-with-encrypted-footer-default" title="Permanent link">&para;</a></h4>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python</label><label for="__tabbed_1_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># configure footer key</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="s2">&quot;io.xskipper.parquet.encryption.footer.key&quot;</span><span class="p">,</span> <span class="s2">&quot;k1&quot;</span><span class="p">)])</span>
+<span class="n">xskipper</span><span class="o">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+<span class="c1"># adding the indexes</span>
+<span class="n">xskipper</span><span class="o">.</span><span class="n">indexBuilder</span><span class="p">()</span> \
+<span class="o">.</span><span class="n">addMinMaxIndex</span><span class="p">(</span><span class="s2">&quot;temp&quot;</span><span class="p">,</span> <span class="s2">&quot;k2&quot;</span><span class="p">)</span> \
+<span class="o">.</span><span class="n">addValueListIndex</span><span class="p">(</span><span class="s2">&quot;city&quot;</span><span class="p">)</span> \
+<span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span> \
+<span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1">// set the footer key</span>
+<span class="kd">val</span> <span class="n">conf</span> <span class="o">=</span> <span class="nc">Map</span><span class="p">(</span>
+  <span class="s">&quot;io.xskipper.parquet.encryption.footer.key&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;k1&quot;</span><span class="p">)</span>
+<span class="n">xskipper</span><span class="p">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+<span class="n">xskipper</span>
+  <span class="p">.</span><span class="n">indexBuilder</span><span class="p">()</span>
+  <span class="c1">// Add an encrypted MinMax index for temp</span>
+  <span class="p">.</span><span class="n">addMinMaxIndex</span><span class="p">(</span><span class="s">&quot;temp&quot;</span><span class="p">,</span> <span class="s">&quot;k2&quot;</span><span class="p">)</span>
+  <span class="c1">// Add a plaintext ValueList index for city</span>
+  <span class="p">.</span><span class="n">addValueListIndex</span><span class="p">(</span><span class="s">&quot;city&quot;</span><span class="p">)</span>
+  <span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h4 id="sample-2-creating-metadata-with-plaintext-footer">Sample 2 - creating metadata with plaintext footer<a class="headerlink" href="#sample-2-creating-metadata-with-plaintext-footer" title="Permanent link">&para;</a></h4>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">Scala</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># configure footer key</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="s2">&quot;io.xskipper.parquet.encryption.footer.key&quot;</span><span class="p">,</span> <span class="s2">&quot;k1&quot;</span><span class="p">),</span>
+<span class="p">(</span><span class="s2">&quot;io.xskipper.parquet.encryption.plaintext.footer&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)])</span>
+<span class="n">xskipper</span><span class="o">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+<span class="c1"># adding the indexes</span>
+<span class="n">xskipper</span><span class="o">.</span><span class="n">indexBuilder</span><span class="p">()</span> \
+<span class="o">.</span><span class="n">addMinMaxIndex</span><span class="p">(</span><span class="s2">&quot;temp&quot;</span><span class="p">,</span> <span class="s2">&quot;k2&quot;</span><span class="p">)</span> \
+<span class="o">.</span><span class="n">addValueListIndex</span><span class="p">(</span><span class="s2">&quot;city&quot;</span><span class="p">)</span> \
+<span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span> \
+<span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1">// set the footer key</span>
+<span class="kd">val</span> <span class="n">conf</span> <span class="o">=</span> <span class="nc">Map</span><span class="p">(</span>
+<span class="s">&quot;io.xskipper.parquet.encryption.footer.key&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;k1&quot;</span><span class="p">,</span>
+<span class="s">&quot;io.xskipper.parquet.encryption.plaintext.footer&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;true&quot;</span><span class="p">)</span>
+<span class="n">xskipper</span><span class="p">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+<span class="n">xskipper</span>
+<span class="p">.</span><span class="n">indexBuilder</span><span class="p">()</span>
+<span class="c1">// Add an encrypted MinMax index for temp</span>
+<span class="p">.</span><span class="n">addMinMaxIndex</span><span class="p">(</span><span class="s">&quot;temp&quot;</span><span class="p">,</span> <span class="s">&quot;k2&quot;</span><span class="p">)</span>
+<span class="c1">// Add a plaintext ValueList index for city</span>
+<span class="p">.</span><span class="n">addValueListIndex</span><span class="p">(</span><span class="s">&quot;city&quot;</span><span class="p">)</span>
+<span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">reader</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <h3 id="query-flow">Query Flow<a class="headerlink" href="#query-flow" title="Permanent link">&para;</a></h3>
-<p><center>
+<p>When running Queries, there is no practical difference between encrypted metadata and non-encrypted metadata.
+The only addition is the need to configure PME.
+<center>
 <img alt="Encrypted Index Query Flow" src="../../img/encryption_query_flow.svg" />
 </center></p>
 <h3 id="index-refresh-flow">Index Refresh Flow<a class="headerlink" href="#index-refresh-flow" title="Permanent link">&para;</a></h3>
-<p><center>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When refreshing encrypted metadata, ALL keys used in the metadata (that is, keys to all indexes + footer key) need to be accessible.</p>
+</div>
+<p>When refreshing encrypted metadata, no action is required except for PME configurations (KMS, auth etc.)
+<center>
 <img alt="Encrypted Index Refresh Flow" src="../../img/encryption_refresh_flow.svg" />
 </center></p>
 
@@ -968,10 +1095,10 @@ it's always the label - <strong>NEVER</strong> the key itself.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.361d90f1.min.js", "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.22074ed6.min.js", "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.289a2a4b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.01de222e.min.js"></script>
       
         <script src="../../javascripts/config.js"></script>
       
