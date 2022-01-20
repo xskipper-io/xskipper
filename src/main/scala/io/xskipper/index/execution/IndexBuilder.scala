@@ -410,7 +410,10 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
       xskipper.metadataHandle().finalizeMetadataUpload()
     }
 
+    // calculate the number of files that were indexed
+    val numFilesIndexed = newOrModifiedFilesIDs.foldLeft(0)((x, y) => x + y.files.length)
+
     // return the operation values
-    Seq(RefreshResult(Status.SUCCESS, newOrModifiedFilesIDs.length, removedCount)).toDS().toDF()
+    Seq(RefreshResult(Status.SUCCESS, numFilesIndexed, removedCount)).toDS().toDF()
   }
 }
