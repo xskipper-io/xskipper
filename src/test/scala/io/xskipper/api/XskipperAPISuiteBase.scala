@@ -150,6 +150,7 @@ abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
             FileUtils.copyDirectory(updatedInputLoc, dir, false)
             val xskipper = getXskipper(dir)
             val buildRes = xskipper.refreshIndex(reader)
+            assert(Utils.isResDfValid(buildRes))
         }
       val newFilesToSkip = datasetLocators.zip(tempDirs).flatMap {
         case (descriptor: DatasetDescriptor, dir: String) =>
