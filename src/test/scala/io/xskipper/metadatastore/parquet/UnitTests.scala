@@ -128,4 +128,38 @@ class UnitTests extends FunSuite
     assert(numIndexedObjectAfterRefreshFlagOn == 3,
       "number of indexed objects after refresh when dedup flag is on is invalid")
   }
+
+  test("number of indexed and removed files reported correctly when indexing/refreshing") {
+    // create tmp directory
+    val INPUT_REL_PATH: String = "src/test/resources"
+    val dir = Files.createTempDirectory("xskipper_build_stats_test").toString
+    dir.deleteOnExit()
+
+    val reader = spark.read.format("parquet")
+    // copy the files and index a dataset
+    val inputLocation = concatPaths(INPUT_REL_PATH,
+      "input_datasets/sample1/initial/parquet")
+    FileUtils.copyDirectory(inputLocation, dir, false)
+
+    // get the number of files to index
+    val numFilesToIndex = Some(FileUtils.listFiles(dir,
+      TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE).size())
+
+    val xskipper = getXskipper(dir)
+    val buildRes = xskipper.indexBuilder()
+      .addMinMaxIndex("temp")
+      .build(reader)
+
+    assert(Utils.isResDfValid(buildRes, numFilesToIndex, Some(0)))
+
+    // copy the updated dataset and refresh
+    val updateLocation = concatPaths(INPUT_REL_PATH,
+      "input_datasets/sample1/updated/parquet")
+    FileUtils.copyDirectory(updateLocation, dir, false)
+    // get the number of files to index
+    val numFilesToRefresh = Some(FileUtils.listFiles(updateLocation,
+      TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE).size())
+    val refreshRes = xskipper.refreshIndex(reader)
+    assert(Utils.isResDfValid(refreshRes, numFilesToRefresh, numFilesToRefresh))
+  }
 }

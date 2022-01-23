@@ -122,13 +122,10 @@ abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
         val origInputLoc = Utils.concatPaths(descriptor.inputLocation, format)
         logInfo(s"Copying $origInputLoc to $dir")
         FileUtils.copyDirectory(origInputLoc, dir, false)
-        // get the number of files in the tests
-        val numFilesToIndex = Some(FileUtils.listFiles(dir,
-          TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE).size())
         val xskipper = getXskipper(dir)
         assert(!xskipper.isIndexed())
         val buildRes = getIndexBuilder(xskipper, descriptor.indexTypes).build(reader)
-        assert(Utils.isResDfValid(buildRes, numFilesToIndex), numFilesToIndex)
+        assert(Utils.isResDfValid(buildRes))
         assert(xskipper.isIndexed())
     }
 
@@ -151,12 +148,8 @@ abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
           case (descriptor: DatasetDescriptor, dir: String) =>
             val updatedInputLoc = Utils.concatPaths(descriptor.updatedInputLocation.get, format)
             FileUtils.copyDirectory(updatedInputLoc, dir, false)
-            // get the number of files in the tests
-            val numFilesToIndex = Some(FileUtils.listFiles(dir,
-              TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE).size())
             val xskipper = getXskipper(dir)
             val buildRes = xskipper.refreshIndex(reader)
-            assert(Utils.isResDfValid(buildRes, numFilesToIndex))
         }
       val newFilesToSkip = datasetLocators.zip(tempDirs).flatMap {
         case (descriptor: DatasetDescriptor, dir: String) =>
