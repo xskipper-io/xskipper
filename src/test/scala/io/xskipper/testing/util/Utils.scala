@@ -85,9 +85,24 @@ object Utils {
   }
 
 
-  def isResDfValid(df: DataFrame): Boolean = {
+  def isResDfValid(df: DataFrame, expectedNumIndexedFiles: Option[Int] = None,
+                   expectedNumRemovedFiles: Option[Int] = None): Boolean = {
     val status = df.select("status").rdd.map(r => r(0)).collect()
-    return status.length == 1 && status.head.asInstanceOf[String] == "SUCCESS"
+    expectedNumIndexedFiles match {
+      case Some(n) =>
+        val numIndexedFiles = df.select("new_entries_added")
+          .rdd.map(r => r(0)).collect().head.asInstanceOf[Int]
+        assert(numIndexedFiles == n)
+      case _ =>
+    }
+    expectedNumRemovedFiles match {
+      case Some(n) =>
+        val numRemovedFiles = df.select("old_entries_removed")
+          .rdd.map(r => r(0)).collect().head.asInstanceOf[Int]
+        assert(numRemovedFiles == n)
+      case _ =>
+    }
+    status.length == 1 && status.head.asInstanceOf[String] == "SUCCESS"
   }
 
   def getIndexBuilder(xskipper: Xskipper, indexTypes: Seq[(String, Seq[String])]): IndexBuilder = {
