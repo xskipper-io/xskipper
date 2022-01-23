@@ -13,7 +13,6 @@ import io.xskipper.testing.util.Utils._
 import io.xskipper.testing.util.{LogTrackerBuilder, Utils}
 import io.xskipper.{Xskipper, _}
 import org.apache.commons.io.FileUtils
-import org.apache.commons.io.filefilter.TrueFileFilter
 import org.apache.log4j.{Level, LogManager}
 import org.apache.spark.internal.Logging
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
