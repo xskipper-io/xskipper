@@ -28,7 +28,7 @@ import org.apache.spark.sql.execution.datasources.xskipper.DataSkippingFileIndex
   * 2) start the thrift server, with the extension:
   *   start-thriftserver.sh --jars <XskipperJar>
   *                         --conf spark.sql.extensions=io.xskipper.utils.RuleExtension
-  *    Alternatively, instead of --jars use --packages io.xskipper:xskipper-coreX:Y
+  *    Alternatively, instead of --jars use --packages <io.xskipper:xskipper-core release>
   * 3) you can now connect via JDBC (e.g. - beeline/squirrel/ any other JDBC driver)
   */
 
