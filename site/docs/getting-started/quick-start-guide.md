@@ -315,11 +315,11 @@ Note that disabling Xskipper has no impact on created indexes, and they remain i
     }
     ```
 
-Xskipper also provides an API to inject the DataSkippingFileIndexRule into catalyst as part of the operatorOptimization rules and enable it using spark session extensions injectOptimizerRule.
-By adding io.xskipper.utils.RuleExtension to spark.sql.extensions Xskipper optimization rules become visible to the Apache Spark optimizer and will be used in query optimization and execution.
+Xskipper also provides an API to inject the `DataSkippingFileIndexRule` into catalyst as part of the operatorOptimization rules and enable it using spark session extensions injectOptimizerRule.
+By adding `io.xskipper.utils.RuleExtension` to spark.sql.extensions Xskipper optimization rules become visible to the Apache Spark optimizer and will be used in query optimization and execution.
 
 To use with thrift server, start the thrift server with the extension:
-    ```bash
+    ``` bash
     start-thriftserver.sh --jars <XskipperJar>
                           --conf spark.sql.extensions=io.xskipper.RuleExtension
                           --conf spark.sql.extensions=io.xskipper.utils.RuleExtension
