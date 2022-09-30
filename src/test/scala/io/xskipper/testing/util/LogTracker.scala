@@ -5,38 +5,52 @@
 
 package io.xskipper.testing.util
 
-import org.apache.log4j._
-import org.apache.log4j.spi.LoggingEvent
+import org.apache.logging.log4j.core.Filter.Result
+import org.apache.logging.log4j.core.appender.AbstractAppender
+import org.apache.logging.log4j.core.config.Property
+import org.apache.logging.log4j.core.config.plugins.{Plugin, PluginAttribute, PluginElement, PluginFactory}
+import org.apache.logging.log4j.core.filter.RegexFilter
+import org.apache.logging.log4j.core.{Appender, Core, LogEvent, LoggerContext}
 
 import scala.util.matching.Regex
 
+object LogTracker {
+  @PluginFactory
+  def createAppender[T](@PluginAttribute("name") name: String,
+                         @PluginAttribute("regex") regexp: Regex,
+                     @PluginElement("action") action: LogEvent => T
+                    ): LogTracker[T] = {
+    new LogTracker[T](name, regexp, action)
+  }
+}
+
+@Plugin(name = "LogTracker", category = Core.CATEGORY_NAME,
+  elementType = Appender.ELEMENT_TYPE, printObject = true)
 class LogTracker[T](
+    name: String,
     regexp: Regex,
-    filter: LoggingEvent => Boolean,
-    action: LoggingEvent => T)
-  extends AppenderSkeleton {
-  val rootLogger = Logger.getRootLogger
+    action: LogEvent => T)
+  extends AbstractAppender(name, RegexFilter.createFilter(regexp.regex, Array.empty
+    , false, Result.ACCEPT, Result.DENY), null , true, Property.EMPTY_ARRAY) {
+
+  val rootLogger = LoggerContext.getContext(false)
+    .getConfiguration.getRootLogger
+
   var started = false
   private val resultSet = scala.collection.mutable.Set.empty[T]
 
+  override def append(event: LogEvent): Unit = {
+    // filtering and adding to set after applying action
+    resultSet.add(action(event))
+  }
 
   def getResultSet(): Set[T] = resultSet.toSet
-
-  override def append(event: LoggingEvent): Unit = {
-    // filtering and adding to set after applying action
-    if (filter(event)) {
-      resultSet.add(action(event))
-    }
-  }
-
-  override def close(): Unit = {
-  }
 
   // attaches filter to logger
   def startCollecting(): Unit = {
     if (!started) {
       started = true
-      rootLogger.addAppender(this)
+      rootLogger.addAppender(this, null, null)
     }
   }
 
@@ -44,7 +58,7 @@ class LogTracker[T](
   def stopCollecting(): Unit = {
     if (started) {
       started = false
-      rootLogger.removeAppender(this)
+      rootLogger.removeAppender(name)
     }
   }
 
@@ -53,6 +67,4 @@ class LogTracker[T](
     // empty set
     resultSet.clear()
   }
-
-  override def requiresLayout(): Boolean = false
 }

@@ -325,7 +325,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
       case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
         (hfs.fileFormat.toString, hfs.options, hfs.location)
       // scalastyle:off line.size.limit
-      case _@DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _) =>
+      case _@DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _, _) =>
         (table.formatName, table.properties().asScala.toMap, table.fileIndex)
       // scalastyle:on line.size.limit
     }(0)
