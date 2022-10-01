@@ -26,14 +26,6 @@ object LogTrackerBuilder {
       }
     }
 
-    val filter = (event: LogEvent) => {
-      val msg = event.getMessage().toString
-      msg match {
-        case regex(_) => true
-        case _ => false
-      }
-    }
-
     new LogTracker[String](name, regex, action)
   }
 }
