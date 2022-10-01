@@ -89,7 +89,7 @@ class IndexBuilder:
         :return: dataFrame object containing statistics about the build operation
         """
         if reader:
-            return DataFrame(self._jindexBuilder.build(reader._jreader), self.spark._wrapped)
+            return DataFrame(self._jindexBuilder.build(reader._jreader), self.spark)
         else:
             # build for tables
-            return DataFrame(self._jindexBuilder.build(), self.spark._wrapped)
+            return DataFrame(self._jindexBuilder.build(), self.spark)
