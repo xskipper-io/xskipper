@@ -9,7 +9,7 @@ import io.xskipper.search.clause.{Clause, FalseClause, ValueListClause}
 import io.xskipper.search.expressions.MetadataWrappedExpression
 import io.xskipper.utils.Utils
 import org.apache.spark.sql.catalyst.expressions._
-import org.apache.spark.sql.types.{ArrayType, DataType}
+import org.apache.spark.sql.types.{ArrayType, BooleanType, DataType}
 
 /**
   * Represents a value list filter in - used to add [[ValueListClause]]-s
@@ -45,6 +45,9 @@ case class ValueListFilter(col : String) extends BaseMetadataFilter {
         Some(Array(v.value), expr.dataType)
       case EqualTo(v: Literal, expr: Expression) if isValidExpr(expr) =>
         Some(Array(v.value), expr.dataType)
+      case AttributeReference(name, typ, _, _) if typ.isInstanceOf[BooleanType] &&
+        name.equalsIgnoreCase(col) =>
+        Some(Array(true), typ)
       case _ => None
     }
 
