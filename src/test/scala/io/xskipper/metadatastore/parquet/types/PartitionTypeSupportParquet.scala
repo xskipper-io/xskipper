@@ -28,11 +28,11 @@ abstract class PartitionTypeSupportParquet(override val datasourceV2: Boolean)
 
   LogManager.getLogger("io.xskipper.search.DataSkippingFileFilter").setLevel(Level.DEBUG)
   val skippedRegexp = "(.*).*#.*--------> SKIPPED!".r
-  val skippedFiles = LogTrackerBuilder.getRegexTracker(skippedRegexp)
+  val skippedFiles = LogTrackerBuilder.getRegexTracker("skipped", skippedRegexp)
   val requiredRegexp = "(.*).*#.*--------> REQUIRED!".r
-  val requiredFiles = LogTrackerBuilder.getRegexTracker(requiredRegexp)
+  val requiredFiles = LogTrackerBuilder.getRegexTracker("required", requiredRegexp)
   val indexedRegexp = "(.*).*#.*--------> INDEXED!".r
-  val indexedFiles = LogTrackerBuilder.getRegexTracker(indexedRegexp)
+  val indexedFiles = LogTrackerBuilder.getRegexTracker("indexed", indexedRegexp)
 
 
   def resetTrackers(): Unit = {

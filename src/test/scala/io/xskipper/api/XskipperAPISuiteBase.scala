@@ -67,7 +67,7 @@ abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
                   tempDirs: Seq[String],
                   format: String,
                   query: String): Unit = {
-    val tracker = LogTrackerBuilder.getRegexTracker(regexp)
+    val tracker = LogTrackerBuilder.getRegexTracker("skipped", regexp)
 
     val reader = Utils.getDefaultReader(spark, format)
     val suffix = Utils.getDefaultSuffix(format)

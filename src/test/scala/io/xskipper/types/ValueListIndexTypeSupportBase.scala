@@ -22,7 +22,7 @@ abstract class ValueListIndexTypeSupportBase(override val datasourceV2: Boolean)
 
   // monitor skipped files
   val regexp = "(.*).*#.*--------> SKIPPED!".r
-  val skippedFiles = LogTrackerBuilder.getRegexTracker(regexp)
+  val skippedFiles = LogTrackerBuilder.getRegexTracker("skipped", regexp)
 
   val userDir = System.getProperty("user.dir")
   val inputPath = Utils.concatPaths(userDir,

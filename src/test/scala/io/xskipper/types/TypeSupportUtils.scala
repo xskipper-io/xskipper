@@ -17,7 +17,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 object TypeSupportUtils extends Logging {
   // monitor skipped files
   val regexp = "(.*).*#.*--------> SKIPPED!".r
-  val skippedFiles = LogTrackerBuilder.getRegexTracker(regexp)
+  val skippedFiles = LogTrackerBuilder.getRegexTracker("skipped", regexp)
 
   /**
     * Checks skipping for a given dataframe by calling show and the dataframe

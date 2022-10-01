@@ -16,7 +16,7 @@ import scala.util.matching.Regex
 object LogTrackerBuilder {
 
   // creates a log tracker that tracks the skipped files
-  def getRegexTracker(regex: Regex): LogTracker[String] = {
+  def getRegexTracker(name: String, regex: Regex): LogTracker[String] = {
 
     val action = (event: LogEvent) => {
       val msg = event.getMessage().toString
@@ -34,6 +34,6 @@ object LogTrackerBuilder {
       }
     }
 
-    new LogTracker[String]("xskipper", regex, action)
+    new LogTracker[String](name, regex, action)
   }
 }
