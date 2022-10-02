@@ -51,6 +51,7 @@ class LogTracker[T](
     if (!started) {
       started = true
       rootLogger.addAppender(this, null, null)
+      this.start()
     }
   }
 
@@ -59,6 +60,7 @@ class LogTracker[T](
     if (started) {
       started = false
       rootLogger.removeAppender(name)
+      this.stop()
     }
   }
 
