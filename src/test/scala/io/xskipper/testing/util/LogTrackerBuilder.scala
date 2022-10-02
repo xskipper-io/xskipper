@@ -5,7 +5,7 @@
 
 package io.xskipper.testing.util
 
-import org.apache.log4j.spi.LoggingEvent
+import org.apache.logging.log4j.core.LogEvent
 
 import scala.util.matching.Regex
 
@@ -16,9 +16,9 @@ import scala.util.matching.Regex
 object LogTrackerBuilder {
 
   // creates a log tracker that tracks the skipped files
-  def getRegexTracker(regex: Regex): LogTracker[String] = {
+  def getRegexTracker(name: String, regex: Regex): LogTracker[String] = {
 
-    val action = (event: LoggingEvent) => {
+    val action = (event: LogEvent) => {
       val msg = event.getMessage().toString
       msg match {
         case regex(value) => value
@@ -26,14 +26,6 @@ object LogTrackerBuilder {
       }
     }
 
-    val filter = (event: LoggingEvent) => {
-      val msg = event.getMessage().toString
-      msg match {
-        case regex(value) => true
-        case _ => false
-      }
-    }
-
-    new LogTracker[String](regex, filter, action)
+    new LogTracker[String](name, regex, action)
   }
 }

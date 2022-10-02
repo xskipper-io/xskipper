@@ -13,7 +13,9 @@ import io.xskipper.testing.util.Utils._
 import io.xskipper.testing.util.{LogTrackerBuilder, Utils}
 import io.xskipper.{Xskipper, _}
 import org.apache.commons.io.FileUtils
-import org.apache.log4j.{Level, LogManager}
+import org.apache.logging.log4j.core.LoggerContext
+import org.apache.logging.log4j.core.config.{Configurator, LoggerConfig}
+import org.apache.logging.log4j.{Level, LogManager}
 import org.apache.spark.internal.Logging
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
 
@@ -26,9 +28,6 @@ abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
     with BeforeAndAfterEach
     with XskipperProvider
     with Logging {
-
-  // set debug log level specifically for xskipper search package
-  LogManager.getLogger("io.xskipper.search").setLevel(Level.DEBUG)
 
   // monitor skipped files
   val regexp = "(.*).*#.*--------> SKIPPED!".r
@@ -68,7 +67,7 @@ abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
                   tempDirs: Seq[String],
                   format: String,
                   query: String): Unit = {
-    val tracker = LogTrackerBuilder.getRegexTracker(regexp)
+    val tracker = LogTrackerBuilder.getRegexTracker("skipped", regexp)
 
     val reader = Utils.getDefaultReader(spark, format)
     val suffix = Utils.getDefaultSuffix(format)

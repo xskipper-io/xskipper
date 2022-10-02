@@ -92,7 +92,7 @@ class VersionTestSuite(override val datasourceV2: Boolean) extends FunSuite
       // (the timestamp is different) so we check using the SKIPPABLE regex
       // as the files won't be skipped.
       val skippableFilesTracker: LogTracker[String] =
-      LogTrackerBuilder.getRegexTracker(skippableFilesRegex)
+      LogTrackerBuilder.getRegexTracker("skippable", skippableFilesRegex)
       skippableFilesTracker.startCollecting()
       // read the input dataset & run the queries
       val df = testDescriptor.getDFReader(spark).load(testDescriptor.getFullDestPath())
@@ -121,7 +121,7 @@ class VersionTestSuite(override val datasourceV2: Boolean) extends FunSuite
       // we've just refreshed the md - it should actually contain
       // an entry for our files, we should expect to see them skipped!
       val skippedFilesTracker: LogTracker[String] =
-      LogTrackerBuilder.getRegexTracker(skippedFilesRegex)
+      LogTrackerBuilder.getRegexTracker("skipped", skippedFilesRegex)
       skippedFilesTracker.startCollecting()
       // read the input dataset & run the queries
       val df = reader.load(testDescriptor.getFullDestPath())

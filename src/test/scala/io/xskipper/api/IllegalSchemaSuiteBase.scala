@@ -31,7 +31,7 @@ abstract class IllegalSchemaSuiteBase(override val datasourceV2: Boolean = false
     "src/test/resources/input_datasets/schema_validation/bad_input/")
 
   test("Test illegal schema through evolution") {
-    val skippedFilesTracker = LogTrackerBuilder.getRegexTracker(regexp)
+    val skippedFilesTracker = LogTrackerBuilder.getRegexTracker("skipped", regexp)
     val destDir = Files.createTempDirectory("xskipper_schema_validation").toString
     destDir.deleteOnExit()
     val destFile = new File(destDir)
@@ -66,7 +66,8 @@ abstract class IllegalSchemaSuiteBase(override val datasourceV2: Boolean = false
     FileUtils.copyDirectory(new File(badInputPath), destInputFile)
     // make sure invalid schema warning is logged
     val invalidSchemeRegex = "Schema is invalid for file:(.*), no skipping will be attempted".r
-    val invalidSchemaTracker = LogTrackerBuilder.getRegexTracker(invalidSchemeRegex)
+    val invalidSchemaTracker = LogTrackerBuilder.getRegexTracker("invalidSchemeRegex",
+      invalidSchemeRegex)
     val df2 = spark.read.parquet(destInputPath)
     df2.createOrReplaceTempView("foo2")
     skippedFilesTracker.clearSet()

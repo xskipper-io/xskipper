@@ -47,10 +47,10 @@ class Xskipper:
         :raises XskipperException: if index cannot be refreshed
         """
         if dataFrameReader:
-            return DataFrame(self.xskipper.refreshIndex(dataFrameReader._jreader), self.spark._wrapped)
+            return DataFrame(self.xskipper.refreshIndex(dataFrameReader._jreader), self.spark)
         else:
             # refresh for tables
-            return DataFrame(self.xskipper.refreshIndex(), self.spark._wrapped)
+            return DataFrame(self.xskipper.refreshIndex(), self.spark)
 
     def isIndexed(self):
         """
@@ -78,9 +78,9 @@ class Xskipper:
         :raises XskipperException: if index cannot be refreshed
         """
         if dataFrameReader:
-            return DataFrame(self.xskipper.describeIndex(dataFrameReader._jreader), self.spark._wrapped)
+            return DataFrame(self.xskipper.describeIndex(dataFrameReader._jreader), self.spark)
         else:
-            return DataFrame(self.xskipper.describeIndex(), self.spark._wrapped)
+            return DataFrame(self.xskipper.describeIndex(), self.spark)
 
     def getLatestQueryStats(self):
         """
@@ -103,7 +103,7 @@ class Xskipper:
 
         :return: object containing information about latest query stats
         """
-        return DataFrame(self.xskipper.getLatestQueryStats(), self.spark._wrapped)
+        return DataFrame(self.xskipper.getLatestQueryStats(), self.spark)
 
     def setParams(self, params):
         """
@@ -196,7 +196,7 @@ class Xskipper:
         :return: dataFrame object containing information about latest query stats
         """
         return DataFrame(sparkSession._jvm.io.xskipper.Xskipper.getLatestQueryAggregatedStats(
-            sparkSession._jsparkSession), sparkSession._wrapped)
+            sparkSession._jsparkSession), sparkSession)
 
     @staticmethod
     def clearStats(sparkSession):
@@ -231,7 +231,7 @@ class Xskipper:
                  under the configured base path
         """
         return DataFrame(sparkSession._jvm.io.xskipper.Xskipper.listIndexes(sparkSession._jsparkSession),
-                         sparkSession._wrapped)
+                         sparkSession)
 
     @staticmethod
     def enable(sparkSession):
