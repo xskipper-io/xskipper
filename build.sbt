@@ -3,11 +3,11 @@
 
 name := "xskipper-core"
 
-crossScalaVersions := Seq("2.12.8")
+crossScalaVersions := Seq("2.12.18")
 
 scalaVersion := crossScalaVersions.value.head
 
-sparkVersion := "3.3.0"
+sparkVersion := "3.4.1"
 
 libraryDependencies ++= Seq (
   "org.apache.spark" %% "spark-hive" % sparkVersion.value % "provided",
