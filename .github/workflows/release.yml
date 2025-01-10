@@ -16,7 +16,7 @@ on:
 jobs:
   release:
     if: github.repository == 'xskipper-io/xskipper'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Xskipper repository
         uses: actions/checkout@v2
