@@ -24,7 +24,7 @@ libraryDependencies ++= Seq (
   "com.googlecode.json-simple" % "json-simple" % "1.1" % "test",
   // dependency for InMemoryKMS to test parquet encryption
   "org.apache.parquet" % "parquet-hadoop" % "1.12.2" % "test",
-  "org.apache.parquet" % "parquet-hadoop" % "1.12.2" % "test" classifier "tests"
+  "org.apache.parquet" % "parquet-hadoop" % "1.12.2" classifier "tests"
 )
 
 /**
