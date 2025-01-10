@@ -3,18 +3,32 @@
 # Pull Request Labeler Github Action Configuration: https://github.com/marketplace/actions/labeler
 
 INFRA:
-  - .gitattributes
-  - .gitignore
-  - .github/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.gitattributes'
+          - '.gitignore'
+          - '.github/**/*'
+
 BUILD:
-  - "build/**/*"
-  - "project/**/*"
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'build/**/*'
+          - 'project/**/*'
+
 DOCS:
-  - "site/**/*"
-  - "**/README.md"
-  - "**/CONTRIBUTING.md"
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'site/**/*'
+          - '**/README.md'
+          - '**/CONTRIBUTING.md'
+
 EXAMPLES:
-  - notebooks/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'notebooks/**/*'
+
 PYTHON:
-  - python/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'python/**/*'
 

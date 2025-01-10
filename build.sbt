@@ -7,7 +7,7 @@ crossScalaVersions := Seq("2.12.8")
 
 scalaVersion := crossScalaVersions.value.head
 
-sparkVersion := "3.3.0"
+sparkVersion := "3.4.4"
 
 libraryDependencies ++= Seq (
   "org.apache.spark" %% "spark-hive" % sparkVersion.value % "provided",
@@ -23,8 +23,7 @@ libraryDependencies ++= Seq (
   "org.apache.spark" %% "spark-hive" % sparkVersion.value % "test",
   "com.googlecode.json-simple" % "json-simple" % "1.1" % "test",
   // dependency for InMemoryKMS to test parquet encryption
-  "org.apache.parquet" % "parquet-hadoop" % "1.12.2" % "test",
-  "org.apache.parquet" % "parquet-hadoop" % "1.12.2" % "test" classifier "tests"
+  "org.apache.parquet" % "parquet-hadoop" % "1.12.2" % "test"
 )
 
 /**

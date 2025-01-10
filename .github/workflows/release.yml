@@ -16,7 +16,7 @@ on:
 jobs:
   release:
     if: github.repository == 'xskipper-io/xskipper'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Xskipper repository
         uses: actions/checkout@v2
@@ -27,13 +27,13 @@ jobs:
         with:
           java-version: 1.8
       - name: Install Python 3.7
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: 3.7
           architecture: x64
       - name: Install Python packages (Python 3.7)
         run: |
-          python3.7 -m pip install pyspark==3.3.0
+          python3.7 -m pip install pyspark==3.4.4
       - name: Run Python tests
         run: python3.7 run-tests.py
       - if: |
