@@ -82,7 +82,7 @@ class InMemoryDataSkippingIndex(
             // using to list to force evaluation since filteredPartitions is lazy evaluated
             filteredPartitions = filteredPartitions.map(partition => {
               PartitionDirectory(partition.values, partition.files
-                .filter(f => filter.isRequired(f))
+                .filter(f => filter.isRequired(f.fileStatus))
               )
             }).toList
           }

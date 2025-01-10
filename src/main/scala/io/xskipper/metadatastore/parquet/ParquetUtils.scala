@@ -615,7 +615,7 @@ object ParquetUtils extends Logging {
         .flatMap {
           case PartitionDirectory(values, files) =>
             val partSeq = Utils.toSeq(values, partCols)
-            files.map(f => Row.fromSeq(Seq(Utils.getFileId(f)) ++ partSeq))
+            files.map(f => Row.fromSeq(Seq(Utils.getFileId(f.fileStatus)) ++ partSeq))
         })
     val partitionDataDf = spark.createDataFrame(partitionDataRDD, schema)
     val colNames = StructType(schema ++ mdDf.schema.drop(1)).names

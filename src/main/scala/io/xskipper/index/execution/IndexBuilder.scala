@@ -328,7 +328,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
       case _@DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _, _, _) =>
         (table.formatName, table.properties().asScala.toMap, table.fileIndex)
       // scalastyle:on line.size.limit
-    }(0)
+    }.head
 
     // filter out "path" or "paths" entries from the options.
     // these options are not part of the original reader options

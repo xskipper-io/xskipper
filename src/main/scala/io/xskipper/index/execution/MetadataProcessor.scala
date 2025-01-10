@@ -127,7 +127,7 @@ class MetadataProcessor(spark: SparkSession,
             case _ => None
           }
           ParquetMinMaxIndexing.parquetMinMaxParallelIndexing(metadataHandle, partitionSpec,
-            options, indexes, group, isRefresh, spark)
+            options, indexes, group.map(_.fileStatus), isRefresh, spark)
         })
       )
     } else {
@@ -173,7 +173,7 @@ class MetadataProcessor(spark: SparkSession,
           // collect the metadata in parallel
           chunk_par.tasksupport = new ForkJoinTaskSupport(forkJoinPool)
           val chunk_data = chunk_par.map(fs =>
-              collectMD(fs, optIndexes, nonOptIndexes, format, options, schema,
+              collectMD(fs.fileStatus, optIndexes, nonOptIndexes, format, options, schema,
                 partitionSpec, indexCols)
           ).toList
           val metadataRDD = spark.sparkContext.parallelize(chunk_data)
@@ -341,7 +341,7 @@ class MetadataProcessor(spark: SparkSession,
     val filesToRemove = allIndexedFiles
     val newOrModifiedPartitionDirectories = partitionDirectories.flatMap(pd => {
       val newOrModifiedFiles = pd.files.flatMap(fs => {
-        val fid = Utils.getFileId(fs)
+        val fid = Utils.getFileId(fs.fileStatus)
         !allIndexedFiles.contains(fid) match {
           case true => Some(fs)
           case _ =>
