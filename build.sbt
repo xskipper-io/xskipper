@@ -7,7 +7,7 @@ crossScalaVersions := Seq("2.12.8")
 
 scalaVersion := crossScalaVersions.value.head
 
-sparkVersion := "3.3.0"
+sparkVersion := "3.4.4"
 
 libraryDependencies ++= Seq (
   "org.apache.spark" %% "spark-hive" % sparkVersion.value % "provided",

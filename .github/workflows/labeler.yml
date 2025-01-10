@@ -1,14 +1,20 @@
 # Copyright 2021 IBM Corp.
 # SPDX-License-Identifier: Apache-2.0
 
+
 name: "Pull Request Labeler"
 on:
   - pull_request_target
 
+permissions:
+  pull-requests: write
+
 jobs:
   triage:
+    name: Pull Request Labeler
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/labeler@main
+      - uses: actions/labeler@v5
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          sync-labels: true

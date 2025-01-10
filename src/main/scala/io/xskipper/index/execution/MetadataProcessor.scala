@@ -46,7 +46,7 @@ object MetadataProcessor {
       case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
         hfs.location.listFiles(Seq.empty, Seq.empty)
       // scalastyle:off line.size.limit
-      case _@DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _, _) =>
+      case _@DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _, _, _) =>
         // not using allFiles since it returns also empty files which are not used
         // since Spark only calls list files during query processing
         table.fileIndex.listFiles(Seq.empty, Seq.empty)
