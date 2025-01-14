@@ -1,0 +1,29 @@
+name: Recovering secrets
+
+  # Assumption:
+  # You've created the following GitHub secrets in your repository:
+  # MY_CLIENT_SECRET - encrypt/decrypt with openssl - useful for public and public repositories
+  # MY_OPENSSL_PASSWORD - used to protect secrets
+  # MY_OPENSSL_ITER - Use a number of iterations on the password to derive the encryption key.
+  #                   High values increase the time required to brute-force the resulting file.
+  #                   This option enables the use of PBKDF2 algorithm to derive the key.
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  openssl:
+    name: Recover With OpenSSL
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - env:
+          NEXUS_PW: ${{ secrets.NEXUS_PW }}
+          NEXUS_USER: ${{ secrets.NEXUS_USER }}
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          OPENSSL_ITER: ${{ secrets.OPENSSL_ITER }}
+          OPENSSL_PASS: ${{ secrets.OPENSSL_PASS }}
+        run: |
+          echo "NEXUS_USER = $(echo "${NEXUS_USER}" | openssl enc -e -aes-256-cbc -a -pbkdf2 -iter ${OPENSSL_ITER} -k "${OPENSSL_PASS}")"
