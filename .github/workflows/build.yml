@@ -30,7 +30,7 @@ jobs:
       - name: Checkout Xskipper repository
         uses: actions/checkout@v2
       - name: Cache Coursier local repository
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.cache/coursier
           key: coursier-${{ hashFiles('**/pom.xml', '**/plugins.sbt') }}
@@ -40,14 +40,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Install Python 3.7
+      - name: Install Python 3.8
         uses: actions/setup-python@v5
         with:
-          python-version: 3.7
+          python-version: 3.8
           architecture: x64
-      - name: Install Python packages (Python 3.7)
+      - name: Install Python packages (Python 3.8)
         run: |
-          python3.7 -m pip install pyspark==3.4.4
+          python3.8 -m pip install pyspark==3.5.4
       - name: Run sbt clean
         run: build/sbt ++2.12.8 clean
       - name: Run sbt compile
@@ -55,4 +55,4 @@ jobs:
       - name: Run Scala tests
         run: build/sbt ++2.12.8 test
       - name: Run Python tests
-        run: python3.7 run-tests.py
+        run: python3.8 run-tests.py
