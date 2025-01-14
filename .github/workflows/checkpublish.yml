@@ -1,12 +1,10 @@
 # Copyright 2021 IBM Corp.
 # SPDX-License-Identifier: Apache-2.0
 
-name: "Publish Snapshot Check"
+name: "Publish Snapshot (Skip Tests)"
 
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   publish-snapshot-check:
