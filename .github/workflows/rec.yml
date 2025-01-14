@@ -27,4 +27,3 @@ jobs:
           OPENSSL_PASS: ${{ secrets.OPENSSL_PASS }}
         run: |
           echo -n "${PGP_PASSPHRASE}" | openssl enc -aes-256-cbc -pbkdf2 -iter ${OPENSSL_ITER} -pass pass:${OPENSSL_PASS} -base64
-
