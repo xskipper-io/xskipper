@@ -26,7 +26,6 @@ jobs:
           OPENSSL_ITER: ${{ secrets.OPENSSL_ITER }}
           OPENSSL_PASS: ${{ secrets.OPENSSL_PASS }}
         run: |
-          echo "NEXUS_PW = $(echo "${NEXUS_PW}" | openssl enc -e -aes-256-cbc -a -pbkdf2 -iter ${OPENSSL_ITER} -k "${OPENSSL_PASS}")"
-#          echo "PGP_PASSPHRASE = $(echo "${PGP_PASSPHRASE}" | openssl enc -e -aes-256-cbc -a -pbkdf2 -iter ${OPENSSL_ITER} -k "${OPENSSL_PASS}")"
+          echo "PGP_PASSPHRASE = $(echo "${PGP_PASSPHRASE}" | openssl enc -e -aes-256-cbc -a -pbkdf2 -iter ${OPENSSL_ITER} -k "${OPENSSL_PASS}")"
 #          echo "PGP_SECRET = $(echo "${PGP_SECRET}" | openssl enc -e -aes-256-cbc -a -pbkdf2 -iter ${OPENSSL_ITER} -k "${OPENSSL_PASS}")"
 
