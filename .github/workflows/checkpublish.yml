@@ -4,7 +4,9 @@
 name: "Publish Snapshot Check"
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - master
 
 jobs:
   publish-snapshot-check:
