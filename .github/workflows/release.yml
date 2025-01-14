@@ -41,8 +41,8 @@ jobs:
           github.event.inputs.next-version != ''
         name: Release
         env:
-          NEXUS_USER: ${{ secrets.NEXUS_USER }}
-          NEXUS_PW: ${{ secrets.NEXUS_PW }}
+          NEXUS_USER: ${{ secrets.NEXUS_TOKEN_USER_NAME }}
+          NEXUS_PW: ${{ secrets.NEXUS_TOKEN_PASS }}
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
           GIT_REF: ${{ matrix.branch }}
@@ -63,8 +63,8 @@ jobs:
           github.event.inputs.next-version == ''
         name: Release
         env:
-          NEXUS_USER: ${{ secrets.NEXUS_USER }}
-          NEXUS_PW: ${{ secrets.NEXUS_PW }}
+          NEXUS_USER: ${{ secrets.NEXUS_TOKEN_USER_NAME }}
+          NEXUS_PW: ${{ secrets.NEXUS_TOKEN_PASS }}
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
           GIT_REF: ${{ matrix.branch }}
