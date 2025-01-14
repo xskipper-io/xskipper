@@ -52,7 +52,7 @@ jobs:
           git clean -f
           git config --global user.email "xskipperci@gmail.com"
           git config --global user.name "Xskipper CI"
-          git remote set-url origin https://x-access-token:${{ CI_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ env.CI_TOKEN }}@github.com/${{ github.repository }}
           # capture release version before doing release for site publishing
           export SITE_VERSION=${{ github.event.inputs.release-version }}
           [[ -z "$SITE_VERSION" ]] && echo "ERROR: SITE_VERSION var is empty" && exit -1
