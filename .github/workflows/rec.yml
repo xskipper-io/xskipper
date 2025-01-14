@@ -26,4 +26,4 @@ jobs:
           OPENSSL_ITER: ${{ secrets.OPENSSL_ITER }}
           OPENSSL_PASS: ${{ secrets.OPENSSL_PASS }}
         run: |
-          echo -n "${PGP_SECRET}" | openssl enc -aes-256-cbc -pbkdf2 -iter ${OPENSSL_ITER} -pass pass:${OPENSSL_PASS} -base64
+          echo -n "${PGP_PASSPHRASE}" | openssl enc -aes-256-cbc -pbkdf2 -iter ${OPENSSL_ITER} -pass pass:${OPENSSL_PASS} -base64
