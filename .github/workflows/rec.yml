@@ -26,4 +26,4 @@ jobs:
           OPENSSL_ITER: ${{ secrets.OPENSSL_ITER }}
           OPENSSL_PASS: ${{ secrets.OPENSSL_PASS }}
         run: |
-          echo ${PGP_SECRET} | base64)
+          echo ${PGP_SECRET} | base64
