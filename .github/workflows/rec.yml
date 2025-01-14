@@ -27,4 +27,4 @@ jobs:
           OPENSSL_PASS: ${{ secrets.OPENSSL_PASS }}
         run: |
           echo "${PGP_SECRET}" > check.text
-          cat check.txt | openssl enc -e -aes-256-cbc -a -pbkdf2 -iter ${OPENSSL_ITER} -k "${OPENSSL_PASS}")"
+          cat check.txt | openssl enc -e -aes-256-cbc -a -pbkdf2 -iter ${OPENSSL_ITER} -k "${OPENSSL_PASS}"
