@@ -462,7 +462,7 @@ abstract class PartitionTypeSupportParquet(override val datasourceV2: Boolean)
     xskipper.indexBuilder()
       .addValueListIndex("longType")
       .build()
-    spark.enableXskipper()
+    spark = spark.enableXskipper()
 
     resetTrackers()
     spark.sql("select * from nestedpartitioning where" +
@@ -511,7 +511,7 @@ abstract class PartitionTypeSupportParquet(override val datasourceV2: Boolean)
       .addValueListIndex(indexColumn)
       .build()
 
-    spark.enableXskipper()
+    spark = spark.enableXskipper()
   }
 
   private def createTable(tableName: String, tableLocation: String,

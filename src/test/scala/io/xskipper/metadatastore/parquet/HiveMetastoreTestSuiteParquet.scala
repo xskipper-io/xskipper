@@ -147,7 +147,7 @@ abstract class HiveMetastoreTestSuiteParquet(override val datasourceV2: Boolean 
       assert(Utils.isResDfValid(indexBuildRes))
 
       // enable filtering
-      spark.enableXskipper()
+      spark = spark.enableXskipper()
 
       val tableIdentifier = TableIdentifier(tableName, Some(databaseName))
 
@@ -283,7 +283,7 @@ abstract class HiveMetastoreTestSuiteParquet(override val datasourceV2: Boolean 
 
 
       // enable filtering
-      spark.enableXskipper()
+      spark = spark.enableXskipper()
 
       // set the expected skipped files
       val expectedSkippedFilesFormatted = Utils.getResultSet(input_path,

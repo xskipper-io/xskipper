@@ -193,7 +193,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
           s"and keyMetadata ${keyMetadata}")
       }
     })
-    Some(tableIdentifier, (versionStatus, indexes))
+    Some((tableIdentifier, (versionStatus, indexes.toSeq)))
   }
 
   private def getIndexes(indexFactories: Seq[IndexFactory]): Seq[Index] = {

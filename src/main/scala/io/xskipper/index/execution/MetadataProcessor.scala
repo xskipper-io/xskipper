@@ -27,6 +27,8 @@ import scala.collection.parallel.ForkJoinTaskSupport
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.math.max
+import scala.collection.parallel.CollectionConverters._
+
 
 /**
   * A Helper class which collects the indexes and use a [[MetadataHandle]] to upload the metadata
@@ -43,7 +45,7 @@ object MetadataProcessor {
     */
   def listFilesFromDf(df: DataFrame): Seq[PartitionDirectory] = {
     df.queryExecution.optimizedPlan.collect {
-      case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
+      case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _, _) =>
         hfs.location.listFiles(Seq.empty, Seq.empty)
       // scalastyle:off line.size.limit
       case _@DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _, _, _) =>
@@ -164,7 +166,7 @@ class MetadataProcessor(spark: SparkSession,
           case Some(pspec) => Some(PartitionSpec(pspec, pd.values))
           case _ => None
         }
-        val forkJoinPool = new scala.concurrent.forkjoin.ForkJoinPool(PARALLELISM)
+        val forkJoinPool = new java.util.concurrent.ForkJoinPool(PARALLELISM)
         var index = 0
         while (index < pd.files.length)
         {
@@ -331,7 +333,7 @@ class MetadataProcessor(spark: SparkSession,
     if (isRefresh) {
       val asyncAllFilesRequest = metadataHandle.getAllIndexedFiles()
       // we give a TIMEOUT minutes timeout since we block on this request
-      allIndexedFiles ++= Await.result(asyncAllFilesRequest, TIMEOUT minutes)
+      allIndexedFiles ++= Await.result(asyncAllFilesRequest, TIMEOUT.minutes)
     }
 
     // choose only records from files that are not indexed in the metadata store

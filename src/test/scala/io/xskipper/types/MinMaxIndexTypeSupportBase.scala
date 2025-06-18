@@ -79,7 +79,7 @@ abstract class MinMaxIndexTypeSupportBase(override val datasourceV2: Boolean) ex
     assert(xskipper.isIndexed(), "Failed to index dataset")
 
     // enable filtering
-    spark.enableXskipper()
+    spark = spark.enableXskipper()
 
     // set the expected skipped files
     val expectedSkippedFiles = Utils.getResultSet(inputPath, "c1.snappy.parquet")

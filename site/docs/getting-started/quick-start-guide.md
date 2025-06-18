@@ -304,14 +304,14 @@ Note that disabling Xskipper has no impact on created indexes, and they remain i
 
     ``` scala
     // Enable Xskipper
-    spark.enableXskipper()
+    spark = spark.enableXskipper()
 
     // Disable Xskipper
     spark.disableXskipper()
 
     // You can use the following to check whether the Xskipper is enabled
     if (!spark.isXskipperEnabled()) {
-        spark.enableXskipper()
+        spark = spark.enableXskipper()
     }
     ```
 
@@ -631,7 +631,7 @@ First, let's make sure Xskipper is enabled:
     ``` scala
     // You can use the following to check whether the Xskipper is enabled
     if (!spark.isXskipperEnabled()) {
-        spark.enableXskipper()
+        spark = spark.enableXskipper()
     }
     ```
 

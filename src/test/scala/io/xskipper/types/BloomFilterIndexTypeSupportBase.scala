@@ -47,7 +47,7 @@ abstract class BloomFilterIndexTypeSupportBase(override val datasourceV2: Boolea
     assert(xskipper.isIndexed(), "Failed to index dataset")
 
     // enable filtering
-    spark.enableXskipper()
+    spark = spark.enableXskipper()
 
     // set the expected skipped files
     val expectedSkippedFiles = Utils.getResultSet(inputPath, "c0.snappy.parquet")

@@ -51,7 +51,7 @@ abstract class IllegalSchemaSuiteBase(override val datasourceV2: Boolean = false
     }
     xskipper.indexBuilder().addValueListIndex("a1.b").build(spark.read.format("parquet"))
     val df = spark.read.parquet(destInputPath)
-    spark.enableXskipper()
+    spark = spark.enableXskipper()
     df.createOrReplaceTempView("foo")
     skippedFilesTracker.stopCollecting()
     skippedFilesTracker.clearSet()

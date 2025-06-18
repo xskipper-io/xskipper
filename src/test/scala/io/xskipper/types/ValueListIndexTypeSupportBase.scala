@@ -62,7 +62,7 @@ abstract class ValueListIndexTypeSupportBase(override val datasourceV2: Boolean)
     assert(xskipper.isIndexed(), "Failed to index dataset")
 
     // enable filtering
-    spark.enableXskipper()
+    spark = spark.enableXskipper()
 
     // set the expected skipped files
     val expectedSkippedFiles = Utils.getResultSet(inputPath, "c0.snappy.parquet")

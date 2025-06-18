@@ -144,7 +144,7 @@ object DataSkippingUtils extends Logging {
     */
   def injectRuleExtendedOperatorOptimizationRule(
                       sparkSession: SparkSession,
-                      rule: Rule[LogicalPlan]) : Unit = {
+                      rule: Rule[LogicalPlan]) : SparkSession = {
     // insert the rule as extendedOperatorOptimizationRule
     // Note: if this is called multiple time the rule will be injected multiple times, though it
     // won't have effect on the correctness.
@@ -156,6 +156,11 @@ object DataSkippingUtils extends Logging {
     // any side effect.
     logInfo(s"Injecting rule ${rule.getClass.getCanonicalName}" +
       s" as part of the extended operator optimization rules")
-    sparkSession.extensions.injectOptimizerRule(_ => rule)
+    SparkSession.builder()
+      .config(sparkSession.sparkContext.getConf) // copy all existing configs
+      .withExtensions { extensions =>
+        extensions.injectOptimizerRule(_ => rule)
+      }
+      .getOrCreate()
   }
 }

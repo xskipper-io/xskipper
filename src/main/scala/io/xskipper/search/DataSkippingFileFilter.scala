@@ -111,7 +111,7 @@ class DataSkippingFileFilter(tid: String,
               logInfo("Getting all not required objects")
               val notRequiredFut = metadataHandler.getRequiredObjects(queryInstance,
                 partitionExp)
-              notRequired = Await.result(notRequiredFut, TIMEOUT minutes)
+              notRequired = Await.result(notRequiredFut, TIMEOUT.minutes)
               if (log.isDebugEnabled()) {
                 // log the required and indexed files for debugging purposes
                 // translate the abstract query - translation should succeed since the translation
@@ -120,8 +120,8 @@ class DataSkippingFileFilter(tid: String,
                   metadataStoreManager.getType, abstractQuery, clauseTranslators).get
                 val indexedFut = metadataHandler.getAllIndexedFiles(partitionExp)
                 val requiredFut = metadataHandler.getRequiredObjects(translatedQuery, partitionExp)
-                val indexed = Await.result(indexedFut, TIMEOUT minutes)
-                val required = Await.result(requiredFut, TIMEOUT minutes)
+                val indexed = Await.result(indexedFut, TIMEOUT.minutes)
+                val required = Await.result(requiredFut, TIMEOUT.minutes)
                 assert(required.intersect(notRequired).isEmpty,
                   "required and notRequired should be disjoint")
                 assert(required ++ notRequired == indexed,

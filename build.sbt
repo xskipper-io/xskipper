@@ -3,20 +3,21 @@
 
 name := "xskipper-core"
 
-crossScalaVersions := Seq("2.12.8")
+crossScalaVersions := Seq("2.13.10")
 
 scalaVersion := crossScalaVersions.value.head
 
-sparkVersion := "3.5.4"
+sparkVersion := "4.0.0"
 
 libraryDependencies ++= Seq (
   "org.apache.spark" %% "spark-hive" % sparkVersion.value % "provided",
   "org.apache.spark" %% "spark-sql" % sparkVersion.value % "provided",
   "org.apache.spark" %% "spark-core" % sparkVersion.value % "provided",
   "org.apache.spark" %% "spark-catalyst" % sparkVersion.value % "provided",
+  "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.4" % "provided",
 
   // test dependencies
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+  "org.scalatest" %% "scalatest" % "3.2.15" % "test",
   "org.apache.spark" %% "spark-catalyst" % sparkVersion.value % "test",
   "org.apache.spark" %% "spark-core" % sparkVersion.value % "test",
   "org.apache.spark" %% "spark-sql" % sparkVersion.value % "test",

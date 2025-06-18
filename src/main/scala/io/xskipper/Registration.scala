@@ -54,7 +54,7 @@ object Registration extends Serializable with Logging {
     * @return the currently registered [[IndexFactory]]-'s
     */
   def getCurrentIndexFactories(): scala.collection.immutable.Seq[IndexFactory] = {
-    immutable.Seq(indexFactories: _*)
+    scala.collection.immutable.Seq(indexFactories.toSeq: _*)
   }
 
   /**
@@ -63,7 +63,7 @@ object Registration extends Serializable with Logging {
     * @return the currently registered [[MetadataFilterFactory]]-'s
     */
   def getCurrentMetadataFilterFactories(): scala.collection.immutable.Seq[MetadataFilterFactory] = {
-    immutable.Seq(metadataFilterFactories: _*)
+    scala.collection.immutable.Seq(metadataFilterFactories.toSeq: _*)
   }
 
   /**
@@ -72,7 +72,7 @@ object Registration extends Serializable with Logging {
     * @return the currently registered [[ClauseTranslator]]-'s
     */
   def getCurrentClauseTranslators(): scala.collection.immutable.Seq[ClauseTranslator] = {
-    immutable.Seq(clauseTranslators: _*)
+    scala.collection.immutable.Seq(clauseTranslators.toSeq: _*)
   }
 
   /**
@@ -81,7 +81,7 @@ object Registration extends Serializable with Logging {
     * @return the currently registered [[MetaDataTranslator]]-'s
     */
   def getCurrentMetaDataTranslators(): scala.collection.immutable.Seq[MetaDataTranslator] = {
-    immutable.Seq(metaDataTranslators: _*)
+    scala.collection.immutable.Seq(metaDataTranslators.toSeq: _*)
   }
 
   /**

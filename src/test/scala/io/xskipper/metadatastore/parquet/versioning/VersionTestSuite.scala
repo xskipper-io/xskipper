@@ -87,7 +87,7 @@ class VersionTestSuite(override val datasourceV2: Boolean) extends FunSuite
       val xskipper = getXskipper(testDescriptor, testedVersion, false)
       assert(xskipper.isIndexed())
       // inject the data skipping rule
-      spark.enableXskipper()
+      spark = spark.enableXskipper()
       // our md won't contain an entry for the files we have in the FS
       // (the timestamp is different) so we check using the SKIPPABLE regex
       // as the files won't be skipped.
@@ -117,7 +117,7 @@ class VersionTestSuite(override val datasourceV2: Boolean) extends FunSuite
       val reader = testDescriptor.getDFReader(spark)
       xskipper.refreshIndex(reader)
       // inject the data skipping rule
-      spark.enableXskipper()
+      spark = spark.enableXskipper()
       // we've just refreshed the md - it should actually contain
       // an entry for our files, we should expect to see them skipped!
       val skippedFilesTracker: LogTracker[String] =

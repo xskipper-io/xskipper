@@ -88,7 +88,7 @@ abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
       assertResult(Set())(tracker.getResultSet())
       tracker.clearSet()
 
-      spark.enableXskipper()
+      spark = spark.enableXskipper()
       tracker.startCollecting()
       // now enable skipping and run the query again. re-read to avoid any cache hits
       datasetLocators.zip(tempDirs).foreach { case (descriptor: DatasetDescriptor, dir: String) =>

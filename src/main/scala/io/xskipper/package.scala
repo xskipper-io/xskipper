@@ -16,7 +16,7 @@ package object implicits {
     /**
       * Enable xskipper by adding the necessary rules
       */
-    def enableXskipper(): Unit = sparkSession.synchronized {
+    def enableXskipper(): SparkSession = sparkSession.synchronized {
       // inject only if needed
       getDataSkippingFileIndexRule() match {
         // if the rule is already injected make sure it is enabled
