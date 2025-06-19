@@ -10,7 +10,7 @@ import io.xskipper.implicits._
 import io.xskipper.testing.util.Utils
 import org.apache.log4j.{Level, LogManager, Logger}
 import org.apache.spark.internal.Logging
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * Test suite to check nested type support

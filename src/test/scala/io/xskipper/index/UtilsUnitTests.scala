@@ -7,9 +7,9 @@ package io.xskipper.index
 
 import io.xskipper.utils.Utils
 import org.apache.spark.sql.types._
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class UtilsUnitTests extends FunSuite {
+class UtilsUnitTests extends AnyFunSuite {
 
   test("Test Illegal Schema") {
     val schema1 = StructType(Array(

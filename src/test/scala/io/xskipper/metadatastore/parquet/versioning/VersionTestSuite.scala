@@ -16,7 +16,7 @@ import org.scalatest.{BeforeAndAfterEach, FunSuite}
 
 import scala.util.matching.Regex
 
-class VersionTestSuite(override val datasourceV2: Boolean) extends FunSuite
+class VersionTestSuite(override val datasourceV2: Boolean) extends AnyFunSuite
   with BeforeAndAfterEach
   with XskipperProvider
   with Logging {

@@ -11,14 +11,14 @@ import io.xskipper.testing.util.Utils
 import io.xskipper.testing.util.Utils.{concatPaths, strToFile}
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.filefilter.{TrueFileFilter, WildcardFileFilter}
-import org.scalatest.{BeforeAndAfterEach, FunSuite}
+import org.scalatest.{BeforeAndAfterEach, AnyFunSuite}
 
 import java.io.File
 import java.nio.file.Files
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
-class UnitTests extends FunSuite
+class UnitTests extends AnyFunSuite
   with BeforeAndAfterEach
   with ParquetXskipperProvider {
 

@@ -20,7 +20,9 @@ package object implicits {
       // inject only if needed
       getDataSkippingFileIndexRule() match {
         // if the rule is already injected make sure it is enabled
-        case Some(rule) => rule.enableDataSkipping
+        case Some(rule) =>
+          rule.enableDataSkipping
+          sparkSession
         case _ =>
           // inject rule and enable
           val rule = new DataSkippingFileIndexRule

@@ -11,13 +11,13 @@ import io.xskipper.testing.util.{LogTrackerBuilder, Utils}
 import org.apache.log4j.{Level, LogManager, Logger}
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.functions._
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * Test suite to check the type support for value list index
   */
 abstract class ValueListIndexTypeSupportBase(override val datasourceV2: Boolean)
-  extends FunSuite with XskipperProvider with Logging {
+  extends AnyFunSuite with XskipperProvider with Logging {
   Logger.getLogger(this.getClass.getSimpleName()).setLevel(Level.INFO)
 
   // monitor skipped files

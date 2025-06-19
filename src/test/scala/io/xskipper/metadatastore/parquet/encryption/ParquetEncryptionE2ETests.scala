@@ -15,14 +15,14 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.parquet.crypto.keytools.KeyToolkit
 import org.apache.parquet.hadoop.ParquetFileWriter.{EFMAGIC, MAGIC}
 import org.apache.spark.SparkException
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.Matchers.{be, noException}
 
 import java.io.{File, FileInputStream, IOException}
 import java.nio.file.Files
 
 abstract class ParquetEncryptionE2ETests(override val datasourceV2: Boolean = false)
-  extends FunSuite with ParquetXskipperProvider {
+  extends AnyFunSuite with ParquetXskipperProvider {
   Registration.setActiveMetadataStoreManager(Parquet)
 
   val hconf = spark.sparkContext.hadoopConfiguration

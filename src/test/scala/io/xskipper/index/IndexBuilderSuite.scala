@@ -12,10 +12,10 @@ import io.xskipper.testing.util.Utils
 import io.xskipper.testing.util.Utils._
 import io.xskipper.{Xskipper, XskipperException, XskipperProvider}
 import org.apache.commons.io.FileUtils
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 abstract class IndexBuilderSuite(override val datasourceV2: Boolean = false)
-  extends FunSuite
+  extends AnyFunSuite
     with XskipperProvider {
 
   override def getXskipper(uri: String): Xskipper = {

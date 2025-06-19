@@ -22,7 +22,7 @@ import org.scalatest.{BeforeAndAfterEach, FunSuite}
   * numeric data types, date, timestamp and string type are supported
   */
 abstract class PartitionTypeSupportParquet(override val datasourceV2: Boolean)
-  extends FunSuite with BeforeAndAfterEach with XskipperProvider with Logging {
+  extends AnyFunSuite with BeforeAndAfterEach with XskipperProvider with Logging {
 
   import spark.implicits._
 

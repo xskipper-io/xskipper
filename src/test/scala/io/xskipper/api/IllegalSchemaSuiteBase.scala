@@ -13,10 +13,10 @@ import io.xskipper.testing.util.{LogTrackerBuilder, Utils}
 import io.xskipper.{XskipperProvider, _}
 import org.apache.commons.io.FileUtils
 import org.apache.log4j.{Level, LogManager}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 abstract class IllegalSchemaSuiteBase(override val datasourceV2: Boolean = false)
-  extends FunSuite
+  extends AnyFunSuite
     with XskipperProvider {
   // monitor skipped files
   val regexp = "(.*).*#.*--------> SKIPPED!".r

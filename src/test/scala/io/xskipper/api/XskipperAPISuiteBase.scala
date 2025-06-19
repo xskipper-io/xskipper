@@ -24,7 +24,7 @@ import java.nio.file.Files
 
 abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
                                     override val datasourceV2: Boolean = false)
-  extends FunSuite
+  extends AnyFunSuite
     with BeforeAndAfterEach
     with XskipperProvider
     with Logging {
