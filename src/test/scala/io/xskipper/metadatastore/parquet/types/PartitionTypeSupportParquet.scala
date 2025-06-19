@@ -13,7 +13,8 @@ import io.xskipper.{Xskipper, XskipperProvider}
 import org.apache.log4j.{Level, LogManager}
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.functions._
-import org.scalatest.{BeforeAndAfterEach, FunSuite}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.BeforeAndAfterEach
 
 /**
   * Test suite to check the type support for saving partition values in the metadata

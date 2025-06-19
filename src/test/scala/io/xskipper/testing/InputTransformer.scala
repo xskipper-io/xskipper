@@ -156,7 +156,7 @@ object InputTransformer extends Logging {
 
     // get the FileIndex for the dataset
     val fileIndex: PartitioningAwareFileIndex = baseDf.queryExecution.logical match {
-      case LogicalRelation(hfs: HadoopFsRelation, _, _, _)
+      case LogicalRelation(hfs: HadoopFsRelation, _, _, _, _)
         if hfs.location.isInstanceOf[PartitioningAwareFileIndex] =>
         hfs.location.asInstanceOf[PartitioningAwareFileIndex]
       case DataSourceV2Relation(table: FileTable, _, _, _, _) =>

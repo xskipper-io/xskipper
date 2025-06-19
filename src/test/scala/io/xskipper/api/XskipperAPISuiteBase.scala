@@ -17,7 +17,8 @@ import org.apache.logging.log4j.core.LoggerContext
 import org.apache.logging.log4j.core.config.{Configurator, LoggerConfig}
 import org.apache.logging.log4j.{Level, LogManager}
 import org.apache.spark.internal.Logging
-import org.scalatest.{BeforeAndAfterEach, FunSuite}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.BeforeAndAfterEach
 
 import java.nio.file.Files
 

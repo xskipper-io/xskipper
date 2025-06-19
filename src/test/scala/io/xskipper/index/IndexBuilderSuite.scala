@@ -88,7 +88,7 @@ abstract class IndexBuilderSuite(override val datasourceV2: Boolean = false)
     FileUtils.copyDirectory(changesLoc, tempDir)
     assertThrows[XskipperException] {
       ib.createOrRefreshExistingIndex(reader.load(tempDir),
-        ib.indexes, true)
+        ib.indexes.toSeq, true)
     }
   }
 

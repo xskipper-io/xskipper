@@ -15,7 +15,7 @@ import org.scalatest.funsuite.AnyFunSuite
 /**
   * Test suite to check nested type support
   */
-abstract class NestedFieldsSuiteBase(override val datasourceV2: Boolean) extends FunSuite
+abstract class NestedFieldsSuiteBase(override val datasourceV2: Boolean) extends AnyFunSuite
   with XskipperProvider with Logging {
   Logger.getLogger(this.getClass.getSimpleName()).setLevel(Level.INFO)
   // set debug log level specifically for xskipper package

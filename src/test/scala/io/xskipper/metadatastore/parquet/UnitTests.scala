@@ -11,7 +11,8 @@ import io.xskipper.testing.util.Utils
 import io.xskipper.testing.util.Utils.{concatPaths, strToFile}
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.filefilter.{TrueFileFilter, WildcardFileFilter}
-import org.scalatest.{BeforeAndAfterEach, AnyFunSuite}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.BeforeAndAfterEach
 
 import java.io.File
 import java.nio.file.Files
