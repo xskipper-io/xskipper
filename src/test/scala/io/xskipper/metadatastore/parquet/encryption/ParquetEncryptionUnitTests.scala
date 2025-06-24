@@ -16,13 +16,13 @@ import org.apache.spark.sql._
 import org.apache.spark.sql.execution.datasources.parquet.SparkToParquetSchemaConverter
 import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.types._
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
   * Unit Tests For encrypted metadata
   */
-class ParquetEncryptionUnitTests extends FunSuite {
+class ParquetEncryptionUnitTests extends AnyFunSuite {
   private lazy implicit val vanillaConverter = new SparkToParquetSchemaConverter(new SQLConf())
   Registration.setActiveMetadataStoreManager(Parquet)
 

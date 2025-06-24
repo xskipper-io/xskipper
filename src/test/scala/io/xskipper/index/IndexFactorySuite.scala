@@ -5,9 +5,9 @@
 package io.xskipper.index
 
 import io.xskipper.configuration.XskipperConf
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class IndexFactorySuite extends FunSuite {
+class IndexFactorySuite extends AnyFunSuite {
 
   test("Verify Bloom Filter is correctly reconstructed from legacy parameters") {
     val fpp = 0.123

@@ -10,12 +10,12 @@ import io.xskipper.implicits._
 import io.xskipper.testing.util.Utils
 import org.apache.log4j.{Level, LogManager, Logger}
 import org.apache.spark.internal.Logging
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * Test suite to check nested type support
   */
-abstract class NestedFieldsSuiteBase(override val datasourceV2: Boolean) extends FunSuite
+abstract class NestedFieldsSuiteBase(override val datasourceV2: Boolean) extends AnyFunSuite
   with XskipperProvider with Logging {
   Logger.getLogger(this.getClass.getSimpleName()).setLevel(Level.INFO)
   // set debug log level specifically for xskipper package

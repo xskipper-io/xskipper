@@ -7,9 +7,9 @@ package io.xskipper
 
 import io.xskipper.utils.Utils
 import org.apache.hadoop.fs.{FileStatus, Path}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class TestCOSIdentifier extends FunSuite {
+class TestCOSIdentifier extends AnyFunSuite {
 
   val params = Map[String, String](
     "io.xskipper.identifierclass" -> "io.xskipper.utils.identifier.IBMCOSIdentifier")

@@ -8,11 +8,11 @@ package io.xskipper.configuration
 import io.xskipper.Xskipper
 import io.xskipper.utils.Utils
 import io.xskipper.utils.identifier.IBMCOSIdentifier
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.collection.mutable
 
-class XskipperConfSuite extends FunSuite {
+class XskipperConfSuite extends AnyFunSuite {
   test("Test configuration setting - valid values") {
     // first clear conf to make sure we start fresh
     XskipperConf.clearConf()

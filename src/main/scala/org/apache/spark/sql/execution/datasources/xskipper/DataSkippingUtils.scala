@@ -156,6 +156,7 @@ object DataSkippingUtils extends Logging {
     // any side effect.
     logInfo(s"Injecting rule ${rule.getClass.getCanonicalName}" +
       s" as part of the extended operator optimization rules")
-    sparkSession.extensions.injectOptimizerRule(_ => rule)
+    sparkSession.e
+    sparkSession.experimental.extraOptimizations ++= Seq(rule)
   }
 }

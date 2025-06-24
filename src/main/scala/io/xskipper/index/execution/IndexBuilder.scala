@@ -225,7 +225,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
     }
 
     try {
-      createOrRefreshExistingIndex(df, indexes, false)
+      createOrRefreshExistingIndex(df, indexes.toSeq, false)
     } catch {
       // IO exceptions typically occur when authentication fails this can happen if the access
       // token expired (in SQL Query after 1h)
@@ -290,7 +290,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
         }
       })
       // perform index specific validations
-      index.isValid(df, dataTypeMap)
+      index.isValid(df, dataTypeMap.toMap)
     })
   }
 
@@ -322,7 +322,7 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
                                    indexes: Seq[Index], isRefresh: Boolean) : DataFrame = {
     // extract the format and options to enable reading of each object individually
     val (format, rawOptions, fileIndex) = df.queryExecution.optimizedPlan.collect {
-      case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
+      case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _, _) =>
         (hfs.fileFormat.toString, hfs.options, hfs.location)
       // scalastyle:off line.size.limit
       case _@DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _, _, _) =>
@@ -398,8 +398,8 @@ class IndexBuilder(spark: SparkSession, uri: String, xskipper: Xskipper)
       // upload metadata
       metadataProcessor.analyzeAndUploadMetadata(
         format,
-        options,
-        indexes,
+        options.toMap,
+        indexes.toSeq,
         Utils.getPartitionColumns(df),
         newOrModifiedFilesIDs,
         Some(df.schema),

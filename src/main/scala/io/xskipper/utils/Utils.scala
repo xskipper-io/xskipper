@@ -176,7 +176,7 @@ object Utils extends Logging {
       */
     // Note using optimized plan to force resolving
     df.queryExecution.optimizedPlan match {
-      case LogicalRelation(hfs: HadoopFsRelation, _, _, _) if hfs.partitionSchema.nonEmpty =>
+      case LogicalRelation(hfs: HadoopFsRelation, _, _, _, _) if hfs.partitionSchema.nonEmpty =>
         Some(hfs.partitionSchema)
       case DataSourceV2ScanRelation(_, scan: FileScan, _, _, _) =>
         Some(scan.fileIndex.partitionSchema)

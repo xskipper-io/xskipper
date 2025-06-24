@@ -193,7 +193,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
           s"and keyMetadata ${keyMetadata}")
       }
     })
-    Some(tableIdentifier, (versionStatus, indexes))
+    Some(tableIdentifier, (versionStatus, indexes.toSeq))
   }
 
   private def getIndexes(indexFactories: Seq[IndexFactory]): Seq[Index] = {
@@ -384,7 +384,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
   override def removeMetaDataForFiles(files: Seq[String]): Unit = {
     // filter should not cause shuffle
     // note we are upgrading the metadata here!!!!
-    replaceMetaData(getMetaDataDFRaw().filter(!col("obj_name").isin(files: _*)))
+    replaceMetaData(getMetaDataDFRaw().filter(!col("obj_name").isInCollection(files)))
   }
 
   /**
@@ -650,7 +650,7 @@ class ParquetMetadataHandle(val session: SparkSession, tableIdentifier: String)
     val versionStatus = ParquetUtils.getMdVersionStatus(
       ParquetUtils.getVersion(getMetaDataDFRaw().schema))
 
-    IndexStatusResult(indexes, numberOfIndexedObjects,
+    IndexStatusResult(indexes.toSeq, numberOfIndexedObjects,
       Map("Metadata location" -> metadataLocation), versionStatus)
   }
 

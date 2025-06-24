@@ -22,7 +22,9 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.apache.spark.util.SizeEstimator
 
+import java.util.concurrent.ForkJoinPool
 import scala.collection.mutable
+import scala.collection.parallel.CollectionConverters.ImmutableIterableIsParallelizable
 import scala.collection.parallel.ForkJoinTaskSupport
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -43,7 +45,7 @@ object MetadataProcessor {
     */
   def listFilesFromDf(df: DataFrame): Seq[PartitionDirectory] = {
     df.queryExecution.optimizedPlan.collect {
-      case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _) =>
+      case l@LogicalRelation(hfs: HadoopFsRelation, _, _, _, _) =>
         hfs.location.listFiles(Seq.empty, Seq.empty)
       // scalastyle:off line.size.limit
       case _@DataSourceV2ScanRelation(_@DataSourceV2Relation(table: FileTable, _, _, _, _), _, _, _, _) =>
@@ -164,7 +166,7 @@ class MetadataProcessor(spark: SparkSession,
           case Some(pspec) => Some(PartitionSpec(pspec, pd.values))
           case _ => None
         }
-        val forkJoinPool = new scala.concurrent.forkjoin.ForkJoinPool(PARALLELISM)
+        val forkJoinPool = new ForkJoinPool(PARALLELISM)
         var index = 0
         while (index < pd.files.length)
         {
@@ -221,7 +223,7 @@ class MetadataProcessor(spark: SparkSession,
     }
 
     // Steps to take after uploading all dataset's indexes meatadata
-    metadataHandle.finalizeMetadataUpload()
+    metadataHandle. finalizeMetadataUpload()
   }
 
   /**
@@ -331,7 +333,7 @@ class MetadataProcessor(spark: SparkSession,
     if (isRefresh) {
       val asyncAllFilesRequest = metadataHandle.getAllIndexedFiles()
       // we give a TIMEOUT minutes timeout since we block on this request
-      allIndexedFiles ++= Await.result(asyncAllFilesRequest, TIMEOUT minutes)
+      allIndexedFiles ++= Await.result(asyncAllFilesRequest, TIMEOUT.minutes)
     }
 
     // choose only records from files that are not indexed in the metadata store
