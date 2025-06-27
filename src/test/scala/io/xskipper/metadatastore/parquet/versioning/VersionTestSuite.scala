@@ -31,7 +31,7 @@ class VersionTestSuite(override val datasourceV2: Boolean) extends AnyFunSuite
   // parse the file
   val testDescriptors = VersionTestUtils.parseTestListFromJson(jsonName)
 
-  LogManager.getLogger("io.xskipper.search.DataSkippingFileFilter").setLevel(Level.TRACE)
+  spark.sparkContext.setLogLevel("DEBUG")
   val allowedFormats = Set("csv", "json", "parquet", "orc")
 
   val skippableFilesRegex: Regex = "(.*).*#.*-->SKIPPABLE!".r
