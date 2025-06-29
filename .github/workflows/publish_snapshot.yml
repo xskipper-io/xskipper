@@ -42,11 +42,11 @@ jobs:
         run: |
           python3.8 -m pip install pyspark==3.5.4
       - name: Run sbt clean
-        run: build/sbt ++2.12.8 clean
+        run: build/sbt clean
       - name: Run sbt compile
-        run: build/sbt ++2.12.8 compile
+        run: build/sbt compile
       - name: Run Scala tests
-        run: build/sbt ++2.12.8 test
+        run: build/sbt test
       - name: Run Python tests
         run: python3.8 run-tests.py
       - name: Publish snapshot
@@ -58,4 +58,4 @@ jobs:
           GIT_REF: ${{ matrix.branch }}
         run: |
           echo $PGP_SECRET | base64 --decode | gpg --batch --import
-          build/sbt ++2.12.8 publishSigned
+          build/sbt publishSigned
