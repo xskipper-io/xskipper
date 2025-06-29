@@ -118,7 +118,7 @@ abstract class ParquetEncryptionE2ETests(override val datasourceV2: Boolean = fa
     val caught = intercept[SparkException] {
       spark.read.parquet(path)
     }
-    assert(caught.getMessage.contains("Could not read footer for file"))
+    assert(caught.getMessage.contains("FAILED_READ_FILE.CANNOT_READ_FILE_FOOTER]"))
 
     // for encrypted footer we can also check:
     // 1. The exception complains on GCM tag failure
