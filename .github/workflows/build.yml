@@ -41,14 +41,14 @@ jobs:
         with:
           java-version: 17
           distribution: adopt
-      - name: Install Python 3.8
+      - name: Install Python 3.9
         uses: actions/setup-python@v5
         with:
-          python-version: 3.8
+          python-version: 3.9
           architecture: x64
-      - name: Install Python packages (Python 3.8)
+      - name: Install Python packages (Python 3.9)
         run: |
-          python3.8 -m pip install pyspark==3.5.4
+          python3.9 -m pip install pyspark==4.0.0
       - name: Run sbt clean
         run: build/sbt clean
       - name: Run sbt compile
@@ -56,4 +56,4 @@ jobs:
       - name: Run Scala tests
         run: build/sbt test
       - name: Run Python tests
-        run: python3.8 run-tests.py
+        run: python3.9 run-tests.py
