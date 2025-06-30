@@ -48,7 +48,7 @@ def test(root_dir, package):
                 "spark-submit",
                 "--driver-class-path=%s" % extra_class_path,
                 "--packages", package,
-                "--conf", "spark.sql.extensions=io.xskipper.RuleExtension",
+                "--conf", "spark.sql.extensions=io.xskipper.utils.RuleExtension",
                 test_file ]
             print("Running tests in %s\n=============" % test_file)
             print("Command: %s" % str(cmd))
