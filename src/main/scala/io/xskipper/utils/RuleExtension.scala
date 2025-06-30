@@ -40,7 +40,6 @@ class RuleExtension extends (SparkSessionExtensions => Unit) with Logging{
     // config parameter don't have the ability to run custom code
     // such as the thrift server
     val rule = new DataSkippingFileIndexRule
-    rule.enableDataSkipping
     ex.injectOptimizerRule(_ => rule)
   }
 }
