@@ -31,7 +31,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: semeru
+          distribution: adopt
       - name: Publish snapshot
         env:
           NEXUS_USER: ${{ secrets.NEXUS_TOKEN_USER_NAME }}
