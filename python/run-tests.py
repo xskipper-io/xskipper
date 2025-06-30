@@ -44,9 +44,12 @@ def test(root_dir, package):
 
     for test_file in test_files:
         try:
-            cmd = ["spark-submit",
-                   "--driver-class-path=%s" % extra_class_path,
-                   "--packages", package, test_file]
+            cmd = [
+                "spark-submit",
+                "--driver-class-path=%s" % extra_class_path,
+                "--packages", package,
+                "--conf", "spark.sql.extensions=io.xskipper.RuleExtension",
+                test_file ]
             print("Running tests in %s\n=============" % test_file)
             print("Command: %s" % str(cmd))
             run_cmd(cmd, stream_output=True)
