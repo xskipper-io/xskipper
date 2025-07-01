@@ -24,7 +24,7 @@ Include Xskipper in a Maven project by adding it as a dependency in the project'
 ```XML
 <dependency>
   <groupId>io.xskipper</groupId>
-  <artifactId>xskipper-core_2.12</artifactId>
+  <artifactId>xskipper-core_2.13</artifactId>
   <version>1.3.0</version>
 </dependency>
 ```

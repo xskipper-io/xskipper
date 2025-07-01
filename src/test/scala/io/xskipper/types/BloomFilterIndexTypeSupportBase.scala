@@ -10,13 +10,13 @@ import io.xskipper.implicits._
 import io.xskipper.testing.util.Utils
 import org.apache.log4j.{Level, LogManager, Logger}
 import org.apache.spark.internal.Logging
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * Test suite to checks the type support for bloom list index
   */
 abstract class BloomFilterIndexTypeSupportBase(override val datasourceV2: Boolean)
-  extends FunSuite with XskipperProvider with Logging {
+  extends AnyFunSuite with XskipperProvider with Logging {
   val logger = Logger.getLogger(this.getClass.getSimpleName()).setLevel(Level.INFO)
   // set debug log level specifically for xskipper package
   LogManager.getLogger("io.xskipper").setLevel(Level.DEBUG)

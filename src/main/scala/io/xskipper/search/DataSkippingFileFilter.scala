@@ -19,6 +19,7 @@ import org.apache.spark.sql.catalyst.expressions.{And, AttributeReference, Expre
 import scala.collection.mutable
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 /**
   * A Custom FileFilter which enables to filter sequence of PartitionDirectory using
@@ -85,7 +86,7 @@ class DataSkippingFileFilter(tid: String,
     val partitionExp = partitionFilters.isEmpty match {
       case false =>
         val res = partitionFilters.reduce(And).transform {
-          case attr: AttributeReference => attr.withQualifier(Seq.empty)
+          case attr: AttributeReference => attr.withQualifier(Seq.empty.toSeq)
         }
         Some(res)
       case true => None
@@ -111,7 +112,7 @@ class DataSkippingFileFilter(tid: String,
               logInfo("Getting all not required objects")
               val notRequiredFut = metadataHandler.getRequiredObjects(queryInstance,
                 partitionExp)
-              notRequired = Await.result(notRequiredFut, TIMEOUT minutes)
+              notRequired = Await.result(notRequiredFut, TIMEOUT.minutes)
               if (log.isDebugEnabled()) {
                 // log the required and indexed files for debugging purposes
                 // translate the abstract query - translation should succeed since the translation
@@ -120,8 +121,8 @@ class DataSkippingFileFilter(tid: String,
                   metadataStoreManager.getType, abstractQuery, clauseTranslators).get
                 val indexedFut = metadataHandler.getAllIndexedFiles(partitionExp)
                 val requiredFut = metadataHandler.getRequiredObjects(translatedQuery, partitionExp)
-                val indexed = Await.result(indexedFut, TIMEOUT minutes)
-                val required = Await.result(requiredFut, TIMEOUT minutes)
+                val indexed = Await.result(indexedFut, TIMEOUT.minutes)
+                val required = Await.result(requiredFut, TIMEOUT.minutes)
                 assert(required.intersect(notRequired).isEmpty,
                   "required and notRequired should be disjoint")
                 assert(required ++ notRequired == indexed,

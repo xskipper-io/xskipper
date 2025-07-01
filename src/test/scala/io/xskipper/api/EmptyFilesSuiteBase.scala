@@ -6,9 +6,9 @@ package io.xskipper.api
 
 import io.xskipper.XskipperProvider
 import io.xskipper.testing.util.Utils
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-abstract class EmptyFilesSuiteBase extends FunSuite
+abstract class EmptyFilesSuiteBase extends AnyFunSuite
   with XskipperProvider {
   val baseDir = Utils.concatPaths(System.getProperty("user.dir"),
     "src/test/resources/input_datasets/empty_ds/")

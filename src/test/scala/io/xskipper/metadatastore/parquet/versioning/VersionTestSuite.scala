@@ -12,11 +12,12 @@ import io.xskipper.testing.util.{LogTracker, LogTrackerBuilder}
 import io.xskipper.{Registration, Xskipper, XskipperProvider}
 import org.apache.log4j.{Level, LogManager}
 import org.apache.spark.internal.Logging
-import org.scalatest.{BeforeAndAfterEach, FunSuite}
+import org.scalatest.BeforeAndAfterEach
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.util.matching.Regex
 
-class VersionTestSuite(override val datasourceV2: Boolean) extends FunSuite
+class VersionTestSuite(override val datasourceV2: Boolean) extends AnyFunSuite
   with BeforeAndAfterEach
   with XskipperProvider
   with Logging {
@@ -30,7 +31,7 @@ class VersionTestSuite(override val datasourceV2: Boolean) extends FunSuite
   // parse the file
   val testDescriptors = VersionTestUtils.parseTestListFromJson(jsonName)
 
-  LogManager.getLogger("io.xskipper.search.DataSkippingFileFilter").setLevel(Level.TRACE)
+  spark.sparkContext.setLogLevel("DEBUG")
   val allowedFormats = Set("csv", "json", "parquet", "orc")
 
   val skippableFilesRegex: Regex = "(.*).*#.*-->SKIPPABLE!".r

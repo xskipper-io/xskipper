@@ -14,6 +14,7 @@ trait XskipperProvider {
       .appName("Xskipper Tests")
       .master("local[*]")
       .config("spark.ui.enabled", "false")
+      .config("spark.sql.extensions", "io.xskipper.utils.RuleExtension")
     if (datasourceV2) {
       builder =
         builder.config("spark.sql.sources.useV1SourceList", "avro,kafka,text")

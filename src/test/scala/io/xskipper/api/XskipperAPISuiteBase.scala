@@ -17,14 +17,15 @@ import org.apache.logging.log4j.core.LoggerContext
 import org.apache.logging.log4j.core.config.{Configurator, LoggerConfig}
 import org.apache.logging.log4j.{Level, LogManager}
 import org.apache.spark.internal.Logging
-import org.scalatest.{BeforeAndAfterEach, FunSuite}
+import org.scalatest.BeforeAndAfterEach
+import org.scalatest.funsuite.AnyFunSuite
 
 import java.nio.file.Files
 
 
 abstract class XskipperAPISuiteBase(val mdStore: MetadataStoreManagerType,
                                     override val datasourceV2: Boolean = false)
-  extends FunSuite
+  extends AnyFunSuite
     with BeforeAndAfterEach
     with XskipperProvider
     with Logging {

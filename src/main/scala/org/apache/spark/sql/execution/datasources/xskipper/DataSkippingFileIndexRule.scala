@@ -54,7 +54,7 @@ class DataSkippingFileIndexRule extends Rule[LogicalPlan] {
         s" no skipping will be attempted")
       r
     // catch V1 relations with invalid schema - we don't want to touch them
-    case r@LogicalRelation(hfs: HadoopFsRelation, _, _, _) if ruleEnabled
+    case r@LogicalRelation(hfs: HadoopFsRelation, _, _, _, _) if ruleEnabled
       && !Utils.isSchemaValid(r.schema) =>
       logWarning(s"Schema is invalid for " +
         s"${hfs.location.rootPaths.applyOrElse(0, "PATH_UNKNOWN")}," +
@@ -132,7 +132,7 @@ class DataSkippingFileIndexRule extends Rule[LogicalPlan] {
       * 3. This is a streaming relation
       * 4. The schema is invalid
       */
-    case l@LogicalRelation(hfs: HadoopFsRelation, _, _, isStreaming) if
+    case l@LogicalRelation(hfs: HadoopFsRelation, _, _, isStreaming, _) if
             ruleEnabled && isStreaming == false &&
             !hfs.fileFormat.isInstanceOf[TextFileFormat] &&
             !hfs.location.isInstanceOf[InMemoryDataSkippingIndex] &&

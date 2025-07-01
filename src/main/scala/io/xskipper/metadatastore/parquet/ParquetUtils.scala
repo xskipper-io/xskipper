@@ -308,7 +308,7 @@ object ParquetUtils extends Logging {
     val map = indexes
       .map(idx => {
         val name = getColumnName(idx)
-        (idx, colPaths.filter(_.startsWith(name)))
+        (idx, colPaths.filter(_.startsWith(name)).toSeq)
       })
       .toMap
     map

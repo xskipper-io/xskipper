@@ -11,13 +11,13 @@ import io.xskipper.testing.util.Utils
 import org.apache.log4j.{Level, LogManager, Logger}
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.functions._
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   *
   * Test suite to checks the type support for min/max index
   */
-abstract class MinMaxIndexTypeSupportBase(override val datasourceV2: Boolean) extends FunSuite
+abstract class MinMaxIndexTypeSupportBase(override val datasourceV2: Boolean) extends AnyFunSuite
   with XskipperProvider with Logging {
   val logger = Logger.getLogger(this.getClass.getSimpleName()).setLevel(Level.INFO)
   // set debug log level specifically for xskipper package

@@ -15,14 +15,14 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.parquet.crypto.keytools.KeyToolkit
 import org.apache.parquet.hadoop.ParquetFileWriter.{EFMAGIC, MAGIC}
 import org.apache.spark.SparkException
-import org.scalatest.FunSuite
-import org.scalatest.Matchers.{be, noException}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.must.Matchers.{be, noException}
 
 import java.io.{File, FileInputStream, IOException}
 import java.nio.file.Files
 
 abstract class ParquetEncryptionE2ETests(override val datasourceV2: Boolean = false)
-  extends FunSuite with ParquetXskipperProvider {
+  extends AnyFunSuite with ParquetXskipperProvider {
   Registration.setActiveMetadataStoreManager(Parquet)
 
   val hconf = spark.sparkContext.hadoopConfiguration
@@ -118,7 +118,7 @@ abstract class ParquetEncryptionE2ETests(override val datasourceV2: Boolean = fa
     val caught = intercept[SparkException] {
       spark.read.parquet(path)
     }
-    assert(caught.getMessage.contains("Could not read footer for file"))
+    assert(caught.getMessage.contains("FAILED_READ_FILE.CANNOT_READ_FILE_FOOTER]"))
 
     // for encrypted footer we can also check:
     // 1. The exception complains on GCM tag failure

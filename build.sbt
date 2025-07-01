@@ -3,11 +3,11 @@
 
 name := "xskipper-core"
 
-crossScalaVersions := Seq("2.12.8")
+crossScalaVersions := Seq("2.13.10")
 
 scalaVersion := crossScalaVersions.value.head
 
-sparkVersion := "3.5.4"
+sparkVersion := "4.0.0"
 
 libraryDependencies ++= Seq (
   "org.apache.spark" %% "spark-hive" % sparkVersion.value % "provided",
@@ -16,7 +16,7 @@ libraryDependencies ++= Seq (
   "org.apache.spark" %% "spark-catalyst" % sparkVersion.value % "provided",
 
   // test dependencies
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+  "org.scalatest" %% "scalatest" % "3.2.15" % "test",
   "org.apache.spark" %% "spark-catalyst" % sparkVersion.value % "test",
   "org.apache.spark" %% "spark-core" % sparkVersion.value % "test",
   "org.apache.spark" %% "spark-sql" % sparkVersion.value % "test",
@@ -25,6 +25,27 @@ libraryDependencies ++= Seq (
   // dependency for InMemoryKMS to test parquet encryption
   "org.apache.parquet" % "parquet-hadoop" % "1.12.2" % "test"
 )
+
+// Shared list of JVM exports
+val javaOpens = Seq(
+  "--add-opens=java.base/java.lang=ALL-UNNAMED",
+  "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED",
+  "--add-opens=java.base/java.io=ALL-UNNAMED",
+  "--add-opens=java.base/java.net=ALL-UNNAMED",
+  "--add-opens=java.base/java.nio=ALL-UNNAMED",
+  "--add-opens=java.base/java.util=ALL-UNNAMED",
+  "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED",
+  "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED",
+  "--add-opens=java.base/sun.nio.cs=ALL-UNNAMED",
+  "--add-opens=java.base/sun.security.action=ALL-UNNAMED",
+  "--add-opens=java.base/sun.util.calendar=ALL-UNNAMED"
+)
+
+// Apply to all JVM phases
+javaOptions ++= javaOpens
+javaOptions in Test ++= javaOpens
+javaOptions in Compile ++= javaOpens
+javaOptions in run ++= javaOpens
 
 /**
   * Test settings

@@ -13,7 +13,8 @@ import io.xskipper.{Xskipper, XskipperProvider}
 import org.apache.log4j.{Level, LogManager}
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.functions._
-import org.scalatest.{BeforeAndAfterEach, FunSuite}
+import org.scalatest.BeforeAndAfterEach
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * Test suite to check the type support for saving partition values in the metadata
@@ -22,11 +23,11 @@ import org.scalatest.{BeforeAndAfterEach, FunSuite}
   * numeric data types, date, timestamp and string type are supported
   */
 abstract class PartitionTypeSupportParquet(override val datasourceV2: Boolean)
-  extends FunSuite with BeforeAndAfterEach with XskipperProvider with Logging {
+  extends AnyFunSuite with BeforeAndAfterEach with XskipperProvider with Logging {
 
   import spark.implicits._
 
-  LogManager.getLogger("io.xskipper.search.DataSkippingFileFilter").setLevel(Level.DEBUG)
+  spark.sparkContext.setLogLevel("DEBUG")
   val skippedRegexp = "(.*).*#.*--------> SKIPPED!".r
   val skippedFiles = LogTrackerBuilder.getRegexTracker("skipped", skippedRegexp)
   val requiredRegexp = "(.*).*#.*--------> REQUIRED!".r

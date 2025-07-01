@@ -14,7 +14,8 @@ import io.xskipper.testing.util.{LogTrackerBuilder, Utils}
 import org.apache.commons.io.FileUtils
 import org.apache.log4j.{Level, LogManager}
 import org.apache.spark.sql.catalyst.TableIdentifier
-import org.scalatest.{BeforeAndAfterEach, FunSuite}
+import org.scalatest.BeforeAndAfterEach
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   *
@@ -24,7 +25,7 @@ import org.scalatest.{BeforeAndAfterEach, FunSuite}
   */
 
 abstract class HiveMetastoreTestSuiteParquet(override val datasourceV2: Boolean = false)
-  extends FunSuite with XskipperProvider with BeforeAndAfterEach {
+  extends AnyFunSuite with XskipperProvider with BeforeAndAfterEach {
 
 
   override def beforeEach(): Unit = {

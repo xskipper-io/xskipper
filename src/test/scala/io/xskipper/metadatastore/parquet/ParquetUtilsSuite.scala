@@ -7,9 +7,9 @@ package io.xskipper.metadatastore.parquet
 
 import io.xskipper.index.MinMaxIndex
 import org.apache.log4j.{Level, Logger}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class ParquetUtilsSuite extends FunSuite {
+class ParquetUtilsSuite extends AnyFunSuite {
 
   val minMaxIndexes = Seq(
     "mycol",

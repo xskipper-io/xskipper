@@ -138,24 +138,4 @@ object DataSkippingUtils extends Logging {
         metadataStoreManager.getDataSkippingFileFilterParams(tid, sparkSession, fileIndex))
     }
   }
-
-  /**
-    * Inject a rule as part extendedOperatorOptimizationRule
-    */
-  def injectRuleExtendedOperatorOptimizationRule(
-                      sparkSession: SparkSession,
-                      rule: Rule[LogicalPlan]) : Unit = {
-    // insert the rule as extendedOperatorOptimizationRule
-    // Note: if this is called multiple time the rule will be injected multiple times, though it
-    // won't have effect on the correctness.
-    // The reason we can't remove an existing rule is because the variable optimizerRules in
-    // SparkSessionExtensions is private[this].
-    // Also, another option is to build the optimization rules using the buildOptimizerRules method
-    // in SparkSessionExtensions and check whether the rule is already there, however,
-    // this option is not good enough since we don't know if building the existing rules will have
-    // any side effect.
-    logInfo(s"Injecting rule ${rule.getClass.getCanonicalName}" +
-      s" as part of the extended operator optimization rules")
-    sparkSession.extensions.injectOptimizerRule(_ => rule)
-  }
 }

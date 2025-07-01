@@ -44,9 +44,12 @@ def test(root_dir, package):
 
     for test_file in test_files:
         try:
-            cmd = ["spark-submit",
-                   "--driver-class-path=%s" % extra_class_path,
-                   "--packages", package, test_file]
+            cmd = [
+                "spark-submit",
+                "--driver-class-path=%s" % extra_class_path,
+                "--packages", package,
+                "--conf", "spark.sql.extensions=io.xskipper.utils.RuleExtension",
+                test_file ]
             print("Running tests in %s\n=============" % test_file)
             print("Command: %s" % str(cmd))
             run_cmd(cmd, stream_output=True)
@@ -73,7 +76,7 @@ def prepare(root_dir):
     version = '0.0.0'
     with open(os.path.join(root_dir, "version.sbt")) as fd:
         version = fd.readline().split('"')[1]
-    package = "io.xskipper:xskipper-core_2.12:" + version
+    package = "io.xskipper:xskipper-core_2.13:" + version
     return package
 
 

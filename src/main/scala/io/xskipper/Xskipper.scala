@@ -177,7 +177,7 @@ object Xskipper {
       StructField("Dataset", StringType, true),
       StructField("Index type", StringType, true),
       StructField("Index columns", StringType, true)))
-    sparkSession.createDataFrame(sparkSession.sparkContext.parallelize(res, 1), indexSchema)
+    sparkSession.createDataFrame(sparkSession.sparkContext.parallelize(res.toSeq, 1), indexSchema)
   }
 
   /**
@@ -395,7 +395,8 @@ class Xskipper(sparkSession: SparkSession, val uri: String,
       StructField("Data Skipping Index Stats", StringType, true),
       StructField(tableIdentifierFormmatted, StringType, true),
       StructField("Comment", StringType, true)))
-    sparkSession.createDataFrame(sparkSession.sparkContext.parallelize(res, 1), indexStatsSchema)
+    sparkSession.createDataFrame(sparkSession.sparkContext
+      .parallelize(res.toSeq, 1), indexStatsSchema)
   }
 
   /**

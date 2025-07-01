@@ -28,7 +28,7 @@ Follow the instructions [here](https://spark.apache.org/downloads.html) to insta
 Start a Spark Scala shell as follows:
 
 ```bash
-./bin/spark-shell --packages io.xskipper:xskipper-core_2.12:{{extra_vars.version}}
+./bin/spark-shell --packages io.xskipper:xskipper-core_2.13:{{extra_vars.version}}
 ```
 
 #### PySpark
@@ -42,7 +42,7 @@ pip install --upgrade pyspark
 Then, run PySpark with the Xskipper package:
 
 ```bash
-pyspark --packages io.xskipper:xskipper-core_2.12:{{extra_vars.version}}
+pyspark --packages io.xskipper:xskipper-core_2.13:{{extra_vars.version}}
 ```
 
 ### Run as a project
@@ -56,7 +56,7 @@ Include Xskipper in a Maven project by adding it as a dependency in the project'
 ```XML
 <dependency>
   <groupId>io.xskipper</groupId>
-  <artifactId>xskipper-core_2.12</artifactId>
+  <artifactId>xskipper-core_2.13</artifactId>
   <version>{{extra_vars.version}}</version>
 </dependency>
 ```
@@ -74,7 +74,8 @@ To set up a Python project, first start the Spark session using the Xskipper pac
 
 ```Python
 spark = pyspark.sql.SparkSession.builder.appName("Xskipper") \
-    .config("spark.jars.packages", "io.xskipper:xskipper-core_2.12:{{extra_vars.version}}") \
+    .config("spark.sql.extensions", "io.xskipper.utils.RuleExtension") \
+    .config("spark.jars.packages", "io.xskipper:xskipper-core_2.13:{{extra_vars.version}}") \
     .getOrCreate()
 
 from xskipper import Xskipper
@@ -313,17 +314,6 @@ Note that disabling Xskipper has no impact on created indexes, and they remain i
     if (!spark.isXskipperEnabled()) {
         spark.enableXskipper()
     }
-    ```
-
-Xskipper also provides an API to inject the `DataSkippingFileIndexRule` into catalyst as part of the operatorOptimization rules and enable it using spark session extensions injectOptimizerRule.
-By adding `io.xskipper.utils.RuleExtension` to spark.sql.extensions Xskipper optimization rules become visible to the Apache Spark optimizer and will be used in query optimization and execution.
-
-To use with thrift server, start the thrift server with the extension:
-    ``` bash
-    start-thriftserver.sh --jars <XskipperJar>
-                          --conf spark.sql.extensions=io.xskipper.RuleExtension
-                          --conf spark.sql.extensions=io.xskipper.utils.RuleExtension
-    Alternatively, instead of --jars use --packages <io.xskipper:xskipper-core release>
     ```
 
 ### Running Queries
