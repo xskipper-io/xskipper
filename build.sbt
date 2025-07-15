@@ -137,7 +137,7 @@ publishTo := {
   }
 }
 credentials += Credentials(
-  "Sonatype Nexus Snapshot Repository Manager",
+  "Sonatype Nexus Repository Manager",
   "central.sonatype.com",
   sys.env("NEXUS_USER"),
   sys.env("NEXUS_PW")
