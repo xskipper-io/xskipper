@@ -131,7 +131,7 @@ publishTo := {
   val nexus = "https://ossrh-staging-api.central.sonatype.com/"
   if (isSnapshot.value) {
     Some("snapshots" at nexus +
-      "service/local/staging/deploy/maven2/content/repositories/snapshots/")
+      "content/repositories/snapshots/")
   } else {
     Some("releases" at nexus + "service/local/staging/deploy/maven2/")
   }
