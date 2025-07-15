@@ -128,11 +128,12 @@ licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"
 homepage := Some(url("https://github.com/xskipper-io/xskipper"))
 
 publishTo := {
-  val nexus = "https://oss.sonatype.org/"
+  val nexus = "https://ossrh-staging-api.central.sonatype.com/"
   if (isSnapshot.value) {
-    Some("snapshots" at nexus + "content/repositories/snapshots")
+    Some("snapshots" at nexus +
+      "service/local/staging/deploy/maven2/content/repositories/snapshots/")
   } else {
-    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    Some("releases" at nexus + "service/local/staging/deploy/maven2/")
   }
 }
 credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org",
