@@ -128,17 +128,27 @@ licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"
 homepage := Some(url("https://github.com/xskipper-io/xskipper"))
 
 publishTo := {
-  val nexus = "https://ossrh-staging-api.central.sonatype.com/"
   if (isSnapshot.value) {
-    Some("snapshots" at nexus +
-      "content/repositories/snapshots/")
+    Some("snapshots" at "https://central.sonatype.com/repository/maven-snapshots/")
   } else {
-    Some("releases" at nexus + "service/local/staging/deploy/maven2/")
+    Some("releases" at
+      "https://ossrh-staging-api.central.sonatype.com/" +
+        "service/local/staging/deploy/maven2/")
   }
 }
-credentials += Credentials("Sonatype Nexus Repository Manager",
+credentials += Credentials(
+  "Sonatype Nexus Snapshot Repository Manager",
+  "central.sonatype.com",
+  sys.env("NEXUS_USER"),
+  sys.env("NEXUS_PW")
+)
+
+credentials += Credentials(
+  "Sonatype Nexus Repository Manager",
   "ossrh-staging-api.central.sonatype.com",
-  System.getenv("NEXUS_USER"), System.getenv("NEXUS_PW"))
+  sys.env("NEXUS_USER"),
+  sys.env("NEXUS_PW")
+)
 
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
